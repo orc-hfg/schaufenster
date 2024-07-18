@@ -1,0 +1,181 @@
+
+    
+    .ORCBlack{
+      background: #2c2c2c;
+    }
+    .White{
+      background: #ffffff;
+    }
+    .DarkGrey{
+      background: #524f4f;
+    }
+    .Grey{
+      background: #9e9e9a;
+    }
+    .MediumGrey{
+      background: #cac9c2;
+    }
+    .LightGrey{
+      background: #e7e6e1;
+    }
+    .UltraLightGrey{
+      background: #f3f2ef;
+    }
+    .Lilac{
+      background: #9461ff;
+    }
+    .Blue{
+      background: #1cadff;
+    }
+    .Brown{
+      background: #876341;
+    }
+    .SignalRed{
+      background: #ff4d00;
+    }
+    .Orange{
+      background: #ff7c1c;
+    }
+    .Yellow{
+      background: #fbff40;
+    }
+    .DiplomGrey{
+      background: #89847e;
+    }
+    .Audio{
+      background: linear-gradient(130.4deg, #9461ff 0%, #a893e6 100%);
+    }
+    .Videoplayer{
+      background: #000000;
+    }
+    .NewYellow{
+      background: #a1ff2a;
+    }
+    .UtliltiesSignal{
+      background: #ff7afa;
+    }
+    .gradient__btmbar{
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .h1{
+      font-size: 240px;
+      font-family: gqom404, sans-serif;
+      font-weight: 400;
+      line-height: 210px;
+    }
+    .h2{
+      font-size: 120px;
+      font-family: gqom404, sans-serif;
+      font-weight: 400;
+      line-height: 146px;
+    }
+    .h3{
+      font-size: 48px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 500;
+      line-height: 60px;
+    }
+    .h4{
+      font-size: 32px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 500;
+      line-height: 40px;
+    }
+    .Buttons{
+      font-size: 20px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 500;
+      line-height: 24px;
+    }
+    .FilterNumberS{
+      font-size: 12px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 14px;
+    }
+    .FilterNumberM{
+      font-size: 14px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 18px;
+    }
+    .FilterNumberL{
+      font-size: 16px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 700;
+      line-height: 18px;
+    }
+    .Body{
+      font-size: 20px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 500;
+      line-height: 24px;
+    }
+    .Subline{
+      font-size: 20px;
+      font-family: Instrument Sans, sans-serif;
+      font-weight: 500;
+      line-height: 24px;
+    }
+    .TestShadowFilter{
+      box-shadow: 0px 24px 60px rgba(0, 0, 0, 0.12), 0px 8px 22px rgba(0, 0, 0, 0.11), 0px 2px 4px rgba(0, 0, 0, 0.06);
+    }
+    .BottomBar{
+      backdrop-filter: blur(34px);
+    }
+    .Blur{
+      backdrop-filter: blur(15px);
+    }
+    .filtertoggleshadow{
+      box-shadow: 0px 4px 34px rgba(0, 0, 0, 0.25);
+    }
+
+    
+    
+    /** base style */
+    body {
+      position: fixed;
+      top: 0px; left: 0px;
+      
+      min-height: 100vh;
+      width: 100vw;
+      
+    }
+    
+    svg {
+      stroke: var(--Colors-text-primary); 
+    }
+    
+    
+    .btn, .btn * {
+      user-select: none;
+    }
+    .btn:hover {
+      cursor: pointer; 
+    }
+    header {
+      z-index: 100;
+      position: fixed;
+      top: 0px; left: 0px; width: 100vw; height: 72px;
+      
+      display: flex;
+      padding: var(--margin-navbar-left-right-top-btm, 12px);
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header nav a {
+      height: 24px;
+      padding: 12px;
+      float: left
+    }
+    .header_nav_logo {
+      width: 48px; height: 48px;
+      padding: 0;
+    }
+    .nav-logo-orc path {
+      stroke: none;
+      fill: var(--Colors-nav-bar-button-fill);
+    }
