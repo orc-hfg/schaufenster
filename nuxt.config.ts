@@ -4,17 +4,17 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/i18n", "nuxt-swiper", "@pinia/nuxt"],
   app: {
-    baseURL: '/schaufenster'
+    baseURL: '/schaufenster',
 
-    //pageTransition: { name: 'page', mode: 'out-in'}
+    pageTransition: { name: 'page', mode: 'in-out'}
   },
   routeRules: {
     '/': { prerender: true },
     '/about': { prerender: true },
     '/impressum': { prerender: true },
-    '/setlist/*/*': { swr: 60 },
-    '/setview/*/*': { swr: 60 },
-    '/setview/*/*/*': { swr: 60 },
+    '/setlist/*/*': { swr: 600 },
+    '/setview/*/*': { swr: 600 },
+    '/setview/*/*/*': { swr: 600 },
   },
   $production: {
     app: {

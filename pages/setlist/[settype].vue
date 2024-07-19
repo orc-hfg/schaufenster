@@ -1,5 +1,5 @@
 <template>
-  <div class="setlist">
+  <div class="setlist_page">
     <header>
       <nav class="nav">
         <NuxtLink to="/">
@@ -121,14 +121,7 @@ const getAuthorNames = (td) => {
 const updateSetType = () => {
   settype.value = route.params.settype || MATCH_PROJECTS;
   console.log("updateSetType: " + route.params.settype + " : " + settype.value);
-  /*
-    if (import.meta.client) {
-        if (settype.value == MATCH_DIPLOM) {
-           document.documentElement.setAttribute("data-theme", "diplom");    
-        } else {
-            document.documentElement.setAttribute("data-theme", "");
-        }
-    }*/
+
 
   /* console.error(
     "useTree value: " + useTree.value ? useTree.value[settype.value] : "empty"
@@ -163,6 +156,21 @@ updateSetType();
 
 onMounted(() => {
   updateSetType();
+  
+    
+  /* if (import.meta.client) {
+    setTimeout(() => {
+
+      if (settype.value == MATCH_DIPLOM) {
+           document.documentElement.setAttribute("data-theme", "diplom");    
+        } else {
+            document.documentElement.setAttribute("data-theme", "");
+        }
+      },100)
+    } */
+      
+
+
   /*watch(() => useTree.value, () => {
         console.error("SetList: watch changed use tree state: " + useTree.value)
         //updateSetType()
@@ -183,9 +191,15 @@ onMounted(() => {
 </script>
 <style>
 .setlist_page {
+  position: fixed;
+  top: 0px; left: 0px;
   width: 100vw;
   height: 100vh;
+  padding: 8rem 2rem;
+  color: var(--Colors-text-primary);
+  /* background: var(--Colors-text-primary-inverted); */
+  background-color: var(--Colors-background-default);
   overflow-y: auto;
-
+  clip-path: circle(99vw at 50vw 50vh);
 }
 </style>

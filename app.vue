@@ -1,5 +1,5 @@
 <template>
-    <NuxtPage />
+    <NuxtPage :class="{'page-in': isShowPageIn, 'page-out': !isShowPageIn}" />
 </template>
 <script setup lang="ts">
 import '~/assets/vars.css'
@@ -58,84 +58,16 @@ if (import.meta.server) {
 }
 
 if (process.server) {
-  console.log("process server")
+  console.log("process server: initTree")
   const treesData = await initTree()
     useTree.value = treesData
 }
 
 const initApp = async() => {
   initMadek();
-/*
-  initTree().then((treesData) => {
-      //useState('tree', () => { return treesData })
-      useTree.value = treesData
-      console.log("finished initTree: set tree state.")
-      //console.dir(treesData)
-    }).catch(error => {
-      console.error("initTree: Could not init madek data tree.", error)
-    })
-  */
-    
-  
-  //if (process.server) {
-    console.log("init server")
-  
-  
-    
-    //useState('tree', () => { return treesData })
-
-    /*.then((treesData) => {
-      //useState('tree', () => { return treesData })
-      //useTree.value = treesData
-      console.log("finished initTree: set tree state.")
-      //console.dir(treesData)
-    }).catch(error => {
-      console.error("initTree: Could not init madek data tree.", error)
-    })*/
-  
-    
-    /*
-  } else {
-    console.log("init client")
-    
-    //console.error("check useTree: " + useTree.value)
-    
-    loading.value = 10
-    setTimeout(() => {
-      loading.value = 0
-    })
-  }
-*/
-  
+  //console.log("init server")
 };
 
-
-
-//watch(() => loading.value, () => {
-  //console.log("APP: loading: " + loading.value)
-
-  /*
-  if (loading.value <= 1) {
-    console.log("APP: loading finished: " + loading.value)
-    //console.dir(treeMapper.value)
-    
-    setTimeout(() => {
-      console.log("loading finished: tree after waiting")
-      //console.dir(useTree.value)
-      
-      
-      //localStorage.setItem("tree_data", JSON.stringify(treeMapper.value))
-      //initTreeType()
-    },5000)
-    
-  }*/
-//})
-
-
-// watch(() => useTree.value, () => {
-//     console.log("APP: watch changed useTree: " + useTree.value)
-
-// })
 
 const showFilterView = ref(false)
 
@@ -154,30 +86,20 @@ const closedFilterView = () => {
 }
 const resetFilter = () => {
   filtersMap.value = {}
-  //filteredTreeList.value = treeList.value;
+
   updateFilters(treeType)
 }
 
-//const nuxtData = useNuxtData();
 
-// const initTreeType = () => {
-//   console.log("App: initTreeType: has route: " + route.path)
-//   if (route.path.indexOf('project') >= 0) {
-//     treeType = MATCH_PROJECTS;
-//   } else {
-//     treeType = MATCH_DIPLOM;
-//   }
-//   treeList.value = treeMapper.value[treeType];
-//   filterCount.value = 0;
-//   filtersMap.value = {}
-//   filteredTreeList.value = treeList.value;
-  
-// }
-
-//initTreeType()
+const isShowPageIn = ref(false)
 
 watch(() => route.fullPath, () => {
-  //initTreeType()
+
+  // dont confuse running animation
+  setTimeout(() => {
+    console.error(" switch anim mode " + isShowPageIn.value)
+    isShowPageIn.value = !isShowPageIn.value
+  },5000)
 
   console.log("APP: changed route: " + JSON.stringify(route.fullPath));
   
@@ -208,17 +130,40 @@ initApp();
 </script>
 <style>
 
+.page-out.page-enter-active {
 
-.page-enter-active,
-.page-leave-active {
-  transition: all 2s;
+  z-index: 5;
+}
+.page-out.page-leave-active {
+  clip-path: circle(100vw at 50vw 50vh) !important;
+  transition: clip-path 3s;
+  z-index: 10;
+}
+.page-out.page-leave-to {
+  clip-path: circle(0vw at 50vw 50vh) !important;
+}
+.page-out.page-enter-to {
+/* clip-path: circle(100vw at 50vw 50vh) !important; */
 }
 
-.page-enter-from {
-  clip-path: circle(0vw at 50vw 50vh);
+
+
+.page-in.page-enter-active {
+  clip-path: circle(0vw at 50vw 50vh) !important;
+  transition: clip-path 3s;
+  z-index: 10;
 }
-.page-leave-to {
-  clip-path: circle(100vw at 50vw 50vh);
+.page-in.page-leave-active {
+  z-index: 5;
+  transition: all 1s;
 }
+.page-in.page-leave-to {
+  filter: blur(1rem);  
+}
+
+.page-in.page-enter-to {
+  clip-path: circle(100vw at 50vw 50vh) !important;
+}
+
 
 </style>

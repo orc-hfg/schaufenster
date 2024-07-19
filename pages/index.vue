@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="intro_page">
     <header>
       <nav>
         <NuxtLink to="/">
@@ -14,7 +14,7 @@
         <NuxtLink class="hfglink" to="https://madek.hfg.karlsruhe.de">//////</NuxtLink>
       </nav>
     </header>
-    <div class="intro_page">
+    <div>
       <h1>Projektarchiv</h1>
       <h1>der</h1>
       <h1>Hochschule</h1>

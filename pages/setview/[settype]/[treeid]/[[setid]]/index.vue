@@ -26,21 +26,20 @@
     </header>
 
     <h3>SetView</h3>
-    <p>
+    
     <!-- RP: {{ route.params }}<br/> -->
     <!-- ST: {{ settype }}<br/> -->
-    SID: {{ setid }}<br/>
-    PID: {{ parent_id }}<br/>
-    TID: {{ treeid }} <span> {{ getColTitle(treeid) }}</span><br/>
+    <!-- SID: {{ setid }}<br/> -->
+    <!-- PID: {{ parent_id }}<br/> -->
+    <!-- TID: {{ treeid }} <span> {{ getColTitle(treeid) }}</span><br/> -->
     
-    <span> {{ getColTitle(setid) }}</span>
-    <br/>
-    P2R: {{ path2root }}
-    <span v-for="colid in path2root">
+    <!-- <span> {{ getColTitle(setid) }}</span><br/> -->
+    <!-- P2R: {{ path2root }} -->
+    <!-- <span v-for="colid in path2root">
         | {{ getColTitle(colid) }}
     </span> |
-    <br/>
-    </p>
+    <br/> -->
+    
     <hr/>
 
 
@@ -61,13 +60,34 @@
       }"
       
     >
-      <swiper-slide class="main_slide" v-for="(el,eindedx) in entries" :key="el.id" :virtualIndex="eindedx">
+      <swiper-slide class="main_slide" v-for="(el,index) in entries" :key="el.id" :virtualIndex="index">
         <!-- Entry: {{ el.id }} -->
-        <p>Entry: {{ el.id }} C: {{ el.collection_id }} </p>
-        <div
+        <p>Entry: {{ el.id }} C: {{ el.collection_id }} eIdx: {{ index }} mt: {{ currentTree.previewsLarge[el.id].media_type }} </p>
+
+        <div v-if="getMediaType(el.id) == 'image'"
           class="main_preview"
           :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
         ></div>
+        <div v-else-if="currentTree.previewsLarge[el.id].media_type == 'audio'"
+          class="main_preview">
+          <audio :id="'slide-audio-'+ el.id"
+            class="audio-slide"
+            controls style="width: 100%; height:80%; margin: auto;">
+            <source :src="previewLargeUrl(el.id)">
+          </audio>
+        </div>
+        <div v-else-if="currentTree.previewsLarge[el.id].media_type == 'video'"
+          class="main_preview">
+          <video :id="'slide-video-'+ el.id"
+            class="video-slide"
+            controls style="width: 100%; height:80%; margin: auto;  position:relative">
+            <!-- z-index: -2; -->
+            <source :src="previewLargeUrl(el.id)">
+          </video>
+        </div>
+        <div v-else-if="currentTree.previewsLarge[el.id].media_type == 'document'">
+          TODO docs
+        </div>
       </swiper-slide>
 
     </swiper>
@@ -91,21 +111,28 @@
     >
     
       <!-- v-show="index < getShowCount(showTreeId)" -->
+      
       <swiper-slide
         class="nav_slide"        
         v-for="(el, eindex) in navSlider.slides"
         :key="el.entry_id"
         :virtualIndex="eindex"
-        :class="{set_highlight: activeSetId == el.collection_id}"
+        :class="{set_highlight: activeSetId == el.collection_id, nav_slide_btns: el.type == NavSlideType.Button}"
+        v-show="el.setIdx < getShowCount(el.collection_id)
+          || el.type === NavSlideType.Set
+          || el.type === NavSlideType.Button"    
         >
+        
         <div
           v-if="el.type === NavSlideType.Entry"
           class="nav_preview"
-          
+          @click="nav2Element(el)"
+          :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
           :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }"
         ></div>
         <div
           v-if="el.type === NavSlideType.Set"
+          :title="'E: ' + JSON.stringify(el)"
           class="nav_preview">
           <div class="nav_preview_subset"
             v-for="ceId in el.cover_entry_ids" :key="ceId"
@@ -118,13 +145,22 @@
         </div>
         <div
           v-if="el.type === NavSlideType.Button"
-          class="nav_preview">
+          :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
+          class="nav_preview ">
           
-          <IconWrap :large="true" :inv="true"><IconsPlus/></IconWrap>
-          <IconWrap :inv="true"><IconsMinus/></IconWrap>
+          <IconWrap :large="true" :inv="true"
+            v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
+            @click="addShowCount(el.collection_id)">
+            <IconsPlus/>
+          </IconWrap>
+          <IconWrap :inv="true"
+            @click="resetShowCount(el.collection_id)">
+            <IconsMinus/>
+          </IconWrap>
             
 
         </div>
+
         <div class="entry_highlight"
           v-if="el.entry_id == activeEntryId">
           <IconWrap :inv="true"><IconsCircle/></IconWrap>
@@ -139,6 +175,8 @@
 </div>
 </template>
 <script setup lang="ts">
+import type { VideoHTMLAttributes } from 'vue';
+
 const route = useRoute();
 const router = useRouter();
 const {
@@ -164,6 +202,7 @@ const useTree = useState('tree')
 const currentTree = ref({} as iTree)
 
 const showCount = ref({} as { [key:string]: number})
+const maxCount = ref({} as { [key:string]: number})
 
 
 const previewUrl = (eId: string): string => {
@@ -173,6 +212,9 @@ const previewUrl = (eId: string): string => {
 const previewLargeUrl = (eId: string): string => {
   const pid = currentTree.value.previewsLarge[eId]?.id
   return apiBaseUrl + 'previews/' + pid + '/data-stream'
+}
+const getMediaType = (eId: string): string => {
+  return currentTree.value.previewsLarge[eId].media_type || ''
 }
 
 const switch2Set = (setId: string) => {
@@ -187,13 +229,15 @@ const switch2Set = (setId: string) => {
 }
 
 const getShowCount = (treeId:string) => {
-    return showCount.value[treeId] = showCount.value[treeId] || 5
+    showCount.value[treeId] = showCount.value[treeId] || 5
+    return showCount.value[treeId]
 }
 const resetShowCount = (treeId:string) => {
     showCount.value[treeId] = 5;
 }
 const addShowCount = (treeId:string) => {
-    return showCount.value[treeId] = showCount.value[treeId] + 5
+    showCount.value[treeId] = Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
+    return showCount.value[treeId]
 }
 const getColTitle = (id: string): string => {
     let result = ""
@@ -228,6 +272,8 @@ interface iNavSlide {
   cover_id: string,
   cover_entry_ids: string[],
   index: number,
+  setIdx: number,
+  mainIdx: number,
   collection_id: string,
 }
 interface iNavSlider {
@@ -249,12 +295,12 @@ const modules = ref([
 ]);
 
 const entries = ref([]);
-const slides = ref({} as iSlideElement);
+//const slides = ref({} as iSlideElement);
 
 const navSlider = ref({} as iNavSlider)
 const swiperMain = ref({} as typeof Swiper);
-const swiperNav = ref(null );
-const swiperColNav = ref({});
+const swiperNav = ref({} as typeof Swiper);
+
 const activeEntryId = ref('' as string)
 const activeSetId = ref('' as string)
 
@@ -271,135 +317,55 @@ const onMainSwiperSlideChanged = () => {
     const navIdx = navSlider.value.entryId2Idx[entry.id];
 
 
+    
+    const ovel = document.getElementsByClassName('video-slide')
+    for (let i=0; i < ovel.length; i++) {
+      const vel = ovel[i]
+      //console.dir(vel)
+      vel.pause()
+    }
+
+    const vel = document.getElementById('slide-video-'+ entry.id)
+    if (vel) {
+      vel.play()
+    }
+
     // console.log("swiperMain changed slide: " + activeSlide
     //  // + " entry " + JSON.stringify(entry)
     //   + " colId " + colId
     //   + " nav Idx: " + navIdx )
     
-    if (colId == treeid.value) {
-      //const idx = navSlider.value.entryId2Idx[entry.id]
-      swiperNav.value?.slideTo(navIdx)
-      
-    } else {
-      const navIdx = navSlider.value.entryId2Idx[entry.id];
-      swiperNav.value.update();
-      swiperNav.value.slideTo(navIdx)
-      
+    const sidx = navSlider.value.slides[navIdx].setIdx
+    const sc = showCount.value[colId]
+    const msc = maxCount.value[colId]
+    if (sidx  >= (sc - 3)) {
+      showCount.value[colId] = Math.min(sidx + 5,msc + 2)
+    } else if (sidx < (sc-5)) {
+      showCount.value[colId] = Math.max(sidx +5, 5)
     }
+    swiperNav.value.update();
+    swiperNav.value?.slideTo(navIdx)
+    
   }
+
+const nav2Element = (el: iNavSlide) => {
+  swiperMain.value.slideTo(el.mainIdx)
+  //const navIdx = navSlider.value.entryId2Idx[entry.id];
+  //swiperNav.value.update();
+  swiperNav.value.slideTo(el.index)
+}
 
 const setMainSwiper = (swiper) => {
   swiperMain.value = swiper;
   swiperMain.value.on('slideChange', onMainSwiperSlideChanged)
 };
+
 const setNavSwiper = (swiper) => {
   swiperNav.value = swiper;
 };
 
-const initSubTree = (rootId:string, treeId: string) => {
-  console.log("initSubTree: " + treeId);
-  showCount.value[treeId] = 4;
-
-  // get root entries
-  const rels = currentTree.value.edges[rootId][treeId].entries;
-  for (const eId in rels) {
-    const rel = rels[eId]
-    rel.collection_id = treeId;
-    entries.value.push(rel);
-    
-    const newSlide = {
-      type:NavSlideType.Entry,
-      entry: rel,
-      entry_id: eId,
-      collection_id: treeId,
-      index: navSlider.value.slides.length
-    } as iNavSlide;
-    navSlider.value.slides.push(newSlide)
-    navSlider.value.entryId2Idx[eId] = newSlide.index
-  }
-
-  // testing: the set itself
-  /*
-  const newSubSlide = {
-    type:NavSlideType.Set,
-    entry: undefined as unknown as iMediaEntry,
-    entry_id: "" + currentTree.value.edges[rootId][treeId].coverId,
-    cover_id: "" + currentTree.value.edges[rootId][treeId].coverId,
-    cover_entry_ids: [] as string[],
-    collection_id: treeId,
-    index: navSlider.value.slides.length
-  } as iNavSlide
-
-  let sec = 0;
-  for (const subEntryId in rels) {
-    newSubSlide.cover_entry_ids.push(subEntryId)
-    sec++
-    if (sec > 3) {
-      break
-    }
-  
-  }
-  navSlider.value.slides.push(newSubSlide)
-  */
-
-  // button
-  navSlider.value.slides.push({
-    type:NavSlideType.Button,
-    collection_id: rootId,
-  } as iNavSlide)
-
-
-
-  // get child set entries
-  for (const childId in currentTree.value.edges[treeId]) {
-    const els = currentTree.value.edges[treeId][childId].entries;
-
-    
-    // set elements
-    for (const eId in els) {
-      els[eId].collection_id = childId;
-      entries.value.push(els[eId]);
-      //subSlide.entries.push(els[eId]);
-
-      const newSlide = {
-        type:NavSlideType.Entry,
-        entry: els[eId],
-        entry_id: eId,
-        cover_id: currentTree.value.edges[treeId][childId].coverId,
-        collection_id: childId,
-        index: navSlider.value.slides.length
-      } as iNavSlide;
-      navSlider.value.slides.push(newSlide)
-      navSlider.value.entryId2Idx[eId] = newSlide.index
-    }
-
-    // testing: the set itself
-    const newSubSlide = {
-      type:NavSlideType.Set,
-      entry: undefined as unknown as iMediaEntry,
-      entry_id: "" + currentTree.value.edges[treeId][childId].coverId,
-      cover_id: "" + currentTree.value.edges[treeId][childId].coverId,
-      cover_entry_ids: [] as string[],
-      collection_id: childId,
-      index: navSlider.value.slides.length
-    } as iNavSlide
-
-    let sec = 0;
-    for (const subEntryId in els) {
-      newSubSlide.cover_entry_ids.push(subEntryId)
-      sec++
-      if (sec > 3) {
-        break
-      }
-    
-    }
-    navSlider.value.slides.push(newSubSlide)
-
-    
-
-    // set subset
-    for (const subChildId in currentTree.value.edges[childId]) {
-      const subEntries = currentTree.value.edges[childId][subChildId].entries;
+const initSubSetPreview = (childId:string, subChildId:string) => {
+  const subEntries = currentTree.value.edges[childId][subChildId].entries;
       
       const newSubSlide = {
         type:NavSlideType.Set,
@@ -408,7 +374,9 @@ const initSubTree = (rootId:string, treeId: string) => {
         cover_id: "" + currentTree.value.edges[childId][subChildId].coverId,
         cover_entry_ids: [] as string[],
         collection_id: subChildId,
-        index: navSlider.value.slides.length
+        index: navSlider.value.slides.length,
+        setIdx: 0,
+        mainIdx: 0
       } as iNavSlide
 
       let sec = 0;
@@ -421,12 +389,80 @@ const initSubTree = (rootId:string, treeId: string) => {
       
       }
       navSlider.value.slides.push(newSubSlide)
-  
+}
+
+const initSetBtns = (treeId:string, setIdx: number) => {
+  const btn_id = 'btns_' + treeId;
+  navSlider.value.slides.push({
+    entry: { id: btn_id},
+    entry_id: btn_id,
+    type:NavSlideType.Button,
+    collection_id: treeId,
+    index: navSlider.value.slides.length,
+    setIdx: setIdx,
+    mainIdx: 0,
+  } as iNavSlide)
+}
+
+const initSetEntries = (parentId:string, setId:string, els):number => {
+    let setIdx = 0
+    // set elements
+    for (const eId in els) {
+      els[eId].collection_id = setId;
+      
+
+      const newSlide = {
+        type:NavSlideType.Entry,
+        entry: els[eId],
+        entry_id: eId,
+        cover_id: currentTree.value.edges[parentId][setId].coverId,
+        collection_id: setId,
+        index: navSlider.value.slides.length,
+        setIdx: setIdx++,
+        mainIdx: entries.value.length
+      } as iNavSlide;
+      entries.value.push(els[eId]);
+      navSlider.value.slides.push(newSlide)
+      navSlider.value.entryId2Idx[eId] = newSlide.index
     }
-    navSlider.value.slides.push({
-      type:NavSlideType.Button,
-      collection_id: childId,
-    } as iNavSlide)
+    maxCount.value[setId] = setIdx
+    return setIdx
+}
+const initSubTree = (rootId:string, treeId: string) => {
+  console.log("initSubTree: " + treeId);
+  showCount.value[rootId] = 5;
+  showCount.value[treeId] = 5;
+
+  // get root entries
+  const rels = currentTree.value.edges[rootId][treeId].entries;
+  const rels_count = initSetEntries(rootId, treeId, rels)
+  
+  // button
+  if (Object.keys(rels).length) {
+    // testing: the set itself
+    initSubSetPreview(rootId, treeId)
+    initSetBtns(treeId, rels_count)
+  }
+
+
+  // get child set entries
+  for (const childId in currentTree.value.edges[treeId]) {
+    const els = currentTree.value.edges[treeId][childId].entries;
+    const els_count = initSetEntries(treeId, childId, els)
+
+    // testing: the set itself
+    //initSubSetPreview(treeId, childId)
+
+    // set subset
+    for (const subChildId in currentTree.value.edges[childId]) {
+      initSubSetPreview(childId, subChildId)
+    }
+    
+    if (Object.keys(els).length) {
+      initSetBtns(childId, els_count)
+    }
+    
+    
 
 
     console.log(
@@ -602,6 +638,14 @@ onMounted(() => {
 .nav_slide_collection {
   /* width: fit-content !important; */
 }
+
+.nav_btns {
+  
+  height: 100%;
+}
+.nav_slide_btns {
+  width: 1.5rem !important;
+}
 .nav_slide_collection .hide_btn {
   position: absolute;
   top: 0.5rem; left: 0.5rem;
@@ -613,6 +657,7 @@ onMounted(() => {
   /* border: 1px solid green; */
   /* background-color: green !important; */
 }
+
 
 
 .nav_preview_subset {
