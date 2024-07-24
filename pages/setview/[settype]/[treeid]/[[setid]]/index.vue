@@ -7,7 +7,12 @@
                 <IconsNavIconORC/>
               
             </NuxtLink>
-    
+            <NuxtLink
+              v-if="!path2root.length"
+              class="navbar_set_link"
+              :to="'/setview/'+settype+'/'+treeid+'/'">
+              {{ getColTitle(treeid) }}
+            </NuxtLink>
     
             <NuxtLink
               v-for="colid in path2root"
@@ -21,11 +26,20 @@
               :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
               {{ getColTitle(activeSetId) }}
             </NuxtLink>
-            
+            <NuxtLink>|</NuxtLink>
+            <NuxtLink
+              @click="toggleShowInfo()"
+              class="navbar_set_link"
+              :class="{info_active: showInfo}"
+              >Info
+            </NuxtLink>
+            <NuxtLink>DE</NuxtLink>
+            <NuxtLink>EN</NuxtLink>
+
         </nav>
     </header>
 
-    <h3>SetView</h3>
+    <!--<h3>SetView</h3>-->
     
     <!-- RP: {{ route.params }}<br/> -->
     <!-- ST: {{ settype }}<br/> -->
@@ -40,12 +54,13 @@
     </span> |
     <br/> -->
     
-    <hr/>
+    
 
 
     <swiper
       :modules="modules"
       class="swiper_main"
+      :class="{info_active: showInfo}"
       :zoom="true"
       :navigation="true"
       @swiper="setMainSwiper"
@@ -61,9 +76,9 @@
       
     >
       <swiper-slide class="main_slide" v-for="(el,index) in entries" :key="el.id" :virtualIndex="index">
-        <!-- Entry: {{ el.id }} -->
+        <!-- Entry: {{ el.id }} 
         <p>Entry: {{ el.id }} C: {{ el.collection_id }} eIdx: {{ index }} mt: {{ currentTree.previewsLarge[el.id].media_type }} </p>
-
+-->
         <div v-if="getMediaType(el.id) == 'image'"
           class="main_preview"
           :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
@@ -92,6 +107,55 @@
 
     </swiper>
     
+    <div class="entry_info"
+      :class="{hidden: !showInfo}">
+      <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
+        No entry meta data yet.
+      </div>
+      <div v-else>
+        Entry {{ activeEntryId }} Meta Data:<br/>
+        
+        <!-- Title:
+        {{ currentTree.entries_meta_data[activeEntryId]['madek_core:title'].string }} -->
+        <br/>
+
+        <div v-for="(md,meta_key) in currentTree.entries_meta_data[activeEntryId]">
+          <span>K:{{meta_key}}:&nbsp;</span><br/><br/>
+          
+          <!-- <span>K:{{md.meta_key_id}}:&nbsp;</span> -->
+          <span v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</span>
+          
+          <div v-else-if="md.type == MD_TYPE_KEYWORDS">
+            <span v-for="kw in md.selectedKeywords">
+              <NuxtLink class="navbar_set_link">
+                {{ kw.term }}
+              </NuxtLink>
+            </span>
+            
+          </div>
+          <div v-else-if="md.type == MD_TYPE_PEOPLE">
+            
+            <span v-for="p in md.selectedPeople">
+              <NuxtLink class="navbar_set_link">
+                {{ p.first_name }}&nbsp;{{ p.last_name }}
+              </NuxtLink>
+            </span>
+          </div>
+          <div v-else-if="md.type == MD_TYPE_ROLES">
+            ROLES
+          </div>
+          
+          <br/>
+          <hr/>
+        </div>
+        <hr>
+        <textarea>{{ currentTree.entries_meta_data[activeEntryId] }}</textarea>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+      </div>
+    </div>
     <!-- thumb-swiper=".swiper_main" -->
     <!-- :controller="{ control: swiperMain }" -->
     <!-- @swiperslidechange="onSlideChange" -->
@@ -99,83 +163,122 @@
     :space-between="spaceBetween"
     :centeredSlides="true"
     -->
-    <swiper
-      :modules="modules"
-      class="swiper_nav"
-      @swiper="setNavSwiper"
-      :freeMode="true"
-      :spaceBetween="4"
-      :centeredSlides="true"
-      :slides-per-view="'auto'"
-      :navigation="true"
-    >
-    
-      <!-- v-show="index < getShowCount(showTreeId)" -->
+    <div class="bottom_nav" >
+      <div>
+        <NuxtLink @click="showBottomNav = !showBottomNav" class="navbar_set_link">
+          <IconWrap>
+            <IconsMinus v-if="showBottomNav"/>
+            <IconsPlus v-if="!showBottomNav"/>
+          </IconWrap>
+        </NuxtLink>
+      </div>
+      <swiper
+        :modules="modules"
+        class="swiper_nav"
+        :class="{hidden: !showBottomNav}"
+        @swiper="setNavSwiper"
+        :freeMode="true"
+        :spaceBetween="4"
+        :centeredSlides="true"
+        :slides-per-view="'auto'"
+        :navigation="true"
+      >
       
-      <swiper-slide
-        class="nav_slide"        
-        v-for="(el, eindex) in navSlider.slides"
-        :key="el.entry_id"
-        :virtualIndex="eindex"
-        :class="{set_highlight: activeSetId == el.collection_id, nav_slide_btns: el.type == NavSlideType.Button}"
-        v-show="el.setIdx < getShowCount(el.collection_id)
-          || el.type === NavSlideType.Set
-          || el.type === NavSlideType.Button"    
-        >
+        <!-- v-show="index < getShowCount(showTreeId)" -->
         
-        <div
-          v-if="el.type === NavSlideType.Entry"
-          class="nav_preview"
-          @click="nav2Element(el)"
-          :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
-          :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }"
-        ></div>
-        <div
-          v-if="el.type === NavSlideType.Set"
-          :title="'E: ' + JSON.stringify(el)"
-          class="nav_preview">
-          <div class="nav_preview_subset"
-            v-for="ceId in el.cover_entry_ids" :key="ceId"
-            :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }"
-            @click="switch2Set(el.collection_id)"
-            >
+        <swiper-slide
+          class="nav_slide"        
+          v-for="(el, eindex) in navSlider.slides"
+          :key="el.entry_id"
+          :virtualIndex="eindex"
+          :class="{set_highlight: activeSetId == el.collection_id, nav_slide_btns: el.type == NavSlideType.Button}"
+          v-show="el.setIdx < getShowCount(el.collection_id)
+            || el.type === NavSlideType.Set
+            || el.type === NavSlideType.Button"    
+          >
+          
+          <div
+            v-if="el.type === NavSlideType.Entry"
+            class="nav_preview"
+            @click="nav2Element(el)"
+            :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
+            :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }"
+          ></div>
+          <div
+            v-if="el.type === NavSlideType.Set"
+            :title="'E: ' + JSON.stringify(el)"
+            class="nav_preview">
+            <div class="nav_preview_subset"
+              v-for="ceId in el.cover_entry_ids" :key="ceId"
+              :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }"
+              @click="switch2Set(el.collection_id)"
+              >
+              
+
+            </div>
+          </div>
+          <div
+            v-if="el.type === NavSlideType.Button"
+            :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
+            class="nav_preview ">
             
+            <IconWrap :large="true" :inv="true"
+              v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
+              @click="addShowCount(el.collection_id)">
+              <IconsPlus/>
+            </IconWrap>
+            <IconWrap :inv="true"
+              @click="resetShowCount(el.collection_id)">
+              <IconsMinus/>
+            </IconWrap>
+              
 
           </div>
-        </div>
-        <div
-          v-if="el.type === NavSlideType.Button"
-          :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
-          class="nav_preview ">
-          
-          <IconWrap :large="true" :inv="true"
-            v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
-            @click="addShowCount(el.collection_id)">
-            <IconsPlus/>
-          </IconWrap>
-          <IconWrap :inv="true"
-            @click="resetShowCount(el.collection_id)">
-            <IconsMinus/>
-          </IconWrap>
-            
 
-        </div>
+          <div class="entry_highlight"
+            v-if="el.entry_id == activeEntryId">
+            <IconWrap :inv="true"><IconsCircle/></IconWrap>
+          </div>
 
-        <div class="entry_highlight"
-          v-if="el.entry_id == activeEntryId">
-          <IconWrap :inv="true"><IconsCircle/></IconWrap>
-        </div>
-
-      </swiper-slide>
-    
-    </swiper>
-
+        </swiper-slide>
+      
+      </swiper>
+  </div>
+  <div class="av_control" v-if="show_av_control">
+    <div>
+      <NuxtLink class="navbar_set_link">
+        <IconWrap>
+          <IconsPlus/>
+        </IconWrap>
+        <span>Play</span>
+      </NuxtLink>
+      <NuxtLink class="navbar_set_link">
+        <IconWrap>
+          <IconsMinus/>
+        </IconWrap>
+        Stop
+      </NuxtLink>
+      <NuxtLink class="navbar_set_link">
+        | Scrollbar
+      </NuxtLink>
+      <NuxtLink class="navbar_set_link">
+        | VolBar
+      </NuxtLink>
+    </div>
+  </div>
 
 
 </div>
 </template>
 <script setup lang="ts">
-import type { VideoHTMLAttributes } from 'vue';
+const {
+  MD_TYPE_TEXT,
+  MD_TYPE_TEXT_DATE,
+  MD_TYPE_JSON,
+  MD_TYPE_KEYWORDS,
+  MD_TYPE_PEOPLE,
+  MD_TYPE_ROLES
+} = madekHelper()
 
 const route = useRoute();
 const router = useRouter();
@@ -203,8 +306,16 @@ const currentTree = ref({} as iTree)
 
 const showCount = ref({} as { [key:string]: number})
 const maxCount = ref({} as { [key:string]: number})
-
-
+const showBottomNav = ref(true)
+const show_av_control = ref(false)
+const showInfo = ref(false)
+const toggleShowInfo = () => {
+  showInfo.value = !showInfo.value
+  setTimeout(() => {
+    swiperMain.value.update()
+  }, 3000)
+  
+}
 const previewUrl = (eId: string): string => {
   const pid = currentTree.value.previews[eId]?.id
   return apiBaseUrl + 'previews/' + pid + '/data-stream'
@@ -290,6 +401,7 @@ const modules = ref([
   SwiperPagination,
   SwiperScrollbar,
   SwiperController,
+  SwiperFreeMode,
   SwiperZoom,
   SwiperVirtual,
 ]);
@@ -318,6 +430,12 @@ const onMainSwiperSlideChanged = () => {
 
 
     
+    const oael = document.getElementsByClassName('audio-slide')
+    for (let i=0; i < oael.length; i++) {
+      const ael = oael[i]
+      //console.dir(vel)
+      ael.pause()
+    }
     const ovel = document.getElementsByClassName('video-slide')
     for (let i=0; i < ovel.length; i++) {
       const vel = ovel[i]
@@ -325,10 +443,21 @@ const onMainSwiperSlideChanged = () => {
       vel.pause()
     }
 
+    const ael = document.getElementById('slide-audio-'+ entry.id)
     const vel = document.getElementById('slide-video-'+ entry.id)
-    if (vel) {
+    if (ael) {
+      ael.play()
+      showBottomNav.value = false
+      show_av_control.value = true
+    } else if (vel) {
       vel.play()
+      showBottomNav.value = false
+      show_av_control.value = true
+    } else {
+      showBottomNav.value = true
+      show_av_control.value = false
     }
+    
 
     // console.log("swiperMain changed slide: " + activeSlide
     //  // + " entry " + JSON.stringify(entry)
@@ -552,43 +681,95 @@ onMounted(() => {
 
 
 </script>
-<style>
+<style scoped>
 .slider_view {
   width: 100vw;
   height: 100vh;
   padding: 8rem 2rem;
 }
 .swiper_main {
-  /* border: 1px solid red; */
-  width: 100%;
-  height: 100vh;
+  border: 1px solid red;
   position: fixed;
   top: 72px;
   left: 0px;
+
+  width: 100%;
+  height: 100vh;
+  
+  
   /* z-index: -100; */
+  transition: all 0.5s 1s;
+}
+.swiper_main.info_active {
+  width: 50%;
 }
 .main_slide {
   /* border: 1px solid blue; */
 }
 .main_preview {
   width: 100%;
-  height: 90vh;
+  height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
 
+.entry_info {
+  border: 1px solid blue;
+  position: fixed;
+  top: 72px; left: 50%;
+  width: 50%; height: 80vh;
+  overflow-y: auto;
+  
+  visibility: visible;
+  /** hidden state */
+  
+  transition: all 1s 1s;
+}
+.entry_info.hidden {
+  left: 100%;
+  visibility: hidden;
+}
+
+.bottom_nav {
+  border: 1px solid blue;
+  position: fixed;
+  left: 0px;
+  width: 100vw;
+  top: 85vh;
+  height: 6rem;
+  z-index: 100;
+}
+.av_control {
+  border: 1px solid green;
+  position: fixed;
+  left: 0px;
+  width: 100vw;
+  top: 85vh;
+  height: 6rem;
+  z-index: 100;
+  background-color: var(--Colors-btm-bar-playerView-background);
+  color: var(--Colors-btm-bar-playerView-button);
+}
+.av_control .navbar_set_link {
+  float: left;
+}
 
 .swiper_nav {
   /* z-index: 100; */
+  border: 1px solid red;
   background-color: darkgray;
   width: 100%;
   height: 6rem;
-  position: fixed;
-  top: 85vh;
-  left: 0px;
+  position: absolute;
+  top: 0px;
+  left: 6rem;
+  transition: all 0.5s 1s;
 }
-
+.swiper_nav.hidden {
+  visibility: hidden;
+  top: 20rem;
+}
 .nav_slide {
   
   width: fit-content !important;
@@ -681,10 +862,16 @@ onMounted(() => {
     align-items: center;
   } 
 }*/
+
 .navbar_set_link {
   font-size: 20px;
   padding: 12px;
   border: 1px solid black;
+  background-color: var(--Colors-nav-bar-toggle-on);
+}
+.navbar_set_link.info_active {
+  background-color: var(--Colors-nav-bar-toggle-off);
+  font-weight: 800;
 }
 
 .setview_page {

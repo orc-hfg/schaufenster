@@ -51,7 +51,9 @@
 
 /* colors light */
 :root {
-    --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-background-filter: var(--Primitives-color-greys-Black);  
+--Colors-background-menu: var(--Primitives-color-greys-Black);  
+--Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-background-video: var(--Primitives-color-greys-Black);
 --Colors-background-audio: var(--Primitives-color-greys-Black);
 --Colors-btm-bar-galleryView-gradient-default-stop-1: #F3F2EF;

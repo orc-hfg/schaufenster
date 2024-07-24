@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/about': { prerender: true },
     '/impressum': { prerender: true },
-    '/setlist/*/*': { swr: 600 },
+    '/setlist/*': { swr: 600 },
     '/setview/*/*': { swr: 600 },
     '/setview/*/*/*': { swr: 600 },
   },

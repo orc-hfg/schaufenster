@@ -1,3 +1,4 @@
+import { iTree } from './tree';
 
 import { ref, reactive, toRefs } from 'vue'
 
@@ -87,7 +88,9 @@ export interface iTreeNode {
     },
     entries_authors: {
       [key:string]: string[]
-    }
+    },
+    year: number
+
   }
 
 
@@ -100,17 +103,20 @@ export interface iTreeNode {
     };
     
 
-    treeList: {};
+    treeList: {
+      [key:string]: iTree
+    };
     filterCount: number,
     filtersMap: {};
-    filteredTreeList: {};
+    filteredTreeList: {
+      [key:string]: iTree
+    };
   }
 
   const state = reactive<iTreeState>({
     loading: 0,
     treeMapper: {},
-    //col_meta_data:  {},
-    //entry_meta_data: {},
+    
     treeList: {},
     filterCount: 0,
     filtersMap: {},

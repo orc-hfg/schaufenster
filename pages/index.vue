@@ -11,7 +11,7 @@
         <NuxtLink class="diplomlink"
           :to="'/setlist/' + MATCH_DIPLOM">Diplom</NuxtLink>
 
-        <NuxtLink class="hfglink" to="https://madek.hfg.karlsruhe.de">//////</NuxtLink>
+        <NuxtLink class="hfglink" to="https://madek.hfg-karlsruhe.de">//////</NuxtLink>
       </nav>
     </header>
     <div>
@@ -64,10 +64,13 @@
     color: var(--Colors-text-headlines, #FFF);
     text-align: center;
     font-family: gqom404;
-    font-size: var(--font-h1-font-size, 120px);
+    /* font-size: var(--font-h1-font-size, 120px); */
+    font-size: min(16vw, 16vh);
     font-style: normal;
     font-weight: 400;
-    line-height: var(--font-h1-line-height, 90px) /* 87.5% */;
+    /* line-height: var(--font-h1-line-height, 90px) */
+    line-height: 6vh;
+     /* 87.5% */;
 
   }
   

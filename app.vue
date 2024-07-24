@@ -24,15 +24,10 @@ const {
 
 const route = useRoute();
 
-//const appDataLoaded = ref(false as boolean);
-let treeType: string;
-
-//const nuxtApp = useNuxtApp();
 const useTree = useState('tree');//, () => { return {}})
 const useAppSettings = useState('appSettings')
-//const appSettings = ref()
 
-
+const showMenu = ref(false)
 
 const initMadek = () => {
   console.log("initMadek")
@@ -69,26 +64,6 @@ const initApp = async() => {
 };
 
 
-const showFilterView = ref(false)
-
-const showFilter = () => {
-  if (showFilterView.value) {
-    showFilterView.value = false;
-  } else {
-    showFilterView.value = true;
-  }
-}
-
-const closedFilterView = () => {
-  console.log("closedFilterView")
-  showFilterView.value = false;
-  updateFilters(treeType)
-}
-const resetFilter = () => {
-  filtersMap.value = {}
-
-  updateFilters(treeType)
-}
 
 
 const isShowPageIn = ref(false)
@@ -99,7 +74,7 @@ watch(() => route.fullPath, () => {
   setTimeout(() => {
     console.error(" switch anim mode " + isShowPageIn.value)
     isShowPageIn.value = !isShowPageIn.value
-  },5000)
+  },3000)
 
   console.log("APP: changed route: " + JSON.stringify(route.fullPath));
   
