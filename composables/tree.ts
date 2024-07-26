@@ -1,5 +1,6 @@
 import { iTree } from './tree';
 
+
 import { ref, reactive, toRefs } from 'vue'
 
 import {
@@ -14,8 +15,6 @@ import {
 
 import { type iCollection, type iPreview } from "../utils/apiHelper";
 import { type iGenMetaData, madekHelper } from "../utils/madekHelper";
-
-import { useMetadataStore } from "../stores/metadata_store";
 
 
 const {
@@ -63,7 +62,9 @@ export interface iTreeNode {
       [key:string]: string
     },
     // enable filters
-    colTitlesMap: {},
+    colTitlesMap: {
+      [key:string]: string
+    },
     colKeywordMap: {},
     colPeopleMap: {},
     colRolesMap: {},
@@ -93,13 +94,14 @@ export interface iTreeNode {
 
   }
 
+  export interface iTreeMap {
+    [key:string]: iTree  
+  }
 
   export interface iTreeState {
     loading: number;
     treeMapper: {
-      [key:string]: {
-        [key:string]: iTree  
-      }
+      [key:string]: iTreeMap
     };
     
 
@@ -107,7 +109,12 @@ export interface iTreeNode {
       [key:string]: iTree
     };
     filterCount: number,
-    filtersMap: {};
+    filtersMap: {
+      [key:string]: {
+        [key:string]: []
+      }
+    };
+    filtersText: string,
     filteredTreeList: {
       [key:string]: iTree
     };
@@ -120,6 +127,7 @@ export interface iTreeNode {
     treeList: {},
     filterCount: 0,
     filtersMap: {},
+    filtersText: '',
     filteredTreeList: {},
   })
 
@@ -171,14 +179,82 @@ export const treeHelper = () => {
     }
 
 
-    const updateFilters = (treeType: string) => {
+    const updateFilters = (treeMap: iTreeMap) => {
       state.filteredTreeList = {}
       state.filterCount = 0;
+
+      // and filter
+      state.filteredTreeList = {};
+      for(const treeId in treeMap) {
+        const tree = treeMap[treeId]
+        state.filteredTreeList[treeId] = treeMap[treeId]
+        if (state.filtersText && state.filtersText.length) {
+          state.filterCount++
+          const filterString = state.filtersText.toLocaleLowerCase()  
+          const title = tree.colTitlesMap[tree.col_id].toLocaleLowerCase()
+          if (title.indexOf(filterString) < 0) {
+            delete state.filteredTreeList[treeId]
+          }
+        }
+
+        console.log("keywords map:")
+        console.dir(tree)
+        for (const kwId in state.filtersMap[FILTERS_KEYWORD]) {
+          state.filterCount++
+          console.log(" check kw " + kwId)
+          let found = false
+          for (const mtKey in tree.colKeywordMap) {
+              if (tree.colKeywordMap[mtKey][kwId]) {
+                found = true
+              }
+          }
+          if (found == false) {
+            console.log(" kw " + kwId + " not in tree: delete")
+            delete state.filteredTreeList[treeId]
+          }
+          
+        }
+
+        for (const pId in state.filtersMap[FILTERS_PEOPLE]) {
+          state.filterCount++
+
+          console.log(" check person " + pId)
+          let found = false
+          for (const mtKey in tree.colPeopleMap) {
+              if (tree.colPeopleMap[mtKey][pId]) {
+                found = true
+              }
+          }
+          if (found == false) {
+            console.log(" person " + pId + " not in tree: delete")
+            delete state.filteredTreeList[treeId]
+          }
+        }
+
+        
+      }
+
+/*
+      // or filter
+      if (state.filtersText && state.filtersText.length > 0) {
+
+        state.filterCount++;
+        const filterString = state.filtersText.toLocaleLowerCase()
+        for (const treeId in treeMap) {
+          const colTitle = treeMap[treeId].colTitlesMap[treeId].toLocaleLowerCase()
+          const idx = colTitle.indexOf(filterString)
+          //console.log("search: " + filterString + " in: " + colTitle + " idx:" + idx)
+          if (idx >= 0) {
+            //console.log("search: " + filterString + " in: " + colTitle + " idx:" + idx + " FOUND")
+            state.filteredTreeList[treeId] = treeMap[treeId]
+          }
+        }
+      }
       if (state.filtersMap[FILTERS_KEYWORD]) {
         for (const kwId in state.filtersMap[FILTERS_KEYWORD]) {
           state.filterCount++;
           for (const kwInfo of state.filtersMap[FILTERS_KEYWORD][kwId]) {
-            state.filteredTreeList[kwInfo.treeId] = state.treeMapper[treeType][kwInfo.treeId]
+            state.filteredTreeList[kwInfo.treeId] = treeMap[kwInfo.treeId]
           }
         }
        }
@@ -187,18 +263,21 @@ export const treeHelper = () => {
         for (const kwId in state.filtersMap[FILTERS_PEOPLE]) {
           state.filterCount++;
           for (const kwInfo of state.filtersMap[FILTERS_PEOPLE][kwId]) {
-            state.filteredTreeList[kwInfo.treeId] = state.treeMapper[treeType][kwInfo.treeId]
+            state.filteredTreeList[kwInfo.treeId] = treeMap[kwInfo.treeId]
           }
         }
        }
+      
+       // TODO filter roles
        
        if (state.filterCount == 0) {
         console.log("updateFilters: fc: " + state.filterCount)
         state.filteredTreeList = {};
-        for(const treeId in state.treeMapper[treeType]) {
-          state.filteredTreeList[treeId] = state.treeMapper[treeType][treeId]
+        for(const treeId in treeMap) {
+          state.filteredTreeList[treeId] = treeMap[treeId]
         }
        }
+        */
     }
 
     // watch(() => state.loading, () => {
@@ -285,12 +364,17 @@ export const treeHelper = () => {
           }
           else if (preview.media_type == 'audio') {
             tree.previewsLarge[entryId] = preview
-            console.error("found entry with audio " + entryId)
+            //console.error("found entry with audio " + entryId)
           }
 
           else if (preview.media_type == 'video') {
             tree.previewsLarge[entryId] = preview
             //console.error("found entry with video " + entryId + "has pv small" + JSON.stringify(tree.previews[entryId]))
+          }
+          else if (preview.media_type == 'document') {
+            console.error("found entry with document " + entryId)
+          } else {
+            console.error("found entry with unknown media type: " + preview.media_type)
           }
 
         })
@@ -378,6 +462,13 @@ export const treeHelper = () => {
       if (entry.get_metadata_and_previews == true) {
         treeNode.entries[entry.id] = entry
         await buildEntryMetaData(tree, treeNode, entry.id)
+
+        if (entry.get_full_size == true) {
+          //const mf = (await api.api.mediaEntryMediaFileDetail(entry.id)).data
+          //if (mf.media_type == 'document') {
+            console.error("got document download allowed")
+          //}
+        }
       } else {
         console.error("buildSubTreeEntries: hidden entry: " + entry.id + ":" + entry.get_metadata_and_previews)
       }
@@ -534,6 +625,8 @@ export const treeHelper = () => {
             state.treeMapper[treeType][treeId].cols_authors[clientId] = authors
             // store authors
           }
+          // TODO mitwirkende
+
 
           if (md.selectedKeywords && md.selectedKeywords.length) {
             for (const kw of md.selectedKeywords) {

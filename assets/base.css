@@ -192,8 +192,8 @@
       height: 100vh;
       color: var(--Colors-text-primary-inverted);
       background-color: var(--Colors-background-filter, #222);
-      backdrop-filter: blur(112px);
-      filter: blur(112px);
+      /* backdrop-filter: blur(112px); */
+      /* filter: blur(112px); */
       z-index: 1000;
     }
 

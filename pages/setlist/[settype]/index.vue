@@ -6,13 +6,27 @@
           <IconsNavIconORC />
         </NuxtLink>
 
-        <NuxtLink :to="'/setlist/' + MATCH_PROJECTS">Index</NuxtLink>
-        <NuxtLink :to="'/setlist/' + MATCH_DIPLOM">Diplom</NuxtLink>
+        <NuxtLink class="navbar_link"
+          :to="'/setlist/' + MATCH_PROJECTS">Index</NuxtLink>
+        <NuxtLink class="navbar_link"
+          :to="'/setlist/' + MATCH_DIPLOM">Diplom</NuxtLink>
 
-        <NuxtLink @click="showFilter()">
+        <NuxtLink class="navbar_link"
+          :class="{active:showFilterView}"
+          @click="showFilter()">
           Filter
         </NuxtLink>
 
+        <NuxtLink class="navbar_link">
+          FC {{ filterCount }}
+        </NuxtLink>
+
+        <NuxtLink class="navbar_link"
+          @click="resetFilter()"
+          >
+          Reset
+        </NuxtLink>
+        
         <!-- <h1>Set List</h1> -->
         <!-- <p>
           RP: {{ route.params }}
@@ -47,10 +61,6 @@
       @onAny="onSwiperEvent"
       :keyboard="true"      
       :slidesPerView="'auto'"
-    
-      
-
-      
       :spaceBetween="20"
       
       :direction="'vertical'"
@@ -128,11 +138,35 @@
         <h1>
         <NuxtLink to="/">Intro</NuxtLink>
         </h1>
+        <h1>
+          <NuxtLink to="/">Datenschutz</NuxtLink>
+        </h1>
       </div>
       
     </div>
     <div v-if="showFilterView" class="dialog_filter">
-      Filter
+      <NuxtLink @click="onFilterViewClosed()">
+        <IconWrap>
+          <IconsMinusSquare/>
+        </IconWrap>
+        Close
+      </NuxtLink>
+      <button @click="onFilterViewClosed()">Close</button>
+      <NuxtLink @click="applyFilter()">
+        <IconWrap>
+          <IconsMinusSquare/>
+        </IconWrap>
+        Apply
+      </NuxtLink>
+      <button @click="applyFilter">Close</button>
+
+      <FilterView
+        :trees_map="useTree[settype]"
+        :tree_type="settype"
+        :on-closed="onFilterViewClosed"
+        @closed="onFilterViewClosed" />
+      <h3>Filter</h3>      
+      
     </div>
   </div>
 </template>
@@ -185,6 +219,17 @@ const swiper_modules = ref([
   SwiperVirtual,
 ]);
 
+const applyFilter = () => {
+  console.log("applyFilter")
+  showFilterView.value = false
+  updateFilteredTrees2Slides(filteredTreeList.value)
+}
+const onFilterViewClosed = () => {
+  console.log("onFilterViewClosed" + Object.keys(filteredTreeList.value).length)
+  showFilterView.value = false
+  updateFilteredTrees2Slides(filteredTreeList.value)
+}
+
 const currentYear = ref('')
 let currentTimeout = undefined
 
@@ -229,36 +274,10 @@ const switch2set = (setid) => {
 };
 
 
-
-const updateSetType = () => {
-  settype.value = route.params.settype || MATCH_PROJECTS;
-  console.log("updateSetType: " + route.params.settype + " : " + settype.value);
-
-  colCount.value = settype.value == MATCH_DIPLOM ? 2 : 3;
-
-  if (!useTree || !useTree.value || !useTree.value[settype.value]) {
-    setTimeout(() => {
-      console.error("no useTree yet, retry later");
-      updateSetType();
-      //window && window.Location && window.location.reload()
-    }, 10000);
-    return;
-  }
-  //myTree.value = useTree.value;
-
-  console.error("use Tree state value: " + useTree.value[settype.value]);
-
-  treeList.value = useTree.value[settype.value];
-  
-
-  filteredTreeList.value = treeList.value;
-
-  console.log(" filtered list")
-  //console.dir(filteredTreeList.value);
-
+const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   const sortedTrees = [] as iTree[]
-  for (const treeId in filteredTreeList.value) {
-    const tree = filteredTreeList.value[treeId]
+  for (const treeId in trees_map) {
+    const tree = trees_map[treeId]
     sortedTrees.push(tree)
   }
   sortedTrees.sort((a,b) => { 
@@ -299,10 +318,42 @@ const updateSetType = () => {
   } as iTreeSlide)
     
   
-  
-  console.log(" slide list")
+  console.log(" trees map: " + Object.keys(trees_map).length)
+
+  console.log(" slide list: " + slideList.value.length)
   //console.dir(slideList.value);
 
+}
+
+
+const updateSetType = () => {
+  settype.value = route.params.settype || MATCH_PROJECTS;
+  console.log("updateSetType: " + route.params.settype + " : " + settype.value);
+
+  colCount.value = settype.value == MATCH_DIPLOM ? 2 : 3;
+
+  if (!useTree || !useTree.value || !useTree.value[settype.value]) {
+    setTimeout(() => {
+      console.error("no useTree yet, retry later");
+      updateSetType();
+      //window && window.Location && window.location.reload()
+    }, 10000);
+    return;
+  }
+  //myTree.value = useTree.value;
+
+  console.error("use Tree state value: " + useTree.value[settype.value]);
+
+  treeList.value = useTree.value[settype.value];
+  
+
+  filteredTreeList.value = treeList.value;
+
+  console.log(" filtered list")
+  //console.dir(filteredTreeList.value);
+
+  updateFilteredTrees2Slides(filteredTreeList.value)
+  
   filterCount.value = 0;
   filtersMap.value = {};
 };
@@ -327,12 +378,12 @@ const showMenu = () => {
 const closedFilterView = () => {
   console.log("closedFilterView");
   showFilterView.value = false;
-  updateFilters(treeType);
+  updateFilters(settype.value);
 };
 const resetFilter = () => {
   filtersMap.value = {};
 
-  updateFilters(treeType);
+  updateFilters(settype.value);
 };
 
 updateSetType();
@@ -442,5 +493,18 @@ onMounted(() => {
   text-align: center;
   z-index: 1010;
 }
+
+.navbar_link {
+  font-size: 20px;
+  padding: 12px;
+  border: 1px solid black;
+  background-color: var(--Colors-nav-bar-toggle-on);
+}
+.navbar_set_link.active {
+  background-color: var(--Colors-nav-bar-toggle-off);
+  font-weight: 800;
+}
+.dialog_filter {
   
+}
 </style>

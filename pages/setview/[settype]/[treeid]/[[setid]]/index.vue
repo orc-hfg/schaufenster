@@ -423,9 +423,9 @@ const onMainSwiperSlideChanged = () => {
     const colId = entry.collection_id
     activeEntryId.value = entry.id
     activeSetId.value = colId
-    /* console.log("swiperMain changed slide: " + activeSlide
-      + " entry " + JSON.stringify(entry)
-      + " colId " + colId) */
+    console.log("swiperMain changed slide: " + activeSlide
+      + " entry " + entry.id // JSON.stringify(entry)
+      + " colId " + colId) 
     const navIdx = navSlider.value.entryId2Idx[entry.id];
 
 
