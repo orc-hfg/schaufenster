@@ -374,16 +374,23 @@ const showMenu = () => {
     showMenuView.value = true;
   }
 };
-
+/*
 const closedFilterView = () => {
   console.log("closedFilterView");
   showFilterView.value = false;
   updateFilters(settype.value);
 };
+*/
 const resetFilter = () => {
+  //filtersTitle.value = ''
+  //filtersText.value = ''
   filtersMap.value = {};
 
-  updateFilters(settype.value);
+  
+  filteredTreeList.value = updateFilters(treeList.value);
+  console.log(" after reset ")
+  console.dir(filteredTreeList.value)
+  updateFilteredTrees2Slides(filteredTreeList.value)
 };
 
 updateSetType();
