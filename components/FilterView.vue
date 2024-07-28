@@ -160,10 +160,40 @@ const updateFilteredCounts = () => {
   initRoles(filteredTreeList.value, filteredRolesMap.value, MK_PARTICIPANTS)
 }
 
+const clickedFilter = (type:string, kwInfo:object[]) => {
+  
+  if (!kwInfo.length) {
+    console.error("clickedFilter: invalid info")
+    return;
+  }
 
+  const data = kwInfo[0]
+  const id = data.id
+  console.log("clickedFilter: " + type + " : " + id + ":" + JSON.stringify(data))
+
+  if (isSelected(type,id)) {
+    console.log("already has selected person: reset")
+    delete filtersMap.value[type][id]
+    console.dir(filtersMap.value)
+  }
+  else {
+
+    //for (const kw of kwInfo) {
+      filtersMap.value[type][id] = data
+      // =  filtersMap.value[FILTERS_PEOPLE][kw.id] || [ kw ]
+      //filtersMap.value[FILTERS_PEOPLE][kw.id].push(kw)
+      console.log("clickedFilter: filter for data: " + JSON.stringify(data))
+      //filteredTreeList.value[kw.treeId] = treeList.value[kw.treeId]
+    //}
+    console.log("clickedFilter: new filtersMap: " + JSON.stringify(filtersMap.value))
+    console.dir(filtersMap.value)
+  }
+  updateFilteredCounts()
+}
 const clickedKeyword = (kwInfo) => {
   console.log("clickedKeyword: " + JSON.stringify(kwInfo))
-  if (kwInfo.length && isSelectedKeyword(kwInfo[0].id)) {
+  clickedFilter(FILTERS_KEYWORD, kwInfo)
+  /*if (kwInfo.length && isSelectedKeyword(kwInfo[0].id)) {
     console.log("already has selected kw: reset")
     delete filtersMap.value[FILTERS_KEYWORD][kwInfo[0].id]
     console.dir(filtersMap.value)
@@ -178,32 +208,43 @@ const clickedKeyword = (kwInfo) => {
     console.log("clickedKeyword: new filtersMap: " + JSON.stringify(filtersMap.value))
     console.dir(filtersMap.value)
   }
-  updateFilteredCounts()
+  updateFilteredCounts()*/
 }
 const clickedPeople = (kwInfo) => {
   console.log("clickedPeople: " + JSON.stringify(kwInfo))
-  if (kwInfo.length && isSelectedPerson(kwInfo[0].id)) {
+  clickedFilter(FILTERS_PEOPLE, kwInfo)
+  /*
+  if (!kwInfo.length) {
+    console.error("clickedPeople: invalid info")
+    return;
+  }
+  const data = kwInfo[0]
+  const id = data.id
+  if (isSelectedPerson(id)) {
     console.log("already has selected person: reset")
-    delete filtersMap.value[FILTERS_PEOPLE][kwInfo[0].id]
+    delete filtersMap.value[FILTERS_PEOPLE][id]
     console.dir(filtersMap.value)
   }
   else {
-    for (const kw of kwInfo) {
-      filtersMap.value[FILTERS_PEOPLE][kw.id] = kw
+
+    //for (const kw of kwInfo) {
+      filtersMap.value[FILTERS_PEOPLE][id] = kwInfo[0]
       // =  filtersMap.value[FILTERS_PEOPLE][kw.id] || [ kw ]
       //filtersMap.value[FILTERS_PEOPLE][kw.id].push(kw)
-      console.log("clickedPeople: insert tree for person: " + JSON.stringify(kw))
+      console.log("clickedPeople: insert tree for person: " + JSON.stringify(data))
       //filteredTreeList.value[kw.treeId] = treeList.value[kw.treeId]
-    }
+    //}
     console.log("clickedPeople: new filtersMap: " + JSON.stringify(filtersMap.value))
     console.dir(filtersMap.value)
   }
   updateFilteredCounts()
+  */
 }
 
 const clickedRole = (kwInfo) => {
   console.log("clickedRole: " + JSON.stringify(kwInfo))
-  if (kwInfo.length && isSelectedRole(kwInfo[0].id)) {
+  clickedFilter(FILTERS_ROLES, kwInfo)
+  /*if (kwInfo.length && isSelectedRole(kwInfo[0].id)) {
     console.log("already has selected role: reset")
     delete filtersMap.value[FILTERS_ROLES][kwInfo[0].id]
     console.dir(filtersMap.value)
@@ -221,6 +262,7 @@ const clickedRole = (kwInfo) => {
     console.dir(filtersMap.value)
   }
   updateFilteredCounts()  
+  */
 }
 
 const changedFilterTitle = () => {
@@ -234,17 +276,17 @@ const changedFilterString = () => {
 }
 
 
-const isSelected = (type:string, kw_id:string) => {
+const isSelected = (type:string, id:string) => {
   if (!filtersMap.value
       || !filtersMap.value[type]
-      || !filtersMap.value[type][kw_id])
+      || !filtersMap.value[type][id])
       {
         return false
       }
-  return filtersMap.value[type][kw_id]
+  return filtersMap.value[type][id]
 }
-const isSelectedKeyword = (kw_id:string) => {
-  return isSelected(FILTERS_KEYWORD,kw_id)
+const isSelectedKeyword = (id:string) => {
+  return isSelected(FILTERS_KEYWORD,id)
 }
 
 const isSelectedPerson = (p_id:string) => {
@@ -255,31 +297,31 @@ const isSelectedRole = (p_id:string) => {
   return isSelected(FILTERS_ROLES,p_id)
 }
 
-const getFilteredKWCount = (kw_id: string) => {
+const getFilteredKWCount = (id: string) => {
   if (!filteredKeywordMap.value
-      || !filteredKeywordMap.value[kw_id]
+      || !filteredKeywordMap.value[id]
   ) {
     return 0
   }
-  return filteredKeywordMap.value[kw_id].length
+  return filteredKeywordMap.value[id].length
 }
 
-const getFilteredPersonCount = (kw_id: string) => {
+const getFilteredPersonCount = (id: string) => {
   if (!filteredPeopleMap.value
-      || !filteredPeopleMap.value[kw_id]
+      || !filteredPeopleMap.value[id]
   ) {
     return 0
   }
-  return filteredPeopleMap.value[kw_id].length
+  return filteredPeopleMap.value[id].length
 }
 
-const getFilteredRolesCount = (kw_id: string) => {
+const getFilteredRolesCount = (id: string) => {
   if (!filteredRolesMap.value
-      || !filteredRolesMap.value[kw_id]
+      || !filteredRolesMap.value[id]
   ) {
     return 0
   }
-  return filteredRolesMap.value[kw_id].length
+  return filteredRolesMap.value[id].length
 }
 
 const isSubString = (data:string): boolean => {
@@ -292,11 +334,18 @@ const isSubString = (data:string): boolean => {
   return (data.toLocaleLowerCase().indexOf(filtersText.value) >= 0)
 }
 
+const isHideIfNotSubString = (data:string): boolean => {
+  if (!filtersText.value || !filtersText.value.length) {
+    return false
+  }
+  return !isSubString(data)
+}
+
 initTreeType()
 
 </script>
 <template>
-  <div class="filterView">
+  <div class="filter_view">
     <div class="filter_head">
       <h1>This is the filter page for type [{{ treeType }}]</h1>
       <p>Search:&nbsp;
@@ -313,92 +362,97 @@ initTreeType()
     <div class="filter_content">
     
       <div class="tree_filter">
+        <div class="filter_headline">
         Filters:
+        </div>
+        
         <hr/>
         <div class="tree_filter_keywords">
-          Keywords:
-          <br/>
-          <span class="keyword_item"
-            v-for="kws in keywordMap"
-            :key="kws"
-            :class="{
-              selected: isSelectedKeyword(kws[0].id),
-              preselected: isSubString(kws[0].name),
-              disabled: getFilteredKWCount(kws[0].id) == 0}"
-            >
-            
-            <button @click="clickedKeyword(kws)">
-              <span v-if="isSelectedKeyword(kws[0].id)">S</span>
-              T: {{ kws[0].name }}
-              FC: {{ getFilteredKWCount(kws[0].id) }}
-              C: {{ kws.length }}
-              
+          <div class="filter_headline">Keywords:</div>
+          
+          <div v-for="kws in keywordMap" :key="kws">
+            <button class="keyword_item"
+              @click="clickedKeyword(kws)"
+              v-if="!isHideIfNotSubString(kws[0].name)"
+              :class="{
+                selected: isSelectedKeyword(kws[0].id),
+                preselected: isSubString(kws[0].name),
+                disabled: getFilteredKWCount(kws[0].id) == 0}"
+              >
+              {{ kws[0].name }}
+              <!-- FC: {{ getFilteredKWCount(kws[0].id) }} -->
+              <!-- C: {{ kws.length }} -->
             </button>
-            
-            
-          </span>
+          </div>
           
         </div>
         <hr/>
         <div class="tree_filter_people">
-          People<br/>
-          <span class="keyword_item"
-            v-for="person in peopleMap"
-            :key="person"
-            :class="{
-              selected: isSelectedPerson(person[0].id),
-              preselected: isSubString(person[0].name),
-              disabled: getFilteredPersonCount(person[0].id) == 0
-              }"
-            >
-            <button @click="clickedPeople(person)">
-              T: {{ person[0].name }}
-              FC: {{ getFilteredPersonCount(person[0].id) }}
-              C: {{ person.length }}
-              
+          <div class="filter_headline">Autoren:</div>
+          
+          <div v-for="person in peopleMap" :key="person">
+            <button class="keyword_item"
+              @click="clickedPeople(person)"
+              v-if="!isHideIfNotSubString(person[0].name)"
+              :class="{
+                selected: isSelectedPerson(person[0].id),
+                preselected: isSubString(person[0].name),
+                disabled: getFilteredPersonCount(person[0].id) == 0}"
+              >
+              {{ person[0].name }}
+              <!-- FC: {{ getFilteredPersonCount(person[0].id) }} -->
+              <!-- C: {{ person.length }} -->
             </button>
-            
-            
-          </span>
+          </div>
         </div>
-
+        <hr/>
         <div class="tree_filter_people">
-          Roles<br/>
-          <span class="keyword_item"
-            v-for="person in rolesMap"
-            :key="person"
-            :class="{
-              selected: isSelectedRole(person[0].id),
-              preselected: isSubString(person[0].name),
-              disabled: getFilteredRolesCount(person[0].id) == 0}"
-            >
-            <button @click="clickedRole(person)">
-              T: {{ person[0].name }}
-              FC: {{ getFilteredRolesCount(person[0].id) }}
-              C: {{ person.length }}
-              
+          <div class="filter_headline">Mitwirkende:<hr></div>
+
+          <div v-for="person in rolesMap" :key="person">
+            <button class="keyword_item"
+              @click="clickedRole(person)"
+              v-if="!isHideIfNotSubString(person[0].name)"
+              :class="{
+                selected: isSelectedRole(person[0].id),
+                preselected: isSubString(person[0].name),
+                disabled: getFilteredRolesCount(person[0].id) == 0}">
+              {{ person[0].name }}
+              <!-- FC: {{ getFilteredRolesCount(person[0].id) }} -->
+              <!-- C: {{ person.length }} -->
             </button>
-            
-            
-          </span>
+          </div>
         </div>
       </div>
 
       <div class="filtered_tree_list">
-        Filtered Tree List:
+        <div class="filter_headline">Projekte:</div>
+        
+
         <div class="tree_list">
           <div class="tree_list_item"
             v-for="tree in filteredTreeList"
             :key="tree.col_id">
-            <hr>
-            Title: {{ tree.colTitlesMap[tree.col_id] }}
-            <br/>
-            Authors: {{ tree.cols_authors[tree.col_id] }}
-            <br/>
-
+            <div class="tree_title">
+              {{ tree.colTitlesMap[tree.col_id] }}
+            </div>
+            <div class="tree_authors">
+              <div class="tree_authors_item"
+                v-for="person in tree.cols_authors[tree.col_id]">
+                {{ person }}
+              </div>
+            </div>
+            <div class="tree_fachbereich">
+              <div class="tree_fachbereich_item"
+                v-for="fb in tree.cols_authors[tree.col_id]">
+                {{ fb }}
+              </div>
+            </div>
+            <div class="tree_divider"><hr></div>
+            
           </div>
         </div>
-        <hr/>
+        
       </div>
     
     </div>
@@ -420,7 +474,7 @@ initTreeType()
 </template>
 
 <style scoped>
-.filterView {
+.filter_view {
   position: fixed;
   top: 0px; left: 0px; width: 100vw; height: 100vh;
   z-index: 1000;
@@ -428,9 +482,10 @@ initTreeType()
   background-color: #fff;
   color: var(--Primitives-color-transparencies-black-70);
 }
-.filterView * {
+.filter_view * {
   background-color: #fff;
   color: var(--Primitives-color-transparencies-black-70);
+  font-family: Instrument Sans, sans-serif;
 }
 
 button {
@@ -473,36 +528,131 @@ button {
 .filter_content * {
 
 }
-
 .keyword_item {
-  position: relative; float: left;
-  color: var(--Primitives-color-transparencies-black-70);
-  background-color: #fff;
+  float: left;
+  height: var(--dimension-button-height-M, 48px);
+
+  display: flex;
+  padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px);
+  margin: var(--spacing-between-items-S, 4px) var(--spacing-navbar-between-items, 4px);
+  align-items: center;
+  gap: var(--spacing-item-inner, 8px);
+  border-radius: var(--radius-none, 0px);
+
+  border: 1px solid var(--filter-chip-fill-outline, #CAC9C2);
+  color: var(--filter-chip-text-default, #2C2C2C);
+  display: inline-flex;
+
+  font-size: var(--font-button-font-size, 1.25rem);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-button-line-height, 1.5rem); /* 120% */
+
   
-  margin: 0.75rem 0.75rem;
+  
 }
-.keyword_item.selected *{
-  color: #fff;
-  background-color: #333;
-  border: 3px solid black;
+
+.keyword_item * {
+  /* align-items: center; */
+  /* gap: var(--spacing-item-inner, 8px); */
+  /* flex-shrink: 0; */
+  /* border-radius: var(--radius-none, 0px); */
+  
+  /* border: 1px solid var(--filter-chip-fill-outline, #CAC9C2); */
+  /* color: var(--filter-chip-text-default, #2C2C2C); */
+
+/* Buttons */
+/* font-family: Instrument Sans, sans-serif; */
+/* font-size: var(--font-button-font-size, 1.25rem); */
+/* font-style: normal; */
+/* font-weight: 500; */
+/* line-height: var(--font-button-line-height, 1.5rem); 120% */
 }
-.keyword_item.preselected * {
-  background-color: #080;
+
+.keyword_item:hover,
+.keyword_item:hover * {
+  background: var(--filter-chip-fill-hover, #E7E6E1);
 }
+
+.keyword_item.selected,
+.keyword_item.selected *,
+.keyword_item.preselected,
+.keyword_item.preselected *
+{
+  color: var(--filter-chip-text-active, #FFF);
+
+/* Buttons */
+  /* font-family: Instrument Sans, sans-serif; */
+  /* font-size: var(--font-button-font-size, 1.25rem); */
+  /* font-style: normal; */
+  /* font-weight: 500; */
+  /* line-height: var(--font-button-line-height, 1.5rem); */ /* 120% */
+
+  background: var(--filter-chip-fill-active, #2C2C2C);
+}
+
+.keyword_item.disabled,
 .keyword_item.disabled * {
-  color: #222;
-  background-color: #aaa;
+  opacity: 0.5;
 }
-.keyword_item.preselected * {
-  background-color: #080;
-}
+
 .keyword_item.selected.disabled *{
   color: #800;
 }
-.person_item {
+
+.filter_headline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+
+  color: var(--text-secondary, #CAC9C2);
+  /* font-family: Instrument Sans, sans-serif; */
+  font-size: var(--font-subline-font-size, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-subline-line-height, 24px) /* 120% */;
 
 }
-.role_item {
 
+.filtered_tree_list .tree_list_item {
+  /* display: flex; */
+  /* width: 100%; */
+  /* flex-direction: column; */
+  /* align-items: flex-start; */
+  gap: var(--spacing-between-items-L, 16px);
+}
+.tree_title {
+  display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: flex-start;
+ gap: 12px;
+ align-self: stretch;
+ color: var(--text-primary, #2C2C2C);
+ font-family: Instrument Sans, sans-serif;
+ font-size: var(--font-h4-font-size, 32px);
+ font-style: normal;
+ font-weight: 500;
+ line-height: var(--font-h4-line-height, 40px) /* 125% */;
+
+}
+.tree_authors {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-between-items-L, 16px);
+  align-self: stretch;
+}
+.tree_fachbereich {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-between-items-L, 16px);
+}
+.tree_divider {
+  /* display: flex; */
+  padding-top: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  align-self: stretch;
 }
 </style>

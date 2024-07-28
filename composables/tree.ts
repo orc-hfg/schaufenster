@@ -220,6 +220,8 @@ export const treeHelper = () => {
     state.filterCount += state.filtersMap[FILTERS_PEOPLE] ? Object.keys(state.filtersMap[FILTERS_PEOPLE]).length : 0
     state.filterCount += state.filtersMap[FILTERS_ROLES] ? Object.keys(state.filtersMap[FILTERS_ROLES]).length : 0
     
+    console.log("filtersMap:");
+      console.dir(state.filtersMap);
 
     for (const treeId in treeMap) {
       const tree = treeMap[treeId];
@@ -234,24 +236,21 @@ export const treeHelper = () => {
         }
       }
 
-      console.log("filtersMap:");
-      console.dir(state.filtersMap);
+      
 
       for (const kwId in state.filtersMap[FILTERS_KEYWORD]) {
-        //console.log(" check kw " + kwId);
-        let found = false;
-        // if found in any meta_key
-        //for (const mtKey in tree.colKeywordMap) {
+        //console.log(" check kw " + JSON.stringify(state.filtersMap[FILTERS_KEYWORD][kwId]));
+        
+        // if found meta_key
         const mtKey = state.filtersMap[FILTERS_KEYWORD][kwId].meta_key
 
-        if (tree.colKeywordMap[mtKey][kwId]) {
-          found = true;
-        }
-        //}
-        if (found == false) {
+        if (!tree.colKeywordMap[mtKey]
+          || !tree.colKeywordMap[mtKey][kwId]) {
           console.log(" kw " + kwId + " not in tree: delete");
           delete filteredTreeList[treeId];
+          
         }
+        
       }
 
       for (const pId in state.filtersMap[FILTERS_PEOPLE]) {
