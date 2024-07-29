@@ -62,7 +62,7 @@
       :keyboard="true"      
       :slidesPerView="'auto'"
       :spaceBetween="20"
-      
+      :grid="{ fill: 'column', rows: 1 }"  
       :direction="'vertical'"
       
       :freeMode="{
@@ -75,6 +75,7 @@
         
         }"
       :pagination="{clickable: true}"
+      :navigation="true"
       
       
       :style="{
@@ -114,36 +115,32 @@
         | Author {{ treeInfo.cols_authors[treeInfo.col_id] }}
         | Year {{ treeInfo.year }}
     </div>
-    <div class="year_info" v-if="currentYear">{{ currentYear }}</div>
+    <div class="intro_info"
+        :style="{
+            'font-family': 'font_' + font_selected,
+            'font-size': 240 * font_list[font_selected].size_factor + 'px',
+            'line-height': 240 * font_list[font_selected].line_height_factor + 'px'
+        }"
+        v-if="intro_info">
+        {{ intro_info }}
+    </div>
+    <div class="year_info"
+        :style="{
+                    'font-family': 'font_' + font_selected,
+                    'font-size': 240 * font_list[font_selected].size_factor + 'px',
+                    'line-height': 240 * font_list[font_selected].line_height_factor + 'px'
+                }"
+      v-if="currentYear">{{ currentYear }}</div>
 
     <hr />
     
     <br />
-    <div v-if="showMenuView" class="dialog_menu">
-      <div class="menu_panel">
-        <h1>Menu</h1>
-        
-        <h1>
-        DE / EN
-        </h1>
-        <h1>
-          <NuxtLink to="/">About</NuxtLink>
-        </h1>
-        <h1>
-          <NuxtLink to="/">Impressum</NuxtLink>
-        </h1>
-        <h1>
-          <NuxtLink to="/">Fonts</NuxtLink>
-        </h1>
-        <h1>
-        <NuxtLink to="/">Intro</NuxtLink>
-        </h1>
-        <h1>
-          <NuxtLink to="/">Datenschutz</NuxtLink>
-        </h1>
-      </div>
-      
-    </div>
+    <MenuView v-if="showMenuView"
+      @onShowFonts="showFonts()"/>
+    <FontsView v-if="showFontsView"/>
+
+    
+    
     <div v-if="showFilterView" class="dialog_filter">
       <NuxtLink @click="onFilterViewClosed()">
         <IconWrap>
@@ -171,6 +168,17 @@
   </div>
 </template>
 <script setup lang="ts">
+//import type { Swiper } from '#build/components';
+
+const {
+  font_list, font_selected
+} = DynFonts()
+const showFontsView = ref(false)
+const showFonts = () => {
+  console.log('show fonts');
+  showFontsView.value=true
+  showMenuView.value=false
+}
 
 const {
   loading,
@@ -186,14 +194,19 @@ const {
   updateFilters,
 } = treeHelper();
 
+// TODO move to env / config
 const { apiConfig } = apiHelper();
 const apiBaseUrl = apiConfig.baseUrl + "/api-v2/";
+
 const route = useRoute();
 const router = useRouter();
 const settype = ref();
 const useTree = useState("tree");
-const colCount = ref(3)
+const COL_COUNT_INDEX = 3
+const COL_COUNT_DIPLOM = 2
+const colCount = ref(COL_COUNT_INDEX)
 
+const intro_info = ref('')
 
 export interface iTreeSlide {
   year:number,
@@ -340,7 +353,6 @@ const updateSetType = () => {
     }, 10000);
     return;
   }
-  //myTree.value = useTree.value;
 
   console.error("use Tree state value: " + useTree.value[settype.value]);
 
@@ -356,6 +368,15 @@ const updateSetType = () => {
   
   filterCount.value = 0;
   filtersMap.value = {};
+
+  if (settype.value == MATCH_DIPLOM) {
+    intro_info.value = 'Diplomarbeiten'
+  } else {
+    intro_info.value = 'Projekte'
+  }
+  setTimeout(() => {
+    intro_info.value = ''
+  }, 3000)
 };
 
 
@@ -368,9 +389,16 @@ const showFilter = () => {
 };
 
 const showMenu = () => {
-  if (showMenuView.value) {
+  if (showMenuView.value == true
+    || showFilterView.value == true
+    || showFontsView.value == true
+  ) {
+    console.log("hide menu")
     showMenuView.value = false;
+    showFilterView.value = false;
+    showFontsView.value = false
   } else {
+    console.log("show menu")
     showMenuView.value = true;
   }
 };
@@ -496,9 +524,22 @@ onMounted(() => {
   position: fixed;
   top: 40vh;
   font-size: 10vh;
-  width: 80vw;
+  left: 0vw;
+  width: 100vw;
   text-align: center;
   z-index: 1010;
+  user-select: none;
+  
+}
+.intro_info {
+  position: fixed;
+  top: 40vh;
+  font-size: 10vh;
+  left: 0vw;
+  width: 100vw;
+  text-align: center;
+  z-index: 1010;
+  user-select: none;
 }
 
 .navbar_link {

@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'font_0';
+    src: url('/assets/fonts/anthony/anthony.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'font_1';
+    src: url('~/assets/fonts/gqom404/gqom404.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }

@@ -534,7 +534,8 @@ button {
 
   display: flex;
   padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px);
-  margin: var(--spacing-between-items-S, 4px) var(--spacing-navbar-between-items, 4px);
+  margin-right: var(--spacing-between-items-S, 4px);
+  margin-bottom: var(--spacing-navbar-between-items, 4px);
   align-items: center;
   gap: var(--spacing-item-inner, 8px);
   border-radius: var(--radius-none, 0px);

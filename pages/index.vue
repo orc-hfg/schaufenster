@@ -4,7 +4,6 @@
       <nav>
         <NuxtLink to="/">
           <IconsNavIconORC/>
-        
         </NuxtLink>
         <NuxtLink class="indexlink" 
           :to="'/setlist/' + MATCH_PROJECTS">Index</NuxtLink>
@@ -14,24 +13,38 @@
         <NuxtLink class="hfglink" to="https://madek.hfg-karlsruhe.de">//////</NuxtLink>
       </nav>
     </header>
-    <div>
-      <h1>Projektarchiv</h1>
-      <h1>der</h1>
-      <h1>Hochschule</h1>
-      <h1>für Gestaltung</h1>
-      <h1>Karlsruhe</h1>
+    <div class="intro_content"
+      :style="{
+                    'font-family': 'font_' + font_selected,
+                    'font-size': 'min(' + 15 * font_list[font_selected].size_factor + 'vw' + ',' +  15 * font_list[font_selected].size_factor + 'vh' + ')' ,
+                    'line-height': 15 * font_list[font_selected].line_height_factor + 'vh'
+                }">
+                
+                Projektarchiv<br/>
+                der<br/>
+                Hochschule<br/>
+                für Gestaltung<br/>
+                Karlsruhe<br/>
+      <!-- <div>Projektarchiv</div>
+      <div>der</div>
+      <div>Hochschule</div>
+      <div>für Gestaltung</div>
+      <div>Karlsruhe</div> -->
     </div>
   </div>
 </template>
 <script setup lang="ts">
-  const {
+const {
     MATCH_DIPLOM,
     MATCH_PROJECTS
-  } = treeHelper()
+} = treeHelper()
 
-  onMounted(() => {
-    document.documentElement.setAttribute("data-theme", "");
-  })
+const { font_selected, font_list } = DynFonts()
+
+onMounted(() => {
+  font_selected.value = Math.floor((Math.random()* font_list.value.length))
+  document.documentElement.setAttribute("data-theme", "");
+})
   
 </script>
   
@@ -73,5 +86,14 @@
      /* 87.5% */;
 
   }
-  
+  .intro_content {
+    align-self: stretch;
+    color: var(--Colors-text-headlines, #FFF);
+    text-align: center;
+    font-style: normal;
+    font-weight: 400;
+
+    font-size: min(16vw, 16vh);
+    line-height: 6vh;
+  }
 </style>

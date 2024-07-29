@@ -1,9 +1,18 @@
 <template>
+    FS: {{ font_selected }}
     <NuxtPage :class="{'page-in': isShowPageIn, 'page-out': !isShowPageIn}" />
 </template>
 <script setup lang="ts">
 import '~/assets/vars.css'
 import '~/assets/base.css'
+
+const {
+    font_list,
+    font_selected,
+    //initPageFonts,
+} = DynFonts()
+
+import '~/assets/dynfonts.css'
 
 const { error_msg, ok_msg, reset_error } = errorHelper();
 
@@ -24,7 +33,7 @@ const {
 
 const route = useRoute();
 
-const useTree = useState('tree');//, () => { return {}})
+const useTree = useState('tree');
 const useAppSettings = useState('appSettings')
 
 const showMenu = ref(false)
@@ -58,7 +67,13 @@ if (process.server) {
     useTree.value = treesData
 }
 
+const initPageFonts = () => {
+  font_selected.value = Math.floor((Math.random()* font_list.value.length))
+  //useHead({link: [{ rel: 'stylesheet', href: "../dynfonts.css"}]})
+}
 const initApp = async() => {
+
+  initPageFonts();
   initMadek();
   //console.log("init server")
 };
