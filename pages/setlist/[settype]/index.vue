@@ -136,6 +136,7 @@
     
     <br />
     <MenuView v-if="showMenuView"
+                :settype="settype"
       @onShowFonts="showFonts()"/>
     <FontsView v-if="showFontsView"/>
 
@@ -425,7 +426,7 @@ updateSetType();
 
 onMounted(() => {
   updateSetType();
-
+  document.documentElement.setAttribute("data-theme", "");
   /* if (import.meta.client) {
     setTimeout(() => {
 

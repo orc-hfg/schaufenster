@@ -672,11 +672,10 @@ const initData = () => {
 
 
 
-//initData();
-
 
 onMounted(() => {
-    initData();
+  document.documentElement.setAttribute("data-theme", "");
+  initData();
 })
 
 

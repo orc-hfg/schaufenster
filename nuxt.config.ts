@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     '/setview/*/*': { swr: 600 },
     '/setview/*/*/*': { swr: 600 },
   },
+  i18n: {
+    vueI18n: 'i18n.config.ts'
+  },
   $production: {
     app: {
       baseURL: '/schaufenster'

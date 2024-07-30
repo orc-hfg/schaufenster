@@ -1,6 +1,6 @@
 <template>
   <div class="intro_page">
-    <header>
+    <!--<header>
       <nav>
         <NuxtLink to="/">
           <IconsNavIconORC/>
@@ -11,39 +11,45 @@
           :to="'/setlist/' + MATCH_DIPLOM">Diplom</NuxtLink>
 
         <NuxtLink class="hfglink" to="https://madek.hfg-karlsruhe.de">//////</NuxtLink>
+        <button @click="showContent=!showContent">SHOW</button>
       </nav>
-    </header>
+    </header>-->
+    <Transition>
     <div class="intro_content"
-      :style="{
-                    'font-family': 'font_' + font_selected,
-                    'font-size': 'min(' + 15 * font_list[font_selected].size_factor + 'vw' + ',' +  15 * font_list[font_selected].size_factor + 'vh' + ')' ,
-                    'line-height': 15 * font_list[font_selected].line_height_factor + 'vh'
-                }">
-                
-                Projektarchiv<br/>
-                der<br/>
-                Hochschule<br/>
-                für Gestaltung<br/>
-                Karlsruhe<br/>
-      <!-- <div>Projektarchiv</div>
-      <div>der</div>
-      <div>Hochschule</div>
-      <div>für Gestaltung</div>
-      <div>Karlsruhe</div> -->
+      v-if="showContent"
+      >
+      <div v-for="idx in [1,2,3,4,5]"
+        :style="font_style">{{ $t('intro.title' + idx) }}</div>
+      <!-- <h1 :style="font_style">{{ $t('intro.title') }}</h1> -->                
     </div>
+  </Transition>
   </div>
 </template>
 <script setup lang="ts">
+const router = useRouter()
 const {
     MATCH_DIPLOM,
     MATCH_PROJECTS
 } = treeHelper()
 
-const { font_selected, font_list } = DynFonts()
+const {
+  font_selected,
+  font_list, 
+  selectRandomFont,
+  getViewSizedStyle
+} = DynFonts()
+const showContent = ref(false)
+const font_style = ref({})
 
 onMounted(() => {
-  font_selected.value = Math.floor((Math.random()* font_list.value.length))
-  document.documentElement.setAttribute("data-theme", "");
+  selectRandomFont()
+  font_style.value = getViewSizedStyle(18,16)
+  
+  document.documentElement.setAttribute("data-theme", "dark");
+  showContent.value=true
+  setTimeout(() => {
+    router.push('setlist/' + MATCH_DIPLOM)
+  },7000)
 })
   
 </script>
@@ -57,43 +63,67 @@ onMounted(() => {
     font-size: 20px;
     color: var(--Colors-text-headlines)
   }
+  .hfglink {
+    float: right;
+  }
   .nav-logo-orc path {
       stroke: none;
       fill: var(--Colors-nav-bar-button-fill);
     }
   .intro_page {
     position: fixed;
-    top: 0px; left: 0px; width: 100vw; height: 90vh;
+    top: 0px; left: 0px; width: 100vw; height: 100%;
     padding: 2.2rem 0rem;
     overflow: hidden;
 
     background-color: var(--background-intro, #2C2C2C);
     
-    color: var(--Colors-text-headlines);
+    color: var(--Colors-text-headlines, #fff);
   }
   h1 {
     
     align-self: stretch;
     color: var(--Colors-text-headlines, #FFF);
     text-align: center;
-    font-family: gqom404;
-    /* font-size: var(--font-h1-font-size, 120px); */
-    font-size: min(16vw, 16vh);
+    font-family: Instrument Sans, sans-serif;
+    
+    
     font-style: normal;
     font-weight: 400;
-    /* line-height: var(--font-h1-line-height, 90px) */
-    line-height: 6vh;
-     /* 87.5% */;
-
+    
+    font-size: min(16vw, 16vh);
+    line-height: 16vh;
   }
   .intro_content {
+    margin: auto;
     align-self: stretch;
-    color: var(--Colors-text-headlines, #FFF);
+    /* color: var(--Colors-text-headlines, #FFF); */
+    /* color: var(--Primitives-color-highlight-bright-tone, #fff); */
+    color: #fff;
     text-align: center;
     font-style: normal;
     font-weight: 400;
 
+    font-family: Instrument Sans, sans-serif;
     font-size: min(16vw, 16vh);
     line-height: 6vh;
+    position:relative;
+    top: 100px;
+    display:block;
   }
+
+  /* we will explain what these classes do next! */
+.v-enter-active,
+.v-leave-active {
+  transition: all 2.0s 1s ease-out;
+  /*transition: opacity 0.5s 1s ease;*/
+  
+}
+
+.v-enter-from,
+.v-leave-to {
+  /* opacity: 0; */
+  top: 100vh;
+}
+
 </style>

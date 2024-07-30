@@ -45,9 +45,38 @@ export const DynFonts = () => {
     const initPageFonts = () => {
 
     }
+
+    const selectRandomFont = () => {
+        const max = dynFontsState.font_list.length
+        dynFontsState.font_selected = Math.floor((Math.random()* max))
+    }
+
+    const getViewSizedStyle = (vw:number, vh:number) => {
+        const font_list = dynFontsState.font_list
+        const font_selected = dynFontsState.font_selected
+        const result = {
+            'font-family': 'font_' + font_selected,
+            'font-size': 'min(' + vw * font_list[font_selected].size_factor + 'vw' + ',' +  vh * font_list[font_selected].size_factor + 'vh' + ')' ,
+            'line-height': vh * font_list[font_selected].line_height_factor + 'vh'
+        }
+        return result;
+    }
+    const getPixelSizedStyle = (fs:number, lh:number) => {
+        const font_list = dynFontsState.font_list
+        const font_selected = dynFontsState.font_selected
+        const result = {
+            'font-family': 'font_' + font_selected,
+            'font-size': fs * font_list[font_selected].size_factor + 'px',
+            'line-height': lh * font_list[font_selected].line_height_factor + 'px'
+        }
+        return result;
+    }
     return {
         initFontList,
         initPageFonts,
+        selectRandomFont,
+        getViewSizedStyle,
+        getPixelSizedStyle,
         ...toRefs(dynFontsState)
     }
 }

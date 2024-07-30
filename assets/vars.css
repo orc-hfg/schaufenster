@@ -99,7 +99,7 @@
 --Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
 --Colors-text-secondary: var(--Primitives-color-greys-MediumGrey)
 }
-[data-theme="diplom"] {
+[data-theme="dark"] {
     --Colors-background-default: var(--Primitives-color-greys-ORCBlack);
 --Colors-background-video: var(--Primitives-color-greys-Black);
 --Colors-background-audio: var(--Primitives-color-greys-Black);
