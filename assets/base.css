@@ -153,16 +153,18 @@
       stroke: var(--Colors-text-primary); 
     }
     
-    .btn {
-      height: 24px;
-      padding: 12px;
-      user-select: none;
-    }
     .btn, .btn * {
       user-select: none;
     }
     .btn:hover {
       cursor: pointer; 
+    }
+    .btn.disabled {
+      opacity: 0.5;
+    }
+    .btn-sm {
+      height: 24px;
+      padding: 12px;
     }
     header {
       z-index: 100;
@@ -202,30 +204,4 @@
       z-index: 1000;
     }
 
-    .dialog_menu {
-      position: fixed;
-      top: 50px; left: 0px;
-      width: 100vw;
-      height: 100vh;
-      
-      
-      
-      z-index: 1000;
-    }
-    .dialog_menu .menu_panel {
-      border: 3px solid red;
-      position: absolute;
-      left: 2rem; top: 2rem;
-      width: calc(100% - 4rem);
-      height: 80vh;
-      overflow-y: auto;
-      color: var(--Colors-text-primary-inverted, #fff);
-      background-color: var(--Colors-background-menu, #222);
-      z-index: 1020;
-      filter: none;
-    }
-    .dialog_menu h1 {
-      align-items: center;
-      font-size: 80px;
-      color: var(--Colors-text-primary-inverted, #fff);
-    }
+    

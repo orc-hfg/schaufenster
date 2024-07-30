@@ -1,27 +1,32 @@
 <template>
   <div class="setlist_page">
-    <header>
+    <header >
       <nav class="nav">
         <NuxtLink @click="showMenu()">
           <IconsNavIconORC />
         </NuxtLink>
 
         <NuxtLink class="navbar_link"
+          v-if="!showMenuView"
           :to="'/setlist/' + MATCH_PROJECTS">Index</NuxtLink>
         <NuxtLink class="navbar_link"
+          v-if="!showMenuView"
           :to="'/setlist/' + MATCH_DIPLOM">Diplom</NuxtLink>
 
         <NuxtLink class="navbar_link"
+          v-if="!showMenuView"
           :class="{active:showFilterView}"
           @click="showFilter()">
           Filter
         </NuxtLink>
 
-        <NuxtLink class="navbar_link">
+        <NuxtLink class="navbar_link"
+          v-if="!showMenuView">
           FC {{ filterCount }}
         </NuxtLink>
 
         <NuxtLink class="navbar_link"
+          v-if="!showMenuView"
           @click="resetFilter()"
           >
           Reset
@@ -57,6 +62,7 @@
       v-else
       :modules="swiper_modules"
       class="swiper_main"
+      :class="{filter_blured: showMenuView || showFilterView || showFontsView}"
       @swiper="setMainSwiper"
       @onAny="onSwiperEvent"
       :keyboard="true"      
@@ -110,35 +116,37 @@
 
     </swiper>
 
-    <div class="tree_info" v-if="treeInfo && treeInfo.col_id">
+    <div class="tree_info"
+      :class="{filter_blured: showMenuView || showFilterView || showFontsView}"
+      v-if="treeInfo && treeInfo.col_id">
         | Title: {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
         | Author {{ treeInfo.cols_authors[treeInfo.col_id] }}
         | Year {{ treeInfo.year }}
     </div>
     <div class="intro_info"
-        :style="{
-            'font-family': 'font_' + font_selected,
-            'font-size': 240 * font_list[font_selected].size_factor + 'px',
-            'line-height': 240 * font_list[font_selected].line_height_factor + 'px'
-        }"
+      :class="{filter_blured: showMenuView || showFilterView || showFontsView}"
+        :style="intro_info_style"
         v-if="intro_info">
         {{ intro_info }}
     </div>
     <div class="year_info"
-        :style="{
-                    'font-family': 'font_' + font_selected,
-                    'font-size': 240 * font_list[font_selected].size_factor + 'px',
-                    'line-height': 240 * font_list[font_selected].line_height_factor + 'px'
-                }"
+        :style="year_info_style"
       v-if="currentYear">{{ currentYear }}</div>
 
     <hr />
     
     <br />
-    <MenuView v-if="showMenuView"
-                :settype="settype"
-      @onShowFonts="showFonts()"/>
-    <FontsView v-if="showFontsView"/>
+    <Transition name="fade">
+      <MenuView v-if="showMenuView"
+                  :settype="settype"
+        @onShowFonts="showFontsView = true"
+        @on-close-menu="showMenuView = false"/>
+    </Transition>
+    <Transition name="fade">
+      <FontsView v-if="showFontsView"
+        @on-close="showFontsView = false"/>
+    </Transition>
+    
 
     
     
@@ -172,8 +180,11 @@
 //import type { Swiper } from '#build/components';
 
 const {
-  font_list, font_selected
+  font_list, font_selected,
+  getPixelSizedStyle
 } = DynFonts()
+const intro_info_style = ref(getPixelSizedStyle(240,240))
+const year_info_style = ref(getPixelSizedStyle(240,240))
 const showFontsView = ref(false)
 const showFonts = () => {
   console.log('show fonts');
@@ -555,5 +566,18 @@ onMounted(() => {
 }
 .dialog_filter {
   
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s 1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.filter_blured {
+  filter: blur(1rem);
 }
 </style>

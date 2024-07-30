@@ -112,7 +112,7 @@ onMounted(() => {
     display:block;
   }
 
-  /* we will explain what these classes do next! */
+
 .v-enter-active,
 .v-leave-active {
   transition: all 2.0s 1s ease-out;
