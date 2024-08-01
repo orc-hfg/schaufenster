@@ -169,7 +169,8 @@
     header {
       z-index: 100;
       position: fixed;
-      top: 0px; left: 0px; width: 100vw; height: 72px;
+      top: 0px; left: 0px; width: 100vw;
+      /*  height: 72px; */
       
       display: flex;
       padding: var(--margin-navbar-left-right-top-btm, 12px);

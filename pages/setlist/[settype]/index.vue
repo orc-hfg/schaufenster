@@ -2,23 +2,43 @@
   <div class="setlist_page">
     <header >
       <nav class="nav">
-        <NuxtLink @click="showMenu()">
+        <NuxtLink @click="showMenu()" class="logo">
           <IconsNavIconORC />
         </NuxtLink>
 
-        <NuxtLink class="navbar_link"
-          v-if="!showMenuView"
-          :to="'/setlist/' + MATCH_PROJECTS">Index</NuxtLink>
-        <NuxtLink class="navbar_link"
-          v-if="!showMenuView"
-          :to="'/setlist/' + MATCH_DIPLOM">Diplom</NuxtLink>
+        <Transition name="move-ur30">
+          <div class="settype_toggle"
+            v-if="!showMenuView"
+            :class="{diplom: settype == MATCH_DIPLOM,
+              projects: settype == MATCH_PROJECTS}">
+            <NuxtLink class="navbar_link navbar_link_projects"
+              
+              :class="{active: settype == MATCH_PROJECTS}"
+              @click="switch2settype(MATCH_PROJECTS)"
+              >
+              <!-- :to="'/setlist/' + MATCH_PROJECTS" -->
+              Projekte
+            </NuxtLink>
+            <NuxtLink class="navbar_link navbar_link_diplom"
+            
+              :class="{active: settype == MATCH_DIPLOM}"
+              @click="switch2settype(MATCH_DIPLOM)"
+              >
+              <!-- :to="'/setlist/' + MATCH_DIPLOM" -->
+              Abschluss
+              <!-- Abschlussarbeiten -->
+            </NuxtLink>
+          </div>
+        </Transition>
 
-        <NuxtLink class="navbar_link"
+        <Transition name="move-ur45">
+         <NuxtLink class="navbar_link"
           v-if="!showMenuView"
           :class="{active:showFilterView}"
           @click="showFilter()">
           Filter
         </NuxtLink>
+      </Transition>
 
         <NuxtLink class="navbar_link"
           v-if="!showMenuView">
@@ -131,7 +151,9 @@
     </div>
     <div class="year_info"
         :style="year_info_style"
-      v-if="currentYear">{{ currentYear }}</div>
+      v-if="currentYear">
+      {{ currentYear }}
+    </div>
 
     <hr />
     
@@ -170,7 +192,7 @@
         :trees_map="useTree[settype]"
         :tree_type="settype"
         :on-closed="onFilterViewClosed"
-        @closed="onFilterViewClosed" />
+         />
       <h3>Filter</h3>      
       
     </div>
@@ -181,9 +203,10 @@
 
 const {
   font_list, font_selected,
-  getPixelSizedStyle
+  getPixelSizedStyle,
+  getViewSizedStyle
 } = DynFonts()
-const intro_info_style = ref(getPixelSizedStyle(240,240))
+const intro_info_style = ref(getViewSizedStyle(16,16))
 const year_info_style = ref(getPixelSizedStyle(240,240))
 const showFontsView = ref(false)
 const showFonts = () => {
@@ -244,6 +267,14 @@ const swiper_modules = ref([
   SwiperVirtual,
 ]);
 
+
+const switch2settype = (type:string) => {
+  //router.replace('/setlist/' + type)
+  route.params.settype = type
+  settype.value = type;
+  updateSetType()
+}
+
 const applyFilter = () => {
   console.log("applyFilter")
   showFilterView.value = false
@@ -294,7 +325,7 @@ const previewLargeUrl = (treeId: string, eId: string): string => {
   return apiBaseUrl + "previews/" + pid + "/data-stream";
 };
 const switch2set = (setid) => {
-  const url = "/setview/" + settype.value + "/" + setid;
+  const url = "/setview/" + settype.value + "/" + setid + '/' + setid;
   router.push(url);
 };
 
@@ -382,7 +413,7 @@ const updateSetType = () => {
   filtersMap.value = {};
 
   if (settype.value == MATCH_DIPLOM) {
-    intro_info.value = 'Diplomarbeiten'
+    intro_info.value = 'Abschlussarbeiten'
   } else {
     intro_info.value = 'Projekte'
   }
@@ -411,7 +442,10 @@ const showMenu = () => {
     showFontsView.value = false
   } else {
     console.log("show menu")
-    showMenuView.value = true;
+    setTimeout(() => {
+      showMenuView.value = true;
+    }, 1000)
+    
   }
 };
 /*
@@ -554,11 +588,68 @@ onMounted(() => {
   user-select: none;
 }
 
+header nav a.logo {
+  padding: 0px;
+  border: 1px solid transparent
+}
 .navbar_link {
+  font-family: Instrument Sans, sans-serif;
   font-size: 20px;
   padding: 12px;
   border: 1px solid black;
   background-color: var(--Colors-nav-bar-toggle-on);
+}
+.settype_toggle {
+  /* background: rgb(20,20,20); */
+  /* background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 74px, rgba(255,255,255,1) 75px); */
+  float:left;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  transition: all 0.25s linear;
+}
+.settype_toggle.projects {
+  /* background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 74px, rgba(255,255,255,1) 75px); */
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 6.25rem, rgba(255,255,255,1) 6.25rem);
+
+}
+.settype_toggle.diplom {
+  /* background: rgb(242,137,6); */
+  
+  /* background: linear-gradient(90deg, rgba(255,255,255,1) 0,
+   rgba(255,255,255,1) 0,
+    var(--Colors-nav-bar-info-button-fill) 1px,
+    var(--Colors-nav-bar-info-button-fill) 190px,
+    rgba(255,255,255,1) 190px  
+    ); */
+
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0,
+   rgba(255,255,255,1) 0,
+    var(--Colors-nav-bar-info-button-fill) 0px,
+    var(--Colors-nav-bar-info-button-fill) 7.25rem,
+    rgba(255,255,255,1) 7.25rem
+    );
+  /* background-position: 75px 0; */
+  background-position: 6.25rem 0;
+  
+}
+.settype_toggle.diplom .navbar_link_diplom {
+
+}
+.navbar_link.navbar_link_projects,
+.navbar_link.navbar_link_diplom {
+  float: left;
+  text-decoration: none;
+  color: #222;
+}
+.navbar_link.navbar_link_projects.active {
+
+  /* background-color: var(--Colors-nav-bar-toggle-on, #222); */
+   
+  color: #fff;
+}
+.navbar_link.navbar_link_diplom.active {
+  /* background-color: var(--Colors-nav-bar-toggle-on, #f00); */
+  color: #fff;
 }
 .navbar_set_link.active {
   background-color: var(--Colors-nav-bar-toggle-off);
@@ -571,11 +662,36 @@ onMounted(() => {
 .fade-leave-active {
   transition: opacity 0.5s 1s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
+
+
+.move-ur30-enter-active,
+.move-ur30-leave-active {
+  transition: all 0.5s ease-in;
+  /* position: relative; top:0px; left: 0px; */
+}
+
+.move-ur30-enter-from,
+.move-ur30-leave-to {
+  transform: translate(50px, -100px);
+  
+}
+
+.move-ur45-enter-active,
+.move-ur45-leave-active {
+  transition: all 0.5s ease-in;
+  /* position: relative; top:0px; left: 0px; */
+}
+
+.move-ur45-enter-from,
+.move-ur45-leave-to {
+  transform: translate(100px, -100px);
+  
+}
+
 
 .filter_blured {
   filter: blur(1rem);

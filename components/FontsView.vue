@@ -10,7 +10,7 @@
       <div class="menu_panel">
         <h1>Fonts</h1>
         
-        <select v-model="font_selected">
+        <select v-model="font_selected" @change="updateFont">
             <option v-for="(f,idx) in font_list" :value="idx">I:{{ idx }} F: {{ f }}</option>
         </select>
 
@@ -50,6 +50,10 @@ const {
 const emit = defineEmits(['onClose'])
 const font_style = ref(getPixelSizedStyle(240,240))
 
+const updateFont = () => {
+    font_style.value = getPixelSizedStyle(240,240)
+}
+
 </script>
 <style scoped>
 header {
@@ -81,7 +85,7 @@ header {
     align-items: center;
     text-align: center;  
     /* font-size: 80px; */
-    /* color: var(--Colors-text-primary2, #fff); */
+    color: var(--Colors-text-primary, #fff);
     
     background-color: var(--Colors-background-menu, rgba(255,255,255, 0.3));
 }

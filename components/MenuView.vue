@@ -3,7 +3,7 @@
     <div class="dialog_menu" >
         <header>
             <nav class="nav">
-                <NuxtLink @click="$emit('onCloseMenu')">
+                <NuxtLink @click="$emit('onCloseMenu')" class="logo">
                     <IconsNavIconORC />
                 </NuxtLink>
             </nav>
@@ -88,6 +88,10 @@ onMounted(() => {
 <style scoped>
 header {
     z-index: 1100;
+}
+.logo {
+    padding: 0;
+    border: 1px solid transparent;
 }
 .dialog_menu {
     position: fixed;

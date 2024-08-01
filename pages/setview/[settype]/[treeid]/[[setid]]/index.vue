@@ -2,19 +2,15 @@
   <div class="setview_page">
     <header>
         <nav class="nav">
-            <NuxtLink to="/" class="header_nav_logo">
+            <NuxtLink :to="'/setlist/' + settype" class="header_nav_logo">
               
                 <IconsNavIconORC/>
               
             </NuxtLink>
-            <NuxtLink
-              v-if="!path2root.length"
-              class="navbar_set_link"
-              :to="'/setview/'+settype+'/'+treeid+'/'">
-              {{ getColTitle(treeid) }}
-            </NuxtLink>
+            
     
             <NuxtLink
+            
               v-for="colid in path2root"
               class="navbar_set_link"
               :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
@@ -26,15 +22,14 @@
               :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
               {{ getColTitle(activeSetId) }}
             </NuxtLink>
-            <NuxtLink>|</NuxtLink>
+            
             <NuxtLink
               @click="toggleShowInfo()"
-              class="navbar_set_link"
+              class="navbar_set_link info"
               :class="{info_active: showInfo}"
               >Info
             </NuxtLink>
-            <NuxtLink>DE</NuxtLink>
-            <NuxtLink>EN</NuxtLink>
+            
 
         </nav>
     </header>
@@ -665,9 +660,16 @@ const initData = () => {
         console.log(" got path2root for set: " + path2root.value)
         console.log(" got parent_id for set: " + parent_id.value)
         initSubTree(parent_id.value, setid.value)
+        activeSetId.value = setid.value
     } else {
         initSubTree(RID, treeid.value)
     }
+    
+
+
+  setTimeout(() => {
+    swiperMain.value.slideTo(0)
+  },100)
 }
 
 
@@ -863,16 +865,29 @@ onMounted(() => {
 }*/
 
 .navbar_set_link {
-  font-size: 20px;
-  padding: 12px;
+  font-size: var(--font__body__fontsize, 20px);
+  line-height: var(--font__body__lineheight, 24px);
+  padding: var(--spacing__betweenitemsM, 12px);
   border: 1px solid black;
+  border-radius: var(--dimension__button__heightM, 48px);
   background-color: var(--Colors-nav-bar-toggle-on);
+  margin: 0 var(--spacing__navbarbetweenitems, 4px);
 }
 .navbar_set_link.info_active {
   background-color: var(--Colors-nav-bar-toggle-off);
   font-weight: 800;
 }
-
+nav {
+  width: calc(100vw - var(--dimension__icon__sizeM, 24px));
+}
+.header_nav_logo {
+  stroke: none;
+  fill: #222 !important;
+}
+.navbar_set_link.info {
+  float: right;
+  position: relative;
+}
 .setview_page {
   
 }
