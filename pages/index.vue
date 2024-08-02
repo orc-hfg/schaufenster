@@ -66,10 +66,7 @@ onMounted(() => {
   .hfglink {
     float: right;
   }
-  .nav-logo-orc path {
-      stroke: none;
-      fill: var(--Colors-nav-bar-button-fill);
-    }
+  
   .intro_page {
     position: fixed;
     top: 0px; left: 0px; width: 100vw; height: 100%;

@@ -102,12 +102,14 @@ export interface iTree {
   cols_participants: {
     [key: string]: string[];
   };
-
+  cols_semesters: {
+    [key: string]: {};
+  };
   entries_authors: {
     [key: string]: string[];
   };
   
-  year: number;
+  year: string;
 }
 
 export interface iTreeFilter {
@@ -160,6 +162,7 @@ export const treeHelper = () => {
   const RID: string = "root";
   const MATCH_DIPLOM = "diplom";
   const MATCH_PROJECTS = "projekt";
+  const MATCH_MAGISTER = "Magisterarbeit";
   const FILTERS_KEYWORD = "keywords";
   const FILTERS_PEOPLE = "people";
   const FILTERS_ROLES = "roles";
@@ -167,8 +170,10 @@ export const treeHelper = () => {
   const MK_AUTHORS = 'madek_core:authors'
   const MK_KEYWORDS = 'madek_core:keywords'
   const MK_TITLE = 'madek_core:title'
+  const MK_GRADUATE_TYPE = 'institution:​graduation-project-type'
   const MK_PARTICIPANTS = 'creative_work:other_creative_participants'
-  const MK_SEMESTER = ''
+  const MK_SEMESTER = 'institution:semester'
+  const MK_FIELD_GROUP = 'institution:​field_of_study'
 
   const useTree = useState("tree");
 
@@ -192,6 +197,7 @@ export const treeHelper = () => {
 
         cols_authors: {},
         cols_participants: {},
+        cols_semesters: {},
         entries_authors: {},
 
         previews: {},
@@ -523,7 +529,7 @@ export const treeHelper = () => {
         if (entry.get_full_size == true) {
           //const mf = (await api.api.mediaEntryMediaFileDetail(entry.id)).data
           //if (mf.media_type == 'document') {
-          console.error("got document download allowed");
+          //console.error("got document download allowed");
           //}
         }
       } else {
@@ -674,6 +680,12 @@ export const treeHelper = () => {
       } else if (metaKey == MK_PARTICIPANTS) {
         tree.cols_participants[clientId] = getMDRolesNameList(mdMap, MK_PARTICIPANTS)
         //console.log("got participants: " + tree.cols_participants[clientId])
+      } else if (metaKey == MK_SEMESTER) {
+        const sy = md.selectedKeywords[0].term.split('/')[0]
+        const sem = sy.split(' ')[0] 
+        const year = sy.split(' ')[1]
+        tree.cols_semesters[clientId] = year + ' ' + sem
+        //tree.cols_semesters[clientId] = md.selectedKeywords[0].term
       }
       // TODO mitwirkende
       // TODO year / from semester
@@ -799,7 +811,7 @@ export const treeHelper = () => {
     );
   };
 
-  const initTrees = async (keyword_match: string) => {
+  const initTrees = async (keyword_match: string, treeType:string) => {
     const filterBy = JSON.stringify({
       meta_data: [{ key: "any", match: keyword_match }],
     });
@@ -813,16 +825,17 @@ export const treeHelper = () => {
     const cols_data = (await api.api.collectionsList(cols_query_match))
       .data as CollectionsListData;
 
+    console.log("got cols for keyword: " + keyword_match + ":" + treeType)
+    console.dir(cols_data)
+
     for await (const colEl of cols_data.collections) {
-      await buildTree(keyword_match, colEl.id);
+      await buildTree(treeType, colEl.id);
       useTree.value = state.treeMapper;
       console.log("finished build tree " + colEl.id);
     }
     for await (const colEl of cols_data.collections) {
-      await buildTreeMetaData(keyword_match, colEl.id);
+      await buildTreeMetaData(treeType, colEl.id);
       useTree.value = state.treeMapper;
-      //useTreeVal = state.treeMapper
-      //useState('tree-' + keyword_match + '_' + colEl.id, () => { return state.treeMapper[keyword_match][colEl.id] })
       console.log("finished build tree meta_data " + colEl.id);
     }
 
@@ -838,17 +851,18 @@ export const treeHelper = () => {
 
     await fetch_cols_all();
 
-    await initTrees(MATCH_DIPLOM);
-    await initTrees(MATCH_PROJECTS);
+    await initTrees('Diplomarbeit', MATCH_DIPLOM);
+    await initTrees(MATCH_MAGISTER, MATCH_DIPLOM);
+    //await initTrees(MATCH_PROJECTS, MATCH_PROJECTS);
 
     console.log(
       " built collections map " +
         " All: " +
         collectionsAll.size +
         " Diplom: " +
-        Object.keys(state.treeMapper[MATCH_DIPLOM]).length +
-        " Project: " +
-        Object.keys(state.treeMapper[MATCH_PROJECTS]).length
+        Object.keys(state.treeMapper[MATCH_DIPLOM]).length 
+        //+ " Project: " +
+        //Object.keys(state.treeMapper[MATCH_PROJECTS]).length
     );
 
     return state.treeMapper;

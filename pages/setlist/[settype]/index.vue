@@ -2,7 +2,7 @@
   <div class="setlist_page">
     <header >
       <nav class="nav">
-        <NuxtLink @click="showMenu()" class="logo">
+        <NuxtLink @click="showMenu()" class="header_nav_logo">
           <IconsNavIconORC />
         </NuxtLink>
 
@@ -12,19 +12,15 @@
             :class="{diplom: settype == MATCH_DIPLOM,
               projects: settype == MATCH_PROJECTS}">
             <NuxtLink class="navbar_link navbar_link_projects"
-              
               :class="{active: settype == MATCH_PROJECTS}"
               @click="switch2settype(MATCH_PROJECTS)"
               >
-              <!-- :to="'/setlist/' + MATCH_PROJECTS" -->
               Projekte
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom"
-            
               :class="{active: settype == MATCH_DIPLOM}"
               @click="switch2settype(MATCH_DIPLOM)"
               >
-              <!-- :to="'/setlist/' + MATCH_DIPLOM" -->
               Abschluss
               <!-- Abschlussarbeiten -->
             </NuxtLink>
@@ -51,6 +47,19 @@
           >
           Reset
         </NuxtLink>
+
+        <NuxtLink class="navbar_link"
+          v-if="!showMenuView"
+          @click="clickedYearBack()">
+          Up
+        </NuxtLink>
+        <NuxtLink class="navbar_link"
+          v-if="!showMenuView"
+          @click="clickedYearForward()"
+          >
+          Down
+        </NuxtLink>
+        
         
         <!-- <h1>Set List</h1> -->
         <!-- <p>
@@ -244,7 +253,7 @@ const colCount = ref(COL_COUNT_INDEX)
 const intro_info = ref('')
 
 export interface iTreeSlide {
-  year:number,
+  year:string,
   trees: iTree[]
 }
 const slideList = ref([] as iTreeSlide[])
@@ -286,13 +295,59 @@ const onFilterViewClosed = () => {
   updateFilteredTrees2Slides(filteredTreeList.value)
 }
 
+const isEnabledYearBack = () => {
+  const activeSlide = swiperMain.value?.activeIndex
+  return activeSlide > 0
+}
+const clickedYearBack = () => {
+  const activeSlide = swiperMain.value?.activeIndex
+  let last = 0
+  for(let i = 0; i < nextYearList.value.length; i++) {
+    
+    if (nextYearList.value[i] < activeSlide) {
+      last = nextYearList.value[i]  
+      
+    }
+    
+  }
+  
+  console.log("clickedYearBack: " + activeSlide + ":" + last)
+  swiperMain.value.slideTo(last)
+  /*if (activeSlide > 0) {
+    swiperMain.value.slideTo(activeSlide-1)
+  }*/
+}
+const isEnabledYearForward = () => {
+  const activeSlide = swiperMain.value?.activeIndex
+  const maxSlides = slideList.value.length
+  return activeSlide < maxSlides
+}
+const clickedYearForward = () => {
+  const activeSlide = swiperMain.value?.activeIndex
+  const maxSlides = slideList.value.length
+  let next = 0
+  for(let i = 0; i < nextYearList.value.length; i++) {
+    next = nextYearList.value[i]
+    if (next > activeSlide) {
+      
+      break;
+    }
+  }
+  
+  console.log("clickedYearForward: " + activeSlide + ":" + next)
+  swiperMain.value.slideTo(next)
+  /*if (activeSlide < maxSlides) {
+    swiperMain.value.slideTo(activeSlide+1)
+  }*/
+}
 const currentYear = ref('')
 let currentTimeout = undefined
 
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex
-    console.log("swiperMain changed slide: " + activeSlide)
     currentYear.value = slideList.value[activeSlide].year
+    console.log("swiperMain changed slide: " + activeSlide + ":" + currentYear.value)
+    
     if (currentTimeout) {
       clearTimeout(currentTimeout)
     }
@@ -329,6 +384,7 @@ const switch2set = (setid) => {
   router.push(url);
 };
 
+const nextYearList = ref([])
 
 const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   const sortedTrees = [] as iTree[]
@@ -337,32 +393,55 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     sortedTrees.push(tree)
   }
   sortedTrees.sort((a,b) => { 
+    const kwa = (a.cols_semesters[a.col_id] || '') as string
+    const kwb = new String(b.cols_semesters[b.col_id] || '')
+
+    const result = kwb.localeCompare(kwa)
+    /* console.log("sort: " 
+      + kwa
+      + ':'
+      + kwb
+      + ':'
+      + result) */
+    return result
+    /*
     const adate = a.cols_meta_data[a.col_id]['madek_core:title'].meta_data_updated_at
     const bdate = b.cols_meta_data[b.col_id]['madek_core:title'].meta_data_updated_at
 
     const ayear = new Date(Date.parse(adate)).getFullYear()
     const byear = new Date(Date.parse(bdate)).getFullYear()
     return byear - ayear
+    */
   })
   slideList.value = []
   let ti = 0;
   let tl:iTree[] = []
-  let pdate: number
+  let pdate: string = ''
+  let yearlast: string = ''
+  nextYearList.value = []
   //for (const treeId in filteredTreeList.value) {
     //const tree = filteredTreeList.value[treeId]
   sortedTrees.forEach((tree) => {
-    const cdate = tree.cols_meta_data[tree.col_id]['madek_core:title'].meta_data_updated_at
+    /*const cdate = tree.cols_meta_data[tree.col_id]['madek_core:title'].meta_data_updated_at
     pdate = new Date(Date.parse(cdate)).getFullYear()
     console.log(" last update " + cdate + ":" + pdate);
     tree.year = pdate
+    */
+   
+    tree.year = tree.cols_semesters[tree.col_id] as string
+    pdate = tree.year
+    if (tree.year !== yearlast) {
+      yearlast = tree.year
+      nextYearList.value.push(slideList.value.length)
+    }
     tl.push(tree)
     ti++
     if (ti >= colCount.value) {
       slideList.value.push({
-        year: pdate,
+        year: tree.year,
         trees: tl
       } as iTreeSlide)
-
+      
       tl = []
       ti = 0
     }
@@ -377,6 +456,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   console.log(" trees map: " + Object.keys(trees_map).length)
 
   console.log(" slide list: " + slideList.value.length)
+  console.dir(nextYearList.value)
   //console.dir(slideList.value);
 
 }
@@ -556,7 +636,7 @@ onMounted(() => {
 
 .nav-logo-orc path {
   stroke: var(--Colors-nav-bar-button-outline);
-  fill: var(--Colors-nav-bar-info-button-fill);
+  fill: var(--Colors-nav-bar-platform-logo);
 }
 .tree_info {
   position: fixed;
@@ -588,7 +668,7 @@ onMounted(() => {
   user-select: none;
 }
 
-header nav a.logo {
+.header_nav_logo {
   padding: 0px;
   border: 1px solid transparent
 }
@@ -598,6 +678,7 @@ header nav a.logo {
   padding: 12px;
   border: 1px solid black;
   background-color: var(--Colors-nav-bar-toggle-on);
+  margin: 0px 4px;
 }
 .settype_toggle {
   /* background: rgb(20,20,20); */
@@ -609,7 +690,7 @@ header nav a.logo {
 }
 .settype_toggle.projects {
   /* background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 74px, rgba(255,255,255,1) 75px); */
-  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 6.25rem, rgba(255,255,255,1) 6.25rem);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 6.5rem, rgba(255,255,255,1) 6.5rem);
 
 }
 .settype_toggle.diplom {
@@ -629,7 +710,7 @@ header nav a.logo {
     rgba(255,255,255,1) 7.25rem
     );
   /* background-position: 75px 0; */
-  background-position: 6.25rem 0;
+  background-position: 7.0rem 0;
   
 }
 .settype_toggle.diplom .navbar_link_diplom {

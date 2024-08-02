@@ -1,5 +1,5 @@
 <template>
-    FS: {{ font_selected }}
+
     <NuxtPage :class="{'page-in': isShowPageIn, 'page-out': !isShowPageIn}" />
 </template>
 <script setup lang="ts">

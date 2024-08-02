@@ -3,14 +3,10 @@
     <header>
         <nav class="nav">
             <NuxtLink :to="'/setlist/' + settype" class="header_nav_logo">
-              
-                <IconsNavIconORC/>
-              
+                <IconsNavHome/>
+                <div class="content">Zurück</div>
             </NuxtLink>
-            
-    
             <NuxtLink
-            
               v-for="colid in path2root"
               class="navbar_set_link"
               :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
@@ -27,10 +23,8 @@
               @click="toggleShowInfo()"
               class="navbar_set_link info"
               :class="{info_active: showInfo}"
-              >Info
+              >&nbsp;i&nbsp;
             </NuxtLink>
-            
-
         </nav>
     </header>
 
@@ -159,13 +153,18 @@
     :centeredSlides="true"
     -->
     <div class="bottom_nav" >
-      <div>
-        <NuxtLink @click="showBottomNav = !showBottomNav" class="navbar_set_link">
-          <IconWrap>
-            <IconsMinus v-if="showBottomNav"/>
-            <IconsPlus v-if="!showBottomNav"/>
-          </IconWrap>
-        </NuxtLink>
+      <div @click="showBottomNav = !showBottomNav" class="btn_bottom_nav_hide">
+          <Transition name="rotate">
+            <IconWrap :large="true" v-if="showBottomNav">
+              <IconsMinus />
+            </IconWrap>            
+          </Transition>
+          <Transition name="rotate">
+            <IconWrap :large="true" v-if="!showBottomNav">
+            <IconsPlus />
+            </IconWrap>
+          </Transition>
+            
       </div>
       <swiper
         :modules="modules"
@@ -889,6 +888,46 @@ nav {
   position: relative;
 }
 .setview_page {
+  
+}
+
+.btn_bottom_nav_hide {
+  position: relative;
+  top: 36px;
+  left: 24px;
+  
+}
+.btn_bottom_nav_hide .icon-wrap {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /* transform: rotateZ(45deg) */
+}
+.rotate-enter-active,
+.rotate-leave-active {
+  transition: all 1s linear;
+}
+.rotate-enter-to {
+  transform: rotate(90deg);
+  opacity: 1;
+}
+.rotate-leave-to {
+  transform: rotate(90deg);
+}
+.header_nav_logo .content {
+  visibility: collapse;
+  font-size: var(--font__body__fontsize, 20px);
+  line-height: var(--font__body__lineheight, 24px);
+  position: relative;
+  top: -40px; left: 48px;
+  text-decoration: none;
+}
+.header_nav_logo:hover {
+  width: 9rem;
+}
+.header_nav_logo:hover .content {
+  visibility: visible;
+  
   
 }
 </style>

@@ -189,7 +189,7 @@
     }
     .nav-logo-orc path {
       stroke: none;
-      fill: var(--Colors-nav-bar-info-button-fill);
+      fill: var(--Colors-nav-bar-platform-logo);
     }
 
 
