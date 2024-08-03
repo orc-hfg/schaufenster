@@ -49,12 +49,14 @@
         </NuxtLink>
 
         <NuxtLink class="navbar_link"
-          v-if="!showMenuView"
+          :class="{disabled: isEnabledYearBack()}"
+          v-if="!showMenuView && settype == MATCH_DIPLOM"
           @click="clickedYearBack()">
           Up
         </NuxtLink>
         <NuxtLink class="navbar_link"
-          v-if="!showMenuView"
+          :class="{disabled: isEnabledYearForward()}"
+          v-if="!showMenuView && settype == MATCH_DIPLOM"
           @click="clickedYearForward()"
           >
           Down
@@ -83,6 +85,8 @@
         },
       }"
       :grid="{ fill: 'column', rows: 1 }"  
+      :pagination="{clickable: true}"
+      :navigation="false"
        -->
       <div v-if="!slideList || !slideList.length">
         No data yet!
@@ -106,19 +110,8 @@
         sticky: false
       }"
       :scrollbar="true"
-      :mousewheel="{forceToAxis:false,
-        
-        }"
-      :pagination="{clickable: true}"
-      :navigation="true"
-      
-      
-      :style="{
-        '--swiper-navigation-color': '#000',
-        '--swiper-pagination-color': '#000',
-      }"
-      
-    >
+      :mousewheel="{forceToAxis:false}"
+      >
 
       
     <swiper-slide
@@ -145,15 +138,18 @@
 
     </swiper>
 
-    <div class="tree_info"
-      :class="{filter_blured: showMenuView || showFilterView || showFontsView}"
-      v-if="treeInfo && treeInfo.col_id">
-        | Title: {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
-        | Author {{ treeInfo.cols_authors[treeInfo.col_id] }}
-        | Year {{ treeInfo.year }}
+    <div class="tree_info" v-if="filteredSortedTrees">
+      <div v-for="treeInfo in filteredSortedTrees" :id="'treeInfo_' + treeInfo.col_id">
+        
+        {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
+        | {{ treeInfo.cols_authors[treeInfo.col_id] }}
+        <!-- | Year {{ treeInfo.year }} -->
+      </div>
+      <div class="tree_info_blur"></div>
     </div>
+
     <div class="intro_info"
-      :class="{filter_blured: showMenuView || showFilterView || showFontsView}"
+      
         :style="intro_info_style"
         v-if="intro_info">
         {{ intro_info }}
@@ -177,10 +173,19 @@
       <FontsView v-if="showFontsView"
         @on-close="showFontsView = false"/>
     </Transition>
-    
+    <Transition name="fade">
+      <div v-if="showFilterView" class="dialog_filter">
+        <FilterView
+          :trees_map="useTree[settype]"
+          :tree_type="settype"
+          @closed="onFilterViewClosed"
+          />
+      </div>
+
+    </Transition>
 
     
-    
+    <!--
     <div v-if="showFilterView" class="dialog_filter">
       <NuxtLink @click="onFilterViewClosed()">
         <IconWrap>
@@ -200,11 +205,12 @@
       <FilterView
         :trees_map="useTree[settype]"
         :tree_type="settype"
-        :on-closed="onFilterViewClosed"
+        @closed="onFilterViewClosed"
          />
       <h3>Filter</h3>      
       
     </div>
+    -->
   </div>
 </template>
 <script setup lang="ts">
@@ -369,6 +375,9 @@ const setMainSwiper = (swiper: Swiper) => {
 };
 const setTreeInfo = (el: iTree) => {
   treeInfo.value = el;
+  const elem = document.getElementById('treeInfo_' + el.col_id)
+  elem?.scrollIntoView({block: "end", behavior: "smooth"})
+  
 }
 const previewUrl = (treeId: string): string => {
   const eId = useTree.value[settype.value][treeId]?.edges[RID][treeId].coverId
@@ -385,6 +394,7 @@ const switch2set = (setid) => {
 };
 
 const nextYearList = ref([])
+const filteredSortedTrees = ref([] as iTree[])
 
 const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   const sortedTrees = [] as iTree[]
@@ -413,6 +423,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     return byear - ayear
     */
   })
+  filteredSortedTrees.value = sortedTrees
   slideList.value = []
   let ti = 0;
   let tl:iTree[] = []
@@ -641,9 +652,29 @@ onMounted(() => {
 .tree_info {
   position: fixed;
   bottom: 2vh;
-  height: 3rem;
-  border: 1px solid black;
+  padding: 2rem;
+  height: 6rem;
+  width: calc(100vw - 4rem);
+  overflow-y: auto;
+
   font-size: 20px;
+  z-index: 1010;
+  transition: all 1s linear;
+}
+.tree_info * {
+  font-size: 32px;
+  line-height: 45px;
+  
+}
+.tree_info_blur {
+  position: fixed;
+  bottom: 2vh;
+  padding: 2rem;
+  height: 6rem;
+  
+  width: calc(100vw - 4rem);
+
+  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 66%, rgba(255,255,255,0) 100%) ;
 }
 
 .year_info {
@@ -741,7 +772,7 @@ onMounted(() => {
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s 1s ease;
+  transition: opacity 0.5s ease-out;
 }
 .fade-enter-from,
 .fade-leave-to {
@@ -775,6 +806,6 @@ onMounted(() => {
 
 
 .filter_blured {
-  filter: blur(1rem);
+  filter: blur(25px);
 }
 </style>

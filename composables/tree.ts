@@ -853,7 +853,7 @@ export const treeHelper = () => {
 
     await initTrees('Diplomarbeit', MATCH_DIPLOM);
     await initTrees(MATCH_MAGISTER, MATCH_DIPLOM);
-    //await initTrees(MATCH_PROJECTS, MATCH_PROJECTS);
+    await initTrees(MATCH_PROJECTS, MATCH_PROJECTS);
 
     console.log(
       " built collections map " +
