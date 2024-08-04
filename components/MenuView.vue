@@ -11,10 +11,9 @@
 
         <!-- data-theme="dark" -->
         <div class="menu_panel"
-        @click="$emit('onCloseMenu')"
-        :style="font_style">
-            <!-- <div>Menu {{locale }} {{ defaultLocale }}</div> -->
-            
+            @click="$emit('onCloseMenu')"
+            :style="font_style">
+           
             <div>
                 <span class="btn"
                     @click="switchLocale('de')"
@@ -51,7 +50,9 @@
             <div>
             <NuxtLink to="/">Intro</NuxtLink>
             </div>
+            <br/>
             
+          
         </div>
     
   </div>
@@ -131,24 +132,21 @@ header {
     align-items: center;
     text-align: center;  
     /* font-size: 80px; */
-    color: var(--Colors-text-primary, #222);
+    /* color: var(--Colors-text-primary, #222); */
     /* background: var(--Ultra-Light-Grey, #F3F2EF); */
     /* background-color: var(--Colors-background-menu2, rgba(255,255,255, 0.3)); */
 }
 
 .menu_panel .btn {
     color: var(--text-headlines, #FF4D00);
-
-/* h1 */
-
-/* font-size: var(--font-h1-font-size, 240px); */
-font-style: normal;
-font-weight: 400;
-/* line-height: var(--font-h1-line-height, 210px);  */
-/* 87.5% */
+    /* h1 */
+    /* font-size: var(--font-h1-font-size, 240px); */
+    font-style: normal;
+    font-weight: 400;
+    /* line-height: var(--font-h1-line-height, 210px);  */
 }
 .menu_panel .btn:hover {
-    
+    font-weight: 600;
 }
 .btn {
 

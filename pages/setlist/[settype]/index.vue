@@ -141,24 +141,31 @@
 
     </swiper>
 
-    <div class="tree_info" v-if="filteredSortedTrees">
+    <div class="tree_info" v-if="filteredSortedTrees && (!showMenuView || !showAboutView)">
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
       <div v-for="treeInfo in filteredSortedTrees" :id="'treeInfo_' + treeInfo.col_id">
+        <span>
+          {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
+          &nbsp;
+        </span>
+        <span v-for="author in treeInfo.cols_authors[treeInfo.col_id]">
+          {{ author }}
+          &nbsp;
+        </span>
         
-        {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
-        | {{ treeInfo.cols_authors[treeInfo.col_id] }}
         <!-- | Year {{ treeInfo.year }} -->
       </div>
       <div class="tree_info_blur"></div>
     </div>
 
     <div class="intro_info"
-      
-        :style="intro_info_style"
-        v-if="intro_info">
-        {{ intro_info }}
+      :style="intro_info_style"
+      v-if="intro_info">
+      {{ intro_info }}
     </div>
     <div class="year_info"
-        :style="year_info_style"
+      :style="year_info_style"
       v-if="currentYear">
       {{ currentYear }}
     </div>
@@ -169,12 +176,18 @@
       <MenuView v-if="showMenuView"
                   :settype="settype"
         @onShowFonts="showFontsView = true"
+        @onShowAbout="showAboutView = true"
         @on-close-menu="showMenuView = false"/>
     </Transition>
     <Transition name="fade">
       <FontsView v-if="showFontsView"
         @on-close="showFontsView = false"/>
     </Transition>
+    <Transition name="fade">
+      <AboutView v-if="showAboutView"
+        @on-close="showAboutView = false"/>
+    </Transition>
+
     <Transition name="fade">
       <div v-if="showFilterView" class="dialog_filter">
         <FilterView
@@ -226,11 +239,10 @@ const {
 const intro_info_style = ref(getViewSizedStyle(16,16))
 const year_info_style = ref(getPixelSizedStyle(240,240))
 const showFontsView = ref(false)
-const showFonts = () => {
-  console.log('show fonts');
-  showFontsView.value=true
-  showMenuView.value=false
-}
+const showAboutView = ref(false)
+const showDSAView = ref(false)
+const showImpressumView = ref(false)
+
 
 const {
   loading,
@@ -693,7 +705,7 @@ onMounted(() => {
 .tree_info {
   position: fixed;
   bottom: 2vh;
-  padding: 2rem;
+  margin: 2rem;
   height: 6rem;
   width: calc(100vw - 4rem);
   overflow-y: auto;
