@@ -555,24 +555,24 @@ export const treeHelper = () => {
     parent_id: string, //iCollection,
     depth: number | 0
   ) => {
-    state.loading++;
+    //state.loading++;
     /* console.log("buildSubTree: "
           + " Ttype: " + treeType
           + " Tid: " + treeId 
           + " P: " + parent.id 
           + " D: " + depth); */
 
-    state.loading++;
+    //state.loading++;
     const ccas_resp_data = await (
       await api.api.collectionCollectionArcsList({ parent_id: parent_id })
     ).data;
-    state.loading--;
+    //state.loading--;
     const ccas = ccas_resp_data["collection-collection-arcs"];
 
-    if (ccas.length == 0) {
-      state.loading--;
-      return;
-    }
+    // if (ccas.length == 0) {
+    //   state.loading--;
+    //   return;
+    // }
     const edgesParent = //getOrCreateObject(state.treeMapper[treeType][treeId].edges,parent_id)
       (state.treeMapper[treeType][treeId].edges[parent_id] =
         state.treeMapper[treeType][treeId].edges[parent_id] || {});
@@ -606,7 +606,7 @@ export const treeHelper = () => {
       }
     }
 
-    state.loading--;
+    //state.loading--;
   };
 
   const buildTree = async (treeType: string, col_id: string) => {
@@ -829,6 +829,18 @@ export const treeHelper = () => {
     console.dir(cols_data)
 
     for await (const colEl of cols_data.collections) {
+      if (!CHILD_IDS_SCHAUFENSTER[colEl.id]) {
+        console.log("not in schaufenster set ids: " + colEl.id)
+        
+      } else {
+        console.log("found col id in schaufenster set ids: " + colEl.id)
+        await buildTree(treeType, colEl.id);
+        await buildTreeMetaData(treeType, colEl.id);
+        useTree.value = state.treeMapper;
+        console.log("finished build tree and meta_data " + colEl.id);
+      }
+    }
+    /*for await (const colEl of cols_data.collections) {
       await buildTree(treeType, colEl.id);
       useTree.value = state.treeMapper;
       console.log("finished build tree " + colEl.id);
@@ -837,7 +849,7 @@ export const treeHelper = () => {
       await buildTreeMetaData(treeType, colEl.id);
       useTree.value = state.treeMapper;
       console.log("finished build tree meta_data " + colEl.id);
-    }
+    }*/
 
     //useState('tree-' + keyword_match, () => { return state.treeMapper[keyword_match] })
     console.log("finished build tree all " + keyword_match);
@@ -846,10 +858,23 @@ export const treeHelper = () => {
     //console.dir(state.treeMapper)
   };
 
+  const COL_ID_SCHAUFENSTER = '1b464cd5-6e86-47ea-b111-578ba7501cd2'
+  const CHILD_IDS_SCHAUFENSTER = {} as {[key:string]: string};
+
   const initTree = async () => {
     console.log("initTree: ");
 
     await fetch_cols_all();
+    const ccas_resp_data = await (
+      await api.api.collectionCollectionArcsList({ parent_id: COL_ID_SCHAUFENSTER })
+    ).data;
+    
+    const ccas = ccas_resp_data["collection-collection-arcs"];
+
+    console.log("initTree: schaufenster col count:" + ccas.length)
+    for await (const cca of ccas) {
+      CHILD_IDS_SCHAUFENSTER[cca.child_id] = cca.child_id
+    }   
 
     await initTrees('Diplomarbeit', MATCH_DIPLOM);
     await initTrees(MATCH_MAGISTER, MATCH_DIPLOM);
