@@ -101,7 +101,7 @@
       :keyboard="true"      
       :slidesPerView="'auto'"
       :spaceBetween="20"
-      :grid="{ fill: 'column', rows: 1 }"  
+      
       :direction="'vertical'"
       
       :freeMode="{
@@ -122,14 +122,17 @@
         <div class="sub_slide"
           v-for="el in slide.trees"
           :onMouseover="() => setTreeInfo(el)"
-          :style="{'width': (100 / colCount)-1 + '%'}">
+          :style="{'width': 'calc(' + ((100 / colCount)-1) + '% - ' + (colCount * 20) + 'px)'}">
 
           <div class="set_preview"
+            :class="[el.previewDirection, el.previewPlacement]"
             
             :title="'Title: ' + el.colTitlesMap[el.col_id] + 
             ' | Authors: ' + el.cols_authors[el.col_id]"
-            @click="switch2set(el.col_id)"
-            :style="{ 'background-image': 'url(\'' + previewUrl(el.col_id) + '\')' }">
+            @click="switch2set(el.col_id)">
+            <div class="img"
+              :style="{ 'background-image': 'url(\'' + previewUrl(el.col_id) + '\')' }">
+            </div>
           </div>
           
         </div>
@@ -160,7 +163,6 @@
       {{ currentYear }}
     </div>
 
-    <hr />
     
     <br />
     <Transition name="fade">
@@ -263,7 +265,7 @@ export interface iTreeSlide {
   trees: iTree[]
 }
 const slideList = ref([] as iTreeSlide[])
-const treeInfo = ref({} as iTree)
+
 const showFilterView = ref(false);
 const showMenuView = ref(false)
 const swiperMain = ref({} as typeof Swiper);
@@ -374,7 +376,6 @@ const setMainSwiper = (swiper: Swiper) => {
   
 };
 const setTreeInfo = (el: iTree) => {
-  treeInfo.value = el;
   const elem = document.getElementById('treeInfo_' + el.col_id)
   elem?.scrollIntoView({block: "end", behavior: "smooth"})
   
@@ -395,7 +396,12 @@ const switch2set = (setid) => {
 
 const nextYearList = ref([])
 const filteredSortedTrees = ref([] as iTree[])
-
+const TREE_PLACEMENT_CLASSES = [
+  'left_top',
+  'left_btm',
+  'right_top',
+  'right_btm'
+]
 const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   const sortedTrees = [] as iTree[]
   for (const treeId in trees_map) {
@@ -430,21 +436,29 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   let pdate: string = ''
   let yearlast: string = ''
   nextYearList.value = []
-  //for (const treeId in filteredTreeList.value) {
-    //const tree = filteredTreeList.value[treeId]
   sortedTrees.forEach((tree) => {
-    /*const cdate = tree.cols_meta_data[tree.col_id]['madek_core:title'].meta_data_updated_at
-    pdate = new Date(Date.parse(cdate)).getFullYear()
-    console.log(" last update " + cdate + ":" + pdate);
-    tree.year = pdate
-    */
-   
+    
     tree.year = tree.cols_semesters[tree.col_id] as string
     pdate = tree.year
     if (tree.year !== yearlast) {
       yearlast = tree.year
       nextYearList.value.push(slideList.value.length)
     }
+    
+    const eId = tree.edges[RID][tree.col_id].coverId
+    const wh = tree.previews[eId].width / tree.previews[eId].height;
+    console.log("preview wh: " + wh)
+
+    if (wh > 1) {
+      //querformat
+      tree.previewDirection = 'hor'
+      
+    } else {
+      tree.previewDirection = 'ver'
+    }
+    const tpi = Math.floor(Math.random() * TREE_PLACEMENT_CLASSES.length)
+    tree.previewPlacement = TREE_PLACEMENT_CLASSES[tpi]
+
     tl.push(tree)
     ti++
     if (ti >= colCount.value) {
@@ -615,7 +629,7 @@ onMounted(() => {
   clip-path: circle(99vw at 50vw 50vh);
 }
 .swiper_main {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   position: absolute;
   top: 8rem;
   left: 2rem;
@@ -624,25 +638,52 @@ onMounted(() => {
 
 }
 .main_slide {
-  border: 1px solid blue;
-  height: 40vh;
+  /* border: 1px solid blue; */
+  height: 600px;
   width: calc(100vw - 4rem);
-  
   cursor: pointer;
-
 }
 .sub_slide {
-  border: 3px solid green;
+  /* border: 3px solid green; */
   width: 30vw;
   height: 100%;
   float: left;
+  padding: 20px;
   
 }
 .set_preview {
+  position: relative;
+  /* border: 1px solid red; */
+}
+.set_preview.hor {
+  width: 80%; height: 100%;
+}
+.set_preview.ver {
+  width: auto; height: 80%;
+}
+.set_preview.hor.right_top {
+  right:-20%;
+}
+.set_preview.hor.right_btm {
+  right: -20%;
+}
+.set_preview .img {
   width: 100%; height: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+.set_preview.left_top .img {
+  background-position: left top;
+}
+.set_preview.left_btm .img {
+  background-position: left bottom;
+}
+.set_preview.right_top .img {
+  background-position: right top;
+}
+.set_preview.right_btm .img {
+  background-position: right bottom;
 }
 
 .nav-logo-orc path {
@@ -808,4 +849,6 @@ onMounted(() => {
 .filter_blured {
   filter: blur(25px);
 }
+
+
 </style>

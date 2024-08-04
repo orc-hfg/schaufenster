@@ -108,7 +108,8 @@ export interface iTree {
   entries_authors: {
     [key: string]: string[];
   };
-  
+  previewDirection: string;
+  previewPlacement: string;
   year: string;
 }
 
