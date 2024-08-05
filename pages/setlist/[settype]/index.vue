@@ -9,16 +9,16 @@
         <Transition name="move-ur30">
           <div class="settype_toggle"
             v-if="!showMenuView"
-            :class="{diplom: settype == MATCH_DIPLOM,
-              projects: settype == MATCH_PROJECTS}">
+            :class="{diplom: toggleBtnSetType == MATCH_DIPLOM,
+              projects: toggleBtnSetType == MATCH_PROJECTS}">
             <NuxtLink class="navbar_link navbar_link_projects"
-              :class="{active: settype == MATCH_PROJECTS}"
+              :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
               @click="switch2settype(MATCH_PROJECTS)"
               >
               Projekte
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom"
-              :class="{active: settype == MATCH_DIPLOM}"
+              :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
               @click="switch2settype(MATCH_DIPLOM)"
               >
               Abschluss
@@ -141,7 +141,8 @@
 
     </swiper>
 
-    <div class="tree_info" v-if="filteredSortedTrees && (!showMenuView || !showAboutView)">
+    <div class="tree_info" v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
+      :style="info_tree_style">
       <div>&nbsp;</div>
       <div>&nbsp;</div>
       <div v-for="treeInfo in filteredSortedTrees" :id="'treeInfo_' + treeInfo.col_id">
@@ -296,12 +297,17 @@ const swiper_modules = ref([
   SwiperVirtual,
 ]);
 
+const toggleBtnSetType = ref(route.params.settype)
 
 const switch2settype = (type:string) => {
-  router.replace('/setlist/' + type)
-  route.params.settype = type
-  settype.value = type;
-  updateSetType()
+  
+  //route.params.settype = type
+  //settype.value = type;
+  //updateSetType()
+  toggleBtnSetType.value = type
+  setTimeout(() => {
+    router.push('/setlist/' + type)
+  },500)
 }
 
 const applyFilter = () => {
@@ -498,13 +504,20 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
 
 }
 
+const info_tree_style = ref({})
 
 const updateSetType = () => {
   settype.value = route.params.settype || MATCH_PROJECTS;
   console.log("updateSetType: " + route.params.settype + " : " + settype.value);
 
-  colCount.value = settype.value == MATCH_DIPLOM ? 2 : 3;
-
+  colCount.value = settype.value == MATCH_DIPLOM ? COL_COUNT_DIPLOM : COL_COUNT_INDEX;
+  toggleBtnSetType.value = settype.value
+  // --Primitives-color-highlight-bright-tone
+  // --Primitives-color-greys-ORCBlack
+  const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
+  intro_info_style.value['color'] = color
+  year_info_style.value['color'] = color
+  info_tree_style.value['color'] = color
   if (!useTree || !useTree.value || !useTree.value[settype.value]) {
     setTimeout(() => {
       console.error("no useTree yet, retry later");
