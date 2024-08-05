@@ -298,7 +298,7 @@ const swiper_modules = ref([
 
 
 const switch2settype = (type:string) => {
-  //router.replace('/setlist/' + type)
+  router.replace('/setlist/' + type)
   route.params.settype = type
   settype.value = type;
   updateSetType()
@@ -666,6 +666,10 @@ onMounted(() => {
 .set_preview {
   position: relative;
   /* border: 1px solid red; */
+  transition:all 0.25s linear;
+}
+.set_preview:hover {
+  transform: scale(0.95);
 }
 .set_preview.hor {
   width: 80%; height: 100%;
@@ -711,7 +715,7 @@ onMounted(() => {
   overflow-y: auto;
 
   font-size: 20px;
-  z-index: 1010;
+  z-index: 980;
   transition: all 1s linear;
 }
 .tree_info * {
