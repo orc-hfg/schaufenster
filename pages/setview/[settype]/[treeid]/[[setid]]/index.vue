@@ -98,37 +98,40 @@
     
     <div class="entry_info"
       :class="{hidden: !showInfo}">
+
       <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
         No entry meta data yet.
       </div>
-      <div v-else>
-        Entry {{ activeEntryId }} Meta Data:<br/>
+      <div class="entry_info_panel" v-else>
+        <h3>
+          Entry {{ activeEntryId }} Meta Data:<br/>
+        </h3>
+        
         
         <!-- Title:
         {{ currentTree.entries_meta_data[activeEntryId]['madek_core:title'].string }} -->
         <br/>
 
         <div v-for="(md,meta_key) in currentTree.entries_meta_data[activeEntryId]">
-          <span>K:{{meta_key}}:&nbsp;</span><br/><br/>
+          <div>K:{{meta_key}}:&nbsp;</div><br/>
           
-          <!-- <span>K:{{md.meta_key_id}}:&nbsp;</span> -->
-          <span v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</span>
+          <div v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</div>
           
-          <div v-else-if="md.type == MD_TYPE_KEYWORDS">
-            <span v-for="kw in md.selectedKeywords">
-              <NuxtLink class="navbar_set_link">
+          <div class="filter_list"
+            v-else-if="md.type == MD_TYPE_KEYWORDS">
+            <div class="filter_tag"
+              v-for="kw in md.selectedKeywords">
                 {{ kw.term }}
-              </NuxtLink>
-            </span>
+            </div>
             
           </div>
-          <div v-else-if="md.type == MD_TYPE_PEOPLE">
+          <div class="filter_list"
+            v-else-if="md.type == MD_TYPE_PEOPLE">
             
-            <span v-for="p in md.selectedPeople">
-              <NuxtLink class="navbar_set_link">
+            <div class="filter_tag"
+              v-for="p in md.selectedPeople">
                 {{ p.first_name }}&nbsp;{{ p.last_name }}
-              </NuxtLink>
-            </span>
+            </div>
           </div>
           <div v-else-if="md.type == MD_TYPE_ROLES">
             ROLES
@@ -137,18 +140,65 @@
           <br/>
           <hr/>
         </div>
-        <hr>
+        <!-- <hr>
         <textarea>{{ currentTree.entries_meta_data[activeEntryId] }}</textarea>
         <br/>
         <br/>
+        <br/> -->
+      </div>
+
+      <div v-if="!activeSetId || !currentTree || !currentTree.cols_meta_data">
+        No set meta data yet.
+      </div>
+      <div class="entry_info_panel" v-else>
+      <h3>
+        Set {{ activeSetId }} Meta Data:<br/>
+      </h3>
+        
+        
+        <br/>
+
+        <div v-for="(md,meta_key) in currentTree.cols_meta_data[activeSetId]">
+          <div>K:{{meta_key}}:&nbsp;</div><br/>
+          
+          <div v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</div>
+          
+          <div class="filter_list"
+            v-else-if="md.type == MD_TYPE_KEYWORDS">
+            <div class="filter_tag"
+              v-for="kw in md.selectedKeywords">
+                {{ kw.term }}
+            </div>
+            
+          </div>
+          <div class="filter_list"
+            v-else-if="md.type == MD_TYPE_PEOPLE">
+            
+            <div class="filter_tag"
+              v-for="p in md.selectedPeople">
+                {{ p.first_name }}&nbsp;{{ p.last_name }}
+            </div>
+          </div>
+          <div v-else-if="md.type == MD_TYPE_ROLES">
+            ROLES
+          </div>
+          
+          <br/>
+          <hr/>
+        </div>
+        <!-- <hr>
+        <textarea>{{ currentTree.cols_meta_data[activeSetId] }}</textarea>
         <br/>
         <br/>
+        <br/>
+        <br/> -->
       </div>
     </div>
     <!-- thumb-swiper=".swiper_main" -->
     <!-- :controller="{ control: swiperMain }" -->
     <!-- @swiperslidechange="onSlideChange" -->
-    <!-- :nested="true" 
+    <!-- :
+    nested="true" 
     :space-between="spaceBetween"
     :centeredSlides="true"
     -->
@@ -730,7 +780,9 @@ onMounted(() => {
   left: 100%;
   visibility: hidden;
 }
-
+.entry_info_panel {
+  padding: var(--spacing__betweenitemsM, 12px) var(--spacing__betweenitemsM,12px);
+}
 .bottom_nav {
   border: 1px solid blue;
   position: fixed;
@@ -868,7 +920,7 @@ onMounted(() => {
   line-height: var(--font__body__lineheight, 24px);
   padding: var(--spacing__betweenitemsM, 12px);
   border: 1px solid black;
-  border-radius: var(--dimension__button__heightM, 48px);
+  border-radius: var(--radius__full, 48px);
   background-color: var(--Colors-nav-bar-toggle-on);
   margin: 0 var(--spacing__navbarbetweenitems, 4px);
 }
@@ -887,6 +939,23 @@ nav {
   float: right;
   position: relative;
 }
+
+.filter_list {
+  display: ruby-text;
+
+}
+.filter_tag {
+  float: left;
+  display: block;
+  font-size: var(--font__body__fontsize, 20px);
+  line-height: var(--font__body__lineheight, 24px);
+  padding: var(--spacing__betweenitemsM, 12px);
+  border: 1px solid black;
+  border-radius: var(--radius__full, 48px);
+  background-color: var(--Colors-nav-bar-toggle-on);
+  margin: var(--spacing__navbarbetweenitems, 4px) var(--spacing__navbarbetweenitems, 4px);
+}
+
 .setview_page {
   
 }
