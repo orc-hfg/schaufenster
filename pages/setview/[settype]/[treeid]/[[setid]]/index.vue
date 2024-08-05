@@ -6,18 +6,34 @@
                 <IconsNavHome/>
                 <div class="content">Zurück</div>
             </NuxtLink>
-            <NuxtLink
-              v-for="colid in path2root"
-              class="navbar_set_link"
-              :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
-              {{ getColTitle(colid) }}
-            </NuxtLink>
-            <NuxtLink
-              v-if="activeSetId !== setid"
-              class="navbar_set_link"
-              :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
-              {{ getColTitle(activeSetId) }}
-            </NuxtLink>
+            
+            <Transition name="fade_io">
+              <NuxtLink class="navbar_set_link"
+                v-if="showPath2Root == false"
+                @mouseover="setShowPath2Root(true)">
+                ...
+              </NuxtLink>
+            </Transition>
+            <Transition name="fade_io">
+              <div v-if="showPath2Root"
+                @mouseleave="setShowPath2Root(false)">
+                <NuxtLink
+                @mouseleave="setShowPath2Root(false)"
+                v-for="colid in path2root"
+                class="navbar_set_link path_to_root"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
+                {{ getColTitle(colid) }}
+              </NuxtLink>
+              </div>
+            </Transition>
+            <Transition name="fade_io">
+              <NuxtLink
+                v-if="activeSetId !== setid || !showPath2Root"
+                class="navbar_set_link"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
+                {{ getColTitle(activeSetId) }}
+              </NuxtLink>
+            </Transition>
             
             <NuxtLink
               @click="toggleShowInfo()"
@@ -27,24 +43,6 @@
             </NuxtLink>
         </nav>
     </header>
-
-    <!--<h3>SetView</h3>-->
-    
-    <!-- RP: {{ route.params }}<br/> -->
-    <!-- ST: {{ settype }}<br/> -->
-    <!-- SID: {{ setid }}<br/> -->
-    <!-- PID: {{ parent_id }}<br/> -->
-    <!-- TID: {{ treeid }} <span> {{ getColTitle(treeid) }}</span><br/> -->
-    
-    <!-- <span> {{ getColTitle(setid) }}</span><br/> -->
-    <!-- P2R: {{ path2root }} -->
-    <!-- <span v-for="colid in path2root">
-        | {{ getColTitle(colid) }}
-    </span> |
-    <br/> -->
-    
-    
-
 
     <swiper
       :modules="modules"
@@ -347,7 +345,18 @@ const path2root = ref([] as string[])
 const useTree = useState('tree')
 
 const currentTree = ref({} as iTree)
-
+const showPath2Root = ref(false)
+const setShowPath2Root = (value) => {
+  if (value == true) {
+    showPath2Root.value = value
+  }
+  else {
+    setTimeout(() => {
+      showPath2Root.value = value
+    }, 300)
+    
+  }
+}
 const showCount = ref({} as { [key:string]: number})
 const maxCount = ref({} as { [key:string]: number})
 const showBottomNav = ref(true)
