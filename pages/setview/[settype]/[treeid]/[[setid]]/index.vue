@@ -9,7 +9,7 @@
             
             <Transition name="fade_io">
               <NuxtLink class="navbar_set_link"
-                v-if="showPath2Root == false"
+                v-if="path2root.length >= 1 && showPath2Root == false"
                 @mouseover="setShowPath2Root(true)">
                 ...
               </NuxtLink>
@@ -18,11 +18,10 @@
               <div v-if="showPath2Root"
                 @mouseleave="setShowPath2Root(false)">
                 <NuxtLink
-                @mouseleave="setShowPath2Root(false)"
-                v-for="colid in path2root"
-                class="navbar_set_link path_to_root"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
-                {{ getColTitle(colid) }}
+                  v-for="colid in path2root"
+                  class="navbar_set_link path_to_root"
+                  :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
+                  {{ getColTitle(colid) }}
               </NuxtLink>
               </div>
             </Transition>
@@ -203,14 +202,10 @@
     <div class="bottom_nav" >
       <div @click="showBottomNav = !showBottomNav" class="btn_bottom_nav_hide">
           <Transition name="rotate">
-            <IconWrap :large="true" v-if="showBottomNav">
-              <IconsMinus />
-            </IconWrap>            
+              <IconsBtmBarFoldMinus v-if="showBottomNav"/>
           </Transition>
           <Transition name="rotate">
-            <IconWrap :large="true" v-if="!showBottomNav">
-            <IconsPlus />
-            </IconWrap>
+              <IconsBtmBarFoldPlus v-if="!showBottomNav"/>
           </Transition>
             
       </div>
@@ -233,7 +228,11 @@
           v-for="(el, eindex) in navSlider.slides"
           :key="el.entry_id"
           :virtualIndex="eindex"
-          :class="{set_highlight: activeSetId == el.collection_id, nav_slide_btns: el.type == NavSlideType.Button}"
+          :class="{set_highlight: activeSetId == el.collection_id,
+            nav_slide_btns: el.type == NavSlideType.Button,
+            nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id],
+            nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id],
+          }"
           v-show="el.setIdx < getShowCount(el.collection_id)
             || el.type === NavSlideType.Set
             || el.type === NavSlideType.Button"    
@@ -244,8 +243,11 @@
             class="nav_preview"
             @click="nav2Element(el)"
             :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
-            :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }"
-          ></div>
+            :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
+            <div v-if="el.setIdx == 0 && activeSetId == el.collection_id" class="nav_preview_col_title">
+              {{getColTitle(el.collection_id)}}
+            </div>
+          </div>
           <div
             v-if="el.type === NavSlideType.Set"
             :title="'E: ' + JSON.stringify(el)"
@@ -261,17 +263,18 @@
           </div>
           <div
             v-if="el.type === NavSlideType.Button"
-            :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
-            class="nav_preview ">
+            :title="'E: ' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
+            class="nav_preview_btn ">
             
-            <IconWrap :large="true" :inv="true"
+            <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
               @click="addShowCount(el.collection_id)">
-              <IconsPlus/>
+              <IconsChevronRight/>
             </IconWrap>
-            <IconWrap :inv="true"
+            <IconWrap :large="true"
+              v-if="showCount[el.collection_id] >= maxCount[el.collection_id]"
               @click="resetShowCount(el.collection_id)">
-              <IconsMinus/>
+              <IconsChevronLeft/>
             </IconWrap>
               
 
@@ -279,7 +282,8 @@
 
           <div class="entry_highlight"
             v-if="el.entry_id == activeEntryId">
-            <IconWrap :inv="true"><IconsCircle/></IconWrap>
+            <!-- <IconWrap :inv="true"><IconsCircle/></IconWrap> -->
+            <IconsEntryHighlight />
           </div>
 
         </swiper-slide>
@@ -397,7 +401,7 @@ const getShowCount = (treeId:string) => {
     return showCount.value[treeId]
 }
 const resetShowCount = (treeId:string) => {
-    showCount.value[treeId] = 5;
+    showCount.value[treeId] = Math.min( 5, maxCount.value[treeId]);
 }
 const addShowCount = (treeId:string) => {
     showCount.value[treeId] = Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
@@ -532,8 +536,6 @@ const onMainSwiperSlideChanged = () => {
 
 const nav2Element = (el: iNavSlide) => {
   swiperMain.value.slideTo(el.mainIdx)
-  //const navIdx = navSlider.value.entryId2Idx[entry.id];
-  //swiperNav.value.update();
   swiperNav.value.slideTo(el.index)
 }
 
@@ -546,6 +548,7 @@ const setNavSwiper = (swiper) => {
   swiperNav.value = swiper;
 };
 
+//TODO preview audio ?
 const initSubSetPreview = (childId:string, subChildId:string) => {
   const subEntries = currentTree.value.edges[childId][subChildId].entries;
       
@@ -622,7 +625,7 @@ const initSubTree = (rootId:string, treeId: string) => {
   // button
   if (Object.keys(rels).length) {
     // testing: the set itself
-    initSubSetPreview(rootId, treeId)
+    //initSubSetPreview(rootId, treeId)
     initSetBtns(treeId, rels_count)
   }
 
@@ -793,13 +796,14 @@ onMounted(() => {
   padding: var(--spacing__betweenitemsM, 12px) var(--spacing__betweenitemsM,12px);
 }
 .bottom_nav {
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   position: fixed;
   left: 0px;
   width: 100vw;
-  top: 85vh;
-  height: 6rem;
+  bottom: 3vh;
+  height: 144px;
   z-index: 100;
+  
 }
 .av_control {
   border: 1px solid green;
@@ -818,10 +822,10 @@ onMounted(() => {
 
 .swiper_nav {
   /* z-index: 100; */
-  border: 1px solid red;
-  background-color: darkgray;
+  /* border: 1px solid red; */
+  background-color: #fff;
   width: 100%;
-  height: 6rem;
+  height: 144px;
   position: absolute;
   top: 0px;
   left: 6rem;
@@ -832,49 +836,52 @@ onMounted(() => {
   top: 20rem;
 }
 .nav_slide {
-  
   width: fit-content !important;
+  height: 95px;
+  margin-top: 24px;
+  /* margin: var(--padding-item-vertical-M, 12px) 0px; */
+  margin-left: -4px;
   
-  margin: -0.75rem -4px;
-  border-top: 1.5rem solid #777;
-  border-bottom: 1.5em solid #777;
-  border-left: 4px solid #777;
+  border-top: var(--padding-item-vertical-M, 12px) solid rgba(0,0,0,0);
+  border-left: var(--spacing-between-items-S, 12px) solid rgba(0,0,0,0);
 }
 .set_highlight {
-  margin: -0.75rem -4px;
-  border-top: 1.5rem solid #333;
-  border-bottom: 1.5em solid #333;
-  border-left: 4px solid #333;
+  background: var(--btm-bar-galleryView-set-hover, #E7E6E1);
+  /* padding: var(--padding-item-vertical-M, 12px) -4px; */
+  border-top: var(--padding-item-vertical-M, 12px) solid #E7E6E1;
+  border-bottom: var(--padding-item-vertical-M, 12px) solid #E7E6E1;
+  
+  border-left: var(--spacing-between-items-S, 8px) solid #E7E6E1;
 }
 
 .entry_highlight {
   position: absolute;
-  top: 1.25rem; left: 0.75rem;
-
+  top: 36px;
+  left: 24px;
+  fill: var(--btm-bar-thumbnail-active, #FFF);
+  
 }
 
 
 .nav_preview {
   margin: 0 0;
-  width: 3rem;
-  height: 4rem;
-  border: 1px solid black;
+  width: 72px;
+  height: var(--margin-body-margin,96px);
+  /* border: 1px solid black; */
+  
   background-color: var(--Colors-btm-bar-background);
   background-size: 120% 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-
-
-.nav_preview_col_entry {
-  width: 6rem;
-  height: 100%;
-  background-color: transparent;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+.nav_preview_col_title {
+  position: relative;
+  top: -36px;
+  overflow-x: scroll;
+  width: 80vw;
 }
+
 
 
 .nav_slide_collection {
@@ -886,7 +893,30 @@ onMounted(() => {
   height: 100%;
 }
 .nav_slide_btns {
-  width: 1.5rem !important;
+  width: 36px !important;
+}
+.nav_slide_btn_add {
+  width: 1px !important;
+}
+.nav_preview_btn {
+  position: relative;
+  padding-top: 36px;
+}
+.nav_slide_btn_add > .nav_preview_btn {
+  left: -72px; 
+  
+  padding-left: 24px;
+  height: 96px; width: 64px;
+  background: linear-gradient(90deg, rgba(243,242,239,0.0) -10%, #f3f2ef 20%, #f3f2ef 100%);
+  /* background: linear-gradient(180deg, #F3F2EF 20%, rgba(243, 242, 239, 0.00) 100%); */
+  
+}
+.nav_preview_btn svg {
+  stroke: #222 !important;
+}
+.nav_slide_btn_reset > .nav_preview_btn {
+  position: relative;
+  padding-top: 36px;
 }
 .nav_slide_collection .hide_btn {
   position: absolute;
@@ -975,7 +1005,7 @@ nav {
   left: 24px;
   
 }
-.btn_bottom_nav_hide .icon-wrap {
+.btn_bottom_nav_hide * {
   position: absolute;
   top: 0px;
   left: 0px;

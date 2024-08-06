@@ -243,12 +243,14 @@
     --btmbar__galleryView__gradient__default__stop1:#f3f2ef;
     --btmbar__galleryView__gradient__default__stop2:rgba(243, 242, 239, 0);
   }*/
-  .Spaces_Dimensions{
-    --spacing__betweenitemsS:4;
-    --padding__itemhorizontalM:12;
-    --padding__itemverticalM:12;
-    --spacing__iteminner:8;
-    --spacing__navbarbetweenitems:4;
+  .Spaces_Dimensions {
+
+  /* :root { */
+    --spacing-between-items-S:4;
+    --padding-item-horizontal-M:12;
+    --padding-item-vertical-M:12;
+    --spacing-item-inner:8;
+    --spacing-navbar-between-items:4;
     --dimension__icon__sizeM:24;
     --dimension__button__heightM:48;
     --radius__full:9999;
