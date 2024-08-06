@@ -46,7 +46,8 @@
     <swiper
       :modules="modules"
       class="swiper_main"
-      :class="{info_active: showInfo}"
+      :class="{info_active: showInfo,
+        bottom_nav_hide: !showBottomNav}"
       :zoom="true"
       :navigation="true"
       @swiper="setMainSwiper"
@@ -218,7 +219,7 @@
         :spaceBetween="4"
         :centeredSlides="true"
         :slides-per-view="'auto'"
-        :navigation="true"
+        
       >
       
         <!-- v-show="index < getShowCount(showTreeId)" -->
@@ -750,20 +751,24 @@ onMounted(() => {
   padding: 8rem 2rem;
 }
 .swiper_main {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   position: fixed;
   top: 72px;
-  left: 0px;
+  left: 24px;
 
-  width: 100%;
-  height: 100vh;
+  width: calc(100vw - 48px);
+  height: calc(100vh - 250px);
   
   
   /* z-index: -100; */
-  transition: all 0.5s 1s;
+  transition: all 0.25s 0.5s;
+}
+.swiper_main.bottom_nav_hide {
+  top: 0px;
+  height: 100vh;
 }
 .swiper_main.info_active {
-  width: 50%;
+  width: calc(50vw - 48px);
 }
 .main_slide {
   /* border: 1px solid blue; */
@@ -777,10 +782,12 @@ onMounted(() => {
 }
 
 .entry_info {
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   position: fixed;
-  top: 72px; left: 50%;
-  width: 50%; height: 80vh;
+  top: 72px;
+  left: 50%;
+  width: calc(50vw - 48px);
+  height: calc(100vh - 250px);
   overflow-y: auto;
   
   visibility: visible;
@@ -902,14 +909,18 @@ onMounted(() => {
   position: relative;
   padding-top: 36px;
 }
-.nav_slide_btn_add > .nav_preview_btn {
+.nav_slide_btn_add .nav_preview_btn {
   left: -72px; 
   
-  padding-left: 24px;
-  height: 96px; width: 64px;
-  background: linear-gradient(90deg, rgba(243,242,239,0.0) -10%, #f3f2ef 20%, #f3f2ef 100%);
+  /* padding-left: 24px; */
+  height: 60px; width: 64px;
+  background: linear-gradient(90deg, rgba(243,242,239,0.0) 0%, #f3f2ef 25%, #f3f2ef 100%);
   /* background: linear-gradient(180deg, #F3F2EF 20%, rgba(243, 242, 239, 0.00) 100%); */
   
+}
+.nav_slide_btn_add .nav_preview_btn .icon-wrap {
+  position: relative;
+  left: 24px;
 }
 .nav_preview_btn svg {
   stroke: #222 !important;
