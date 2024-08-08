@@ -15,14 +15,14 @@
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
               @click="switch2settype(MATCH_PROJECTS)"
               >
-              Projekte
+              Alle Projekte
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
               @click="switch2settype(MATCH_DIPLOM)"
               >
-              Abschluss
-              <!-- Abschlussarbeiten -->
+              <!-- Abschluss -->
+              Abschlussarbeiten
             </NuxtLink>
           </div>
         </Transition>
@@ -96,6 +96,7 @@
       :modules="swiper_modules"
       class="swiper_main"
       :class="{filter_blured: showMenuView || showFilterView || showFontsView}"
+      @scroll="setSwiperMoving()"
       @swiper="setMainSwiper"
       @onAny="onSwiperEvent"
       :keyboard="true"      
@@ -131,6 +132,7 @@
             ' | Authors: ' + el.cols_authors[el.col_id]"
             @click="switch2set(el.col_id)">
             <div class="img"
+              :class="{swiper_moving: swiperMoving}"
               :style="{ 'background-image': 'url(\'' + previewUrl(el.col_id) + '\')' }">
             </div>
           </div>
@@ -165,14 +167,14 @@
       v-if="intro_info">
       {{ intro_info }}
     </div>
-    <div class="year_info"
-      :style="year_info_style"
-      v-if="currentYear">
-      {{ currentYear }}
-    </div>
+    <Transition name="fade">
+      <div class="year_info"
+        :style="year_info_style"
+        v-if="currentYear">
+        {{ currentYear }}
+      </div>
+    </Transition>
 
-    
-    <br />
     <Transition name="fade">
       <MenuView v-if="showMenuView"
                   :settype="settype"
@@ -298,7 +300,14 @@ const swiper_modules = ref([
 ]);
 
 const toggleBtnSetType = ref(route.params.settype)
+const swiperMoving = ref(false)
 
+const setSwiperMoving = () => {
+  swiperMoving.value = true;
+  setTimeout(() => {
+    swiperMoving.value = false;
+  },500)
+}
 const switch2settype = (type:string) => {
   
   //route.params.settype = type
@@ -371,8 +380,16 @@ let currentTimeout = undefined
 
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex
-    currentYear.value = slideList.value[activeSlide].year
-    console.log("swiperMain changed slide: " + activeSlide + ":" + currentYear.value)
+    let yearVal = slideList.value[activeSlide].year
+    if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
+      const sl = yearVal.split(' ')
+      yearVal = sl[0] + ' ' + sl[1].slice(0,1) + 'S'
+      
+    }
+    currentYear.value = yearVal
+    console.log("swiperMain changed slide: " + activeSlide 
+      + ":" + slideList.value[activeSlide].year
+      + ":" + currentYear.value)
     
     if (currentTimeout) {
       clearTimeout(currentTimeout)
@@ -388,9 +405,24 @@ const onSwiperEvent = (eventName, ...args) => {
      console.log('Event: ', eventName);
      console.log('Event data: ', args);
 }
+const onBeforeSlideChange = () => {
+  console.log("onBeforeSlideChange")
+  swiperMoving.value = true
+}
+const onAfterSlideChange = () => {
+  console.log("onAfterSlideChange")
+  swiperMoving.value = false
+}
+
 const setMainSwiper = (swiper: Swiper) => {
   swiperMain.value = swiper;
   swiperMain.value.on('slideChange', onMainSwiperSlideChanged)
+  //swiperMain.value.on('touchStart', onBeforeSlideChange)
+  //swiperMain.value.on('touchEnd', onAfterSlideChange)
+  swiperMain.value.on('transitionStart', onBeforeSlideChange)
+  swiperMain.value.on('transitionEnd', onAfterSlideChange)
+  //swiperMain.value.on('slideChangeTransitionStart', onBeforeSlideChange)
+  //swiperMain.value.on('slideChangeTransitionEnd', onAfterSlideChange)
   
 };
 const setTreeInfo = (el: iTree) => {
@@ -682,7 +714,7 @@ onMounted(() => {
   transition:all 0.25s linear;
 }
 .set_preview:hover {
-  transform: scale(0.95);
+  transform: scale(1.01);
 }
 .set_preview.hor {
   width: 80%; height: 100%;
@@ -701,6 +733,10 @@ onMounted(() => {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  transition: transform 0.3s linear;
+}
+.set_preview .img.swiper_moving {
+  transform: scale(0.98);
 }
 .set_preview.left_top .img {
   background-position: left top;
@@ -751,12 +787,10 @@ onMounted(() => {
   position: fixed;
   top: 40vh;
   font-size: 10vh;
-  left: 0vw;
-  width: 100vw;
+  left: calc(50vw - 40vh);
   text-align: center;
   z-index: 1010;
   user-select: none;
-  
 }
 .intro_info {
   position: fixed;
@@ -782,16 +816,15 @@ onMounted(() => {
   margin: 0px 4px;
 }
 .settype_toggle {
-  /* background: rgb(20,20,20); */
-  /* background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 74px, rgba(255,255,255,1) 75px); */
   float:left;
   background-repeat: no-repeat;
   background-position: 0 0;
   transition: all 0.25s linear;
 }
 .settype_toggle.projects {
-  /* background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 74px, rgba(255,255,255,1) 75px); */
-  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 6.5rem, rgba(255,255,255,1) 6.5rem);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 9.5rem,
+    rgba(255,255,255,1) 9.5rem);
 
 }
 .settype_toggle.diplom {
@@ -807,11 +840,11 @@ onMounted(() => {
   background: linear-gradient(90deg, rgba(255,255,255,1) 0,
    rgba(255,255,255,1) 0,
     var(--Colors-nav-bar-info-button-fill) 0px,
-    var(--Colors-nav-bar-info-button-fill) 7.25rem,
-    rgba(255,255,255,1) 7.25rem
+    var(--Colors-nav-bar-info-button-fill) 12.60rem,
+    rgba(255,255,255,1) 12.6rem
     );
   /* background-position: 75px 0; */
-  background-position: 7.0rem 0;
+  background-position: 9.75rem 0;
   
 }
 .settype_toggle.diplom .navbar_link_diplom {
