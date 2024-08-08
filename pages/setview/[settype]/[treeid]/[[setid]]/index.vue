@@ -7,7 +7,45 @@
                 <div class="content">Zurück</div>
             </NuxtLink>
             
-            <Transition name="fade_io">
+            
+            <NuxtLink class="navbar_set_link"
+                v-if="activeSetId !== setid"
+                @mouseover="setShowPath2Root(true)"
+                @mouseleave="setShowPath2Root(false)"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
+
+                S {{ showPath2Root ? getColTitle(setid) : '...' }}
+            </NuxtLink>
+
+            <!-- <NuxtLink class="navbar_set_link"
+              v-else-if="parent_id == 'root'"
+              >
+              T {{getColTitle(treeid)}}
+            </NuxtLink> -->
+
+            <NuxtLink class="navbar_set_link"
+              v-else-if="parent_id !== 'root'"
+              :to="'/setview/'+settype+'/'+treeid+'/'+ parent_id"
+              @mouseover="setShowPath2Root(true)"
+              @mouseleave="setShowPath2Root(false)">
+
+              P {{showPath2Root ? getColTitle(parent_id) : '...' }}
+            </NuxtLink>
+
+            <NuxtLink
+                v-if="activeSetId !== setid"
+                class="navbar_set_link"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
+                {{ getColTitle(activeSetId) }}
+            </NuxtLink>
+            <NuxtLink class="navbar_set_link"
+              v-else
+              :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId"
+              >
+              {{ getColTitle(activeSetId) }}
+            </NuxtLink>
+
+            <!-- <Transition name="fade_io">
               <NuxtLink class="navbar_set_link"
                 v-if="path2root.length >= 1 && showPath2Root == false"
                 @mouseover="setShowPath2Root(true)">
@@ -24,15 +62,15 @@
                   {{ getColTitle(colid) }}
               </NuxtLink>
               </div>
-            </Transition>
-            <Transition name="fade_io">
+            </Transition> -->
+            <!-- <Transition name="fade_io">
               <NuxtLink
                 v-if="activeSetId !== setid || !showPath2Root"
                 class="navbar_set_link"
                 :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
                 {{ getColTitle(activeSetId) }}
               </NuxtLink>
-            </Transition>
+            </Transition> -->
             
             <NuxtLink
               @click="toggleShowInfo()"
@@ -245,7 +283,8 @@
             @click="nav2Element(el)"
             :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
-            <div v-if="el.setIdx == 0 && activeSetId == el.collection_id" class="nav_preview_col_title">
+            <div v-if="el.setIdx == 0 && activeSetId == el.collection_id" class="nav_preview_col_title"
+              :style="{width: (getShowCount(el.collection_id) * 72) + 'px'}">
               {{getColTitle(el.collection_id)}}
             </div>
           </div>
@@ -370,6 +409,7 @@ const showInfo = ref(false)
 const toggleShowInfo = () => {
   showInfo.value = !showInfo.value
   setTimeout(() => {
+    swiperMain.value.updateSize()
     swiperMain.value.update()
   }, 3000)
   
