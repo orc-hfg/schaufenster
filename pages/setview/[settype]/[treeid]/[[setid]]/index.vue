@@ -7,7 +7,7 @@
                 <div class="content">Zurück</div>
             </NuxtLink>
             
-            
+            <Transition name="move-l45">
             <NuxtLink class="navbar_set_link"
                 v-if="activeSetId !== setid"
                 @mouseover="setShowPath2Root(true)"
@@ -16,6 +16,7 @@
 
                 S {{ showPath2Root ? getColTitle(setid) : '...' }}
             </NuxtLink>
+          </Transition>
 
             <!-- <NuxtLink class="navbar_set_link"
               v-else-if="parent_id == 'root'"
@@ -23,27 +24,34 @@
               T {{getColTitle(treeid)}}
             </NuxtLink> -->
 
+            <Transition name="move-l45">
             <NuxtLink class="navbar_set_link"
-              v-else-if="parent_id !== 'root'"
+              v-if="activeSetId == setid && parent_id !== 'root'"
               :to="'/setview/'+settype+'/'+treeid+'/'+ parent_id"
               @mouseover="setShowPath2Root(true)"
               @mouseleave="setShowPath2Root(false)">
 
               P {{showPath2Root ? getColTitle(parent_id) : '...' }}
             </NuxtLink>
+          </Transition>
 
+          <Transition name="move-ur30">
             <NuxtLink
                 v-if="activeSetId !== setid"
                 class="navbar_set_link"
                 :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
                 {{ getColTitle(activeSetId) }}
             </NuxtLink>
+          </Transition>
+
+          <Transition name="move-ur30">
             <NuxtLink class="navbar_set_link"
-              v-else
+              v-if="activeSetId == setid"
               :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId"
               >
               {{ getColTitle(activeSetId) }}
             </NuxtLink>
+          </Transition>
 
             <!-- <Transition name="fade_io">
               <NuxtLink class="navbar_set_link"
@@ -1006,6 +1014,9 @@ onMounted(() => {
 }*/
 
 .navbar_set_link {
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
   font-size: var(--font__body__fontsize, 20px);
   line-height: var(--font__body__lineheight, 24px);
   padding: var(--spacing__betweenitemsM, 12px);
@@ -1013,6 +1024,7 @@ onMounted(() => {
   border-radius: var(--radius__full, 48px);
   background-color: var(--Colors-nav-bar-toggle-on);
   margin: 0 var(--spacing__navbarbetweenitems, 4px);
+  
 }
 .navbar_set_link.info_active {
   background-color: var(--Colors-nav-bar-toggle-off);

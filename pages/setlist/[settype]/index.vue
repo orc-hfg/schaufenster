@@ -42,7 +42,7 @@
           />
         
       </div>
-      <Transition name="swiper">
+      <Transition name="move-u100-fade">
     <swiper
       v-if="slideList && slideList.length"
       :modules="swiper_modules"
@@ -158,33 +158,6 @@
 
     </Transition>
 
-    
-    <!--
-    <div v-if="showFilterView" class="dialog_filter">
-      <NuxtLink @click="onFilterViewClosed()">
-        <IconWrap>
-          <IconsMinusSquare/>
-        </IconWrap>
-        Close
-      </NuxtLink>
-      <button @click="onFilterViewClosed()">Close</button>
-      <NuxtLink @click="applyFilter()">
-        <IconWrap>
-          <IconsMinusSquare/>
-        </IconWrap>
-        Apply
-      </NuxtLink>
-      <button @click="applyFilter">Close</button>
-
-      <FilterView
-        :trees_map="useTree[settype]"
-        :tree_type="settype"
-        @closed="onFilterViewClosed"
-         />
-      <h3>Filter</h3>      
-      
-    </div>
-    -->
   </div>
 </template>
 <script setup lang="ts">
@@ -642,7 +615,7 @@ onMounted(() => {
   clip-path: circle(99vw at 50vw 50vh);
 }
 .swiper_main {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   position: absolute;
   top: 8rem;
   left: 2rem;
@@ -785,13 +758,7 @@ gap: 8px;
   user-select: none;
 }
 
-.nav {
 
-}
-.header_nav_logo {
-  padding: 0px;
-  border: 1px solid transparent
-}
 .navbar_link {
   font-family: Instrument Sans, sans-serif;
   font-size: 20px;
@@ -800,57 +767,7 @@ gap: 8px;
   background-color: var(--Colors-nav-bar-toggle-on);
   margin: 0px 4px;
 }
-.settype_toggle {
-  float:left;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  transition: all 0.25s linear;
-}
-.settype_toggle.projects {
-  background: linear-gradient(90deg, rgba(0,0,0,1) 0%,
-    rgba(0,0,0,1) 9.5rem,
-    rgba(255,255,255,1) 9.5rem);
 
-}
-.settype_toggle.diplom {
-  /* background: rgb(242,137,6); */
-  
-  /* background: linear-gradient(90deg, rgba(255,255,255,1) 0,
-   rgba(255,255,255,1) 0,
-    var(--Colors-nav-bar-info-button-fill) 1px,
-    var(--Colors-nav-bar-info-button-fill) 190px,
-    rgba(255,255,255,1) 190px  
-    ); */
-
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0,
-   rgba(255,255,255,1) 0,
-    var(--Colors-nav-bar-info-button-fill) 0px,
-    var(--Colors-nav-bar-info-button-fill) 12.60rem,
-    rgba(255,255,255,1) 12.6rem
-    );
-  /* background-position: 75px 0; */
-  background-position: 9.75rem 0;
-  
-}
-.settype_toggle.diplom .navbar_link_diplom {
-
-}
-.navbar_link.navbar_link_projects,
-.navbar_link.navbar_link_diplom {
-  float: left;
-  text-decoration: none;
-  color: #222;
-}
-.navbar_link.navbar_link_projects.active {
-
-  /* background-color: var(--Colors-nav-bar-toggle-on, #222); */
-   
-  color: #fff;
-}
-.navbar_link.navbar_link_diplom.active {
-  /* background-color: var(--Colors-nav-bar-toggle-on, #f00); */
-  color: #fff;
-}
 .navbar_set_link.active {
   background-color: var(--Colors-nav-bar-toggle-off);
   font-weight: 800;
@@ -860,29 +777,6 @@ gap: 8px;
 }
 
 
-.move-ur30-enter-active,
-.move-ur30-leave-active {
-  transition: all 0.5s ease-in;
-  /* position: relative; top:0px; left: 0px; */
-}
-
-.move-ur30-enter-from,
-.move-ur30-leave-to {
-  transform: translate(50px, -100px);
-  
-}
-
-.move-ur45-enter-active,
-.move-ur45-leave-active {
-  transition: all 0.5s ease-in;
-  /* position: relative; top:0px; left: 0px; */
-}
-
-.move-ur45-enter-from,
-.move-ur45-leave-to {
-  transform: translate(100px, -100px);
-  
-}
 
 
 .filter_blured {

@@ -276,3 +276,55 @@
 .fade_io-leave-to {
   opacity: 0;
 }
+
+
+.move-u100-fade-enter-active {
+  transition: all 1s 0.5s ease-in;
+}
+.move-u100-fade-leave-active {
+  transition: all 1s ease-in;
+  /* position: relative; top:0px; left: 0px; */
+}
+
+.move-u100-fade-enter-from,
+.move-u100-fade-leave-to {
+  transform: translate(0px, 100px);
+  
+}
+
+
+.move-ur30-enter-active,
+.move-ur30-leave-active {
+  transition: all 0.5s ease-in;
+  /* position: relative; top:0px; left: 0px; */
+}
+
+.move-ur30-enter-from,
+.move-ur30-leave-to {
+  transform: translate(50px, -100px);
+  
+}
+
+.move-ur45-enter-active,
+.move-ur45-leave-active {
+  transition: all 0.5s ease-in;
+  /* position: relative; top:0px; left: 0px; */
+}
+
+.move-ur45-enter-from,
+.move-ur45-leave-to {
+  transform: translate(100px, -100px);
+  
+}
+
+.move-l45-enter-active,
+.move-l45-leave-active {
+  transition: all 0.5s ease-in;
+  /* position: relative; top:0px; left: 0px; */
+}
+
+.move-l45-enter-from,
+.move-l45-leave-to {
+  transform: translate(-100px, 0px);
+  
+}

@@ -27,39 +27,28 @@
         </Transition>
 
         <Transition name="move-ur45">
-         <NuxtLink class="navbar_link_filter"
-          v-if="!showMenuView"
-          :class="{active:showFilterView}"
-          @click="$emit('showFilter')">
-          Filter
-          <span v-if="filterCount">({{filterCount}})</span>
-        </NuxtLink>
-      </Transition>
+          <NuxtLink class="navbar_link afilter"
+            v-if="!showMenuView"
+            :class="{active:showFilterView}"
+            @click="$emit('showFilter')">
+            Filter
+            <span v-if="filterCount">({{filterCount}})</span>
+          </NuxtLink>
+        </Transition>
 
-       <NuxtLink class="navbar_link"
-          v-if="!showMenuView"
-          @click="$emit('resetFilter')"
-          >
-          Reset
-        </NuxtLink>
-
-        <NuxtLink class="navbar_link"
-          :class="{disabled: isEnabledYearBack}"
-          v-if="!showMenuView && settype == MATCH_DIPLOM"
-          @click="$emit('clickedYearBack')">
-          Up
-        </NuxtLink>
-        <NuxtLink class="navbar_link"
-          :class="{disabled: isEnabledYearFwd}"
-          v-if="!showMenuView && settype == MATCH_DIPLOM"
-          @click="$emit('clickedYearFwd')"
-          >
-          Down
-        </NuxtLink>
+        <Transition name="move-ur45">
+        <NuxtLink class="navbar_link areset"
+            v-if="!showMenuView && filterCount"
+            @click="$emit('resetFilter')"
+            >
+            Reset
+          </NuxtLink>
+        </Transition>
         
       </nav>
       <nav class="wrapper_right">
-        <NuxtLink class="navbar_link">
+        <NuxtLink class="navbar_link"
+         to="https://dev.madek.hfg-karlsruhe.de">
         <IconsNavIconHfG/>
         
         </NuxtLink>
@@ -75,19 +64,17 @@ const {
 
 const emit = defineEmits([
     'showMenu',
-    'clickedYearFwd',
-    'clickedYearBack',
     'resetFilter',
     'showFilter',
-    'switch2settype'])
+    'switch2settype'
+])
 
 const props = defineProps([
     'toggleBtnSetType',
     'settype',
     'showMenuView',
-    'showFilterView',
-    'isEnabledYearFwd',
-    'isEnabledYearBack'])
+    'showFilterView'
+])
 </script>
 <style scoped>
 header {
@@ -118,32 +105,29 @@ header nav a {
 }
 
 
-.nav {
-
-}
 .header_nav_logo {
   padding: 0px;
   border: 1px solid transparent
 }
 
 .navbar_link {
-  
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
   font-family: Instrument Sans, sans-serif;
   font-size: 20px;
-  /* padding: 12px; */
-  /* border: 1px solid black; */
+  
   background-color: var(--Colors-nav-bar-toggle-on);
 
   /* Buttons */
-font-family: "Instrument Sans";
-font-size: var(--font-button-font-size, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--font-button-line-height, 24px); /* 120% */
-
-  /* margin: 0px 4px; */
+  font-family: "Instrument Sans";
+  font-size: var(--font-button-font-size, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-button-line-height, 24px); /* 120% */
 }
-.navbar_link_filter {
+
+.navbar_link.afilter {
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   align-items: center;
@@ -153,6 +137,23 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
   background: var(--nav-bar-button-fill, #F3F2EF);
 }
+
+.navbar_link.areset {
+  display: flex;
+  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
+  align-items: center;
+  gap: 12px;
+
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
+  background: var(--nav-bar-button-fill, #F3F2EF);
+}
+
+
+.navbar_link:hover {
+  /* background-color: var(--Colors-nav-bar-toggle-off); */
+}
+
 .settype_toggle {
   float:left;
   background-repeat: no-repeat;
@@ -183,7 +184,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
 .navbar_link.navbar_link_projects,
 .navbar_link.navbar_link_diplom {
   float: left;
-  text-decoration: none;
+  
   
 
   color: var(--text-primary, #2C2C2C);
@@ -206,6 +207,9 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   
   border-radius: var(--radius-none, 0px);
   border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
+}
+.navbar_link_diplom:hover {
+  background-color: var(--Colors-nav-bar-info-button-fill);
 }
 .navbar_link.navbar_link_projects.active {
 
