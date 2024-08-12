@@ -1,26 +1,23 @@
 <template>
-  <div class="intro_page">
-    <!--<header>
-      <nav>
-        <NuxtLink to="/">
-          <IconsNavIconORC/>
+  <div class="intro_page" data-theme="dark">
+    <header>
+      <nav class="wrap_left">
+        <NuxtLink to="/" class="home_link">
+          <IconsNavHome/>
         </NuxtLink>
-        <NuxtLink class="indexlink" 
-          :to="'/setlist/' + MATCH_PROJECTS">Index</NuxtLink>
-        <NuxtLink class="diplomlink"
-          :to="'/setlist/' + MATCH_DIPLOM">Diplom</NuxtLink>
-
-        <NuxtLink class="hfglink" to="https://madek.hfg-karlsruhe.de">//////</NuxtLink>
-        <button @click="showContent=!showContent">SHOW</button>
       </nav>
-    </header>-->
+      <nav class="wrap_right">
+        <NuxtLink class="hfg_link" to="https://madek.hfg-karlsruhe.de">
+        <IconsNavIconHfG/>
+        </NuxtLink>
+      </nav>
+    </header>
     <Transition>
     <div class="intro_content"
       v-if="showContent"
       >
       <div v-for="idx in [1,2,3,4,5]"
         :style="font_style">{{ $t('intro.title' + idx) }}</div>
-      <!-- <h1 :style="font_style">{{ $t('intro.title') }}</h1> -->                
     </div>
   </Transition>
   </div>
@@ -55,35 +52,58 @@ onMounted(() => {
 </script>
   
 <style scoped>
-  .indexlink,
-  .diplomlink,
-  .hfglink {
-    padding: 12px;
-    border: 1px solid black;
-    font-size: 20px;
-    color: var(--Colors-text-headlines)
+  header {
+    display: flex;
+    
+    padding: var(--margin-navbar-left-right-top-btm, 12px);
+    justify-content: space-between;
+    align-items: center;
   }
-  .hfglink {
-    float: right;
+  .wrap_left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-navbar-between-items, 4px);
+  }
+  .wrap_right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--margin-navbar-institution-logo-right, 10px);
+  }
+  .home_link {
+    padding: 0px;
+    height: 48px;
+  }
+  .hfg_link {
+    padding: 12px;
+    /* border: 1px solid white; */
+    font-size: 20px;
+
+    display: flex;
+    padding-right: var(--margin-navbar-institution-logo-right, 10px);
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--padding-item-horizontal-M, 12px);
+  }
+
+  svg * {
+    fill: var(--Colors-text-primary, #ffffff);
   }
   
   .intro_page {
     position: fixed;
     top: 0px; left: 0px; width: 100vw; height: 100%;
-    padding: 2.2rem 0rem;
     overflow: hidden;
-
     background-color: var(--background-intro, #2C2C2C);
-    
-    color: var(--Colors-text-headlines, #fff);
+    color: var(--Colors-text-primary, #fff);
   }
+
   h1 {
     
     align-self: stretch;
-    color: var(--Colors-text-headlines, #FFF);
+  
     text-align: center;
     font-family: Instrument Sans, sans-serif;
-    
     
     font-style: normal;
     font-weight: 400;
@@ -94,9 +114,7 @@ onMounted(() => {
   .intro_content {
     margin: auto;
     align-self: stretch;
-    /* color: var(--Colors-text-headlines, #FFF); */
-    /* color: var(--Primitives-color-highlight-bright-tone, #fff); */
-    color: #fff;
+    
     text-align: center;
     font-style: normal;
     font-weight: 400;
@@ -104,22 +122,25 @@ onMounted(() => {
     font-family: Instrument Sans, sans-serif;
     font-size: min(16vw, 16vh);
     line-height: 6vh;
+
     position:relative;
-    top: 100px;
+    top: 103px;
     display:block;
+
   }
 
 
 .v-enter-active,
 .v-leave-active {
+  transition: opacity 0.5s 2.5s ease-out;
   transition: all 2.0s 1s ease-out;
-  /*transition: opacity 0.5s 1s ease;*/
+  
   
 }
 
 .v-enter-from,
 .v-leave-to {
-  /* opacity: 0; */
+  opacity: 0;
   top: 100vh;
 }
 

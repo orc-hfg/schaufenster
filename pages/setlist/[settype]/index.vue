@@ -31,11 +31,24 @@
       <div v-if="!slideList || !slideList.length">
         No data yet!
       </div>
+      <div v-if="settype==MATCH_DIPLOM" class="year_stepper">
+        <IconsYearSelectorUp
+          @click="clickedYearBack()"
+          :class="{disabled: !isEnabledYearBack()}"
+          />
+        <IconsYearSelectorDown
+          @click="clickedYearForward()"
+          :class="{disabled: !isEnabledYearForward()}"
+          />
+        
+      </div>
+      <Transition name="swiper">
     <swiper
-      v-else
+      v-if="slideList && slideList.length"
       :modules="swiper_modules"
       class="swiper_main"
-      :class="{filter_blured: showMenuView || showFilterView || showFontsView}"
+      :class="{filter_blured: showMenuView || showFilterView || showFontsView,
+        button_pad_left: settype == MATCH_DIPLOM}"
       @scroll="setSwiperMoving()"
       @swiper="setMainSwiper"
       @onAny="onSwiperEvent"
@@ -82,7 +95,8 @@
       </swiper-slide>
 
     </swiper>
-
+  </Transition>
+    
     <div class="tree_info" v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
       :style="info_tree_style">
       <div>&nbsp;</div>
@@ -102,11 +116,13 @@
       <div class="tree_info_blur"></div>
     </div>
 
-    <div class="intro_info"
-      :style="intro_info_style"
-      v-if="intro_info">
-      {{ intro_info }}
-    </div>
+    <Transition name="fade">
+      <div class="intro_info"
+        :style="intro_info_style"
+        v-if="intro_info">
+        {{ intro_info }}
+      </div>
+    </Transition>
     <Transition name="fade">
       <div class="year_info"
         :style="year_info_style"
@@ -626,13 +642,39 @@ onMounted(() => {
   clip-path: circle(99vw at 50vw 50vh);
 }
 .swiper_main {
-  /* border: 1px solid red; */
+  border: 1px solid red;
   position: absolute;
   top: 8rem;
   left: 2rem;
   width: calc(100vw - 4rem);
   height: 80vh;
+}
+.swiper_main.button_pad_left {
+  left: 8rem;
+  width: calc(100vw - 10rem);
+}
+.year_stepper {
+  position: absolute;
+  top: 45vh;
 
+  display: inline-flex;
+flex-direction: column;
+align-items: center;
+gap: 8px;
+}
+.year_stepper * {
+  opacity: 0.85;
+  user-select: none;
+  cursor: pointer;
+}
+.year_stepper *.disabled {
+  opacity: 0.3;
+}
+.year_stepper *:active {
+  opacity: 1.0;
+}
+.year_stepper svg * {
+  fill: var(--Colors-text-headlines);
 }
 .main_slide {
   /* border: 1px solid blue; */
