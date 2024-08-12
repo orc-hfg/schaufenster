@@ -1,6 +1,20 @@
 <template>
   <div class="setlist_page">
-    <header >
+    <SetListHeader
+      :settype="settype"
+      :show-menu-view="showMenuView"
+      :toggle-btn-set-type="toggleBtnSetType"
+      :is-enabled-year-back="isEnabledYearBack()"
+      :is-enabled-year-fwd="isEnabledYearForward()"
+      :show-filter-view="showFilterView"
+      @show-menu="showMenu()"
+      @clicked-year-back="clickedYearBack()"
+      @clicked-year-fwd="clickedYearForward()"
+      @reset-filter="resetFilter()"
+      @show-filter="showFilter()"
+      @switch2settype="switch2settype"
+    />
+    <!--<header >
       <nav class="nav">
         <NuxtLink @click="showMenu()" class="header_nav_logo">
           <IconsNavIconORC />
@@ -21,7 +35,7 @@
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
               @click="switch2settype(MATCH_DIPLOM)"
               >
-              <!-- Abschluss -->
+        
               Abschlussarbeiten
             </NuxtLink>
           </div>
@@ -62,19 +76,9 @@
           Down
         </NuxtLink>
         
-        
-        <!-- <h1>Set List</h1> -->
-        <!-- <p>
-          RP: {{ route.params }}
-          ST/MT: {{ settype }}
-          <br/>
-          
-        </p> -->
-        
-
       </nav>
     </header>
-    
+    -->
     <!--
      :slidesPerView="2"
     :slidesPerGroup="2"
@@ -803,6 +807,9 @@ onMounted(() => {
   user-select: none;
 }
 
+.nav {
+
+}
 .header_nav_logo {
   padding: 0px;
   border: 1px solid transparent
