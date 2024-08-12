@@ -1,6 +1,6 @@
 <template>
 
-    <div class="dialog_about" >
+    <div class="dialog_about" data-theme="dark">
         <header>
             <nav class="nav">
                 <NuxtLink @click="$emit('onClose')" class="nav_close">
@@ -32,7 +32,7 @@
                     Das HfG Open Resource Center (ORC) ist eine zentrale Einrichtung zur Entwicklung und Verankerung einer nachhaltigen digitalen Infrastruktur für die Hochschule. Darüber hinaus arbeitet das ORC an der Verankerung einer Kultur des eigenverantwortlichen Dokumentierens und Archivierens an der HfG.
                 </div>
             </div>
-            <div class="col_70">
+            <div class="col_100">
                 <h3 class="about_h3">
                     Über die Stiftung                    
                 </h3>
@@ -41,28 +41,121 @@
                 </div>
             </div>
 
-            <div>
+            <div class="row_100">
                 <div class="col_50">
-                    <div class="subline">
-                        Projektleitung
+                    <div class="about_list">
+                        <div class="about_list_title">
+                            Projektleitung
+                        </div>
+                        <div class="about_list_content_wrap">
+                            <div class="about_list_content">
+                                Dr. Barbara Kuon
+                            </div>
+                            <div class="about_list_content_link">
+                                bkuon(at)hfg-karlsruhe.de
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <div class="about_list">
+                        <div class="about_list_title">
+                            Koordination
+                        </div>
+                        
+                        <div class="about_list_content_wrap">
+                            <div class="about_list_content">
+                                Dr. Katarina Schorb
+                            </div>
+                            <div class="about_list_content_link">
+                                kschorb(at)hfg-karlsruhe.de
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about_list">
+                        <div class="about_list_title">
+                        Digital Archivists
+                        </div>
+                        <div class="about_list_content_wrap2">
+                            <div class="about_list_content_wrap">
+                                <div class="about_list_content">
+                                    Hannes Herold 
+                                </div>
+                                <div class="about_list_content_link">
+                                    hherold(at)hfg-karlsruhe.de
+                                </div>
+                            </div>
+                            <div class="about_list_content_wrap">
+                                <div class="about_list_content">
+                                    Víctor Fancelli Capdevila 
+                                </div>
+                                <div class="about_list_content_link">
+                                    vfcapdevila(at)hfg-karlsruhe.de
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="subline">
-                        Koordination
-                    </div>
-                    <div class="subline">
-                        Digital Archivists
-                    </div>
-                    <div class="subline">
+                    <div class="about_list">
+                        <div class="about_list_title">
                         Archival Curators
+                        </div>
+                        <div class="about_list_content_wrap2">
+                            <div class="about_list_content_wrap">
+                                <div class="about_list_content">
+                                    Hannes Herold 
+                                </div>
+                                <div class="about_list_content_link">
+                                    hherold(at)hfg-karlsruhe.de
+                                </div>
+                            </div>
+                            <div class="about_list_content_wrap">
+                                <div class="about_list_content">
+                                    Víctor Fancelli Capdevila 
+                                </div>
+                                <div class="about_list_content_link">
+                                    vfcapdevila(at)hfg-karlsruhe.de
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="col_50">
-                    <div class="subline">
+                    <div class="about_list">
+                        <div class="about_list_title">
                         Mail
+                        </div>
+                        <div class="about_list_content">
+                            Dr. Barbara Kuon
+                        </div>
+                        <div class="about_list_content_link">
+                            bkuon(at)hfg-karlsruhe.de
+                        </div>
                     </div>
-                    <div class="subline">
-                        Links zu Madek
+                    <div class="about_list">
+                        <div class="about_list_title">
+                            Links zu Madek
+                        </div>
+                        
+                        <div class="about_list_content_link">
+                            HfG Handbuch
+                        </div>
+                        <div class="about_list_content_link">
+                            HfG Handbuch
+                        </div>
+                        <div class="about_list_content_link">
+                            HfG Handbuch
+                        </div>
+                        <div class="about_list_content_link">
+                            HfG Handbuch
+                        </div>
+                        <div class="about_list_content_link">
+                            HfG Handbuch
+                        </div>
+                        <div class="about_list_content_link">
+                            HfG Handbuch
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,38 +167,40 @@
 </template>
 <script setup lang="ts">
 const emit = defineEmits(['onClose'])
+//TODO content
 </script>
 <style scoped>
 .dialog_about {
     position: fixed;
     top: 0px; left: 0px;
-    width: 103vw;
+    width: calc(100vw + 20px); /*move scroller */
     height: 100vh;
     z-index: 1150;
-    background-color: var(--Colors-background-menu);
-    color: var(--Colors-text-primary-inverted);
+    background-color: var(--Colors-background-default,#2C2C2C);
+    color: var(--Colors-text-primary, #FFFFFF);
     overflow-y: auto;
+    /* scrollbar-width: 0; */
+    /* scrollbar-color: rgba(255,255,255,0.0); */
 }
 .about_panel {
     position: absolute;
     left: 23%;
     right: 23%;
     top: 12%;
-    /* bottom: 2rem; */
     
-    /* overflow-y: auto; */
     display: flex;
-
     flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-between-menu-items, 20px);
-    flex-shrink: 0;
+    align-items: flex-start;
+    gap: var(--padding-container-bottom-XL, 112px);
+    align-self: stretch;
 }
 .nav_close {
     /* float: left; */
     /* border: 1px solid #fff; */
     height: 48px;
     padding: 0;
+    cursor: pointer;
+    user-select: none
 }
 
 .close_logo {
@@ -145,14 +240,39 @@ h3 {
     font-weight: 500;
     line-height: var(--font-body-line-height, 24px); /* 120% */
 }
-.col_50 {
-    position: relative;
-    float: left;
-    width: 50%;
+.row_100 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+    align-items: flex-start;
+    gap: var(--padding-container-vertical-M, 32px);
 }
+.col_50 {
+    /* border: 1px solid green; */
+    /* position: relative; */
+    /* float: left; */
+    width: 50%;
+    min-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--padding-container-bottom-M, 32px);
+    flex: 1 0 0;
+}
+.about_list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+}
+.about_list_title {
+    color: var(--Colors-text-secondary, #CAC9C2);
 
-.subline {
-    color: var(--text-secondary, #CAC9C2);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
 
     /* Subline */
     font-family: "Instrument Sans";
@@ -161,13 +281,49 @@ h3 {
     font-weight: 500;
     line-height: var(--font-subline-line-height, 24px); /* 120% */
 }
-.link {
-    color: var(--text-primary, #FFF);
+
+.about_list_content_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* gap: 12px; */
+    gap:0px;
+    align-self: stretch;
+}
+.about_list_content_wrap2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+}
+.about_list_content {
+    color: var(--Colors-text-primary, #FFF);
+
+    /* Body */
     font-family: "Instrument Sans";
-    font-size: 20px;
+    font-size: var(--font-body-font-size, 20px);
     font-style: normal;
     font-weight: 500;
-    line-height: normal;
+    line-height: var(--font-body-line-height, 24px); /* 120% */
+}
+.about_list_content_link {
+    color: var(--Colors-text-primary, #FFF);
+
+    /* Body */
+    font-family: "Instrument Sans";
+    font-size: var(--font-body-font-size, 20px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--font-body-line-height, 24px);
     text-decoration-line: underline;
+}
+
+@media screen and (max-width: 1280px) {
+    
+    .row_100 {
+        flex-direction: column;
+        
+    }
 }
 </style>
