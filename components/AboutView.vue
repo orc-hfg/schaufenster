@@ -194,21 +194,18 @@ const emit = defineEmits(['onClose'])
     gap: var(--padding-container-bottom-XL, 112px);
     align-self: stretch;
 }
+
+
 .nav_close {
-    /* float: left; */
-    /* border: 1px solid #fff; */
     height: 48px;
     padding: 0;
     cursor: pointer;
     user-select: none
 }
-
 .close_logo {
     float: left;
     padding: 0;
-    /* border: 1px solid #fff; */
     height: 48px
-
 }
 .close_content {
     position: relative;
@@ -219,7 +216,8 @@ const emit = defineEmits(['onClose'])
 .close_logo * {
     stroke: none;
     fill: var(--text-primary, #FFF) !important;
- }
+}
+
 
 h3 {
     color: var(--text-primary, #FFF);
@@ -244,14 +242,10 @@ h3 {
     display: flex;
     flex-direction: row;
     width: 100%;
-    
     align-items: flex-start;
     gap: var(--padding-container-vertical-M, 32px);
 }
 .col_50 {
-    /* border: 1px solid green; */
-    /* position: relative; */
-    /* float: left; */
     width: 50%;
     min-width: 420px;
     display: flex;
@@ -260,6 +254,7 @@ h3 {
     gap: var(--padding-container-bottom-M, 32px);
     flex: 1 0 0;
 }
+
 .about_list {
     display: flex;
     flex-direction: column;
@@ -320,7 +315,6 @@ h3 {
 }
 
 @media screen and (max-width: 1280px) {
-    
     .row_100 {
         flex-direction: column;
         

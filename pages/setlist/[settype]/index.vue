@@ -14,71 +14,7 @@
       @show-filter="showFilter()"
       @switch2settype="switch2settype"
     />
-    <!--<header >
-      <nav class="nav">
-        <NuxtLink @click="showMenu()" class="header_nav_logo">
-          <IconsNavIconORC />
-        </NuxtLink>
-
-        <Transition name="move-ur30">
-          <div class="settype_toggle"
-            v-if="!showMenuView"
-            :class="{diplom: toggleBtnSetType == MATCH_DIPLOM,
-              projects: toggleBtnSetType == MATCH_PROJECTS}">
-            <NuxtLink class="navbar_link navbar_link_projects"
-              :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
-              @click="switch2settype(MATCH_PROJECTS)"
-              >
-              Alle Projekte
-            </NuxtLink>
-            <NuxtLink class="navbar_link navbar_link_diplom"
-              :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
-              @click="switch2settype(MATCH_DIPLOM)"
-              >
-        
-              Abschlussarbeiten
-            </NuxtLink>
-          </div>
-        </Transition>
-
-        <Transition name="move-ur45">
-         <NuxtLink class="navbar_link"
-          v-if="!showMenuView"
-          :class="{active:showFilterView}"
-          @click="showFilter()">
-          Filter
-        </NuxtLink>
-      </Transition>
-
-        <NuxtLink class="navbar_link"
-          v-if="!showMenuView">
-          FC {{ filterCount }}
-        </NuxtLink>
-
-        <NuxtLink class="navbar_link"
-          v-if="!showMenuView"
-          @click="resetFilter()"
-          >
-          Reset
-        </NuxtLink>
-
-        <NuxtLink class="navbar_link"
-          :class="{disabled: isEnabledYearBack()}"
-          v-if="!showMenuView && settype == MATCH_DIPLOM"
-          @click="clickedYearBack()">
-          Up
-        </NuxtLink>
-        <NuxtLink class="navbar_link"
-          :class="{disabled: isEnabledYearForward()}"
-          v-if="!showMenuView && settype == MATCH_DIPLOM"
-          @click="clickedYearForward()"
-          >
-          Down
-        </NuxtLink>
-        
-      </nav>
-    </header>
-    -->
+    
     <!--
      :slidesPerView="2"
     :slidesPerGroup="2"

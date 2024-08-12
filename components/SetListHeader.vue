@@ -61,16 +61,6 @@
           Down
         </NuxtLink>
         
-        
-        <!-- <h1>Set List</h1> -->
-        <!-- <p>
-          RP: {{ route.params }}
-          ST/MT: {{ settype }}
-          <br/>
-          
-        </p> -->
-        
-
       </nav>
     </header>
 </template>
