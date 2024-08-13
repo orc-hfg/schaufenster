@@ -7,7 +7,7 @@
 
         <Transition name="move-ur30">
           <div class="settype_toggle"
-            v-if="!showMenuView"
+            v-if="!hideNavBtns"
             :class="{diplom: toggleBtnSetType == MATCH_DIPLOM,
               projects: toggleBtnSetType == MATCH_PROJECTS}">
             <NuxtLink class="navbar_link navbar_link_projects"
@@ -28,7 +28,7 @@
 
         <Transition name="move-ur45">
           <NuxtLink class="navbar_link afilter"
-            v-if="!showMenuView"
+            v-if="!hideNavBtns"
             :class="{active:showFilterView}"
             @click="$emit('showFilter')">
             Filter
@@ -38,7 +38,7 @@
 
         <Transition name="move-ur45">
         <NuxtLink class="navbar_link areset"
-            v-if="!showMenuView && filterCount"
+            v-if="!hideNavBtns && filterCount"
             @click="$emit('resetFilter')"
             >
             Reset
@@ -46,12 +46,18 @@
         </Transition>
         
       </nav>
-      <nav class="wrapper_right">
-        <NuxtLink class="navbar_link"
-         to="https://dev.madek.hfg-karlsruhe.de">
+      <nav class="wrapper_right"
+        @mouseenter="setShowArchiveLink(true)"
+        @mouseleave="setShowArchiveLink(false)"
+        >
         <IconsNavIconHfG/>
-        
-        </NuxtLink>
+        <Transition name="move-u30-fade">
+          <NuxtLink class="navbar_link aarchive"
+            v-if="showArchive"
+            to="https://dev.madek.hfg-karlsruhe.de">
+            Zur Seite
+          </NuxtLink>
+        </Transition>
       </nav>
     </header>
 </template>
@@ -72,9 +78,19 @@ const emit = defineEmits([
 const props = defineProps([
     'toggleBtnSetType',
     'settype',
-    'showMenuView',
+    'hideNavBtns',
     'showFilterView'
 ])
+const showArchive = ref(false)
+const setShowArchiveLink = (val:boolean) => {
+  if (val == true) {
+    showArchive.value = true;
+  } else {
+    setTimeout(() => {
+      showArchive.value = false;
+    },3000)
+  }
+}
 </script>
 <style scoped>
 header {
@@ -114,10 +130,8 @@ header nav a {
   text-decoration: none;
   user-select: none;
   cursor: pointer;
-  font-family: Instrument Sans, sans-serif;
-  font-size: 20px;
   
-  background-color: var(--Colors-nav-bar-toggle-on);
+  /* background-color: var(--Colors-nav-bar-toggle-on); */
 
   /* Buttons */
   font-family: "Instrument Sans";
@@ -125,6 +139,10 @@ header nav a {
   font-style: normal;
   font-weight: 500;
   line-height: var(--font-button-line-height, 24px); /* 120% */
+
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  
 }
 
 .navbar_link.afilter {
@@ -133,9 +151,7 @@ header nav a {
   align-items: center;
   gap: 12px;
 
-  border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
-  background: var(--nav-bar-button-fill, #F3F2EF);
+  background: var(--Colors-nav-bar-button-fill, #F3F2EF);
 }
 
 .navbar_link.areset {
@@ -143,15 +159,27 @@ header nav a {
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   align-items: center;
   gap: 12px;
+  
+  background: var(--Colors-nav-bar-button-fill, #F3F2EF);
+}
 
-  border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
-  background: var(--nav-bar-button-fill, #F3F2EF);
+.navbar_link.aarchive {
+  display: flex;
+  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
+  align-items: center;
+  gap: 12px;
+  
+  background: var(--Colors-nav-bar-button-fill, #F3F2EF);
 }
 
 
 .navbar_link:hover {
   /* background-color: var(--Colors-nav-bar-toggle-off); */
+}
+.navbar_link_projects:hover,
+.afilter:hover,
+.areset:hover {
+   background-color: var(--Colors-nav-bar-toggle-on,#CAC9C2);
 }
 
 .settype_toggle {
@@ -213,10 +241,13 @@ header nav a {
 }
 .navbar_link.navbar_link_projects.active {
 
-  /* background-color: var(--Colors-nav-bar-toggle-on, #222); */
+  
   color: var(--text-primary-inverted, #FFF);
 
 
+}
+.navbar_link.navbar_link_projects.active:hover {
+  background-color: var(--Colors-nav-bar-toggle-on, #222);
 }
 .navbar_link.navbar_link_diplom.active {
   /* background-color: var(--Colors-nav-bar-toggle-on, #f00); */

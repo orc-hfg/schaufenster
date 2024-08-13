@@ -2,14 +2,10 @@
   <div class="setlist_page">
     <SetListHeader
       :settype="settype"
-      :show-menu-view="showMenuView"
+      :hide-nav-btns="showMenuView"
       :toggle-btn-set-type="toggleBtnSetType"
-      :is-enabled-year-back="isEnabledYearBack()"
-      :is-enabled-year-fwd="isEnabledYearForward()"
       :show-filter-view="showFilterView"
       @show-menu="showMenu()"
-      @clicked-year-back="clickedYearBack()"
-      @clicked-year-fwd="clickedYearForward()"
       @reset-filter="resetFilter()"
       @show-filter="showFilter()"
       @switch2settype="switch2settype"
@@ -42,7 +38,7 @@
           />
         
       </div>
-      <Transition name="move-u100-fade">
+      <!-- <Transition name="move-u100-fade"> -->
     <swiper
       v-if="slideList && slideList.length"
       :modules="swiper_modules"
@@ -95,7 +91,7 @@
       </swiper-slide>
 
     </swiper>
-  </Transition>
+  <!-- </Transition> -->
     
     <div class="tree_info" v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
       :style="info_tree_style">
