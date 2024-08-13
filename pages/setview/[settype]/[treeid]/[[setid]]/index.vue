@@ -6,34 +6,49 @@
                 <IconsNavHome/>
                 <div class="content">Zurück</div>
             </NuxtLink>
-            
-            <Transition name="move-l45">
-            <NuxtLink class="navbar_set_link"
-                v-if="activeSetId !== setid"
-                @mouseover="setShowPath2Root(true)"
-                @mouseleave="setShowPath2Root(false)"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
 
-                S {{ showPath2Root ? getColTitle(setid) : '...' }}
+
+            <Transition name="grow-width">
+              <NuxtLink class="navbar_set_link"
+                  :class="{grow_width:showPath2Root}"
+                  v-if="activeSetId !== setid"
+                  @mouseover="setShowPath2Root(true)"
+                  @mouseleave="setShowPath2Root(false)"
+                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
+
+                  {{ showPath2Root ? getColTitle(setid) : '...' }}
+              </NuxtLink>
+            </Transition>
+
+            <Transition name="grow-width">
+              <NuxtLink class="navbar_set_link"
+                v-if="activeSetId == setid && parent_id !== 'root'"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ parent_id"
+                :class="{showPath2Root: showPath2Root}"
+                :style="{width: showPath2Root? 'auto' : '24px'}"
+                @mouseover="setShowPath2Root(true)"
+                @mouseleave="setShowPath2Root(false)">
+
+               {{showPath2Root ? getColTitle(parent_id) : '...' }}
+              </NuxtLink>
+            </Transition>
+
+          <Transition name="grow-width">
+            <NuxtLink class="navbar_set_link"
+              v-if="activeSetId == setid"
+              :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId"
+              >
+              {{ getColTitle(activeSetId) }}
             </NuxtLink>
           </Transition>
-
+            
             <!-- <NuxtLink class="navbar_set_link"
               v-else-if="parent_id == 'root'"
               >
               T {{getColTitle(treeid)}}
             </NuxtLink> -->
 
-            <Transition name="move-l45">
-            <NuxtLink class="navbar_set_link"
-              v-if="activeSetId == setid && parent_id !== 'root'"
-              :to="'/setview/'+settype+'/'+treeid+'/'+ parent_id"
-              @mouseover="setShowPath2Root(true)"
-              @mouseleave="setShowPath2Root(false)">
-
-              P {{showPath2Root ? getColTitle(parent_id) : '...' }}
-            </NuxtLink>
-          </Transition>
+            
 
           <Transition name="move-ur30">
             <NuxtLink
@@ -44,14 +59,7 @@
             </NuxtLink>
           </Transition>
 
-          <Transition name="move-ur30">
-            <NuxtLink class="navbar_set_link"
-              v-if="activeSetId == setid"
-              :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId"
-              >
-              {{ getColTitle(activeSetId) }}
-            </NuxtLink>
-          </Transition>
+          
 
             <!-- <Transition name="fade_io">
               <NuxtLink class="navbar_set_link"
@@ -361,7 +369,16 @@
     </div>
   </div>
 
+  <div v-if="showSetTitle" class="set_info_blur"></div>
 
+  <Transition name="fade">
+    <div 
+      class="set_info_blend"
+      v-if="showSetTitle"
+      :style="showSetTitleStyle">
+        {{ getColTitle(setid) }}
+    </div>
+  </Transition>
 </div>
 </template>
 <script setup lang="ts">
@@ -389,6 +406,13 @@ const {
 
 const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
+
+const {
+  font_list, font_selected,
+  getPixelSizedStyle,
+  getViewSizedStyle
+} = DynFonts()
+
 const settype = ref((route.params.settype || MATCH_PROJECTS) as string)
 const treeid = ref(route.params.treeid as string)
 const setid = ref(route.params.setid as string)
@@ -453,7 +477,8 @@ const resetShowCount = (treeId:string) => {
     showCount.value[treeId] = Math.min( 5, maxCount.value[treeId]);
 }
 const addShowCount = (treeId:string) => {
-    showCount.value[treeId] = Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
+    showCount.value[treeId] = maxCount.value[treeId]
+    //Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
     return showCount.value[treeId]
 }
 const getColTitle = (id: string): string => {
@@ -523,7 +548,7 @@ const activeEntryId = ref('' as string)
 const activeSetId = ref('' as string)
 
 const onMainSwiperSlideChanged = () => {
-    const activeSlide = swiperMain.value?.activeIndex
+    const activeSlide = swiperMain.value?.activeIndex;
     /* console.log("swiperMain changed slide: " + activeSlide) */
     const entry = entries.value[activeSlide]
     const colId = entry.collection_id
@@ -569,7 +594,13 @@ const onMainSwiperSlideChanged = () => {
     //  // + " entry " + JSON.stringify(entry)
     //   + " colId " + colId
     //   + " nav Idx: " + navIdx )
+    // reset all other showcounts, show all for active set
+    for(const cid in showCount.value) {
+      showCount.value[cid] = Math.min( 5, maxCount.value[cid])
+    }
+    showCount.value[colId] = maxCount.value[colId]
     
+    /*
     const sidx = navSlider.value.slides[navIdx].setIdx
     const sc = showCount.value[colId]
     const msc = maxCount.value[colId]
@@ -578,6 +609,7 @@ const onMainSwiperSlideChanged = () => {
     } else if (sidx < (sc-5)) {
       showCount.value[colId] = Math.max(sidx +5, 5)
     }
+    */
     swiperNav.value.update();
     swiperNav.value?.slideTo(navIdx)
     
@@ -753,9 +785,6 @@ const initData = () => {
     navSlider.value.slides = []
     entries.value = [];
 
-    //filteredTreeList.value = treeList.value;
-    //filterCount.value = 0;
-    //filtersMap.value = {}
     if (setid.value) {
         parent_id.value = currentTree.value.up[setid.value]
 
@@ -783,11 +812,21 @@ const initData = () => {
 }
 
 
-
-
+const showSetTitle = ref(false)
+const showSetTitleStyle = ref(getPixelSizedStyle(120,146))
+const SHOW_SET_TITLE_DELAY = 3000
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
+
+  const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
+  showSetTitleStyle.value['color'] = color;
+
+  showSetTitle.value = true;
+  setTimeout(() => {
+    showSetTitle.value = false;
+  }, SHOW_SET_TITLE_DELAY)
+
 })
 
 
@@ -797,6 +836,30 @@ onMounted(() => {
   width: 100vw;
   height: 100vh;
   padding: 8rem 2rem;
+}
+.set_info_blur {
+  position: fixed;
+  left: 0px; top: 0px; width: 100vw; height: 100vh; z-index: 90;
+  background: var(--Color-blurs-project-img-blur, rgba(243, 242, 239, 0.30));
+  backdrop-filter: blur(25px);
+
+}
+.set_info_blend {
+  position: fixed;
+  z-index: 1010;
+  
+  left: 6.5vw;
+  right: 6.5vw;
+  top: 19vh;
+  bottom: 26vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+  text-align: center;
+
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
 }
 .swiper_main {
   /* border: 1px solid red; */
@@ -1024,7 +1087,11 @@ onMounted(() => {
   border-radius: var(--radius__full, 48px);
   background-color: var(--Colors-nav-bar-toggle-on);
   margin: 0 var(--spacing__navbarbetweenitems, 4px);
-  
+  transition: all 1s linear;
+}
+
+.navbar_set_link.grow_width {
+  width: auto;
 }
 .navbar_set_link.info_active {
   background-color: var(--Colors-nav-bar-toggle-off);
