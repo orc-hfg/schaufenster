@@ -97,8 +97,10 @@
       :style="info_tree_style">
       <div>&nbsp;</div>
       <div>&nbsp;</div>
-      <div v-for="treeInfo in filteredSortedTrees" :id="'treeInfo_' + treeInfo.col_id">
+      <div v-for="(treeInfo,idx) in filteredSortedTrees" :id="'treeInfo_' + treeInfo.col_id"
+          :style="{opacity: (treeInfoIdx - idx) >= 2 ? 0.15 : ((treeInfoIdx - idx) >= 1 ? 0.45 : 1) }">
         <span>
+          <!-- {{idx}}:{{ treeInfoIdx - idx}}: -->
           {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
           &nbsp;
         </span>
@@ -109,7 +111,7 @@
         
         <!-- | Year {{ treeInfo.year }} -->
       </div>
-      <div class="tree_info_blur"></div>
+      <!-- <div class="tree_info_blur"></div> -->
     </div>
 
     <Transition name="fade">
@@ -353,8 +355,10 @@ const setMainSwiper = (swiper: Swiper) => {
   //swiperMain.value.on('slideChangeTransitionEnd', onAfterSlideChange)
   
 };
+const treeInfoIdx = ref(0)
 const setTreeInfo = (el: iTree) => {
   const elem = document.getElementById('treeInfo_' + el.col_id)
+  treeInfoIdx.value = filteredSortedTrees.value.findIndex((val) => { return val.col_id == el.col_id})
   elem?.scrollIntoView({block: "end", behavior: "smooth"})
   
 }
@@ -442,10 +446,10 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
       tree.previewstyle['width'] = getRandom(80,20) + '%'
         
       if (tree.previewPlacement == 'right_top'
-        || tree.previewPlacement == 'right_bottom'
+        || tree.previewPlacement == 'right_btm'
       ) {
         const val = getRandom(-20,20)
-        tree.previewstyle['width'] = 100 - val + '%'
+        tree.previewstyle['width'] = 100 + val + '%'
         tree.previewstyle['right'] = val + '%'
         
       }
@@ -742,31 +746,39 @@ gap: 8px;
 }
 .tree_info {
   position: fixed;
-  bottom: 2vh;
-  margin: 2rem;
-  height: 6rem;
+  bottom: 32px;
+  
+  height: 136px;
   width: calc(100vw - 4rem);
   overflow-y: auto;
 
   font-size: 20px;
   z-index: 980;
   transition: all 1s linear;
+
+  /* display: inline-flex; */
+  padding: 0px 0px 16px 32px;
+  /* flex-direction: column; */
+  /* justify-content: flex-end; */
+  /* align-items: flex-start; */
+  /* gap: -64px; */
+
 }
 .tree_info * {
   font-size: 32px;
-  line-height: 45px;
-  
+  line-height: 48px;
 }
-.tree_info_blur {
+/* .tree_info_blur {
   position: fixed;
-  bottom: 2vh;
-  padding: 2rem;
-  height: 6rem;
+  bottom: 16px;
+  left: 32px;
   
-  width: calc(100vw - 4rem);
+  height: 162px;
+  
+  width: calc(100vw - 64px);
 
   background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 66%, rgba(255,255,255,0) 100%) ;
-}
+} */
 
 .year_info {
   position: fixed;
