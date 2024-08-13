@@ -27,6 +27,7 @@
       <div v-if="!slideList || !slideList.length">
         No data yet!
       </div>
+
       <div v-if="settype==MATCH_DIPLOM" class="year_stepper">
         <IconsYearSelectorUp
           @click="clickedYearBack()"
@@ -36,7 +37,6 @@
           @click="clickedYearForward()"
           :class="{disabled: !isEnabledYearForward()}"
           />
-        
       </div>
       <!-- <Transition name="move-u100-fade"> -->
     <swiper
@@ -76,7 +76,7 @@
 
           <div class="set_preview"
             :class="[el.previewDirection, el.previewPlacement]"
-            
+            :style="el.previewstyle"
             :title="'Title: ' + el.colTitlesMap[el.col_id] + 
             ' | Authors: ' + el.cols_authors[el.col_id]"
             @click="switch2set(el.col_id)">
@@ -233,6 +233,9 @@ const setSwiperMoving = () => {
     swiperMoving.value = false;
   },500)
 }
+
+const SWITCH_TYPE_PAGE_DELAY = 300;
+
 const switch2settype = (type:string) => {
   
   //route.params.settype = type
@@ -241,7 +244,7 @@ const switch2settype = (type:string) => {
   toggleBtnSetType.value = type
   setTimeout(() => {
     router.push('/setlist/' + type)
-  },500)
+  },SWITCH_TYPE_PAGE_DELAY)
 }
 
 const applyFilter = () => {
@@ -377,6 +380,10 @@ const TREE_PLACEMENT_CLASSES = [
   'right_top',
   'right_btm'
 ]
+
+const getRandom = (min:number, variance:number):number => {
+  return min + Math.floor(variance * Math.random())
+}
 const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   const sortedTrees = [] as iTree[]
   for (const treeId in trees_map) {
@@ -422,18 +429,40 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     
     const eId = tree.edges[RID][tree.col_id].coverId
     const wh = tree.previews[eId].width / tree.previews[eId].height;
-    console.log("preview wh: " + wh)
+    const tpi = Math.floor(Math.random() * TREE_PLACEMENT_CLASSES.length)
+    tree.previewPlacement = TREE_PLACEMENT_CLASSES[tpi]
+    
+    tree.previewstyle = {}
 
     if (wh > 1) {
       //querformat
       tree.previewDirection = 'hor'
       
+      
+      tree.previewstyle['width'] = getRandom(80,20) + '%'
+        
+      if (tree.previewPlacement == 'right_top'
+        || tree.previewPlacement == 'right_bottom'
+      ) {
+        const val = getRandom(-20,20)
+        tree.previewstyle['width'] = 100 - val + '%'
+        tree.previewstyle['right'] = val + '%'
+        
+      }
+      else {
+
+      }
     } else {
       tree.previewDirection = 'ver'
-    }
-    const tpi = Math.floor(Math.random() * TREE_PLACEMENT_CLASSES.length)
-    tree.previewPlacement = TREE_PLACEMENT_CLASSES[tpi]
 
+      tree.previewstyle['height'] = getRandom(80,20) + '%'
+    }
+    
+    console.log("preview wh: " + wh 
+    + " placement: " + tree.previewPlacement
+    + " style " + JSON.stringify(tree.previewstyle))
+    
+    
     tl.push(tree)
     ti++
     if (ti >= colCount.value) {
@@ -618,9 +647,18 @@ onMounted(() => {
   width: calc(100vw - 4rem);
   height: 80vh;
 }
+.main_slide {
+  /* border: 1px solid blue; */
+  height: 600px;
+  width: calc(100vw - 4rem);
+  cursor: pointer;
+}
 .swiper_main.button_pad_left {
   left: 8rem;
   width: calc(100vw - 10rem);
+}
+.swiper_main.button_pad_left .main_slide{
+  width: calc(100vw - 12rem);
 }
 .year_stepper {
   position: absolute;
@@ -645,18 +683,13 @@ gap: 8px;
 .year_stepper svg * {
   fill: var(--Colors-text-headlines);
 }
-.main_slide {
-  /* border: 1px solid blue; */
-  height: 600px;
-  width: calc(100vw - 4rem);
-  cursor: pointer;
-}
+
 .sub_slide {
-  /* border: 3px solid green; */
+  /* border: 1px solid green; */
   width: 30vw;
   height: 100%;
   float: left;
-  padding: 20px;
+  padding: 0px 20px;
   
 }
 .set_preview {

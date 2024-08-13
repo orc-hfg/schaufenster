@@ -110,6 +110,9 @@ export interface iTree {
   };
   previewDirection: string;
   previewPlacement: string;
+  previewstyle: {
+    [key: string]: string
+  };
   year: string;
 }
 
