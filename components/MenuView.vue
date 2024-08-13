@@ -58,8 +58,16 @@
   </div>
 </template>
 <script setup lang="ts">
+const {
+    MATCH_DIPLOM
+} = treeHelper()
+const {
+    getPixelSizedStyle,
+    getViewSizedStyle,
+} = DynFonts()
+
 //TODO close menu on click beside text
-//TODO menu entry hover effect
+
 const emit = defineEmits([
     'onShowAbout','onShowFonts', 'onShowDSA', 'onShowImpressum', 'onCloseMenu'])
     
@@ -74,9 +82,6 @@ setLocale
 
 
 
-const {
-    getPixelSizedStyle
-} = DynFonts()
 
 const switchLocale = (loc: string) => {
     setLocale(loc)
@@ -85,7 +90,14 @@ const switchLocale = (loc: string) => {
 }
 onMounted(() => {
     console.log("mounted menu: " + props.settype)
-    font_style.value = getPixelSizedStyle(240, 240)
+    //font_style.value = getPixelSizedStyle(240, 240)
+    font_style.value = getViewSizedStyle(20, 20)
+    console.log("font before")
+    console.dir(font_style.value)
+    const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
+    font_style.value['color'] = color;
+    console.log("font after")
+    console.dir(font_style.value)
 })
 </script>
 <style scoped>
@@ -138,21 +150,15 @@ header {
 }
 
 .menu_panel .btn {
-    color: var(--text-headlines, #FF4D00);
+    /* color: var(--text-headlines, #FF4D00); */
     /* h1 */
     /* font-size: var(--font-h1-font-size, 240px); */
     font-style: normal;
     font-weight: 400;
     /* line-height: var(--font-h1-line-height, 210px);  */
 }
-.menu_panel .btn:hover {
-    font-weight: 600;
-}
-.btn {
+/* no hover in menu */
+/* .menu_panel .btn:hover {} */
 
-}
 
-.btn.disabled {
-    
-}
 </style>
