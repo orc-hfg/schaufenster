@@ -345,3 +345,21 @@
   transform: translate(-100px, 0px);
   
 }
+
+.grow-width-enter-active,
+.grow-width-leave-active {
+  transition: all 1.5s linear;
+  float: left;
+  /* position: relative; top:0px; left: 0px; */
+}
+
+.grow-width-enter-from,
+.grow-width-leave-to {
+  
+  transform: scale(10%, 100%) translate(-90%,0);
+  
+  
+  opacity: 0;
+  /* width: 10px; */
+  
+}

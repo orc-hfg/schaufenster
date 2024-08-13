@@ -681,6 +681,7 @@ gap: 8px;
   opacity: 1.0;
 }
 .year_stepper svg * {
+  stroke: transparent;
   fill: var(--Colors-text-headlines);
 }
 
