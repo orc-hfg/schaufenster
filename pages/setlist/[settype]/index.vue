@@ -93,27 +93,12 @@
     </swiper>
   <!-- </Transition> -->
     
-    <div class="tree_info" v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
-      :style="info_tree_style">
-      <div>&nbsp;</div>
-      <div>&nbsp;</div>
-      <div v-for="(treeInfo,idx) in filteredSortedTrees" :id="'treeInfo_' + treeInfo.col_id"
-          :style="{opacity: (treeInfoIdx - idx) >= 2 ? 0.15 : ((treeInfoIdx - idx) >= 1 ? 0.45 : 1) }">
-        <span>
-          <!-- {{idx}}:{{ treeInfoIdx - idx}}: -->
-          {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
-          &nbsp;
-        </span>
-        <span v-for="author in treeInfo.cols_authors[treeInfo.col_id]">
-          {{ author }}
-          &nbsp;
-        </span>
-        
-        <!-- | Year {{ treeInfo.year }} -->
-      </div>
-      <!-- <div class="tree_info_blur"></div> -->
-    </div>
-
+    <SetListTreeInfo v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
+      :sorted-trees="filteredSortedTrees"
+      :settype="settype"
+      :tree-info-idx="treeInfoIdx"
+      />
+    
     <Transition name="fade">
       <div class="intro_info"
         :style="intro_info_style"
@@ -229,11 +214,13 @@ const swiper_modules = ref([
 const toggleBtnSetType = ref(route.params.settype)
 const swiperMoving = ref(false)
 
+const SWPIPER_MOVING_DELAY = 200;
+
 const setSwiperMoving = () => {
   swiperMoving.value = true;
   setTimeout(() => {
     swiperMoving.value = false;
-  },500)
+  },SWPIPER_MOVING_DELAY)
 }
 
 const SWITCH_TYPE_PAGE_DELAY = 300;
@@ -248,6 +235,7 @@ const switch2settype = (type:string) => {
     router.push('/setlist/' + type)
   },SWITCH_TYPE_PAGE_DELAY)
 }
+
 
 const applyFilter = () => {
   console.log("applyFilter")
@@ -267,16 +255,17 @@ const isEnabledYearBack = () => {
 const clickedYearBack = () => {
   const activeSlide = swiperMain.value?.activeIndex
   let last = 0
+  last = nextYearList.value.findLastIndex((el) => { 
+    return el < activeSlide})
+  console.log("clickedYearBack1: " + activeSlide + ":" + last)
+
   for(let i = 0; i < nextYearList.value.length; i++) {
-    
     if (nextYearList.value[i] < activeSlide) {
-      last = nextYearList.value[i]  
-      
+      last = nextYearList.value[i]
     }
-    
   }
   
-  console.log("clickedYearBack: " + activeSlide + ":" + last)
+  console.log("clickedYearBack2: " + activeSlide + ":" + last)
   swiperMain.value.slideTo(last)
   /*if (activeSlide > 0) {
     swiperMain.value.slideTo(activeSlide-1)
@@ -291,6 +280,11 @@ const clickedYearForward = () => {
   const activeSlide = swiperMain.value?.activeIndex
   const maxSlides = slideList.value.length
   let next = 0
+  next = nextYearList.value.findIndex(el => {
+    return el > activeSlide
+  })
+  console.log("clickedYearForward1: " + activeSlide + ":" + next)
+  
   for(let i = 0; i < nextYearList.value.length; i++) {
     next = nextYearList.value[i]
     if (next > activeSlide) {
@@ -299,7 +293,7 @@ const clickedYearForward = () => {
     }
   }
   
-  console.log("clickedYearForward: " + activeSlide + ":" + next)
+  console.log("clickedYearForward2: " + activeSlide + ":" + next)
   swiperMain.value.slideTo(next)
   /*if (activeSlide < maxSlides) {
     swiperMain.value.slideTo(activeSlide+1)
@@ -494,7 +488,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
 
 }
 
-const info_tree_style = ref({})
+//const info_tree_style = ref({})
 
 const updateSetType = () => {
   settype.value = route.params.settype || MATCH_PROJECTS;
@@ -507,7 +501,7 @@ const updateSetType = () => {
   const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
   intro_info_style.value['color'] = color
   year_info_style.value['color'] = color
-  info_tree_style.value['color'] = color
+  //info_tree_style.value['color'] = color
   if (!useTree || !useTree.value || !useTree.value[settype.value]) {
     setTimeout(() => {
       console.error("no useTree yet, retry later");
@@ -744,41 +738,6 @@ gap: 8px;
   stroke: var(--Colors-nav-bar-button-outline);
   fill: var(--Colors-nav-bar-platform-logo);
 }
-.tree_info {
-  position: fixed;
-  bottom: 32px;
-  
-  height: 136px;
-  width: calc(100vw - 4rem);
-  overflow-y: auto;
-
-  font-size: 20px;
-  z-index: 980;
-  transition: all 1s linear;
-
-  /* display: inline-flex; */
-  padding: 0px 0px 16px 32px;
-  /* flex-direction: column; */
-  /* justify-content: flex-end; */
-  /* align-items: flex-start; */
-  /* gap: -64px; */
-
-}
-.tree_info * {
-  font-size: 32px;
-  line-height: 48px;
-}
-/* .tree_info_blur {
-  position: fixed;
-  bottom: 16px;
-  left: 32px;
-  
-  height: 162px;
-  
-  width: calc(100vw - 64px);
-
-  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 66%, rgba(255,255,255,0) 100%) ;
-} */
 
 .year_info {
   position: fixed;
