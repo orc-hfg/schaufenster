@@ -1,102 +1,16 @@
 <template>
   <div class="setview_page">
-    <header>
-        <nav class="nav">
-            <NuxtLink :to="'/setlist/' + settype" class="header_nav_logo">
-                <IconsNavHome/>
-                <div class="content">Zurück</div>
-            </NuxtLink>
+    <SetViewHeader 
+      :settype="settype"
+      :treeid="treeid"
+      :setid="setid"
+      :active-set-id="activeSetId"
+      :parent-set-id="parent_id"
 
-
-            <Transition name="grow-width">
-              <NuxtLink class="navbar_set_link"
-                  :class="{grow_width:showPath2Root}"
-                  v-if="activeSetId !== setid"
-                  @mouseover="setShowPath2Root(true)"
-                  @mouseleave="setShowPath2Root(false)"
-                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
-
-                  {{ showPath2Root ? getColTitle(setid) : '...' }}
-              </NuxtLink>
-            </Transition>
-
-            <Transition name="grow-width">
-              <NuxtLink class="navbar_set_link"
-                v-if="activeSetId == setid && parent_id !== 'root'"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ parent_id"
-                :class="{showPath2Root: showPath2Root}"
-                :style="{width: showPath2Root? 'auto' : '24px'}"
-                @mouseover="setShowPath2Root(true)"
-                @mouseleave="setShowPath2Root(false)">
-
-               {{showPath2Root ? getColTitle(parent_id) : '...' }}
-              </NuxtLink>
-            </Transition>
-
-          <Transition name="grow-width">
-            <NuxtLink class="navbar_set_link"
-              v-if="activeSetId == setid"
-              :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId"
-              >
-              {{ getColTitle(activeSetId) }}
-            </NuxtLink>
-          </Transition>
-            
-            <!-- <NuxtLink class="navbar_set_link"
-              v-else-if="parent_id == 'root'"
-              >
-              T {{getColTitle(treeid)}}
-            </NuxtLink> -->
-
-            
-
-          <Transition name="move-ur30">
-            <NuxtLink
-                v-if="activeSetId !== setid"
-                class="navbar_set_link"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
-                {{ getColTitle(activeSetId) }}
-            </NuxtLink>
-          </Transition>
-
-          
-
-            <!-- <Transition name="fade_io">
-              <NuxtLink class="navbar_set_link"
-                v-if="path2root.length >= 1 && showPath2Root == false"
-                @mouseover="setShowPath2Root(true)">
-                ...
-              </NuxtLink>
-            </Transition>
-            <Transition name="fade_io">
-              <div v-if="showPath2Root"
-                @mouseleave="setShowPath2Root(false)">
-                <NuxtLink
-                  v-for="colid in path2root"
-                  class="navbar_set_link path_to_root"
-                  :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
-                  {{ getColTitle(colid) }}
-              </NuxtLink>
-              </div>
-            </Transition> -->
-            <!-- <Transition name="fade_io">
-              <NuxtLink
-                v-if="activeSetId !== setid || !showPath2Root"
-                class="navbar_set_link"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
-                {{ getColTitle(activeSetId) }}
-              </NuxtLink>
-            </Transition> -->
-            
-            <NuxtLink
-              @click="toggleShowInfo()"
-              class="navbar_set_link info"
-              :class="{info_active: showInfo}"
-              >&nbsp;i&nbsp;
-            </NuxtLink>
-        </nav>
-    </header>
-
+      :show-info="showInfo"
+      :titles-map="currentTree.colTitlesMap"  
+      @toggle-show-info="toggleShowInfo"
+    />
     <swiper
       :modules="modules"
       class="swiper_main"
@@ -148,104 +62,13 @@
 
     </swiper>
     
-    <div class="entry_info"
-      :class="{hidden: !showInfo}">
-
-      <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
-        No entry meta data yet.
-      </div>
-      <div class="entry_info_panel" v-else>
-        <h3>
-          Entry {{ activeEntryId }} Meta Data:<br/>
-        </h3>
-        
-        
-        <!-- Title:
-        {{ currentTree.entries_meta_data[activeEntryId]['madek_core:title'].string }} -->
-        <br/>
-
-        <div v-for="(md,meta_key) in currentTree.entries_meta_data[activeEntryId]">
-          <div>K:{{meta_key}}:&nbsp;</div><br/>
-          
-          <div v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</div>
-          
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_KEYWORDS">
-            <div class="filter_tag"
-              v-for="kw in md.selectedKeywords">
-                {{ kw.term }}
-            </div>
-            
-          </div>
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_PEOPLE">
-            
-            <div class="filter_tag"
-              v-for="p in md.selectedPeople">
-                {{ p.first_name }}&nbsp;{{ p.last_name }}
-            </div>
-          </div>
-          <div v-else-if="md.type == MD_TYPE_ROLES">
-            ROLES
-          </div>
-          
-          <br/>
-          <hr/>
-        </div>
-        <!-- <hr>
-        <textarea>{{ currentTree.entries_meta_data[activeEntryId] }}</textarea>
-        <br/>
-        <br/>
-        <br/> -->
-      </div>
-
-      <div v-if="!activeSetId || !currentTree || !currentTree.cols_meta_data">
-        No set meta data yet.
-      </div>
-      <div class="entry_info_panel" v-else>
-      <h3>
-        Set {{ activeSetId }} Meta Data:<br/>
-      </h3>
-        
-        
-        <br/>
-
-        <div v-for="(md,meta_key) in currentTree.cols_meta_data[activeSetId]">
-          <div>K:{{meta_key}}:&nbsp;</div><br/>
-          
-          <div v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</div>
-          
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_KEYWORDS">
-            <div class="filter_tag"
-              v-for="kw in md.selectedKeywords">
-                {{ kw.term }}
-            </div>
-            
-          </div>
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_PEOPLE">
-            
-            <div class="filter_tag"
-              v-for="p in md.selectedPeople">
-                {{ p.first_name }}&nbsp;{{ p.last_name }}
-            </div>
-          </div>
-          <div v-else-if="md.type == MD_TYPE_ROLES">
-            ROLES
-          </div>
-          
-          <br/>
-          <hr/>
-        </div>
-        <!-- <hr>
-        <textarea>{{ currentTree.cols_meta_data[activeSetId] }}</textarea>
-        <br/>
-        <br/>
-        <br/>
-        <br/> -->
-      </div>
-    </div>
+    <EntryAndSetInfo
+      :show-info="showInfo"
+      :active-entry-id="activeEntryId"
+      :active-set-id="activeSetId"
+      :current-tree="currentTree"
+    />
+    
     <!-- thumb-swiper=".swiper_main" -->
     <!-- :controller="{ control: swiperMain }" -->
     <!-- @swiperslidechange="onSlideChange" -->
@@ -382,14 +205,6 @@
 </div>
 </template>
 <script setup lang="ts">
-const {
-  MD_TYPE_TEXT,
-  MD_TYPE_TEXT_DATE,
-  MD_TYPE_JSON,
-  MD_TYPE_KEYWORDS,
-  MD_TYPE_PEOPLE,
-  MD_TYPE_ROLES
-} = madekHelper()
 
 const route = useRoute();
 const router = useRouter();
@@ -421,18 +236,8 @@ const path2root = ref([] as string[])
 const useTree = useState('tree')
 
 const currentTree = ref({} as iTree)
-const showPath2Root = ref(false)
-const setShowPath2Root = (value) => {
-  if (value == true) {
-    showPath2Root.value = value
-  }
-  else {
-    setTimeout(() => {
-      showPath2Root.value = value
-    }, 300)
-    
-  }
-}
+
+
 const showCount = ref({} as { [key:string]: number})
 const maxCount = ref({} as { [key:string]: number})
 const showBottomNav = ref(true)
@@ -470,14 +275,22 @@ const switch2Set = (setId: string) => {
 }
 
 const getShowCount = (treeId:string) => {
-    showCount.value[treeId] = showCount.value[treeId] || 5
+    showCount.value[treeId] = showCount.value[treeId] || Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
     return showCount.value[treeId]
 }
 const resetShowCount = (treeId:string) => {
-    showCount.value[treeId] = Math.min( 5, maxCount.value[treeId]);
+    showCount.value[treeId] = Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
+    setTimeout(() => {
+      swiperNav.value.update()
+      swiperNav.value.updateSize()
+    },200)
 }
 const addShowCount = (treeId:string) => {
     showCount.value[treeId] = maxCount.value[treeId]
+    setTimeout(() => {
+      swiperNav.value.update()
+      swiperNav.value.updateSize()
+    },200)
     //Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
     return showCount.value[treeId]
 }
@@ -546,6 +359,7 @@ const swiperNav = ref({} as typeof Swiper);
 
 const activeEntryId = ref('' as string)
 const activeSetId = ref('' as string)
+const lastActiveSetId = ref('' as string)
 
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex;
@@ -595,11 +409,25 @@ const onMainSwiperSlideChanged = () => {
     //   + " colId " + colId
     //   + " nav Idx: " + navIdx )
     // reset all other showcounts, show all for active set
-    for(const cid in showCount.value) {
-      showCount.value[cid] = Math.min( 5, maxCount.value[cid])
+    if (lastActiveSetId.value !== activeEntryId.value) {
+
+      console.log(" changed active set id " + lastActiveSetId.value + ':' + activeSetId.value)
+      for(const cid in showCount.value) {  
+        showCount.value[cid] = Math.min( MIN_SHOW_COUNT, maxCount.value[cid])
+      }
+      showCount.value[colId] = maxCount.value[colId]
+      initData()
+
     }
-    showCount.value[colId] = maxCount.value[colId]
-    
+
+    lastActiveSetId.value = activeSetId.value
+
+    setTimeout(() => {
+      swiperNav.value.update()
+      swiperNav.value.updateSize()
+      swiperNav.value?.slideTo(navIdx)
+    },100)
+
     /*
     const sidx = navSlider.value.slides[navIdx].setIdx
     const sc = showCount.value[colId]
@@ -610,8 +438,8 @@ const onMainSwiperSlideChanged = () => {
       showCount.value[colId] = Math.max(sidx +5, 5)
     }
     */
-    swiperNav.value.update();
-    swiperNav.value?.slideTo(navIdx)
+    //swiperNav.value.update();
+    //swiperNav.value?.slideTo(navIdx)
     
   }
 
@@ -670,34 +498,44 @@ const initSetBtns = (treeId:string, setIdx: number) => {
   } as iNavSlide)
 }
 
+const MIN_SHOW_COUNT = 4
+
 const initSetEntries = (parentId:string, setId:string, els):number => {
     let setIdx = 0
+    let mx = 0;
+    const toShow = showCount.value[setId] || MIN_SHOW_COUNT;
     // set elements
     for (const eId in els) {
       els[eId].collection_id = setId;
-      
-
-      const newSlide = {
-        type:NavSlideType.Entry,
-        entry: els[eId],
-        entry_id: eId,
-        cover_id: currentTree.value.edges[parentId][setId].coverId,
-        collection_id: setId,
-        index: navSlider.value.slides.length,
-        setIdx: setIdx++,
-        mainIdx: entries.value.length
-      } as iNavSlide;
+      // main swiper elems
       entries.value.push(els[eId]);
-      navSlider.value.slides.push(newSlide)
-      navSlider.value.entryId2Idx[eId] = newSlide.index
+
+      if (setIdx < toShow) {
+
+        const newSlide = {
+          type:NavSlideType.Entry,
+          entry: els[eId],
+          entry_id: eId,
+          cover_id: currentTree.value.edges[parentId][setId].coverId,
+          collection_id: setId,
+          index: navSlider.value.slides.length,
+          setIdx: setIdx,
+          mainIdx: entries.value.length
+        } as iNavSlide;
+        setIdx++
+        navSlider.value.slides.push(newSlide)
+        navSlider.value.entryId2Idx[eId] = newSlide.index  
+      }
+      mx++
+      
     }
-    maxCount.value[setId] = setIdx
+    maxCount.value[setId] = mx
     return setIdx
 }
 const initSubTree = (rootId:string, treeId: string) => {
   console.log("initSubTree: " + treeId);
-  showCount.value[rootId] = 5;
-  showCount.value[treeId] = 5;
+  showCount.value[rootId] = MIN_SHOW_COUNT;
+  showCount.value[treeId] = MIN_SHOW_COUNT;
 
   // get root entries
   const rels = currentTree.value.edges[rootId][treeId].entries;
@@ -761,8 +599,8 @@ const initData = () => {
         || !useTree.value[settype.value]
         || !useTree.value[settype.value][treeid.value]) {
 
-        setTimeout(() => {
-            console.error("no useTree yet, retry later")
+        console.error("no useTree yet, retry later")
+        setTimeout(() => {    
             initData()
             //reload()
         },20000)
@@ -787,6 +625,7 @@ const initData = () => {
 
     if (setid.value) {
         parent_id.value = currentTree.value.up[setid.value]
+        console.log(" got parent_id for set: " + parent_id.value)
 
         path2root.value = []
         let colid = setid.value
@@ -797,20 +636,14 @@ const initData = () => {
         path2root.value = path2root.value.reverse()
         
         console.log(" got path2root for set: " + path2root.value)
-        console.log(" got parent_id for set: " + parent_id.value)
-        initSubTree(parent_id.value, setid.value)
-        activeSetId.value = setid.value
+        
     } else {
-        initSubTree(RID, treeid.value)
+      parent_id.value = RID
+      setid.value = treeid.value
     }
-    
-
-
-  setTimeout(() => {
-    swiperMain.value.slideTo(0)
-  },100)
+    initSubTree(parent_id.value, setid.value)
+        //activeSetId.value = setid.value
 }
-
 
 const showSetTitle = ref(false)
 const showSetTitleStyle = ref(getPixelSizedStyle(120,146))
@@ -818,6 +651,13 @@ const SHOW_SET_TITLE_DELAY = 3000
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
+
+  setTimeout(() => {
+    swiperMain.value.slideTo(0)
+    swiperNav.value.slideTo(0)
+    activeSetId.value = setid.value
+  },100)
+
 
   const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
   showSetTitleStyle.value['color'] = color;
@@ -855,9 +695,9 @@ onMounted(() => {
 
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 40px;
-  text-align: center;
+  /* text-align: center; */
 
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
 }
@@ -892,27 +732,6 @@ onMounted(() => {
   background-repeat: no-repeat;
 }
 
-.entry_info {
-  /* border: 1px solid blue; */
-  position: fixed;
-  top: 72px;
-  left: 50%;
-  width: calc(50vw - 48px);
-  height: calc(100vh - 250px);
-  overflow-y: auto;
-  
-  visibility: visible;
-  /** hidden state */
-  
-  transition: all 1s 1s;
-}
-.entry_info.hidden {
-  left: 100%;
-  visibility: hidden;
-}
-.entry_info_panel {
-  padding: var(--spacing__betweenitemsM, 12px) var(--spacing__betweenitemsM,12px);
-}
 .bottom_nav {
   /* border: 1px solid blue; */
   position: fixed;
@@ -1076,54 +895,6 @@ onMounted(() => {
   } 
 }*/
 
-.navbar_set_link {
-  text-decoration: none;
-  user-select: none;
-  cursor: pointer;
-  font-size: var(--font__body__fontsize, 20px);
-  line-height: var(--font__body__lineheight, 24px);
-  padding: var(--spacing__betweenitemsM, 12px);
-  border: 1px solid black;
-  border-radius: var(--radius__full, 48px);
-  background-color: var(--Colors-nav-bar-toggle-on);
-  margin: 0 var(--spacing__navbarbetweenitems, 4px);
-  transition: all 1s linear;
-}
-
-.navbar_set_link.grow_width {
-  width: auto;
-}
-.navbar_set_link.info_active {
-  background-color: var(--Colors-nav-bar-toggle-off);
-  font-weight: 800;
-}
-nav {
-  width: calc(100vw - var(--dimension__icon__sizeM, 24px));
-}
-.header_nav_logo {
-  stroke: none;
-  fill: #222 !important;
-}
-.navbar_set_link.info {
-  float: right;
-  position: relative;
-}
-
-.filter_list {
-  display: ruby-text;
-
-}
-.filter_tag {
-  float: left;
-  display: block;
-  font-size: var(--font__body__fontsize, 20px);
-  line-height: var(--font__body__lineheight, 24px);
-  padding: var(--spacing__betweenitemsM, 12px);
-  border: 1px solid black;
-  border-radius: var(--radius__full, 48px);
-  background-color: var(--Colors-nav-bar-toggle-on);
-  margin: var(--spacing__navbarbetweenitems, 4px) var(--spacing__navbarbetweenitems, 4px);
-}
 
 .setview_page {
   
@@ -1152,21 +923,6 @@ nav {
 .rotate-leave-to {
   transform: rotate(90deg);
 }
-.header_nav_logo .content {
-  visibility: collapse;
-  font-size: var(--font__body__fontsize, 20px);
-  line-height: var(--font__body__lineheight, 24px);
-  position: relative;
-  top: -40px; left: 48px;
-  text-decoration: none;
-}
-.header_nav_logo:hover {
-  width: 9rem;
-}
-.header_nav_logo:hover .content {
-  visibility: visible;
-  
-  
-}
+
 </style>
 
