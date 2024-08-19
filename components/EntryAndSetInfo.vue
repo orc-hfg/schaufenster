@@ -3,52 +3,85 @@
       :class="{hidden: !showInfo}">
 
       <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
-        No entry meta data yet.
+        No meta data yet.
       </div>
 
       <div class="entry_info_panel" v-else>
+        <div class="section_entry">
+            <div class="meta_info">
+                <div class="meta_title">
+                    Title:
+                </div>
+                    <MetaDatumView
+                        class="meta_content" 
+                        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:title']"/>                
+            </div>
+            <div class="meta_info">
+                <div class="meta_title">
+                    Medienersteller (Autor)
+                </div>
+                    <MetaDatumView
+                        class="meta_content"
+                        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:authors']"/>
+            </div>
+            <div class="meta_info">
+                <div class="meta_title">
+                    Copyright
+                </div>
+                    <MetaDatumView
+                        class="meta_content"
+                        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"/>
+            </div>        
+        </div>
+
+        <div class="section_set">
+            <div class="meta_info">
+                <div class="meta_title">
+                    Projekt-Autoren:
+                </div>
+                    <MetaDatumView
+                        class="meta_content"
+                        :md="currentTree.cols_meta_data[activeSetId]['madek_core:authors']"/>
+            </div>
+            <div class="meta_info">
+                <div class="meta_title">
+                    Zeitraum:
+                </div>
+                    <MetaDatumView
+                        class="meta_content"
+                        :md="currentTree.cols_meta_data[activeSetId]['institution:semester']"/>
+            </div>
+            <div class="meta_info">
+                <div class="meta_title">
+                    Schlagworte
+                </div>
+                    <MetaDatumView
+                        class="meta_content"
+                        :md="currentTree.cols_meta_data[activeSetId]['madek_core:keywords']"/>
+            </div>                        
+            <div class="meta_info">
+                <div class="meta_title">
+                    Projektbeschreibung:
+                </div>
+                    <MetaDatumView
+                        class="meta_content"
+                        :md="currentTree.cols_meta_data[activeSetId]['madek_core:description']"/>
+            </div>
+        </div>
+        <!--
         <h3>
           Entry {{ activeEntryId }} Meta Data:<br/>
         </h3>
         
-        
-        <!-- Title:
-        {{ currentTree.entries_meta_data[activeEntryId]['madek_core:title'].string }} -->
         <br/>
 
         <div v-for="(md,meta_key) in currentTree.entries_meta_data[activeEntryId]">
           <div>K:{{meta_key}}:&nbsp;</div><br/>
-          
-          <div v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</div>
-          
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_KEYWORDS">
-            <div class="filter_tag"
-              v-for="kw in md.selectedKeywords">
-                {{ kw.term }}
-            </div>
-            
-          </div>
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_PEOPLE">
-            
-            <div class="filter_tag"
-              v-for="p in md.selectedPeople">
-                {{ p.first_name }}&nbsp;{{ p.last_name }}
-            </div>
-          </div>
-          <div v-else-if="md.type == MD_TYPE_ROLES">
-            ROLES
-          </div>
+            <MetaDatumView :md="md"/>
           
           <br/>
           <hr/>
         </div>
-        <!-- <hr>
-        <textarea>{{ currentTree.entries_meta_data[activeEntryId] }}</textarea>
-        <br/>
-        <br/>
-        <br/> -->
       </div>
 
       <div v-if="!activeSetId || !currentTree || !currentTree.cols_meta_data">
@@ -65,42 +98,20 @@
 
         <div v-for="(md,meta_key) in currentTree.cols_meta_data[activeSetId]">
           <div>K:{{meta_key}}:&nbsp;</div><br/>
-          
-          <div v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">{{md.string}}</div>
-          
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_KEYWORDS">
-            <div class="filter_tag"
-              v-for="kw in md.selectedKeywords">
-                {{ kw.term }}
-            </div>
-            
-          </div>
-          <div class="filter_list"
-            v-else-if="md.type == MD_TYPE_PEOPLE">
-            
-            <div class="filter_tag"
-              v-for="p in md.selectedPeople">
-                {{ p.first_name }}&nbsp;{{ p.last_name }}
-            </div>
-          </div>
-          <div v-else-if="md.type == MD_TYPE_ROLES">
-            ROLES
-          </div>
+          <MetaDatumView :md="md"/>
+
           
           <br/>
           <hr/>
         </div>
-        <!-- <hr>
-        <textarea>{{ currentTree.cols_meta_data[activeSetId] }}</textarea>
-        <br/>
-        <br/>
-        <br/>
-        <br/> -->
+        -->
       </div>
     </div>
 </template>
 <script setup lang="ts">
+//TODO hide scrollbar
+//TODO tags layout fix
+//TODO animation in vs out
 const {
   MD_TYPE_TEXT,
   MD_TYPE_TEXT_DATE,
@@ -138,24 +149,80 @@ const props = defineProps([
   left: 100%;
   visibility: hidden;
 }
+
 .entry_info_panel {
   padding: var(--spacing__betweenitemsM, 12px) var(--spacing__betweenitemsM,12px);
+
+    display: flex;
+    /* width: 100%; */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-meta-info-between-sections, 80px);
+    flex-shrink: 0;
 }
 
-.filter_list {
-  display: ruby-text;
+.section_entry {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-meta-info-between-sub-sections, 24px);
+    align-self: stretch;
+}
+.section_set {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-meta-info-between-sub-sections, 24px);
+    align-self: stretch;
 
 }
-.filter_tag {
-  float: left;
-  display: block;
-  font-size: var(--font__body__fontsize, 20px);
-  line-height: var(--font__body__lineheight, 24px);
-  padding: var(--spacing__betweenitemsM, 12px);
-  border: 1px solid black;
-  border-radius: var(--radius__full, 48px);
-  background-color: var(--Colors-nav-bar-toggle-on);
-  margin: var(--spacing__navbarbetweenitems, 4px) var(--spacing__navbarbetweenitems, 4px);
+.meta_info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-meta-info-between-rows, 6px);
+    align-self: stretch;
+}
+.meta_title {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+
+    color: var(--text-secondary, #CAC9C2);
+
+/* Subline */
+font-family: "Instrument Sans";
+font-size: var(--font-subline-font-size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--font-subline-line-height, 24px); /* 120% */
+}
+.meta_content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+
+    color: var(--text-primary, #2C2C2C);
+
+/* Body */
+font-family: "Instrument Sans";
+font-size: var(--font-body-font-size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--font-body-line-height, 24px); /* 120% */
+}
+
+.meta_content * {
+    
+/* Body */
+font-family: "Instrument Sans";
+font-size: var(--font-body-font-size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 
 </style>

@@ -245,10 +245,15 @@ const show_av_control = ref(false)
 const showInfo = ref(false)
 const toggleShowInfo = () => {
   showInfo.value = !showInfo.value
+  if (showInfo.value) {
+    showBottomNav.value = false
+  } else {
+    showBottomNav.value = true
+  }
   setTimeout(() => {
     swiperMain.value.updateSize()
     swiperMain.value.update()
-  }, 3000)
+  }, 1500)
   
 }
 const previewUrl = (eId: string): string => {
@@ -712,7 +717,7 @@ onMounted(() => {
   
   
   /* z-index: -100; */
-  transition: all 0.25s 0.5s;
+  transition: all 0.5s;
 }
 .swiper_main.bottom_nav_hide {
   top: 0px;
