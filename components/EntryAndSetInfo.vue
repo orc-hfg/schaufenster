@@ -1,7 +1,5 @@
 <template>
-<div class="entry_info"
-      :class="{hidden: !showInfo}">
-
+<div class="entry_info">
       <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
         No meta data yet.
       </div>
@@ -110,7 +108,7 @@
 </template>
 <script setup lang="ts">
 //TODO hide scrollbar
-//TODO tags layout fix
+//TODO show more btns for tags and text
 //TODO animation in vs out
 const {
   MD_TYPE_TEXT,
@@ -122,11 +120,12 @@ const {
 } = madekHelper()
 
 const props = defineProps([
-    'showInfo',
     'activeEntryId',
     'activeSetId',
     'currentTree'
 ])
+
+
 </script>
 <style>
 
@@ -134,20 +133,34 @@ const props = defineProps([
 .entry_info {
   /* border: 1px solid blue; */
   position: fixed;
-  top: 72px;
-  left: 50%;
-  width: calc(50vw - 48px);
+  
+  top: 15vh;
+
+  left: calc(45vw + 24px);
+  width: calc(55vw - 48px);
   height: calc(100vh - 250px);
   overflow-y: auto;
-  
-  visibility: visible;
-  /** hidden state */
-  
-  transition: all 1s 1s;
+  scrollbar-width: 0px;
+  scrollbar-color: transparent;
 }
-.entry_info.hidden {
-  left: 100%;
+
+.entry_info::-webkit-scrollbar {
   visibility: hidden;
+}
+
+.entry-info-slide-enter-active {
+  transition: all 0.5s linear;
+  transform: translateX(50vw);
+}
+.entry-info-slide-leave-active {
+  transition: all 0.5s linear;
+}
+.entry-info-slide-enter-to {
+  transform: translateX(0);
+  
+}
+.entry-info-slide-leave-to {
+  transform: translateX(50vw);
 }
 
 .entry_info_panel {
@@ -159,6 +172,7 @@ const props = defineProps([
     align-items: flex-start;
     gap: var(--spacing-meta-info-between-sections, 80px);
     flex-shrink: 0;
+    margin-bottom: 5rem;
 }
 
 .section_entry {
@@ -191,12 +205,12 @@ const props = defineProps([
 
     color: var(--text-secondary, #CAC9C2);
 
-/* Subline */
-font-family: "Instrument Sans";
-font-size: var(--font-subline-font-size, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--font-subline-line-height, 24px); /* 120% */
+    /* Subline */
+    font-family: "Instrument Sans";
+    font-size: var(--font-subline-font-size, 20px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--font-subline-line-height, 24px); /* 120% */
 }
 .meta_content {
     display: flex;
@@ -207,12 +221,12 @@ line-height: var(--font-subline-line-height, 24px); /* 120% */
 
     color: var(--text-primary, #2C2C2C);
 
-/* Body */
-font-family: "Instrument Sans";
-font-size: var(--font-body-font-size, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--font-body-line-height, 24px); /* 120% */
+    /* Body */
+    font-family: "Instrument Sans";
+    font-size: var(--font-body-font-size, 20px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 
 .meta_content * {

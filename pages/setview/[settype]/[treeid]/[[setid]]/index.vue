@@ -8,9 +8,18 @@
       :parent-set-id="parent_id"
 
       :show-info="showInfo"
+      
       :titles-map="currentTree.colTitlesMap"  
       @toggle-show-info="toggleShowInfo"
     />
+    <Transition name="move-u30-fade">
+      <div class="entry_info_title"
+        v-if="currentTree && currentTree.colTitlesMap && showInfo"
+        >
+        {{ currentTree.colTitlesMap[treeid] }}
+      </div>
+    </Transition>
+    
     <swiper
       :modules="modules"
       class="swiper_main"
@@ -28,12 +37,9 @@
         '--swiper-navigation-color': '#000',
         '--swiper-pagination-color': '#000',
       }"
-      
     >
       <swiper-slide class="main_slide" v-for="(el,index) in entries" :key="el.id" :virtualIndex="index">
-        <!-- Entry: {{ el.id }} 
-        <p>Entry: {{ el.id }} C: {{ el.collection_id }} eIdx: {{ index }} mt: {{ currentTree.previewsLarge[el.id].media_type }} </p>
--->
+   
         <div v-if="getMediaType(el.id) == 'image'"
           class="main_preview"
           :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
@@ -62,12 +68,14 @@
 
     </swiper>
     
-    <EntryAndSetInfo
-      :show-info="showInfo"
-      :active-entry-id="activeEntryId"
-      :active-set-id="activeSetId"
-      :current-tree="currentTree"
-    />
+    <Transition name="entry-info-slide">
+      <EntryAndSetInfo
+        v-if="showInfo"
+        :active-entry-id="activeEntryId"
+        :active-set-id="activeSetId"
+        :current-tree="currentTree"
+      />
+    </Transition>
     
     <!-- thumb-swiper=".swiper_main" -->
     <!-- :controller="{ control: swiperMain }" -->
@@ -78,15 +86,21 @@
     :centeredSlides="true"
     -->
     <div class="bottom_nav" >
-      <div @click="showBottomNav = !showBottomNav" class="btn_bottom_nav_hide">
-          <Transition name="rotate">
-              <IconsBtmBarFoldMinus v-if="showBottomNav"/>
-          </Transition>
-          <Transition name="rotate">
-              <IconsBtmBarFoldPlus v-if="!showBottomNav"/>
-          </Transition>
-            
-      </div>
+      <Transition name="fade">
+        <div
+          v-if="!showInfo"
+          @click="showBottomNav = !showBottomNav"
+          class="btn_bottom_nav_hide">
+            <Transition :name="showBottomNav ? 'rotatel' : 'rotate'">
+                <IconsBtmBarFoldMinus v-if="showBottomNav && !showInfo"/>
+                <IconsBtmBarFoldPlus v-else-if="!showBottomNav && !showInfo"/>
+            </Transition>
+            <!-- <Transition name="rotate">
+                <IconsBtmBarFoldPlus v-if="!showBottomNav"/>
+            </Transition> -->
+              
+        </div>
+      </Transition>
       <swiper
         :modules="modules"
         class="swiper_nav"
@@ -94,26 +108,27 @@
         @swiper="setNavSwiper"
         :freeMode="true"
         :spaceBetween="4"
-        :centeredSlides="true"
+        :centeredSlides="false"
         :slides-per-view="'auto'"
         
       >
       
         <!-- v-show="index < getShowCount(showTreeId)" -->
-        
+        <!-- v-show="el.setIdx < getShowCount(el.collection_id)
+            || el.type === NavSlideType.Set
+            || el.type === NavSlideType.Button"
+             -->
         <swiper-slide
           class="nav_slide"        
           v-for="(el, eindex) in navSlider.slides"
           :key="el.entry_id"
-          :virtualIndex="eindex"
+          :virtualIndex="el.index"
           :class="{set_highlight: activeSetId == el.collection_id,
             nav_slide_btns: el.type == NavSlideType.Button,
             nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id],
             nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id],
           }"
-          v-show="el.setIdx < getShowCount(el.collection_id)
-            || el.type === NavSlideType.Set
-            || el.type === NavSlideType.Button"    
+          
           >
           
           <div
@@ -403,7 +418,7 @@ const onMainSwiperSlideChanged = () => {
       vel.play()
       showBottomNav.value = false
       show_av_control.value = true
-    } else {
+    } else if (!showInfo.value) {
       showBottomNav.value = true
       show_av_control.value = false
     }
@@ -449,7 +464,7 @@ const onMainSwiperSlideChanged = () => {
   }
 
 const nav2Element = (el: iNavSlide) => {
-  swiperMain.value.slideTo(el.mainIdx)
+  swiperMain.value.slideTo(el.mainIdx - 1)
   swiperNav.value.slideTo(el.index)
 }
 
@@ -547,10 +562,11 @@ const initSubTree = (rootId:string, treeId: string) => {
   const rels_count = initSetEntries(rootId, treeId, rels)
   
   // button
-  if (Object.keys(rels).length) {
+  if (Object.keys(rels).length ) {
     // testing: the set itself
     //initSubSetPreview(rootId, treeId)
     initSetBtns(treeId, rels_count)
+
   }
 
 
@@ -656,6 +672,8 @@ const SHOW_SET_TITLE_DELAY = 3000
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
+  activeEntryId.value = entries.value[0].id
+  activeSetId.value = setid.value
 
   setTimeout(() => {
     swiperMain.value.slideTo(0)
@@ -724,7 +742,11 @@ onMounted(() => {
   height: 100vh;
 }
 .swiper_main.info_active {
-  width: calc(50vw - 48px);
+  top: 15vh;
+  height: 70vh;
+  width: calc(40vw - 48px);
+  /* transform-origin: 24px 288px;
+  transform: scale(50%) */
 }
 .main_slide {
   /* border: 1px solid blue; */
@@ -771,11 +793,11 @@ onMounted(() => {
   position: absolute;
   top: 0px;
   left: 6rem;
-  transition: all 0.5s 1s;
+  transition: all 0.5s;
 }
 .swiper_nav.hidden {
   visibility: hidden;
-  top: 20rem;
+  top: 180px;
 }
 .nav_slide {
   width: fit-content !important;
@@ -826,9 +848,6 @@ onMounted(() => {
 
 
 
-.nav_slide_collection {
-  /* width: fit-content !important; */
-}
 
 .nav_btns {
   
@@ -909,17 +928,31 @@ onMounted(() => {
   position: relative;
   top: 36px;
   left: 24px;
-  
+  cursor: pointer;
+  user-select: none;
 }
 .btn_bottom_nav_hide * {
   position: absolute;
-  top: 0px;
+  top: 24px;
   left: 0px;
   /* transform: rotateZ(45deg) */
 }
+
+
+
+.entry_info_title {
+  position: fixed;
+  top: 64px;
+  left: 10vw;
+  width: 80vw;
+  text-align: center;
+  align-content: center;
+  font-size: 4rem;
+}
+
 .rotate-enter-active,
 .rotate-leave-active {
-  transition: all 1s linear;
+  transition: all 0.5s linear;
 }
 .rotate-enter-to {
   transform: rotate(90deg);
@@ -927,6 +960,33 @@ onMounted(() => {
 }
 .rotate-leave-to {
   transform: rotate(90deg);
+}
+
+.rotatel-enter-active,
+.rotatel-leave-active {
+  transition: all 0.5s linear;
+}
+.rotatel-enter-to {
+  transform: rotate(-90deg);
+  opacity: 1;
+}
+.rotatel-leave-to {
+  transform: rotate(-90deg);
+}
+
+.fade-rotate-enter-active,
+.fade-rotate-leave-active {
+  transition: all 0.5s linear;
+}
+.fade-rotate-enter-to {
+  transform-origin: 0 0;
+  transform: rotate(0deg);
+  opacity: 1;
+}
+.fade-rotate-leave-to {
+  transform-origin: 24px 0;
+  transform: rotate(90deg);
+  opacity: 0;
 }
 
 </style>

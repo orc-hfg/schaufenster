@@ -262,6 +262,7 @@
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+  
 }
 
 
@@ -278,6 +279,21 @@
 }
 
 
+.move-u50-enter-active {
+
+  transition: all 300ms ease-in;
+}
+.move-u50-leave-active {
+  transition: all 300ms ease-in;
+
+}
+
+.move-u50-enter-from,
+.move-u50-leave-to {
+  transform: translate(0px, -50px);
+}
+
+
 .move-u30-fade-enter-active {
 
   transition: all 300ms ease-in;
@@ -289,7 +305,7 @@
 
 .move-u30-fade-enter-from,
 .move-u30-fade-leave-to {
-  transform: translate(0px, 30px);
+  transform: translate(0px, -30px);
   opacity: 0;
 }
 
