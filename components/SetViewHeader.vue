@@ -181,6 +181,7 @@ const getColTitle = (id: string): string => {
   border-radius: var(--radius__full, 48px);
   background-color: var(--Colors-nav-bar-toggle-on);
   margin: 0 var(--spacing__navbarbetweenitems, 4px);
+
   transition: all 1s linear;
 
   color: var(--text-primary, #2C2C2C);
@@ -200,6 +201,7 @@ const getColTitle = (id: string): string => {
 
 .navbar_set_link.grow_width {
   width: auto;
+  transition: all 1s linear;
 }
 .navbar_set_link.info_active {
   background-color: var(--Colors-nav-bar-toggle-off);
@@ -212,7 +214,32 @@ nav {
 .navbar_set_link.info {
   float: right;
   position: absolute;
-  right: 24px;
+  right: var(--margin-navbar-institution-logo-right, 10px);
+
+  display: flex;
+  width: var(--dimension-button-height-M, 48px);
+  height: var(--dimension-button-height-M, 48px);
+  align-items: center;
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+  flex-shrink: 0;
+
+  display: flex;
+width: var(--dimension-button-height-M, 48px);
+height: var(--dimension-button-height-M, 48px);
+justify-content: center;
+align-items: center;
+gap: 20px;
+flex-shrink: 0;
+
+  border-radius: var(--radius-full, 9999px);
+background: var(--nav-bar-info-button-fill, #2C2C2C);
+
+  color: var(--text-primary-inverted, #FFF);
+font-family: "Instrument Sans";
+font-size: var(--font-h4-font-size, 32px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--font-h4-line-height, 40px); /* 125% */
 }
 
 
