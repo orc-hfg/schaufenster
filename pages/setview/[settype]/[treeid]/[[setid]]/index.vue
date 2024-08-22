@@ -16,7 +16,7 @@
       <div class="entry_info_title"
         v-if="currentTree && currentTree.colTitlesMap && showInfo"
         >
-        {{ currentTree.colTitlesMap[treeid] }}
+        {{ currentTree.colTitlesMap[activeSetId] }}
       </div>
     </Transition>
     
@@ -31,6 +31,8 @@
         prevEl: '.swiper-main-button-prev',
       }"
       @swiper="setMainSwiper"
+      @mousemove="handleMouseMove"
+      @mouseleave="handleMouseLeave"
       :keyboard="true"      
       :slides-per-view="1"
       :virtual="true"
@@ -52,6 +54,7 @@
           <audio :id="'slide-audio-'+ el.id"
             class="audio-slide"
             controls style="width: 100%; height:80%; margin: auto;">
+            <!-- TODO preview audio -->
             <source :src="previewLargeUrl(el.id)">
           </audio>
         </div>
@@ -61,6 +64,7 @@
             class="video-slide"
             controls style="width: 100%; height:80%; margin: auto;  position:relative">
             <!-- z-index: -2; -->
+            <!-- TODO preview video -->
             <source :src="previewLargeUrl(el.id)">
           </video>
         </div>
@@ -69,10 +73,19 @@
         </div>
       </swiper-slide>
       <div class="swiper-main-button-prev"
-        @click.once="swiperMain.slidePrev()"></div>
+      :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false}"
+      
+        @click.once="swiperMain.slidePrev()">
+        <IconsArrowLeft/>
+        </div>
       <div class="swiper-main-button-next"
-        @click.once="swiperMain.slideNext()"></div>
+        :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false}"
+        @click.once="swiperMain.slideNext()">
+        <IconsArrowRight/>
+        </div>
     </swiper>
+    
+
     
     <Transition name="entry-info-slide">
       <EntryAndSetInfo
@@ -323,17 +336,20 @@ const getShowCount = (treeId:string) => {
 }
 const resetShowCount = (treeId:string) => {
     showCount.value[treeId] = Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
-    setTimeout(() => {
+    initData()
+    /* setTimeout(() => {
       swiperNav.value.update()
       swiperNav.value.updateSize()
-    },200)
+    },200) */
 }
 const addShowCount = (treeId:string) => {
     showCount.value[treeId] = maxCount.value[treeId]
-    setTimeout(() => {
+    initData()
+
+    /* setTimeout(() => {
       swiperNav.value.update()
       swiperNav.value.updateSize()
-    },200)
+    },200) */
     //Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
     return showCount.value[treeId]
 }
@@ -715,6 +731,25 @@ onMounted(() => {
 
 })
 
+const swiperNavBtnHoverRight = ref(false)
+const swiperNavBtnHoverLeft = ref(false)
+const handleMouseMove = (event) => {
+  const ex = event.clientX;
+  const div = showInfo.value ? 4 : 2;
+  const midx = window.innerWidth / div;
+  if (ex > midx) {
+    swiperNavBtnHoverLeft.value = false
+    swiperNavBtnHoverRight.value = true
+  } else {
+    swiperNavBtnHoverLeft.value = true
+    swiperNavBtnHoverRight.value = false
+  }
+}
+const handleMouseLeave = () => {
+  swiperNavBtnHoverLeft.value = false
+  swiperNavBtnHoverRight.value = false
+}
+
 
 </script>
 <style scoped>
@@ -765,14 +800,17 @@ onMounted(() => {
   height: 100vh;
 }
 .swiper_main.info_active {
+  /* border: 1px solid red; */
   top: 15vh;
   height: 70vh;
   width: calc(40vw - 48px);
   /* transform-origin: 24px 288px;
   transform: scale(50%) */
 }
-.main_slide {
-  /* border: 1px solid blue; */
+.swiper-slide.main_slide {
+  border: 2px solid blue;
+  align-items: center;
+  justify-content: center;
 }
 .main_preview {
   width: 100%;
@@ -782,6 +820,12 @@ onMounted(() => {
   background-repeat: no-repeat;
 }
 
+.swiper_main.info_active .main_preview {
+  /* border: 1px solid green; */
+  width: calc(100% - 96px);
+  height: 100%;
+  margin: 0 48px;
+}
 .bottom_nav {
   /* border: 1px solid blue; */
   position: fixed;
@@ -839,16 +883,24 @@ onMounted(() => {
   border-top: var(--padding-item-vertical-M, 12px) solid #E7E6E1;
   border-bottom: var(--padding-item-vertical-M, 12px) solid #E7E6E1;
   
-  border-left: var(--spacing-between-items-S, 8px) solid #E7E6E1;
+  border-left: var(--spacing-between-items-S, 12px) solid #E7E6E1;
 }
 
 .entry_highlight {
   position: absolute;
   top: 36px;
   left: 24px;
-  fill: var(--btm-bar-thumbnail-active, #FFF);
-  
+  width: 24px; height: 24px;
 }
+.entry_highlight svg {
+  width: 100%; height: 100%;
+}
+
+.entry_highlight svg * {
+  fill: var(--btm-bar-thumbnail-active, #FFF);
+  stroke: none;
+}
+
 
 
 .nav_preview {
@@ -998,6 +1050,7 @@ onMounted(() => {
 }
 .rotatel-leave-to {
   transform: rotate(-90deg);
+  opacity: 0.35;
 }
 
 .fade-rotate-enter-active,
@@ -1032,6 +1085,8 @@ onMounted(() => {
 
   cursor: pointer;
   z-index: 10;
+  background-color: rgba(255,255,255,0.4);
+  
   color: var(--Colors-text-primary, #2C2C2C);
 
   
@@ -1044,21 +1099,26 @@ onMounted(() => {
   font-weight: 400;
   line-height: var(--font-h4-line-height, 40px); /* 125% */
 }
+
+/* TODO swiper main nav btn position */
 .swiper-main-button-prev {
   left: 24px;
-  
-}
-.swiper-main-button-prev::before {
-  content: '<-';
 }
 .swiper-main-button-next {
   right: 24px;
-  
+}
+.swiper_main.info_active .swiper-main-button-prev {
+  left: 0px;
+}
+.swiper_main.info_active .swiper-main-button-next {
+  right: 0px;
+}
+/* .swiper-main-button-prev::before {
+  content: '<-';
 }
 .swiper-main-button-next::after {
-  
   content: '->';
-}
+} */
 .swiper-button-disabled {
   visibility: hidden;
 
