@@ -123,7 +123,9 @@
           v-for="(el, eindex) in navSlider.slides"
           :key="el.entry_id"
           :virtualIndex="el.index"
-          :class="{set_highlight: activeSetId == el.collection_id,
+          @mouseover="setHoverSetId(el.collection_id)"
+          @mouseleave="resetHoverSetId()"
+          :class="{set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id),
             nav_slide_btns: el.type == NavSlideType.Button,
             nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id],
             nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id],
@@ -137,8 +139,9 @@
             @click="nav2Element(el)"
             :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
-            <div v-if="el.setIdx == 0 && activeSetId == el.collection_id" class="nav_preview_col_title"
-              :style="{width: (getShowCount(el.collection_id) * 72) + 'px'}">
+            <div v-if="el.setIdx == 0 && (activeSetId == el.collection_id || hoverSetId == el.collection_id)"
+              class="nav_preview_col_title"
+              :style="{width: ((getShowCount(el.collection_id)- 0.3) * 72) + 'px'}">
               {{getColTitle(el.collection_id)}}
             </div>
           </div>
@@ -271,6 +274,20 @@ const toggleShowInfo = () => {
   }, 1500)
   
 }
+
+const hoverSetId = ref('' as string)
+let resetHoverSetIdTimeout = undefined
+
+const resetHoverSetId = () => {
+  if (resetHoverSetIdTimeout) clearTimeout(resetHoverSetIdTimeout)
+  resetHoverSetIdTimeout = setTimeout(( ) => { hoverSetId.value = '' },1000)
+}
+
+const setHoverSetId = (val:string) => {
+  if (resetHoverSetIdTimeout) clearTimeout(resetHoverSetIdTimeout)
+  hoverSetId.value = val
+}
+
 const previewUrl = (eId: string): string => {
   const pid = currentTree.value.previews[eId]?.id
   return apiBaseUrl + 'previews/' + pid + '/data-stream'
@@ -809,6 +826,7 @@ onMounted(() => {
   border-top: var(--padding-item-vertical-M, 12px) solid rgba(0,0,0,0);
   border-left: var(--spacing-between-items-S, 12px) solid rgba(0,0,0,0);
 }
+
 .set_highlight {
   background: var(--btm-bar-galleryView-set-hover, #E7E6E1);
   /* padding: var(--padding-item-vertical-M, 12px) -4px; */
@@ -842,8 +860,10 @@ onMounted(() => {
 .nav_preview_col_title {
   position: relative;
   top: -36px;
-  overflow-x: scroll;
+  overflow: clip;
+  
   width: 80vw;
+  height: 28px;
 }
 
 
