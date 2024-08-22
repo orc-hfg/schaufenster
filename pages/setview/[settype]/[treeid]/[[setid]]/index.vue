@@ -26,7 +26,10 @@
       :class="{info_active: showInfo,
         bottom_nav_hide: !showBottomNav}"
       :zoom="true"
-      :navigation="true"
+      :navigation="{
+        nextEl: '.swiper-main-button-next',
+        prevEl: '.swiper-main-button-prev',
+      }"
       @swiper="setMainSwiper"
       :keyboard="true"      
       :slides-per-view="1"
@@ -65,7 +68,10 @@
           TODO docs
         </div>
       </swiper-slide>
-
+      <div class="swiper-main-button-prev"
+        @click.once="swiperMain.slidePrev()"></div>
+      <div class="swiper-main-button-next"
+        @click.once="swiperMain.slideNext()"></div>
     </swiper>
     
     <Transition name="entry-info-slide">
@@ -1009,5 +1015,59 @@ onMounted(() => {
   opacity: 0;
 }
 
+.swiper-main-button-prev,
+.swiper-main-button-next 
+{
+  position: absolute;
+  top: calc(50% - 24px);
+
+  display: flex;
+  width: 48px;
+  height: 48px;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+  flex-shrink: 0;
+
+  cursor: pointer;
+  z-index: 10;
+  color: var(--Colors-text-primary, #2C2C2C);
+
+  
+  opacity: 0.3;
+  
+  font-family: "Instrument Sans";
+/* font-size: var(--font-h4-font-size, 32px); */
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: var(--font-h4-line-height, 40px); /* 125% */
+}
+.swiper-main-button-prev {
+  left: 24px;
+  
+}
+.swiper-main-button-prev::before {
+  content: '<-';
+}
+.swiper-main-button-next {
+  right: 24px;
+  
+}
+.swiper-main-button-next::after {
+  
+  content: '->';
+}
+.swiper-button-disabled {
+  visibility: hidden;
+
+}
+.swiper-main-button-prev:hover,
+.swiper-main-button-next:hover {
+  cursor: pointer;
+  opacity: 1;
+  /* font-size: 64px; */
+}
 </style>
 
