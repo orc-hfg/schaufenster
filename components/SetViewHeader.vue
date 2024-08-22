@@ -216,20 +216,16 @@ nav {
   position: absolute;
   right: var(--margin-navbar-institution-logo-right, 10px);
 
+  /* gap: var(--margin-navbar-institution-logo-right, 10px); */
   display: flex;
-  width: var(--dimension-button-height-M, 48px);
-  height: var(--dimension-button-height-M, 48px);
+  /* width: var(--dimension-button-height-M, 48px);
+  height: var(--dimension-button-height-M, 48px); */
+  width: var(--dimension-button-height-M, 32px);
+  height: var(--dimension-button-height-M, 32px);
+  justify-content: center;
   align-items: center;
-  gap: var(--margin-navbar-institution-logo-right, 10px);
+  gap: 20px;
   flex-shrink: 0;
-
-  display: flex;
-width: var(--dimension-button-height-M, 48px);
-height: var(--dimension-button-height-M, 48px);
-justify-content: center;
-align-items: center;
-gap: 20px;
-flex-shrink: 0;
 
   border-radius: var(--radius-full, 9999px);
 background: var(--nav-bar-info-button-fill, #2C2C2C);
