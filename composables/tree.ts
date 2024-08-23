@@ -96,6 +96,12 @@ export interface iTree {
   previewsLarge: {
     [key: string]: iPreview;
   };
+  previewsAudio: {
+    [key: string]: iPreview[];
+  };
+  previewsVideo: {
+    [key: string]: iPreview[];
+  };
   cols_authors: {
     [key: string]: string[];
   };
@@ -206,6 +212,8 @@ export const treeHelper = () => {
 
         previews: {},
         previewsLarge: {},
+        previewsAudio: {},
+        previewsVideo: {},
       } as iTree));
     return tree;
   };
@@ -440,11 +448,15 @@ export const treeHelper = () => {
               //console.error("found entry with image large" + entryId)
             }
           } else if (preview.media_type == "audio") {
-            tree.previewsLarge[entryId] = preview;
-            //console.error("found entry with audio " + entryId)
+            //tree.previewsLarge[entryId] = preview;
+            tree.previewsAudio[entryId] = tree.previewsAudio[entryId] || [];
+            tree.previewsAudio[entryId].push(preview)
+            console.error("found entry with audio " + entryId)
           } else if (preview.media_type == "video") {
-            tree.previewsLarge[entryId] = preview;
-            //console.error("found entry with video " + entryId + "has pv small" + JSON.stringify(tree.previews[entryId]))
+            //tree.previewsLarge[entryId] = preview;
+            tree.previewsVideo[entryId] = tree.previewsVideo[entryId] || [];
+            tree.previewsVideo[entryId].push(preview)
+            console.error("found entry with video " + entryId)
           } else if (preview.media_type == "document") {
             console.error("found entry with document " + entryId);
           } else {

@@ -44,33 +44,64 @@
       }"
     >
       <swiper-slide class="main_slide" v-for="(el,index) in entries" :key="el.id" :virtualIndex="index">
-   
-        <div v-if="getMediaType(el.id) == 'image'"
-          class="main_preview"
-          :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
-        ></div>
-        <div v-else-if="currentTree.previewsLarge[el.id].media_type == 'audio'"
+        
+        PA {{ currentTree.previewsAudio[el.id] }}
+        <!-- PV {{ currentTree.previewsVideo[el.id] }} -->
+
+        <div v-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
           <audio :id="'slide-audio-'+ el.id"
             class="audio-slide"
             controls style="width: 100%; height:80%; margin: auto;">
-            <!-- TODO preview audio -->
-            <source :src="previewLargeUrl(el.id)">
+        
+            <source v-for="url in previewAudioUrls(el.id)" :src="url">
           </audio>
         </div>
-        <div v-else-if="currentTree.previewsLarge[el.id].media_type == 'video'"
+        <div v-else-if="currentTree.previewsVideo[el.id]"
           class="main_preview">
           <video :id="'slide-video-'+ el.id"
             class="video-slide"
             controls style="width: 100%; height:80%; margin: auto;  position:relative">
-            <!-- z-index: -2; -->
-            <!-- TODO preview video -->
-            <source :src="previewLargeUrl(el.id)">
+        
+            <source v-for="url in previewVideoUrls(el.id)" :src="url">
+          </video>
+        </div>
+        <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'document'">
+          TODO docs
+        </div>
+        <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'image'"
+          class="main_preview"
+          :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
+        ></div>
+
+        <!-- TODO main nav btns fixed -->
+        <!--
+        <div v-if="getMediaType(el.id) == 'image'"
+          class="main_preview"
+          :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
+        ></div>
+        <div v-else-if="currentTree.previewsAudio[el.id]"
+          class="main_preview">
+          <audio :id="'slide-audio-'+ el.id"
+            class="audio-slide"
+            controls style="width: 100%; height:80%; margin: auto;">
+        
+            <source v-for="url in previewAudioUrls(el.id)" :src="url">
+          </audio>
+        </div>
+        <div v-else-if="currentTree.previewsVideo[el.id]"
+          class="main_preview">
+          <video :id="'slide-video-'+ el.id"
+            class="video-slide"
+            controls style="width: 100%; height:80%; margin: auto;  position:relative">
+        
+            <source v-for="url in previewVideoUrls(el.id)" :src="url">
           </video>
         </div>
         <div v-else-if="currentTree.previewsLarge[el.id].media_type == 'document'">
           TODO docs
         </div>
+        -->
       </swiper-slide>
       <div class="swiper-main-button-prev"
       :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false}"
@@ -315,7 +346,27 @@ const previewLargeUrl = (eId: string): string => {
   const pid = currentTree.value.previewsLarge[eId]?.id
   return apiBaseUrl + 'previews/' + pid + '/data-stream'
 }
+const previewAudioUrls = (eId: string): string[] => {
+  const urlList = [] as string[]
+  currentTree.value.previewsAudio[eId].forEach(preview => {
+    const url = apiBaseUrl + 'previews/' + preview.id + '/data-stream'
+    urlList.push(url)
+  });
+  return urlList;
+}
+const previewVideoUrls = (eId: string): string[] => {
+  const urlList = [] as string[]
+  currentTree.value.previewsVideo[eId].forEach(preview => {
+    const url = apiBaseUrl + 'previews/' + preview.id + '/data-stream'
+    urlList.push(url)
+  });
+  return urlList;
+}
+
 const getMediaType = (eId: string): string => {
+  if (currentTree.previewsVideo[eId]) {
+
+  }
   return currentTree.value.previewsLarge[eId].media_type || ''
 }
 
@@ -409,7 +460,7 @@ const modules = ref([
   SwiperVirtual,
 ]);
 
-const entries = ref([]);
+const entries = ref([] as iMediaEntry[]);
 //const slides = ref({} as iSlideElement);
 
 const navSlider = ref({} as iNavSlider)
@@ -593,8 +644,8 @@ const initSetEntries = (parentId:string, setId:string, els):number => {
 }
 const initSubTree = (rootId:string, treeId: string) => {
   console.log("initSubTree: " + treeId);
-  showCount.value[rootId] = MIN_SHOW_COUNT;
-  showCount.value[treeId] = MIN_SHOW_COUNT;
+  showCount.value[rootId] = showCount.value[rootId] || MIN_SHOW_COUNT;
+  showCount.value[treeId] = showCount.value[treeId] || MIN_SHOW_COUNT;
 
   // get root entries
   const rels = currentTree.value.edges[rootId][treeId].entries;
@@ -711,13 +762,13 @@ const SHOW_SET_TITLE_DELAY = 3000
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
-  activeEntryId.value = entries.value[0].id
-  activeSetId.value = setid.value
-
+  
   setTimeout(() => {
+    activeEntryId.value = entries.value[0].id
+    activeSetId.value = setid.value
     swiperMain.value.slideTo(0)
     swiperNav.value.slideTo(0)
-    activeSetId.value = setid.value
+
   },100)
 
 

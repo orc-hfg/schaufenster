@@ -82,7 +82,7 @@
             @click="switch2set(el.col_id)">
             <div class="img"
               :class="{swiper_moving: swiperMoving}"
-              :style="{ 'background-image': 'url(\'' + previewUrl(el.col_id) + '\')' }">
+              :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.col_id) + '\')' }">
             </div>
           </div>
           
@@ -109,7 +109,7 @@
     <Transition name="fade">
       <div class="year_info"
         :style="year_info_style"
-        v-if="currentYear">
+        v-if="currentYear && ! info_info">
         {{ currentYear }}
       </div>
     </Transition>
@@ -361,8 +361,9 @@ const previewUrl = (treeId: string): string => {
   const pid = useTree.value[settype.value][treeId]?.previews[eId]?.id;
   return apiBaseUrl + "previews/" + pid + "/data-stream";
 };
-const previewLargeUrl = (treeId: string, eId: string): string => {
-  const pid = useTree.value[settype.value][treeId].previewsLarge[eId]?.id;
+const previewLargeUrl = (treeId: string): string => {
+  const eId = useTree.value[settype.value][treeId]?.edges[RID][treeId].coverId
+  const pid = useTree.value[settype.value][treeId]?.previewsLarge[eId]?.id;
   return apiBaseUrl + "previews/" + pid + "/data-stream";
 };
 const switch2set = (setid) => {
