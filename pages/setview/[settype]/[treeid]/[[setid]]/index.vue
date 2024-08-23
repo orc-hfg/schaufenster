@@ -881,7 +881,7 @@ const handleMouseLeave = () => {
   /* border: 1px solid blue; */
   position: fixed;
   left: 0px;
-  width: 100vw;
+  width: calc(100vw - 144px);
   bottom: 3vh;
   height: 144px;
   z-index: 100;

@@ -26,16 +26,62 @@
             
             <Transition :name="showInfo ? 'move-ur30' : 'grow-width' ">
               
-              <NuxtLink class="navbar_set_link"
+              <NuxtLink class="navbar_set_link parent_link"
+                  :class="{showPath2Root: showPath2Root}"
+                  v-if="activeSetId !== setid && !showInfo"
+                  :style="{width: showPath2Root? getTitleWidth(setid) : '16px'}"
+                  
+                  @mouseover="setShowPath2Root(true)"
+                  @mouseleave="setShowPath2Root(false)"
+                  
+                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
+                  <!-- {{getColTitle(setid)}} -->
+                  {{ showPath2Root ? getColTitle(setid) : '...' }}
+              </NuxtLink>
+              <NuxtLink class="navbar_set_link parent_link"
+                v-else-if="activeSetId == setid && parentSetId !== 'root' && !showInfo"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId"
+                :class="{showPath2Root: showPath2Root }"
+                :style="{width: showPath2Root? getTitleWidth(parentSetId) : '16px'}"
+                @mouseover="setShowPath2Root(true)"
+                @mouseleave="setShowPath2Root(false)">
+
+                {{showPath2Root ? getColTitle(parentSetId) : '...' }}
+              </NuxtLink>
+              
+<!--
+              <NuxtLink class="navbar_set_link parent_link"
                   :class="{grow_width:showPath2Root,
                     showPath2Root: showPath2Root}"
-                  v-if="activeSetId !== setid && !showInfo"
+                  v-if="activeSetId !== setid && !showInfo && !showPath2Root"
+                  @mouseover="setShowPath2Root(true)"
+                  @mouseleave="setShowPath2Root(false)"
+                  :style="{width: showPath2Root? 'auto' : '16px'}"      
+                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
+                    ...
+                  
+              </NuxtLink>
+              <NuxtLink class="navbar_set_link parent_link"
+                  :class="{grow_width:showPath2Root,
+                    showPath2Root: showPath2Root}"
+                  v-else-if="activeSetId !== setid && !showInfo"
                   @mouseover="setShowPath2Root(true)"
                   @mouseleave="setShowPath2Root(false)"
                   :style="{width: showPath2Root? 'auto' : '16px'}"      
                   :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
 
                   {{ showPath2Root ? getColTitle(setid) : '...' }}
+              </NuxtLink>
+              <NuxtLink class="navbar_set_link"
+                v-else-if="activeSetId == setid && parentSetId !== 'root' && !showInfo && !showPath2Root"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId"
+                :class="{showPath2Root: showPath2Root,
+                  }"
+                
+                @mouseover="setShowPath2Root(true)"
+                @mouseleave="setShowPath2Root(false)">
+                  ...
+                
               </NuxtLink>
               <NuxtLink class="navbar_set_link"
                 v-else-if="activeSetId == setid && parentSetId !== 'root' && !showInfo"
@@ -48,7 +94,7 @@
 
                 {{showPath2Root ? getColTitle(parentSetId) : '...' }}
               </NuxtLink>
-              
+              -->
             </Transition>
 
           <Transition name="move-ur30">
@@ -168,8 +214,24 @@ const getColTitle = (id: string): string => {
         }
     return result
 }
+
+const getTextWidth = (text:string, font:string) => {
+  // re-use canvas object for better performance
+  //const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  context.font = font;
+  const metrics = context.measureText(text);
+  return metrics.width;
+}
+
+const getTitleWidth = (id:string): string => {
+  //const result = getColTitle(id).length * 24;
+  const result = getTextWidth(getColTitle(id),"20px Instrument Sans")
+  return (result + 10) + 'px';
+}
 </script>
-<style >
+<style scoped>
 
 .navbar_set_link {
   text-decoration: none;
@@ -199,6 +261,20 @@ const getColTitle = (id: string): string => {
   cursor: pointer;
 }
 
+.navbar_set_link.parent_link {
+  width: 24px;
+  transition: all 0.5s;
+  overflow: hidden;
+}
+/* .navbar_set_link.parent_link::before {
+  content: '...  .........';
+}
+.navbar_set_link.parent_link:hover::before {
+  content: '';
+} */
+.navbar_set_link.parent_link:hover {
+  width: 20rem;
+}
 .navbar_set_link.grow_width {
   width: auto;
   transition: all 1s linear;
@@ -253,8 +329,9 @@ line-height: var(--font-h4-line-height, 40px); /* 125% */
   position: relative;
   top: -40px; left: 48px;
   text-decoration: none;
-  
+  overflow: hidden;
   transition: all 0.5s;
+  opacity: 0;
 }
 .header_nav_logo:hover {
   width: 9rem;
@@ -262,6 +339,7 @@ line-height: var(--font-h4-line-height, 40px); /* 125% */
 }
 .header_nav_logo:hover .content {
   visibility: visible; 
+  opacity: 1;
 }
 
 </style>
