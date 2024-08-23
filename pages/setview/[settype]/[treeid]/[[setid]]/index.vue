@@ -45,7 +45,7 @@
     >
       <swiper-slide class="main_slide" v-for="(el,index) in entries" :key="el.id" :virtualIndex="index">
         
-        PA {{ currentTree.previewsAudio[el.id] }}
+        <!-- PA {{ currentTree.previewsAudio[el.id] }} -->
         <!-- PV {{ currentTree.previewsVideo[el.id] }} -->
 
         <div v-if="currentTree.previewsAudio[el.id]"
