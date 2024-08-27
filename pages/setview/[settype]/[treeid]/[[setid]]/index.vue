@@ -324,9 +324,11 @@ const toggleShowInfo = () => {
     showBottomNav.value = true
   }
   setTimeout(() => {
+    swiperMain.value.slideNext()
+    swiperMain.value.slidePrev()
     swiperMain.value.updateSize()
     swiperMain.value.update()
-  }, 1500)
+  }, 1000)
   
 }
 
@@ -475,8 +477,8 @@ const swiperNav = ref({} as typeof Swiper);
 
 const activeEntryId = ref('' as string)
 const activeSetId = ref('' as string)
-const lastActiveSetId = ref('' as string)
-
+//const lastActiveSetId = ref('' as string)
+let lastActiveSetId = '' as string;
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex;
     /* console.log("swiperMain changed slide: " + activeSlide) */
@@ -523,7 +525,7 @@ const onMainSwiperSlideChanged = () => {
       }
     } else if (!showInfo.value) {
       
-      showBottomNav.value = true
+      /* showBottomNav.value = true */
       show_av_control.value = false
     }
     
@@ -533,9 +535,9 @@ const onMainSwiperSlideChanged = () => {
     //   + " colId " + colId
     //   + " nav Idx: " + navIdx )
     // reset all other showcounts, show all for active set
-    if (lastActiveSetId.value !== activeEntryId.value) {
+    if (lastActiveSetId.localeCompare(activeSetId.value) !== 0 ) {
 
-      console.log(" changed active set id " + lastActiveSetId.value + ':' + activeSetId.value)
+      console.log(" changed active set id " + lastActiveSetId + ':' + activeSetId.value)
       for(const cid in showCount.value) {  
         showCount.value[cid] = Math.min( MIN_SHOW_COUNT, maxCount.value[cid])
       }
@@ -544,7 +546,7 @@ const onMainSwiperSlideChanged = () => {
 
     }
 
-    lastActiveSetId.value = activeSetId.value
+    lastActiveSetId = activeSetId.value
 
     setTimeout(() => {
       swiperNav.value.update()
@@ -780,6 +782,7 @@ onMounted(() => {
   setTimeout(() => {
     activeEntryId.value = entries.value[0].id
     activeSetId.value = setid.value
+    addShowCount(activeSetId.value)
     swiperMain.value.slideTo(0)
     swiperNav.value.slideTo(0)
 
@@ -924,8 +927,9 @@ const handleMouseLeave = () => {
   height: 144px;
   position: absolute;
   top: 0px;
-  left: 6rem;
+  left: 96px;
   transition: all 0.5s;
+  overflow: visible;
 }
 .swiper_nav.hidden {
   visibility: hidden;
@@ -959,6 +963,8 @@ const handleMouseLeave = () => {
 }
 .entry_highlight svg {
   width: 100%; height: 100%;
+  border-radius: var(--radius-full, 9999px);
+  box-shadow: 0 0 0 10px rgba(0,0,0,0.15);
 }
 
 .entry_highlight svg * {
@@ -981,6 +987,7 @@ const handleMouseLeave = () => {
 }
 
 .nav_preview_col_title {
+  user-select: none;
   position: relative;
   top: -40px;
   font-size: 16px;
@@ -1071,28 +1078,47 @@ const handleMouseLeave = () => {
 
 .btn_bottom_nav_hide {
   position: relative;
-  top: 36px;
+  top: 60px;
   left: 24px;
+  width: 48px; height: 48px;
+
   cursor: pointer;
   user-select: none;
+  
+  color: #000;
+  display: block;
+  z-index: 120;
+  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  border-radius: var(--radius-full, 9999px);
+  box-shadow: 0 0 0 10px rgba(0,0,0,0.15);
+  background-color: #FFF;
 }
 .btn_bottom_nav_hide * {
   position: absolute;
-  top: 24px;
+  top: 0px;
   left: 0px;
-  /* transform: rotateZ(45deg) */
+  
+  z-index: 120;
+  
+  
+  
+  clip-path: circle(48px at 24px 24px) !important;
+  
 }
 
 
 
 .entry_info_title {
+  user-select: none;
+
   position: fixed;
   top: 64px;
   left: 10vw;
   width: 80vw;
   text-align: center;
   align-content: center;
-  font-size: 4rem;
+  font-size: 3rem;
+  line-height: 3rem;
 }
 
 .rotate-enter-active,
@@ -1105,10 +1131,12 @@ const handleMouseLeave = () => {
 }
 .rotate-leave-to {
   transform: rotate(90deg);
+  opacity: 0.15;
 }
 
 .rotatel-enter-active,
 .rotatel-leave-active {
+  
   transition: all 0.5s linear;
 }
 .rotatel-enter-to {
@@ -1117,7 +1145,7 @@ const handleMouseLeave = () => {
 }
 .rotatel-leave-to {
   transform: rotate(-90deg);
-  opacity: 0.35;
+  opacity: 0.15;
 }
 
 .fade-rotate-enter-active,
