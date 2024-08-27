@@ -296,22 +296,22 @@ nav {
   display: flex;
   /* width: var(--dimension-button-height-M, 48px);
   height: var(--dimension-button-height-M, 48px); */
-  width: var(--dimension-button-height-M, 32px);
-  height: var(--dimension-button-height-M, 32px);
+  width: var(--dimension-button-height-M, 24px);
+  height: var(--dimension-button-height-M, 24px);
   justify-content: center;
   align-items: center;
   gap: 20px;
   flex-shrink: 0;
 
   border-radius: var(--radius-full, 9999px);
-background: var(--nav-bar-info-button-fill, #2C2C2C);
+  background: var(--nav-bar-info-button-fill, #2C2C2C);
 
   color: var(--text-primary-inverted, #FFF);
 font-family: "Instrument Sans";
-font-size: var(--font-h4-font-size, 32px);
+font-size: var(--font-h4-font-size, 24px);
 font-style: normal;
 font-weight: 500;
-line-height: var(--font-h4-line-height, 40px); /* 125% */
+line-height: var(--font-h4-line-height, 32px); /* 125% */
 }
 
 
