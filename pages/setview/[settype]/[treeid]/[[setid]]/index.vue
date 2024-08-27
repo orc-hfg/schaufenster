@@ -501,14 +501,22 @@ const onMainSwiperSlideChanged = () => {
     const ael = document.getElementById('slide-audio-'+ entry.id)
     const vel = document.getElementById('slide-video-'+ entry.id)
     if (ael) {
-      ael.play()
+      
       showBottomNav.value = false
-      show_av_control.value = true
+      if (!showInfo.value) {
+        ael.play()
+        show_av_control.value = true
+      }
+      
     } else if (vel) {
-      vel.play()
+      
       showBottomNav.value = false
-      show_av_control.value = true
+      if (!showInfo.value) {
+        vel.play()
+        show_av_control.value = true
+      }
     } else if (!showInfo.value) {
+      
       showBottomNav.value = true
       show_av_control.value = false
     }
@@ -968,7 +976,9 @@ const handleMouseLeave = () => {
 
 .nav_preview_col_title {
   position: relative;
-  top: -36px;
+  top: -40px;
+  font-size: 16px;
+  left: -12px;
   overflow: clip;
   
   width: 80vw;
