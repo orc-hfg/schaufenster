@@ -198,6 +198,8 @@ const props = defineProps([
     align-self: stretch;
 }
 .meta_title {
+    user-select: none;
+
     display: flex;
     align-items: flex-start;
     gap: 12px;
@@ -213,6 +215,7 @@ const props = defineProps([
     line-height: var(--font-subline-line-height, 24px); /* 120% */
 }
 .meta_content {
+  user-select: none;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
