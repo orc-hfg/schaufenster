@@ -221,8 +221,8 @@ const getColTitle = (id: string): string => {
 
 const getTextWidth = (text:string, font:string) => {
   // re-use canvas object for better performance
-  //const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
-  const canvas = document.createElement("canvas");
+  const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+  //const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   context.font = font;
   const metrics = context.measureText(text);
