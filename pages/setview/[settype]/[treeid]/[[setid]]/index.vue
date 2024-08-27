@@ -156,8 +156,13 @@
         class="swiper_nav"
         :class="{hidden: !showBottomNav}"
         @swiper="setNavSwiper"
-        :freeMode="true"
+        :freeMode="{
+          momentum:true,
+          momentumBounce: true,
+          sticky: false
+        }"
         :spaceBetween="4"
+        :mousewheel="{forceToAxis:false}"
         :centeredSlides="false"
         :slides-per-view="'auto'"
         
@@ -455,6 +460,7 @@ const modules = ref([
   SwiperPagination,
   SwiperScrollbar,
   SwiperController,
+  SwiperMousewheel,
   SwiperFreeMode,
   SwiperZoom,
   SwiperVirtual,
@@ -839,7 +845,7 @@ const handleMouseLeave = () => {
   gap: 40px;
   /* text-align: center; */
 
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08);
+  /* box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08); */
 }
 .swiper_main {
   /* border: 1px solid red; */
