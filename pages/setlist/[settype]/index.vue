@@ -59,7 +59,7 @@
         momentumBounce: true,
         sticky: false
       }"
-      :scrollbar="true"
+      :scrollbar="false"
       :mousewheel="{forceToAxis:false}"
       >
 
@@ -72,7 +72,7 @@
         <div class="sub_slide"
           v-for="el in slide.trees"
           :onMouseover="() => setTreeInfo(el)"
-          :style="{'width': 'calc(' + ((100 / colCount)-1) + '% - ' + (colCount * 20) + 'px)'}">
+          :style="{'width': 'calc(' + ((100 / colCount)) + 'vw - ' + (colCount * 20) + 'px)'}">
 
           <div class="set_preview"
             :class="[el.previewDirection, el.previewPlacement]"
@@ -93,7 +93,10 @@
     </swiper>
   <!-- </Transition> -->
     
-    <SetListTreeInfo v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
+    <SetListTreeInfo
+      @scroll.prevent="scrollEvent"
+      @wheel.prevent="wheelEvent"
+      v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
       :sorted-trees="filteredSortedTrees"
       :settype="settype"
       :tree-info-idx="treeInfoIdx"
@@ -108,8 +111,10 @@
     </Transition>
     <Transition name="fade">
       <div class="year_info"
+        @scroll="scrollEvent"
+        @wheel="wheelEvent"
         :style="year_info_style"
-        v-if="currentYear && ! info_info">
+        v-if="currentYear && !intro_info">
         {{ currentYear }}
       </div>
     </Transition>
@@ -221,6 +226,17 @@ const setSwiperMoving = () => {
   setTimeout(() => {
     swiperMoving.value = false;
   },SWPIPER_MOVING_DELAY)
+}
+
+const scrollEvent = (ev) => {
+  console.log("got scroll event" + ev.deltaY)
+  const current = swiperMain.value.getTranslate()
+  swiperMain.value.translateTo(current - 20 * ev.deltaY)
+}
+const wheelEvent = (ev) => {
+  console.log("got wheel event" + ev.deltaY)
+  const current = swiperMain.value.getTranslate()
+  swiperMain.value.translateTo(current - 2 * ev.deltaY)
 }
 
 const SWITCH_TYPE_PAGE_DELAY = 300;
@@ -641,27 +657,31 @@ onMounted(() => {
 .swiper_main {
   /* border: 1px solid red; */
   position: absolute;
-  top: 8rem;
-  left: 2rem;
-  width: calc(100vw - 4rem);
-  height: 80vh;
+  top: 112px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
 }
 .main_slide {
   /* border: 1px solid blue; */
   height: 600px;
   width: calc(100vw - 4rem);
+  width: 100vw;
   cursor: pointer;
 }
 .swiper_main.button_pad_left {
-  left: 8rem;
+  /* left: 8rem; */
   width: calc(100vw - 10rem);
+  width: 100vw;
 }
 .swiper_main.button_pad_left .main_slide{
   width: calc(100vw - 12rem);
+  width: 100vw;
 }
 .year_stepper {
   position: absolute;
   top: 45vh;
+  z-index: 90;
 
   display: inline-flex;
 flex-direction: column;
