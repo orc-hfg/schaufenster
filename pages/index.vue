@@ -1,5 +1,5 @@
 <template>
-  <div class="intro_page" data-theme="dark">
+  <div class="intro_page" data-theme="dark" @click="switchPage">
     <header>
       <nav class="wrap_left">
         <NuxtLink to="/" class="home_link">
@@ -12,14 +12,15 @@
         </NuxtLink>
       </nav>
     </header>
-    <Transition>
-    <div class="intro_content"
-      v-if="showContent"
-      >
+    <div class="intro_content">
       <div v-for="idx in [1,2,3,4,5]"
-        :style="font_style">{{ $t('intro.title' + idx) }}</div>
+        class="intro_line"
+        :class="{hidden: !showContent }"
+        :style="getFontStyle(idx)"
+        >
+        {{ $t('intro.title' + idx) }}
+      </div>
     </div>
-  </Transition>
   </div>
 </template>
 <script setup lang="ts">
@@ -38,12 +39,24 @@ const {
 const showContent = ref(false)
 const font_style = ref({})
 
+const switchPage = () => {
+  router.push('setlist/' + MATCH_DIPLOM)
+}
+const getFontStyle = (idx) => {
+  const fs = getViewSizedStyle(20,20)
+  fs.transitionDelay = (idx * 50) + 'ms'
+  fs.transitionDuration = '300ms'
+  return fs;
+}
 onMounted(() => {
   selectRandomFont()
-  font_style.value = getViewSizedStyle(18,16)
+  font_style.value = getViewSizedStyle(18,18)
   
   document.documentElement.setAttribute("data-theme", "dark");
-  showContent.value=true
+  setTimeout(() => {
+    showContent.value=true
+  }, 1500)
+  
   setTimeout(() => {
     router.push('setlist/' + MATCH_DIPLOM)
   },7000)
@@ -73,8 +86,10 @@ onMounted(() => {
   .home_link {
     padding: 0px;
     height: 48px;
+    user-select: none;
   }
   .hfg_link {
+    user-select: none;
     padding: 12px;
     /* border: 1px solid white; */
     font-size: 20px;
@@ -124,10 +139,24 @@ onMounted(() => {
     line-height: 6vh;
 
     position:relative;
-    top: 103px;
+    top: 64px; /* 103px; */
     display:block;
 
   }
+.intro_line {
+  user-select: none;
+  position: relative;
+  opacity: 1;
+ 
+  transition: opacity 0.5s ease-out;
+  transition: all 300ms ease-out;
+  
+}
+.intro_line.hidden {
+  opacity: 0;
+  transform: translateY(100vh);
+}
+
 
 
 .v-enter-active,
@@ -142,6 +171,20 @@ onMounted(() => {
 .v-leave-to {
   opacity: 0;
   top: 100vh;
+}
+
+.line-enter-enter-active,
+.line-enter-leave-active {
+  transition: opacity 0.5s 2.5s ease-out;
+  transition: all 2.0s 1s ease-out;
+  
+  
+}
+
+.line-enter-enter-from,
+.line-enter-leave-to {
+  opacity: 0;
+  transform: translateY(100vh);
 }
 
 </style>
