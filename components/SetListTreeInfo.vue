@@ -3,6 +3,7 @@
       :style="info_tree_style">
       <div>&nbsp;</div>
       <div>&nbsp;</div>
+      <div>&nbsp;</div>
       <div v-for="(treeInfo,idx) in sortedTrees" :id="'treeInfo_' + treeInfo.col_id"
           :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
         <span>
@@ -34,12 +35,12 @@ const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
   
   info_tree_style.value['color'] = color
 
-const TREE_INFO_OPACITY_DIFF_2 = 0.15; // 0.05
-const TREE_INFO_OPACITY_DIFF_1 = 0.45; // 0.15
+const TREE_INFO_OPACITY_DIFF_2 = 0.05; // 0.05
+const TREE_INFO_OPACITY_DIFF_1 = 0.15; // 0.15
 
 const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   const diff = (treeInfoIdx - idx)
-  const opval = diff >= 2 ? TREE_INFO_OPACITY_DIFF_2 
+  const opval = (diff >= 2 || diff < 0) ? TREE_INFO_OPACITY_DIFF_2 
     : (diff >= 1 ? TREE_INFO_OPACITY_DIFF_1 : 1)
   return { opacity: opval }
 }
@@ -50,11 +51,11 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   position: fixed;
   bottom: 32px;
   
-  height: 136px;
-  width: calc(100vw - 4rem);
+  height: 120px;
+  width: 100vw;
   overflow-y: auto;
 
-  font-size: 20px;
+  
   z-index: 980;
   transition: all 1s linear;
 
@@ -67,8 +68,11 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
 
 }
 .tree_info * {
-  font-size: 32px;
-  line-height: 48px;
+  user-select: none;
+  transition: opacity 250ms linear;
+  
+  font-size: 20px;
+  line-height: 40px;
 }
 /* .tree_info_blur {
   position: fixed;
