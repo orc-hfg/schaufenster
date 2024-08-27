@@ -24,29 +24,33 @@
             </Transition>
 -->
             
-            <Transition :name="showInfo ? 'move-ur30' : 'grow-width' ">
+            <Transition :name="showInfo ? 'move-u50' : 'grow-width' ">
               
               <NuxtLink class="navbar_set_link parent_link"
-                  :class="{showPath2Root: showPath2Root}"
                   v-if="activeSetId !== setid && !showInfo"
-                  :style="{width: showPath2Root? getTitleWidth(setid) : '16px'}"
-                  
+                  :class="{showPath2Root: showPath2Root}"
+                  :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}"
+                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid"
                   @mouseover="setShowPath2Root(true)"
                   @mouseleave="setShowPath2Root(false)"
-                  
-                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
-                  <!-- {{getColTitle(setid)}} -->
-                  {{ showPath2Root ? getColTitle(setid) : '...' }}
+                  >
+                  <span
+                    :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}">
+                    {{ showPath2Root ? getColTitle(setid) : '&nbsp;...' }}
+                  </span>
               </NuxtLink>
               <NuxtLink class="navbar_set_link parent_link"
                 v-else-if="activeSetId == setid && parentSetId !== 'root' && !showInfo"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId"
                 :class="{showPath2Root: showPath2Root }"
-                :style="{width: showPath2Root? getTitleWidth(parentSetId) : '16px'}"
+                :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}"
+                :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId"
                 @mouseover="setShowPath2Root(true)"
-                @mouseleave="setShowPath2Root(false)">
-
-                {{showPath2Root ? getColTitle(parentSetId) : '...' }}
+                @mouseleave="setShowPath2Root(false)"
+                >
+                <span 
+                  :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}">
+                  {{showPath2Root ? getColTitle(parentSetId) : '&nbsp;...' }}
+                </span>
               </NuxtLink>
               
 <!--
@@ -97,7 +101,7 @@
               -->
             </Transition>
 
-          <Transition name="move-ur30">
+            <Transition :name="showInfo ? 'move-u50' : 'grow-width' ">
             <NuxtLink class="navbar_set_link"
               v-if="activeSetId == setid && !showInfo"
               :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId"
@@ -114,7 +118,7 @@
 
             
 
-          <Transition name="move-ur30">
+            <Transition :name="showInfo ? 'move-u50' : 'grow-width' ">
             <NuxtLink
                 v-if="activeSetId !== setid && !showInfo"
                 class="navbar_set_link"
@@ -192,7 +196,7 @@ const props = defineProps([
     'titlesMap'
 ])
 
-const showPath2Root = ref(false)
+const showPath2Root = ref(true)
 const SHOW_PATH2ROOT_DELAY = 500
 
 const setShowPath2Root = (value:boolean) => {
@@ -234,6 +238,8 @@ const getTitleWidth = (id:string): string => {
 <style scoped>
 
 .navbar_set_link {
+  position: relative;
+  /* left: 0; */
   text-decoration: none;
   user-select: none;
   cursor: pointer;
@@ -244,7 +250,7 @@ const getTitleWidth = (id:string): string => {
   background-color: var(--Colors-nav-bar-toggle-on);
   margin: 0 var(--spacing__navbarbetweenitems, 4px);
 
-  transition: all 1s linear;
+  transition: all 0.5s linear;
 
   color: var(--text-primary, #2C2C2C);
 
@@ -263,7 +269,13 @@ const getTitleWidth = (id:string): string => {
 
 .navbar_set_link.parent_link {
   width: 24px;
-  transition: all 0.5s;
+  transition: width 0.5s;
+  overflow: hidden;
+}
+
+.navbar_set_link.parent_link span {
+  display: inline-block;
+  height: 24px;
   overflow: hidden;
 }
 /* .navbar_set_link.parent_link::before {
@@ -275,14 +287,14 @@ const getTitleWidth = (id:string): string => {
 .navbar_set_link.parent_link:hover {
   width: 20rem;
 }
-.navbar_set_link.grow_width {
+/* .navbar_set_link.grow_width {
   width: auto;
   transition: all 1s linear;
-}
-.navbar_set_link.info_active {
+} */
+/* .navbar_set_link.info_active {
   background-color: var(--Colors-nav-bar-toggle-off);
   font-weight: 800;
-}
+} */
 nav {
   width: calc(100vw - var(--dimension__icon__sizeM, 24px));
 }
@@ -312,6 +324,8 @@ font-size: var(--font-h4-font-size, 24px);
 font-style: normal;
 font-weight: 500;
 line-height: var(--font-h4-line-height, 32px); /* 125% */
+
+transition: all 1s linear;
 }
 
 
@@ -334,7 +348,7 @@ line-height: var(--font-h4-line-height, 32px); /* 125% */
   opacity: 0;
 }
 .header_nav_logo:hover {
-  width: 9rem;
+  width: 8rem;
   transition: all 0.5s;
 }
 .header_nav_logo:hover .content {
