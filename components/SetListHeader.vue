@@ -5,7 +5,7 @@
           <IconsNavIconORC />
         </NuxtLink>
 
-        <Transition name="move-ur30">
+        <Transition name="move-u50">
           <div class="settype_toggle"
             v-if="!hideNavBtns"
             :class="{diplom: toggleBtnSetType == MATCH_DIPLOM,
@@ -26,7 +26,7 @@
           </div>
         </Transition>
 
-        <Transition name="move-ur45">
+        <Transition name="move-u50">
           <NuxtLink class="navbar_link afilter"
             v-if="!hideNavBtns"
             :class="{active:showFilterView}"
@@ -36,7 +36,7 @@
           </NuxtLink>
         </Transition>
 
-        <Transition name="move-ur45">
+        <Transition name="move-u50">
         <NuxtLink class="navbar_link areset"
             v-if="!hideNavBtns && filterCount"
             @click="$emit('resetFilter')"
@@ -47,11 +47,13 @@
         
       </nav>
       <nav class="wrapper_right">
+        <Transition name="move-u50">
           <NuxtLink class="navbar_link aarchive"
+            v-if="!hideNavBtns"
             to="https://dev.madek.hfg-karlsruhe.de">
             <IconsNavIconHfG/>
           </NuxtLink>
-        
+        </Transition>
       </nav>
       <!-- <nav class="wrapper_right"
         @mouseenter="setShowArchiveLink(true)"
