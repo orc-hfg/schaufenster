@@ -46,7 +46,14 @@
         </Transition>
         
       </nav>
-      <nav class="wrapper_right"
+      <nav class="wrapper_right">
+          <NuxtLink class="navbar_link aarchive"
+            to="https://dev.madek.hfg-karlsruhe.de">
+            <IconsNavIconHfG/>
+          </NuxtLink>
+        
+      </nav>
+      <!-- <nav class="wrapper_right"
         @mouseenter="setShowArchiveLink(true)"
         @mouseleave="setShowArchiveLink(false)"
         >
@@ -58,7 +65,7 @@
             Zur Seite
           </NuxtLink>
         </Transition>
-      </nav>
+      </nav> -->
     </header>
 </template>
 <script setup lang="ts">
@@ -81,16 +88,17 @@ const props = defineProps([
     'hideNavBtns',
     'showFilterView'
 ])
-const showArchive = ref(false)
-const setShowArchiveLink = (val:boolean) => {
-  if (val == true) {
-    showArchive.value = true;
-  } else {
-    setTimeout(() => {
-      showArchive.value = false;
-    },3000)
-  }
-}
+
+// const showArchive = ref(false)
+// const setShowArchiveLink = (val:boolean) => {
+//   if (val == true) {
+//     showArchive.value = true;
+//   } else {
+//     setTimeout(() => {
+//       showArchive.value = false;
+//     },3000)
+//   }
+// }
 </script>
 <style scoped>
 header {
@@ -123,7 +131,7 @@ header nav a {
 
 .header_nav_logo {
   padding: 0px;
-  border: 1px solid transparent
+  border: 1px solid var(--Primitives-color-greys-ORCBlack, #2C2C2C);
 }
 
 .navbar_link {
@@ -143,6 +151,7 @@ header nav a {
   border-radius: var(--radius-full, 9999px);
   border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
   
+ /*  background: var(--Colors-nav-bar-button-fill, #F3F2EF); */
 }
 
 .navbar_link.afilter {
@@ -169,13 +178,15 @@ header nav a {
   align-items: center;
   gap: 12px;
   
-  background: var(--Colors-nav-bar-button-fill, #F3F2EF);
+  /* background: var(--Colors-nav-bar-button-fill, #F3F2EF); */
+  border: none
 }
 
 
 .navbar_link:hover {
   /* background-color: var(--Colors-nav-bar-toggle-off); */
 }
+.navbar_link_diplom:hover,
 .navbar_link_projects:hover,
 .afilter:hover,
 .areset:hover {
@@ -191,30 +202,31 @@ header nav a {
   align-items: flex-start;
   
   height: var(--dimension-button-height-M, 48px);
+  height: 50px;
 }
 .settype_toggle.projects {
-  background: linear-gradient(90deg, rgba(0,0,0,1) 0%,
-    rgba(0,0,0,1) 9.0rem,
-    rgba(255,255,255,1) 9.0rem);
+  background: linear-gradient(90deg, 
+    var(--Primitives-color-greys-ORCBlack, #2C2C2C) 0%,
+    var(--Primitives-color-greys-ORCBlack, #2C2C2C) 144px,
+    #F3F2EF 144px);
 }
 .settype_toggle.diplom {
   /* background: rgb(242,137,6); */
 
-  background: linear-gradient(90deg, rgba(255,255,255,1) 0,
-   rgba(255,255,255,1) 0,
+  background: linear-gradient(90deg, 
+    #F3F2EF 0,
+    #F3F2EF 0,
     var(--Colors-nav-bar-info-button-fill) 0px,
-    var(--Colors-nav-bar-info-button-fill) 12.60rem,
-    rgba(255,255,255,1) 12.5rem
+    var(--Colors-nav-bar-info-button-fill) 200px,
+    #F3F2EF 200px
     );
-  background-position: 9.0rem 0;
+  background-position: 144px 0;
 }
 
 .navbar_link.navbar_link_projects,
 .navbar_link.navbar_link_diplom {
   float: left;
   
-  
-
   color: var(--text-primary, #2C2C2C);
 
   /* Buttons */
@@ -225,7 +237,7 @@ header nav a {
   line-height: var(--font-button-line-height, 24px); /* 120% */
 
   
-  height: 22px;
+  height: 24px;
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   justify-content: center;
@@ -237,21 +249,32 @@ header nav a {
   border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
 }
 .navbar_link_diplom:hover {
-  background-color: var(--Colors-nav-bar-info-button-fill);
+  /* background-color: var(--Colors-nav-bar-info-button-fill); */
 }
-.navbar_link.navbar_link_projects.active {
+.navbar_link.navbar_link_projects {
+  border-right: none;
+  width: 119px;
+}
 
+.navbar_link.navbar_link_projects.active {
   
   color: var(--text-primary-inverted, #FFF);
-
+  border-color: var(--Primitives-color-greys-ORCBlack, #2C2C2C);
 
 }
 .navbar_link.navbar_link_projects.active:hover {
-  background-color: var(--Colors-nav-bar-toggle-on, #222);
+  background-color: transparent;
+}
+.navbar_link.navbar_link_diplom {
+  border-left: none;
 }
 .navbar_link.navbar_link_diplom.active {
   /* background-color: var(--Colors-nav-bar-toggle-on, #f00); */
+  border-color: var(--Colors-nav-bar-info-button-fill);
   color: #fff;
+}
+.navbar_link.navbar_link_diplom.active:hover {
+  background-color: transparent;
 }
 .navbar_set_link.active {
   background-color: var(--Colors-nav-bar-toggle-off);
