@@ -156,12 +156,12 @@ onMounted(() => {
 
 .page-in.page-enter-active {
   clip-path: circle(0vw at 50vw 50vh) !important;
-  transition: clip-path 2s;
+  transition: clip-path 1s;
   z-index: 10;
 }
 .page-in.page-leave-active {
   z-index: 5;
-  transition: all 2s;
+  transition: all 1s;
 }
 .page-in.page-leave-to {
   filter: blur(1rem);
