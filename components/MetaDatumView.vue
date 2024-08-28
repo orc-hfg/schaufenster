@@ -103,7 +103,7 @@ flex-wrap: wrap;
   margin: var(--spacing__navbarbetweenitems, 4px) var(--spacing__navbarbetweenitems, 4px);
 */
     display: flex;
-    height: var(--dimension-button-height-M, 48px);
+    height: var(--dimension-button-height-M, 32px);
     padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px);
     align-items: center;
     gap: var(--spacing-item-inner, 8px);
