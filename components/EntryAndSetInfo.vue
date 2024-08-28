@@ -1,14 +1,28 @@
 <template>
-<div class="entry_info">
+<div class="entry_info"
+        @scroll="scrolled"
+        @wheel="scrolled">
       <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
         No meta data yet.
       </div>
 
-      <div class="entry_info_panel" v-else>
+      <div class="entry_info_panel" 
+        @scroll="scrolled"
+        @wheel="scrolled"
+        v-else>
+        <!-- <div style="display: block; height: 15vh">
+          <br/>  
+          <br/>
+        </div> -->
         <div class="section_entry">
+          <div class="meta_info"
+            style=" height: 15vh">
+            <br/>  
+            <br/>
+          </div>
             <div class="meta_info">
                 <div class="meta_title">
-                    Title:
+                    Titel
                 </div>
                     <MetaDatumView
                         class="meta_content" 
@@ -35,7 +49,7 @@
         <div class="section_set">
             <div class="meta_info">
                 <div class="meta_title">
-                    Projekt-Autoren:
+                    Projekt-Autoren
                 </div>
                     <MetaDatumView
                         class="meta_content"
@@ -43,7 +57,7 @@
             </div>
             <div class="meta_info">
                 <div class="meta_title">
-                    Zeitraum:
+                    Zeitraum
                 </div>
                     <MetaDatumView
                         class="meta_content"
@@ -59,7 +73,7 @@
             </div>                        
             <div class="meta_info">
                 <div class="meta_title">
-                    Projektbeschreibung:
+                    Projektbeschreibung
                 </div>
                     <MetaDatumView
                         class="meta_content"
@@ -124,8 +138,13 @@ const props = defineProps([
     'activeSetId',
     'currentTree'
 ])
+const emit = defineEmits(['scrollPosChanged'])
 
-
+const scrolled = (event) => {
+  const pos = document.getElementsByClassName('entry_info')[0].scrollTop
+  console.log("scrolled: " + pos)
+  emit('scrollPosChanged',[pos])
+}
 </script>
 <style>
 
@@ -134,11 +153,11 @@ const props = defineProps([
   /* border: 1px solid blue; */
   position: fixed;
   
-  top: 15vh;
+  top: 0px;
 
-  left: calc(45vw + 24px);
-  width: calc(55vw - 48px);
-  height: calc(100vh - 250px);
+  left: calc(50vw + 24px);
+  width: calc(50vw - 48px);
+  height: 100vh;
   overflow-y: auto;
   scrollbar-width: 0px;
   scrollbar-color: transparent;
