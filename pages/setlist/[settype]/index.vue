@@ -229,14 +229,14 @@ const setSwiperMoving = () => {
 }
 
 const scrollEvent = (ev) => {
-  console.log("got scroll event" + ev.deltaY)
   const current = swiperMain.value.getTranslate()
-  swiperMain.value.translateTo(current - 20 * ev.deltaY)
+  console.log("got scroll event" + ev.deltaY + ":" + current)
+  //swiperMain.value.translateTo(current - 20 * ev.deltaY)
 }
 const wheelEvent = (ev) => {
-  console.log("got wheel event" + ev.deltaY)
   const current = swiperMain.value.getTranslate()
-  swiperMain.value.translateTo(current - 2 * ev.deltaY)
+  console.log("got wheel event" + ev.deltaY + ":" + current)
+  //swiperMain.value.translateTo(current - 2 * ev.deltaY)
 }
 
 const SWITCH_TYPE_PAGE_DELAY = 300;
@@ -646,8 +646,8 @@ onMounted(() => {
   top: 0px;
   left: 0px;
   width: 100vw;
-  height: 80vh;
-  padding: 8rem 2rem;
+  height: 100vh;
+  padding: 8rem 12px;
   color: var(--Colors-text-primary);
   /* background: var(--Colors-text-primary-inverted); */
   background-color: var(--Colors-background-default);
@@ -661,32 +661,34 @@ onMounted(() => {
   left: 0px;
   width: 100vw;
   height: 100vh;
+  overflow-y: visible;
 }
 .main_slide {
   /* border: 1px solid blue; */
   height: 600px;
-  width: calc(100vw - 4rem);
+  /* width: calc(100vw - 4rem); */
   width: 100vw;
   cursor: pointer;
 }
 .swiper_main.button_pad_left {
   /* left: 8rem; */
-  width: calc(100vw - 10rem);
+  /* width: calc(100vw - 10rem); */
   width: 100vw;
 }
 .swiper_main.button_pad_left .main_slide{
-  width: calc(100vw - 12rem);
+  /* width: calc(100vw - 12rem); */
   width: 100vw;
 }
 .year_stepper {
   position: absolute;
-  top: 45vh;
+  top: calc(50vh - 48px);
+  left: 12px;
   z-index: 90;
 
   display: inline-flex;
-flex-direction: column;
-align-items: center;
-gap: 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
 }
 .year_stepper * {
   opacity: 0.85;
@@ -694,7 +696,7 @@ gap: 8px;
   cursor: pointer;
 }
 .year_stepper *.disabled {
-  opacity: 0.3;
+  opacity: 0.1;
 }
 .year_stepper *:active {
   opacity: 1.0;
