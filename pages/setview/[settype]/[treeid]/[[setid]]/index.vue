@@ -11,12 +11,21 @@
       
       :titles-map="currentTree.colTitlesMap"  
       @toggle-show-info="toggleShowInfo"
+      @parent-clicked="swiperMain.slideTo(0)"
     />
     <Transition name="move-u30-fade">
       <div class="entry_info_title"
+        :class="{hidden: entry_info_hidden}"
         v-if="currentTree && currentTree.colTitlesMap && showInfo"
         >
-        {{ currentTree.colTitlesMap[activeSetId] }}
+        <!-- TODO or treeid -->
+        {{ currentTree.colTitlesMap[setid] }}
+        <!-- <span v-if="treeid !== activeSetId">
+          {{ currentTree.colTitlesMap[treeid] }}
+          <br/>
+        </span>
+        
+        {{ currentTree.colTitlesMap[activeSetId] }} -->
       </div>
     </Transition>
     
@@ -124,6 +133,7 @@
         :active-entry-id="activeEntryId"
         :active-set-id="activeSetId"
         :current-tree="currentTree"
+        @scrollPosChanged="entryInfoScrollPosChanged"
       />
     </Transition>
     
@@ -135,7 +145,7 @@
     :space-between="spaceBetween"
     :centeredSlides="true"
     -->
-    <div class="bottom_nav" >
+    <div class="bottom_nav" v-if="!showInfo">
       <Transition name="fade">
         <div
           v-if="!showInfo"
@@ -154,7 +164,7 @@
       <swiper
         :modules="modules"
         class="swiper_nav"
-        :class="{hidden: !showBottomNav}"
+        :class="{hidden: !showBottomNav || showInfo}"
         @swiper="setNavSwiper"
         :freeMode="{
           momentum:true,
@@ -180,21 +190,21 @@
           :virtualIndex="el.index"
           @mouseover="setHoverSetId(el.collection_id)"
           @mouseleave="resetHoverSetId()"
-          :class="{set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id),
-            nav_slide_btns: el.type == NavSlideType.Button,
-            nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id],
-            nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id],
+          :class="{set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id) && el.collection_id !== treeid,
+            nav_slide_btns: el.type == NavSlideType.Button && maxCount[el.collection_id] >= 5,
+            nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id] && maxCount[el.collection_id] >= 5,
+            nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id] && maxCount[el.collection_id] >= 5,
           }"
-          
           >
           
+          <!-- :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))" -->
           <div
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
             @click="nav2Element(el)"
-            :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
+            
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
-            <div v-if="el.setIdx == 0 && (activeSetId == el.collection_id || hoverSetId == el.collection_id)"
+            <div v-if="el.collection_id !== treeid && el.setIdx == 0 && (activeSetId == el.collection_id || hoverSetId == el.collection_id)"
               class="nav_preview_col_title"
               :style="{width: ((getShowCount(el.collection_id)- 0.3) * 72) + 'px'}">
               {{getColTitle(el.collection_id)}}
@@ -213,9 +223,10 @@
 
             </div>
           </div>
+          <!-- :title="'E: ' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))" -->
           <div
-            v-if="el.type === NavSlideType.Button"
-            :title="'E: ' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))"
+            v-if="el.type === NavSlideType.Button && maxCount[el.collection_id] >= 4"
+           
             class="nav_preview_btn ">
             
             <IconWrap :large="true" 
@@ -224,7 +235,7 @@
               <IconsChevronRight/>
             </IconWrap>
             <IconWrap :large="true"
-              v-if="showCount[el.collection_id] >= maxCount[el.collection_id]"
+              v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] >= 5"
               @click="resetShowCount(el.collection_id)">
               <IconsChevronLeft/>
             </IconWrap>
@@ -310,6 +321,16 @@ const useTree = useState('tree')
 
 const currentTree = ref({} as iTree)
 
+const entry_info_hidden = ref(false)
+const entryInfoScrollPosChanged = (pos) => {
+  console.log("entryInfoScrollPosChanged: " + pos)
+  if (pos > 50) {
+    entry_info_hidden.value = true;
+  }
+  else {
+    entry_info_hidden.value = false;
+  }
+}
 
 const showCount = ref({} as { [key:string]: number})
 const maxCount = ref({} as { [key:string]: number})
@@ -319,13 +340,17 @@ const showInfo = ref(false)
 const toggleShowInfo = () => {
   showInfo.value = !showInfo.value
   if (showInfo.value) {
-    showBottomNav.value = false
+    //showBottomNav.value = false
+    entry_info_hidden.value = false;
   } else {
-    showBottomNav.value = true
+    //showBottomNav.value = true
+
   }
   setTimeout(() => {
+    
+    //swiperMain.value.slideTo(swiperMain.value.activeIndex)
     swiperMain.value.slideNext()
-    swiperMain.value.slidePrev()
+    swiperMain.value.slidePrev() 
     swiperMain.value.updateSize()
     swiperMain.value.update()
   }, 1000)
@@ -822,10 +847,23 @@ const handleMouseLeave = () => {
 </script>
 <style scoped>
 .slider_view {
+
+  padding: 8rem 2rem;
+
+  background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF);  
+}
+
+.setview_page {
+  position: fixed;
+  top: 0px; left: 0px;
   width: 100vw;
   height: 100vh;
-  padding: 8rem 2rem;
+  background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF);  
+  
+  /* background: var(--background-default, #F3F2EF); */
 }
+
+
 .set_info_blur {
   position: fixed;
   left: 0px; top: 0px; width: 100vw; height: 100vh; z-index: 90;
@@ -840,24 +878,26 @@ const handleMouseLeave = () => {
   left: 6.5vw;
   right: 6.5vw;
   top: 19vh;
-  bottom: 26vh;
+  height: 46vh;
+  /* bottom: 26vh; */
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  vertical-align: middle;
   gap: 40px;
-  /* text-align: center; */
+  text-align: center;
 
   /* box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08); */
 }
 .swiper_main {
   /* border: 1px solid red; */
   position: fixed;
-  top: 72px;
-  left: 24px;
+  top: 80px;
+  left: 0px;
 
-  width: calc(100vw - 48px);
-  height: calc(100vh - 250px);
+  width: 100vw;
+  height: calc(100vh - 260px);
   
   
   /* z-index: -100; */
@@ -869,9 +909,10 @@ const handleMouseLeave = () => {
 }
 .swiper_main.info_active {
   /* border: 1px solid red; */
-  top: 15vh;
+  top: 16vh;
+  left: 24px;
   height: 70vh;
-  width: calc(40vw - 48px);
+  width: calc(50vw - 48px);
   /* transform-origin: 24px 288px;
   transform: scale(50%) */
 }
@@ -898,8 +939,9 @@ const handleMouseLeave = () => {
   /* border: 1px solid blue; */
   position: fixed;
   left: 0px;
-  width: calc(100vw - 144px);
-  bottom: 3vh;
+  width: 100vw;
+  /* background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF); */
+  bottom: 24px;
   height: 144px;
   z-index: 100;
   
@@ -922,7 +964,7 @@ const handleMouseLeave = () => {
 .swiper_nav {
   /* z-index: 100; */
   /* border: 1px solid red; */
-  background-color: #fff;
+  
   width: 100%;
   height: 144px;
   position: absolute;
@@ -980,8 +1022,9 @@ const handleMouseLeave = () => {
   height: var(--margin-body-margin,96px);
   /* border: 1px solid black; */
   
-  background-color: var(--Colors-btm-bar-background);
-  background-size: 120% 100%;
+  /* background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF); */
+  /* background-size: 120% 100%; */
+  background-size: auto 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -1016,17 +1059,23 @@ const handleMouseLeave = () => {
   padding-top: 36px;
 }
 .nav_slide_btn_add .nav_preview_btn {
-  left: -72px; 
-  
+  top: -12px;
+  left: -84px; 
+  width: 76px;
   /* padding-left: 24px; */
-  height: 60px; width: 64px;
+  height: 84px;
   background: linear-gradient(90deg, rgba(243,242,239,0.0) 0%, #f3f2ef 25%, #f3f2ef 100%);
+  /* background: linear-gradient(90deg, rgba(243,242,239,0.0) 0%, #ffffff 25%, #ffffff 100%); */
   /* background: linear-gradient(180deg, #F3F2EF 20%, rgba(243, 242, 239, 0.00) 100%); */
   
 }
 .nav_slide_btn_add .nav_preview_btn .icon-wrap {
   position: relative;
+  top: 12px;
   left: 24px;
+}
+.set_highlight.nav_slide_btn_add .nav_preview_btn {
+  background: linear-gradient(90deg, rgba(231,230,225,0) 0%, #E7E6E1 25%, #E7E6E1 100%);
 }
 .nav_preview_btn svg {
   stroke: #222 !important;
@@ -1072,10 +1121,6 @@ const handleMouseLeave = () => {
 }*/
 
 
-.setview_page {
-  
-}
-
 .btn_bottom_nav_hide {
   position: relative;
   top: 60px;
@@ -1099,11 +1144,8 @@ const handleMouseLeave = () => {
   left: 0px;
   
   z-index: 120;
-  
-  
-  
   clip-path: circle(48px at 24px 24px) !important;
-  
+  mix-blend-mode: difference;
 }
 
 
@@ -1112,7 +1154,7 @@ const handleMouseLeave = () => {
   user-select: none;
 
   position: fixed;
-  top: 64px;
+  top: 2.5rem;
   left: 10vw;
   width: 80vw;
   text-align: center;
@@ -1223,6 +1265,13 @@ const handleMouseLeave = () => {
   cursor: pointer;
   opacity: 1;
   /* font-size: 64px; */
+}
+
+.entry_info_title {
+  transition: opacity 250ms linear;
+}
+.entry_info_title.hidden {
+  opacity: 0;
 }
 </style>
 
