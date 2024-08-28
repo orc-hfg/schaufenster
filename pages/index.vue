@@ -55,11 +55,11 @@ onMounted(() => {
   document.documentElement.setAttribute("data-theme", "dark");
   setTimeout(() => {
     showContent.value=true
-  }, 1500)
+  }, 5500)
   
   setTimeout(() => {
     router.push('setlist/' + MATCH_DIPLOM)
-  },7000)
+  },5000)
 })
   
 </script>
