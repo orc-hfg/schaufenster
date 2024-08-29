@@ -186,9 +186,9 @@
           @mouseover="setHoverSetId(el.collection_id)"
           @mouseleave="resetHoverSetId()"
           :class="{set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id) && el.collection_id !== treeid,
-            nav_slide_btns: el.type == NavSlideType.Button && maxCount[el.collection_id] >= 5,
-            nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id] && maxCount[el.collection_id] >= 5,
-            nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id] && maxCount[el.collection_id] >= 5,
+            nav_slide_btns: el.type == NavSlideType.Button && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
+            nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
+            nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
           }"
           >
           
@@ -271,9 +271,11 @@
     </div>
   </div>
 
+  <Transition :duration="{ enter: 50, leave: 3000}" name="unblur">
   <div v-if="showSetTitle" class="set_info_blur"></div>
+  </Transition>
 
-  <Transition name="fade">
+  <Transition :duration="{ enter: 50, leave: 3000}" name="fade">
     <div 
       class="set_info_blend"
       v-if="showSetTitle"
@@ -1275,5 +1277,22 @@ const handleMouseLeave = () => {
 .entry_info_title.hidden {
   opacity: 0;
 }
+
+
+.unblur-enter-active {
+  transition: all 50ms linear;
+}
+.unblur-leave-active {
+  transition: all 1.5s linear;
+}
+.unblur-enter-to {
+  filter: blur(10px);
+  opacity: 1;
+}
+.unblur-leave-to {
+  filter: blur(0px);
+  opacity: 0;
+}
+
 </style>
 
