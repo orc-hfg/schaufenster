@@ -443,7 +443,9 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     }
     
     const eId = tree.edges[RID][tree.col_id].coverId
-    const wh = tree.previews[eId].width / tree.previews[eId].height;
+    const w = (tree.previews[eId] ? tree.previews[eId].width : 1)
+    const h = (tree.previews[eId] ? tree.previews[eId].height : 1)
+    const wh = w / h;
     const tpi = Math.floor(Math.random() * TREE_PLACEMENT_CLASSES.length)
     tree.previewPlacement = TREE_PLACEMENT_CLASSES[tpi]
     
@@ -691,7 +693,7 @@ onMounted(() => {
   gap: 0px;
 }
 .year_stepper * {
-  opacity: 0.85;
+  opacity: 1;
   user-select: none;
   cursor: pointer;
 }
