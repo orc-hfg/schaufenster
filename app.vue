@@ -1,6 +1,6 @@
 <template>
 
-    <NuxtPage :class="{'page-in': !isNoClip && isShowPageIn, 'page-out': !isNoClip && !isShowPageIn}" />
+    <NuxtPage :class="{'page-in': !isNoClip && isShowPageIn, 'page-out': !isNoClip && !isShowPageIn, 'fade': isNoClip}" />
 </template>
 <script setup lang="ts">
 import '~/assets/vars.css'
@@ -180,5 +180,24 @@ onMounted(() => {
   clip-path: circle(100vw at 50vw 50vh) !important;
 }
 
+.fade.page-enter-active {
+  opacity: 0;
+  filter: blur(1rem);
+  transition: all 1s;
+  z-index: 10;
+}
+.fade.page-leave-active {
+  z-index: 5;
+  transition: all 1s;
+}
+.fade.page-leave-to {
+  filter: blur(1rem);
+  opacity: 0;
+}
+
+.fade.page-enter-to {
+  opacity: 1;
+  filter: blur(0rem);
+}
 
 </style>
