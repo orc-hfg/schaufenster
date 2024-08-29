@@ -54,10 +54,11 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
 <style>
 .tree_info_back {
   position: fixed;
-  bottom: 32px;
+  bottom: 0px;
+  left: 0px;
   
   height: 120px;
-  width: 50vw;
+  width: 100vw;
   z-index: 60;
   background: linear-gradient(0deg, var(--Primitives-color-greys-UltraLightGrey, #F3F2EF), transparent);
 
