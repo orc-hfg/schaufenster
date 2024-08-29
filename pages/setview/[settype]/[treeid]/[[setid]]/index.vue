@@ -148,10 +148,12 @@
           v-if="!showInfo"
           @click="showBottomNav = !showBottomNav"
           class="btn_bottom_nav_hide">
-            <Transition :name="showBottomNav ? 'rotatel' : 'rotate'">
+          <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav" />
+            <!-- <Transition :name="showBottomNav ? 'rotatel' : 'rotate'">
+              <
                 <IconsBtmBarFoldMinus v-if="showBottomNav"/>
                 <IconsBtmBarFoldPlus v-else-if="!showBottomNav"/>
-            </Transition>
+            </Transition> -->
             
               
         </div>
