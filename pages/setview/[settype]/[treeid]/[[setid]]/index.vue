@@ -122,16 +122,20 @@
     
 
     
-    <Transition name="entry-info-slide">
+    <!-- <Transition name="entry-info-slide">
+      v-show="currentTree && showInfo" -->
       <EntryAndSetInfo
-        v-show="currentTree && showInfo"
+        v-if="currentTree && currentTree.colTitlesMap"
+        :class="{hidden: !showInfo}"
+        
         :active-entry-id="activeEntryId"
         :active-set-id="activeSetId"
         :current-tree="currentTree"
         :setid="setid"
-        @scrollPosChanged="entryInfoScrollPosChanged"
+        
       />
-    </Transition>
+      <!-- @scrollPosChanged="entryInfoScrollPosChanged" -->
+    <!-- </Transition> -->
     
     
     <!-- thumb-swiper=".swiper_main" -->
@@ -222,7 +226,7 @@
           </div>
           <!-- :title="'E: ' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))" -->
           <div
-            v-if="el.type === NavSlideType.Button && maxCount[el.collection_id] >= 4"
+            v-if="el.type === NavSlideType.Button && maxCount[el.collection_id] >= MIN_SHOW_COUNT"
            
             class="nav_preview_btn ">
             
@@ -232,7 +236,7 @@
               <IconsChevronRight/>
             </IconWrap>
             <IconWrap :large="true"
-              v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] >= 5"
+              v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT"
               @click="resetShowCount(el.collection_id)">
               <IconsChevronLeft/>
             </IconWrap>
@@ -1280,7 +1284,12 @@ const handleMouseLeave = () => {
   opacity: 0;
 }
 
-
+.entry_info {
+  transition: all 500ms ease-in-out;
+}
+.entry_info.hidden {
+  transform: translateX(50vw)
+}
 .unblur-enter-active {
   transition: all 50ms linear;
 }
