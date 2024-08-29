@@ -176,7 +176,7 @@ header nav a {
 
 .navbar_link.aarchive {
   display: flex;
-  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
+  padding: var(--padding-item-vertical-M, 8px) var(--padding-item-horizontal-M, 8px);
   align-items: center;
   gap: 12px;
   
