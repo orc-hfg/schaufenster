@@ -1,6 +1,9 @@
 <template>
+  <div>
+  <div class="tree_info_back"></div>
     <div class="tree_info" 
       :style="info_tree_style">
+      
       <div>&nbsp;</div>
       <div>&nbsp;</div>
       <div>&nbsp;</div>
@@ -16,7 +19,9 @@
         </span>
       </div>
       <!-- <div class="tree_info_blur"></div> -->
+      
     </div>
+  </div>
 </template>
 <script setup lang="ts">
 const props = defineProps([
@@ -47,6 +52,16 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
 
 </script>
 <style>
+.tree_info_back {
+  position: fixed;
+  bottom: 32px;
+  
+  height: 120px;
+  width: 50vw;
+  z-index: 60;
+  background: linear-gradient(0deg, var(--Primitives-color-greys-UltraLightGrey, #F3F2EF), transparent);
+
+}
 .tree_info {
   position: fixed;
   bottom: 32px;
