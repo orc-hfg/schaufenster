@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="md && md.type">
         <div class="filter_list"
             v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
             <span v-if="showAll">{{md.string}}</span>
