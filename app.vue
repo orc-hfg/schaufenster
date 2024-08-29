@@ -1,6 +1,6 @@
 <template>
 
-    <NuxtPage :class="{'page-in': isShowPageIn, 'page-out': !isShowPageIn}" />
+    <NuxtPage :class="{'page-in': !isNoClip && isShowPageIn, 'page-out': !isNoClip && !isShowPageIn}" />
 </template>
 <script setup lang="ts">
 import '~/assets/vars.css'
@@ -33,7 +33,7 @@ const {
 } = treeHelper();
 
 const route = useRoute();
-
+const router = useRouter();
 const useTree = useState('tree');
 const useAppSettings = useState('appSettings')
 
@@ -75,10 +75,7 @@ if (process.server) {
   initMadek()
 }
 
-const initPageFonts = () => {
-  //font_selected.value = Math.floor((Math.random()* font_list.value.length))
-  //useHead({link: [{ rel: 'stylesheet', href: "../dynfonts.css"}]})
-}
+
 const initApp = async() => {
 
   //initPageFonts();
@@ -88,12 +85,24 @@ const initApp = async() => {
 };
 
 
-
+router.beforeEach((to, from, next) => {
+  const ts = to.name?.toString() || ''
+  const fs = from.name?.toString() || ''
+  console.log("beforeEach: " + fs + " : ->" + ts)
+  
+  if (ts.indexOf('setview') > -1 || fs.indexOf('setview') > -1) {
+    isNoClip.value = true;
+  } else {
+    isNoClip.value = false;
+  }
+  next()
+})
 
 const isShowPageIn = ref(false)
-
+const isNoClip = ref(false)
 watch(() => route.fullPath, () => {
 
+  
   // dont confuse running animation
   setTimeout(() => {
     console.error(" switch anim mode " + isShowPageIn.value)
