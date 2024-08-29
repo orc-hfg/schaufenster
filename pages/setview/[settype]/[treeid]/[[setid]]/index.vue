@@ -18,14 +18,7 @@
         :class="{hidden: entry_info_hidden}"
         v-if="currentTree && currentTree.colTitlesMap && showInfo"
         >
-        <!-- TODO or treeid -->
         {{ currentTree.colTitlesMap[setid] }}
-        <!-- <span v-if="treeid !== activeSetId">
-          {{ currentTree.colTitlesMap[treeid] }}
-          <br/>
-        </span>
-        
-        {{ currentTree.colTitlesMap[activeSetId] }} -->
       </div>
     </Transition>
     
@@ -116,12 +109,14 @@
       :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false}"
       
         @click.once="swiperMain.slidePrev()">
-        <IconsArrowLeft/>
+        <!-- <IconsArrowLeft/> -->
+        <IconsSliderArrowLeft/>
         </div>
       <div class="swiper-main-button-next"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false}"
         @click.once="swiperMain.slideNext()">
-        <IconsArrowRight/>
+        <!-- <IconsArrowRight/> -->
+        <IconsSliderArrowRight/>
         </div>
     </swiper>
     
@@ -129,13 +124,15 @@
     
     <Transition name="entry-info-slide">
       <EntryAndSetInfo
-        v-if="showInfo"
+        v-show="currentTree && showInfo"
         :active-entry-id="activeEntryId"
         :active-set-id="activeSetId"
         :current-tree="currentTree"
+        :setid="setid"
         @scrollPosChanged="entryInfoScrollPosChanged"
       />
     </Transition>
+    
     
     <!-- thumb-swiper=".swiper_main" -->
     <!-- :controller="{ control: swiperMain }" -->
@@ -145,19 +142,17 @@
     :space-between="spaceBetween"
     :centeredSlides="true"
     -->
-    <div class="bottom_nav" v-if="!showInfo">
+    <div class="bottom_nav" :class="{hidden: showInfo}">
       <Transition name="fade">
         <div
           v-if="!showInfo"
           @click="showBottomNav = !showBottomNav"
           class="btn_bottom_nav_hide">
             <Transition :name="showBottomNav ? 'rotatel' : 'rotate'">
-                <IconsBtmBarFoldMinus v-if="showBottomNav && !showInfo"/>
-                <IconsBtmBarFoldPlus v-else-if="!showBottomNav && !showInfo"/>
+                <IconsBtmBarFoldMinus v-if="showBottomNav"/>
+                <IconsBtmBarFoldPlus v-else-if="!showBottomNav"/>
             </Transition>
-            <!-- <Transition name="rotate">
-                <IconsBtmBarFoldPlus v-if="!showBottomNav"/>
-            </Transition> -->
+            
               
         </div>
       </Transition>
@@ -323,7 +318,7 @@ const currentTree = ref({} as iTree)
 
 const entry_info_hidden = ref(false)
 const entryInfoScrollPosChanged = (pos) => {
-  console.log("entryInfoScrollPosChanged: " + pos)
+  //console.log("entryInfoScrollPosChanged: " + pos)
   if (pos > 50) {
     entry_info_hidden.value = true;
   }
@@ -575,9 +570,9 @@ const onMainSwiperSlideChanged = () => {
 
     setTimeout(() => {
       swiperNav.value.update()
-      swiperNav.value.updateSize()
+      //swiperNav.value.updateSize()
       swiperNav.value?.slideTo(navIdx)
-    },100)
+    },300)
 
     /*
     const sidx = navSlider.value.slides[navIdx].setIdx
@@ -846,12 +841,6 @@ const handleMouseLeave = () => {
 
 </script>
 <style scoped>
-.slider_view {
-
-  padding: 8rem 2rem;
-
-  background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF);  
-}
 
 .setview_page {
   position: fixed;
@@ -944,7 +933,12 @@ const handleMouseLeave = () => {
   bottom: 24px;
   height: 144px;
   z-index: 100;
-  
+  transition: all 500ms linear;
+}
+.bottom_nav.hidden {
+  opacity: 0;
+  width: 0px;
+  visibility: hidden;
 }
 .av_control {
   border: 1px solid green;
@@ -1130,38 +1124,34 @@ const handleMouseLeave = () => {
   cursor: pointer;
   user-select: none;
   
-  color: #000;
-  display: block;
+
   z-index: 120;
-  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  /* border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2); */
   border-radius: var(--radius-full, 9999px);
-  box-shadow: 0 0 0 10px rgba(0,0,0,0.15);
-  background-color: #FFF;
+  background: var(--color-blurs-project-img-blur, rgba(243, 242, 239, 0.30));
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  width: var(--dimension-icon-size-L, 32px);
+  height: var(--dimension-icon-size-L, 32px);
+  padding: var(--margin-navbar-institution-logo-right, 10px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+  flex-shrink: 0;
 }
+
 .btn_bottom_nav_hide * {
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  /* position: absolute;
+  top: 12px;
+  left: 12px; */
   
-  z-index: 120;
+  /* z-index: 120;
   clip-path: circle(48px at 24px 24px) !important;
-  mix-blend-mode: difference;
+  mix-blend-mode: difference; */
 }
 
 
-
-.entry_info_title {
-  user-select: none;
-
-  position: fixed;
-  top: 2.5rem;
-  left: 10vw;
-  width: 80vw;
-  text-align: center;
-  align-content: center;
-  font-size: 3rem;
-  line-height: 3rem;
-}
 
 .rotate-enter-active,
 .rotate-leave-active {
@@ -1268,7 +1258,19 @@ const handleMouseLeave = () => {
 }
 
 .entry_info_title {
-  transition: opacity 250ms linear;
+  user-select: none;
+
+  position: fixed;
+  top: 2.5rem;
+  left: 10vw;
+  width: 80vw;
+  text-align: center;
+  align-content: center;
+  font-size: 3rem;
+  line-height: 3rem;
+
+  transition: opacity 100ms linear;
+  transition: transform 300ms ease-in;
 }
 .entry_info_title.hidden {
   opacity: 0;

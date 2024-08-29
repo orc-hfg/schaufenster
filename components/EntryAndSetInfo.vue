@@ -1,7 +1,22 @@
 <template>
+  <!-- <div>
+  
+    <Transition name="move-u30-fade">
+      <div class="entry_info_title"
+        :class="{hidden: entry_info_hidden}"
+        v-if="currentTree && currentTree.colTitlesMap"
+        >
+        {{ currentTree.colTitlesMap[setid] }}
+      </div>
+    </Transition> -->
+    
+    
 <div class="entry_info"
         @scroll="scrolled"
         @wheel="scrolled">
+
+
+        
       <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
         No meta data yet.
       </div>
@@ -119,6 +134,7 @@
         -->
       </div>
     </div>
+  <!-- </div> -->
 </template>
 <script setup lang="ts">
 //TODO hide scrollbar
@@ -136,14 +152,24 @@ const {
 const props = defineProps([
     'activeEntryId',
     'activeSetId',
-    'currentTree'
+    'currentTree',
+    'setid'
 ])
+
 const emit = defineEmits(['scrollPosChanged'])
+
+const entry_info_hidden = ref(false)
 
 const scrolled = (event) => {
   const pos = document.getElementsByClassName('entry_info')[0].scrollTop
-  console.log("scrolled: " + pos)
+  //console.log("scrolled: " + pos)
   emit('scrollPosChanged',[pos])
+  /* if (pos > 50) {
+    entry_info_hidden.value = true;
+  }
+  else {
+    entry_info_hidden.value = false;
+  } */
 }
 </script>
 <style>
@@ -261,4 +287,24 @@ font-weight: 500;
 line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 
+
+.entry_info_title {
+  user-select: none;
+
+  position: fixed;
+  top: 2.5rem;
+  left: 10vw;
+  width: 80vw;
+  text-align: center;
+  align-content: center;
+  font-size: 3rem;
+  line-height: 3rem;
+}
+
+.entry_info_title {
+  transition: opacity 50ms linear;
+}
+.entry_info_title.hidden {
+  opacity: 0;
+}
 </style>
