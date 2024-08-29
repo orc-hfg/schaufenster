@@ -166,7 +166,9 @@
               @click="$emit('toggleShowInfo')"
               class="navbar_set_link info"
               :class="{info_active: showInfo}"
-              >&nbsp;i&nbsp;
+              >
+              <!-- &nbsp;i&nbsp; -->
+              <IconsInfoShow/>
             </NuxtLink>
 
             <NuxtLink
@@ -174,7 +176,8 @@
               @click="$emit('toggleShowInfo')"
               class="navbar_set_link info"
               :class="{info_active: !showInfo}"
-              >X
+              >
+              <IconsInfoClose/>
             </NuxtLink>
 
           </Transition>
