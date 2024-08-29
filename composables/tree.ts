@@ -845,7 +845,7 @@ export const treeHelper = () => {
     console.dir(cols_data)
 
     for await (const colEl of cols_data.collections) {
-      if (!CHILD_IDS_SCHAUFENSTER[colEl.id]) {
+      if (keyword_match !== MATCH_PROJECTS && !CHILD_IDS_SCHAUFENSTER[colEl.id]) {
         console.log("not in schaufenster set ids: " + colEl.id)
         
       } else {
