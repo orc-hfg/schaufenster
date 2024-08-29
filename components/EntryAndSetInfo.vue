@@ -182,7 +182,7 @@ const scrolled = (event) => {
   top: 0px;
 
   left: calc(50vw + 24px);
-  width: calc(50vw - 48px);
+  width: calc(50vw + 48px);
   height: 100vh;
   overflow-y: auto;
   scrollbar-width: 0px;
@@ -209,6 +209,7 @@ const scrolled = (event) => {
 }
 
 .entry_info_panel {
+  width: calc(50vw - 48px);
   padding: var(--spacing__betweenitemsM, 12px) var(--spacing__betweenitemsM,12px);
 
     display: flex;
