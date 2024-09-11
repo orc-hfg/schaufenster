@@ -199,7 +199,7 @@ header nav a {
   float:left;
   background-repeat: no-repeat;
   background-position: 0 0;
-  transition: all 0.25s linear;
+  transition: all 200ms ease-out;
   display: flex;
   align-items: flex-start;
   
