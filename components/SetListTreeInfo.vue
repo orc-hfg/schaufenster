@@ -18,6 +18,8 @@
           &nbsp;
         </span>
       </div>
+      <div>&nbsp;</div>
+      <div>&nbsp;</div>
       <!-- <div class="tree_info_blur"></div> -->
       
     </div>
@@ -52,31 +54,42 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
 
 </script>
 <style>
+/* 33% 40% */
 .tree_info_back {
+  /* border: 1px solid red; */
   position: fixed;
   bottom: 0px;
   left: 0px;
   
-  height: 120px;
+  height: 168px;
   width: 100vw;
   z-index: 60;
-  background: linear-gradient(0deg, var(--Primitives-color-greys-UltraLightGrey, #F3F2EF), transparent);
+  background: linear-gradient(0deg,
+  transparent 0%,
+  var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) 20%,
+  var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) 60%,
+  transparent 100%);
 
 }
+/* var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) */
 .tree_info {
-  position: fixed;
-  bottom: 32px;
+  clip-path: margin-box;
+  display: block;
   
-  height: 120px;
+  position: fixed;
+  bottom: 8px;
+  
+  left: 24px;
+  height: 160px;
   width: 100vw;
-  overflow-y: auto;
+  overflow-y: scroll;
 
   
   z-index: 980;
-  transition: all 1s linear;
+  transition: all 800ms ease-out;
 
   /* display: inline-flex; */
-  padding: 0px 0px 16px 32px;
+  /* padding: 0px 0px 16px 32px; */
   /* flex-direction: column; */
   /* justify-content: flex-end; */
   /* align-items: flex-start; */
@@ -85,7 +98,7 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
 }
 .tree_info * {
   user-select: none;
-  transition: opacity 250ms linear;
+  transition: opacity 550ms linear;
   
   font-size: 20px;
   line-height: 40px;

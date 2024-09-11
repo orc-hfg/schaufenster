@@ -73,12 +73,9 @@
           v-for="el in slide.trees"
           :onMouseover="() => setTreeInfo(el)"
           :style="{'width': 'calc(' + ((100 / colCount)) + 'vw - ' + (colCount * 20) + 'px)'}">
-
           <div class="set_preview"
             :class="[el.previewDirection, el.previewPlacement]"
             :style="el.previewstyle"
-            :title="'Title: ' + el.colTitlesMap[el.col_id] + 
-            ' | Authors: ' + el.cols_authors[el.col_id]"
             @click="switch2set(el.col_id)">
             <div class="img"
               :class="{swiper_moving: swiperMoving}"
@@ -107,6 +104,8 @@
         :style="intro_info_style"
         v-if="intro_info">
         {{ intro_info }}
+        <br/>
+        {{ intro_info2 }}
       </div>
     </Transition>
     <Transition name="fade">
@@ -191,6 +190,9 @@ const COL_COUNT_DIPLOM = 2
 const colCount = ref(COL_COUNT_INDEX)
 
 const intro_info = ref('')
+const intro_info2 = ref('')
+const HIDE_INTRO_INFO_DELAY = 2000
+
 
 export interface iTreeSlide {
   year:string,
@@ -239,7 +241,7 @@ const wheelEvent = (ev) => {
   //swiperMain.value.translateTo(current - 2 * ev.deltaY)
 }
 
-const SWITCH_TYPE_PAGE_DELAY = 300;
+const SWITCH_TYPE_PAGE_DELAY = 250;
 
 const switch2settype = (type:string) => {
   
@@ -367,9 +369,12 @@ const setMainSwiper = (swiper: Swiper) => {
 };
 const treeInfoIdx = ref(0)
 const setTreeInfo = (el: iTree) => {
-  const elem = document.getElementById('treeInfo_' + el.col_id)
+  //const elem = document.getElementById('treeInfo_' + el.col_id)
   treeInfoIdx.value = filteredSortedTrees.value.findIndex((val) => { return val.col_id == el.col_id})
-  elem?.scrollIntoView({block: "end", behavior: "smooth"})
+  //elem?.scrollIntoView({block: "start", behavior: "smooth"})
+  const ntop = 40 + treeInfoIdx.value * 40
+  console.log("stroll to " + treeInfoIdx.value + ": " + ntop)
+  document.getElementsByClassName('tree_info')[0].scrollTo({top: ntop, behavior: "smooth"})
   
 }
 const previewUrl = (treeId: string): string => {
@@ -546,13 +551,16 @@ const updateSetType = () => {
   filtersMap.value = {};
 
   if (settype.value == MATCH_DIPLOM) {
-    intro_info.value = 'Abschlussarbeiten'
+    intro_info.value = 'Abschluss-'
+    intro_info2.value = ' arbeiten '
   } else {
-    intro_info.value = 'Projekte'
+    intro_info.value = 'Alle'
+    intro_info2.value = 'Projekte'
   }
   setTimeout(() => {
     intro_info.value = ''
-  }, 3000)
+    intro_info2.value = ''
+  }, HIDE_INTRO_INFO_DELAY)
 };
 
 
