@@ -47,15 +47,11 @@
     >
       <swiper-slide class="main_slide" v-for="(el,index) in entries" :key="el.id" :virtualIndex="index">
         
-        <!-- PA {{ currentTree.previewsAudio[el.id] }} -->
-        <!-- PV {{ currentTree.previewsVideo[el.id] }} -->
-
         <div v-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
           <audio :id="'slide-audio-'+ el.id"
             class="audio-slide"
-            controls style="width: 100%; height:80%; margin: auto;">
-        
+            style="width: 100%; height:80%; margin: auto;">
             <source v-for="url in previewAudioUrls(el.id)" :src="url">
           </audio>
         </div>
@@ -63,8 +59,7 @@
           class="main_preview">
           <video :id="'slide-video-'+ el.id"
             class="video-slide"
-            controls style="width: 100%; height:80%; margin: auto;  position:relative">
-        
+            style="width: 100%; height:80%; margin: auto;  position:relative">
             <source v-for="url in previewVideoUrls(el.id)" :src="url">
           </video>
         </div>
@@ -73,51 +68,21 @@
         </div>
         <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'image'"
           class="main_preview"
-          :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
-        ></div>
+          :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
+        </div>
 
-        <!-- TODO main nav btns fixed -->
-        <!--
-        <div v-if="getMediaType(el.id) == 'image'"
-          class="main_preview"
-          :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }"
-        ></div>
-        <div v-else-if="currentTree.previewsAudio[el.id]"
-          class="main_preview">
-          <audio :id="'slide-audio-'+ el.id"
-            class="audio-slide"
-            controls style="width: 100%; height:80%; margin: auto;">
         
-            <source v-for="url in previewAudioUrls(el.id)" :src="url">
-          </audio>
-        </div>
-        <div v-else-if="currentTree.previewsVideo[el.id]"
-          class="main_preview">
-          <video :id="'slide-video-'+ el.id"
-            class="video-slide"
-            controls style="width: 100%; height:80%; margin: auto;  position:relative">
-        
-            <source v-for="url in previewVideoUrls(el.id)" :src="url">
-          </video>
-        </div>
-        <div v-else-if="currentTree.previewsLarge[el.id].media_type == 'document'">
-          TODO docs
-        </div>
-        -->
       </swiper-slide>
       <div class="swiper-main-button-prev"
-      :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false}"
-      
+        :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false}"
         @click.once="swiperMain.slidePrev()">
-        <!-- <IconsArrowLeft/> -->
         <IconsSliderArrowLeft/>
-        </div>
+      </div>
       <div class="swiper-main-button-next"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false}"
         @click.once="swiperMain.slideNext()">
-        <!-- <IconsArrowRight/> -->
         <IconsSliderArrowRight/>
-        </div>
+      </div>
     </swiper>
     
 
@@ -153,12 +118,6 @@
           @click="showBottomNav = !showBottomNav"
           class="btn_bottom_nav_hide">
           <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav" />
-            <!-- <Transition :name="showBottomNav ? 'rotatel' : 'rotate'">
-              <
-                <IconsBtmBarFoldMinus v-if="showBottomNav"/>
-                <IconsBtmBarFoldPlus v-else-if="!showBottomNav"/>
-            </Transition> -->
-            
               
         </div>
       </Transition>
@@ -254,41 +213,34 @@
       
       </swiper>
   </div>
-  <div class="av_control" v-if="show_av_control">
-    <div>
-      <NuxtLink class="navbar_set_link">
-        <IconWrap>
-          <IconsPlus/>
-        </IconWrap>
-        <span>Play</span>
-      </NuxtLink>
-      <NuxtLink class="navbar_set_link">
-        <IconWrap>
-          <IconsMinus/>
-        </IconWrap>
-        Stop
-      </NuxtLink>
-      <NuxtLink class="navbar_set_link">
-        | Scrollbar
-      </NuxtLink>
-      <NuxtLink class="navbar_set_link">
-        | VolBar
-      </NuxtLink>
+  <div class="av_control" v-show="show_av_control && !showBottomNav">
+    <div class="av_playpause"
+      @click="toggleStatePlay(!av_state_play)">
+      <IconsPlayPause :isPlay="av_state_play"
+      />
+    </div>
+    <div class="av_progress_cont">
+      <progress id="av_progress" value="0" min="0">
+          <!-- <span id="av_progress_bar"></span> -->
+      </progress>
     </div>
   </div>
 
-  <Transition :duration="{ enter: 50, leave: 3000}" name="unblur">
+  <!-- :duration="{ enter: 250, leave: 500}" -->
+  <Transition  name="unblur">
   <div v-if="showSetTitle" class="set_info_blur"></div>
   </Transition>
 
-  <Transition :duration="{ enter: 50, leave: 3000}" name="fade">
+  <!-- <Transition :duration="{ enter: 150, leave: 300}" name="fade">
+    v-if="showSetTitle" -->
     <div 
       class="set_info_blend"
-      v-if="showSetTitle"
+      :class="{hidden: !showSetTitle}"
+      
       :style="showSetTitleStyle">
         {{ getColTitle(setid) }}
     </div>
-  </Transition>
+  <!-- </Transition> -->
 </div>
 </template>
 <script setup lang="ts">
@@ -332,6 +284,27 @@ const entryInfoScrollPosChanged = (pos) => {
   }
   else {
     entry_info_hidden.value = false;
+  }
+}
+const av_state_play = ref(false)
+const toggleStatePlay = (newState:boolean) => {
+  console.error("toggleStatePlay: " + newState)
+  av_state_play.value = !av_state_play.value
+  //if (newState) {
+    av_state_play.value = newState
+  //} else {
+  //  av_state_play.value = !av_state_play.value
+  //}
+  const entryId = activeEntryId.value
+  const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
+  if (avel) {
+    if (av_state_play.value) {
+      avel.play()
+    } else {
+      avel.pause()
+    }    
+  } else {
+    console.error("no av element")
   }
 }
 
@@ -507,6 +480,26 @@ const activeEntryId = ref('' as string)
 const activeSetId = ref('' as string)
 //const lastActiveSetId = ref('' as string)
 let lastActiveSetId = '' as string;
+let lastActiveEntryId = '' as string;
+
+const on_av_time_update = () => {
+  
+  const entryId = activeEntryId.value
+  const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
+  const progressEl = document.getElementById('av_progress')
+  //console.error("progress for av elem" + avel + ":" + progressEl)
+  //const progressBarEl = document.getElementById('progress_bar')
+  if (avel && progressEl) {
+    //console.error("progress for av elem" + avel.currentTime + ":" + avel.duration)
+    progressEl.setAttribute('max', avel.duration)
+    progressEl.setAttribute('value', avel.currentTime)
+    progressEl.value = avel.currentTime
+  } else {
+    console.error("no progress or av elem")
+  }
+  
+  //progressBarEl.style.width = Math.floor((avel.currentTime / avel.duration) * 100) + '%'
+}
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex;
     /* console.log("swiperMain changed slide: " + activeSlide) */
@@ -526,37 +519,72 @@ const onMainSwiperSlideChanged = () => {
       const ael = oael[i]
       //console.dir(vel)
       ael.pause()
+      ael.removeEventListener('timeupdate', on_av_time_update)
     }
     const ovel = document.getElementsByClassName('video-slide')
     for (let i=0; i < ovel.length; i++) {
       const vel = ovel[i]
       //console.dir(vel)
       vel.pause()
+      vel.removeEventListener('timeupdate', on_av_time_update)
     }
 
-    const ael = document.getElementById('slide-audio-'+ entry.id)
-    const vel = document.getElementById('slide-video-'+ entry.id)
-    if (ael) {
+
+    //const ael = document.getElementById('slide-audio-'+ entry.id)
+    //const vel = document.getElementById('slide-video-'+ entry.id)
+    const avel = document.getElementById('slide-audio-'+ entry.id) || document.getElementById('slide-video-'+ entry.id)
+    const progressEl = document.getElementById('av_progress')
+    //const progressBarEl = document.getElementById('progress_bar')
+    console.error(" avel " + avel + " pEL: " + progressEl)
+    if (avel && progressEl) {
       
+      progressEl.setAttribute('max', avel.duration)
+      progressEl.setAttribute('value', 0)
+      avel.addEventListener('timeupdate', on_av_time_update)
+      //showBottomNav.value = false
+      if (!showInfo.value) {
+        //toggleStatePlay(true)
+        show_av_control.value = true
+        showBottomNav.value = false
+      }
+      document.documentElement.setAttribute("data-theme", "dark");
+
+    }
+    else {
+      show_av_control.value = false
+      document.documentElement.setAttribute("data-theme", "");
+    }
+    /* 
+    if (ael) {
+      //progressEl.setAttribute('max', ael.duration)
       showBottomNav.value = false
       if (!showInfo.value) {
-        ael.play()
         show_av_control.value = true
       }
       
     } else if (vel) {
-      
+      //progressEl.setAttribute('max', vel.duration)
       showBottomNav.value = false
       if (!showInfo.value) {
-        vel.play()
         show_av_control.value = true
       }
     } else if (!showInfo.value) {
       
-      /* showBottomNav.value = true */
+      // showBottomNav.value = true
       show_av_control.value = false
-    }
+    } */
     
+    if (lastActiveEntryId) {
+      const lavel = document.getElementById('slide-audio-'+ lastActiveEntryId) 
+        || document.getElementById('slide-video-'+ lastActiveEntryId)
+      if (lavel) {
+        console.error("last elem was audio or video")
+        if (!showInfo.value) {
+          show_av_control.value = false
+          showBottomNav.value = true
+        }
+      }
+    }
 
     // console.log("swiperMain changed slide: " + activeSlide
     //  // + " entry " + JSON.stringify(entry)
@@ -573,7 +601,7 @@ const onMainSwiperSlideChanged = () => {
       initData()
 
     }
-
+    lastActiveEntryId = activeEntryId.value
     lastActiveSetId = activeSetId.value
 
     setTimeout(() => {
@@ -660,6 +688,11 @@ const initSetEntries = (parentId:string, setId:string, els):number => {
     const toShow = showCount.value[setId] || MIN_SHOW_COUNT;
     // set elements
     for (const eId in els) {
+      if (eId == '1162575d-557e-46ca-ad5b-007d0bca144d' || eId == 'e03bfb27-baa3-4d05-aa80-83f8b93f8efe') {
+        console.error("ignore entry" + eId)
+      } else {
+
+      
       els[eId].collection_id = setId;
       // main swiper elems
       entries.value.push(els[eId]);
@@ -681,7 +714,7 @@ const initSetEntries = (parentId:string, setId:string, els):number => {
         navSlider.value.entryId2Idx[eId] = newSlide.index  
       }
       mx++
-      
+      }
     }
     maxCount.value[setId] = mx
     return setIdx
@@ -855,8 +888,8 @@ const handleMouseLeave = () => {
   top: 0px; left: 0px;
   width: 100vw;
   height: 100vh;
-  background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF);  
-  
+  background-color: var(--Colors-background-default, #F3F2EF);  
+  transition: all 300ms ease-out;
   /* background: var(--background-default, #F3F2EF); */
 }
 
@@ -886,6 +919,12 @@ const handleMouseLeave = () => {
   text-align: center;
 
   /* box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08); */
+  opacity: 1;
+  transition: all 300ms ease-out;
+}
+.set_info_blend.hidden {
+  opacity: 0;
+  display: none;
 }
 .swiper_main {
   /* border: 1px solid red; */
@@ -936,7 +975,7 @@ const handleMouseLeave = () => {
   /* border: 1px solid blue; */
   position: fixed;
   left: 0px;
-  width: 100vw;
+  width: calc(100vw - 192px);
   /* background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF); */
   bottom: 24px;
   height: 144px;
@@ -949,18 +988,57 @@ const handleMouseLeave = () => {
   visibility: hidden;
 }
 .av_control {
-  border: 1px solid green;
+  /* border: 1px solid green; */
   position: fixed;
   left: 0px;
-  width: 100vw;
-  top: 85vh;
-  height: 6rem;
+  width: calc(100vw - 96px);
+  bottom:54px;
+  left: 88px;
+  /* height: 6rem; */
   z-index: 100;
-  background-color: var(--Colors-btm-bar-playerView-background);
-  color: var(--Colors-btm-bar-playerView-button);
+  /* background-color: var(--Colors-btm-bar-playerView-background); */
+  color: var(--Colors-btm-bar-playerView-button, #2C2C2C);
+
+  
+
 }
-.av_control .navbar_set_link {
+.av_control * {
   float: left;
+}
+
+.av_control .av_progress_cont {
+  width: 100%;
+
+  display: flex;
+  width: calc(100% - 96px);
+  
+  height: 24px;
+  padding: 12px;
+  align-items: center;
+  flex-shrink: 0;
+
+  
+  
+  
+  background: transparent;
+  /* Blur */
+  backdrop-filter: blur(calc(var(--value-pills, 30px) / 2));
+}
+
+.av_progress_cont progress {
+  border-radius: 50px;
+  appearance: none;
+  width: 100%; height: 24px;
+  
+}
+.av_progress_cont progress::-webkit-progress-bar {
+  border-radius: 50px;
+  background-color: var(--btm-bar-playerView-progress, #CAC9C2);
+}
+.av_progress_cont progress::-webkit-progress-value {
+  border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px;
+  background-color: var(--btm-bar-playerView-background, rgba(0, 0, 0, 0.10));
 }
 
 .swiper_nav {
@@ -1008,7 +1086,7 @@ const handleMouseLeave = () => {
 .entry_highlight svg {
   width: 100%; height: 100%;
   border-radius: var(--radius-full, 9999px);
-  box-shadow: 0 0 0 10px rgba(0,0,0,0.15);
+  box-shadow: 0px 0px 19px 0px rgba(0,0,0,0.1);
 }
 
 .entry_highlight svg * {
@@ -1290,19 +1368,22 @@ const handleMouseLeave = () => {
 .entry_info.hidden {
   transform: translateX(50vw)
 }
+
 .unblur-enter-active {
-  transition: all 50ms linear;
+  transition: all 50ms ease-out;
 }
 .unblur-leave-active {
-  transition: all 1.5s linear;
+  transition: all 400ms ease-out;
 }
 .unblur-enter-to {
-  filter: blur(10px);
-  opacity: 1;
+  filter: blur(25px);
+  backdrop-filter: blur(25px);
+  /* opacity: 1; */
 }
 .unblur-leave-to {
   filter: blur(0px);
-  opacity: 0;
+  /* opacity: 0; */
+  backdrop-filter: blur(0px);
 }
 
 </style>
