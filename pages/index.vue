@@ -24,6 +24,11 @@
   </div>
 </template>
 <script setup lang="ts">
+const SHOW_CONTENT_DELAY = 1500;
+const SHOW_LIST_DELAY = 5000;
+const TITLE_ENTER_DELAY_PER_LINE = 50;
+const TITLE_ENTER_DURATION = 500;
+
 const router = useRouter()
 const {
     MATCH_DIPLOM,
@@ -43,23 +48,21 @@ const switchPage = () => {
   router.push('setlist/' + MATCH_DIPLOM)
 }
 const getFontStyle = (idx) => {
-  const fs = getViewSizedStyle(20,20)
-  fs.transitionDelay = (idx * 50) + 'ms'
-  fs.transitionDuration = '300ms'
+  const fs = getViewSizedStyle(18,18)
+  fs.transitionDelay = (idx * TITLE_ENTER_DELAY_PER_LINE) + 'ms'
+  fs.transitionDuration = TITLE_ENTER_DURATION + 'ms'
   return fs;
 }
 onMounted(() => {
   selectRandomFont()
-  font_style.value = getViewSizedStyle(18,18)
+  font_style.value = getViewSizedStyle(18,17)
   
   document.documentElement.setAttribute("data-theme", "dark");
   setTimeout(() => {
     showContent.value=true
-  }, 3000)
+  }, SHOW_CONTENT_DELAY)
   
-  setTimeout(() => {
-    router.push('setlist/' + MATCH_DIPLOM)
-  },6000)
+  setTimeout(switchPage,SHOW_LIST_DELAY)
 })
   
 </script>
@@ -148,8 +151,8 @@ onMounted(() => {
   position: relative;
   opacity: 1;
  
-  transition: opacity 0.5s ease-out;
-  transition: all 300ms ease-out;
+  transition: all 500ms ease-out;
+  /* transition: opacity 800ms ease-out; */
   
 }
 .intro_line.hidden {
@@ -158,7 +161,7 @@ onMounted(() => {
 }
 
 
-
+/* 
 .v-enter-active,
 .v-leave-active {
   transition: opacity 0.5s 2.5s ease-out;
@@ -185,6 +188,6 @@ onMounted(() => {
 .line-enter-leave-to {
   opacity: 0;
   transform: translateY(100vh);
-}
+} */
 
 </style>
