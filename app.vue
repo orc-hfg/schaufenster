@@ -75,11 +75,15 @@ if (process.server) {
   initMadek()
 }
 
+if (process.client) {
+  console.log(" is client ")
+    selectRandomFont()
+}
+
 
 const initApp = async() => {
 
   //initPageFonts();
-  selectRandomFont()
   //initMadek();
   //console.log("init server")
 };
@@ -149,7 +153,7 @@ onMounted(() => {
 .page-out.page-leave-active {
   clip-path: circle(100vw at 50vw 50vh) !important;
   /* transition: all 2s; */
-  transition: clip-path 2s;
+  transition: clip-path 800ms;
   
   z-index: 10;
 }
@@ -165,12 +169,13 @@ onMounted(() => {
 
 .page-in.page-enter-active {
   clip-path: circle(0vw at 50vw 50vh) !important;
-  transition: clip-path 1s;
+  transition: clip-path 800ms ease-out;
   z-index: 10;
 }
 .page-in.page-leave-active {
   z-index: 5;
-  transition: all 1s;
+  transition: clip-path 800ms ease-out;
+  transition: opacity 800ms ease-out;
 }
 .page-in.page-leave-to {
   filter: blur(1rem);
@@ -183,12 +188,12 @@ onMounted(() => {
 .fade.page-enter-active {
   opacity: 0;
   filter: blur(1rem);
-  transition: all 1s;
+  transition: all 400ms ease-out;
   z-index: 10;
 }
 .fade.page-leave-active {
   z-index: 5;
-  transition: all 1s;
+  transition: all 400ms ease-out;
 }
 .fade.page-leave-to {
   filter: blur(1rem);
