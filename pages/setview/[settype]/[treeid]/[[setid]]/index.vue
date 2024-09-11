@@ -137,7 +137,7 @@
         :slides-per-view="'auto'"
         
       >
-      
+      <!-- TODO smooth element insert -->
         <!-- v-show="index < getShowCount(showTreeId)" -->
         <!-- v-show="el.setIdx < getShowCount(el.collection_id)
             || el.type === NavSlideType.Set
@@ -151,6 +151,7 @@
           @mouseover="setHoverSetId(el.collection_id)"
           @mouseleave="resetHoverSetId()"
           :class="{set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id) && el.collection_id !== treeid,
+            grow_slides: nav_grow_width,
             nav_slide_btns: el.type == NavSlideType.Button && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
             nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
             nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
@@ -162,8 +163,8 @@
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
             @click="nav2Element(el)"
-            
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
+
             <div v-if="el.collection_id !== treeid && el.setIdx == 0 && (activeSetId == el.collection_id || hoverSetId == el.collection_id)"
               class="nav_preview_col_title"
               :style="{width: ((getShowCount(el.collection_id)- 0.3) * 72) + 'px'}">
@@ -770,7 +771,13 @@ const initSubTree = (rootId:string, treeId: string) => {
     );
     //console.dir(navSlider.value);
   }
+  nav_grow_width.value = true
+  setTimeout(() => {
+    nav_grow_width.value = false
+  },1000)
 };
+
+const nav_grow_width = ref(true);
 
 const initData = () => {
 
@@ -1066,6 +1073,8 @@ const handleMouseLeave = () => {
   
   border-top: var(--padding-item-vertical-M, 12px) solid rgba(0,0,0,0);
   border-left: var(--spacing-between-items-S, 12px) solid rgba(0,0,0,0);
+
+  
 }
 
 .set_highlight {
@@ -1075,8 +1084,12 @@ const handleMouseLeave = () => {
   border-bottom: var(--padding-item-vertical-M, 12px) solid #E7E6E1;
   
   border-left: var(--spacing-between-items-S, 12px) solid #E7E6E1;
+  transition: width 500ms ease-out;
 }
 
+.grow_slides {
+  width: 1px ;
+}
 .entry_highlight {
   position: absolute;
   top: 36px;
@@ -1333,7 +1346,7 @@ const handleMouseLeave = () => {
   content: '->';
 } */
 .swiper-button-disabled {
-  visibility: hidden;
+  /* visibility: hidden; */
 
 }
 .swiper-main-button-prev:hover,
