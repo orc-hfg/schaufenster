@@ -15,8 +15,16 @@
     align-items: center;
     gap: var(--margin-navbar-institution-logo-right, 10px);
     flex-shrink: 0;
+    
 }
 svg {
-    fill: var(--text-primary-inverted, #FFF);
+    
+    /* stroke: var(--Colors-text-primary-inverted, #FFF);; */
+    fill: var(--Colors-text-primary, #FFF);
+}
+path {
+    /* background-color: #000 ; */
+    stroke: var(--Colors-text-primary, #FFF);
+    fill: var(--Colors-text-primary, #FFF);
 }
 </style>

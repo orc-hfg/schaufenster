@@ -270,13 +270,13 @@ const getTitleWidth = (id:string): string => {
   gap: var(--spacing-item-inner, 8px);
 
   border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
-  background: var(--nav-bar-button-fill, #F3F2EF);
+  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  background: var(--Colors-nav-bar-button-fill, #F3F2EF);
 
   transition: all 0.5s linear;
 
 
-  color: var(--text-black, #2C2C2C);
+  color: var(--Colors-text-primary, #2C2C2C);
 
   /* Buttons */
   font-family: "Instrument Sans";
@@ -342,9 +342,10 @@ nav {
   flex-shrink: 0;
 
   border-radius: var(--radius-full, 9999px);
-  background: var(--nav-bar-info-button-fill, #2C2C2C);
+  /* background: var(--Colors-nav-bar-info-button-fill, #2C2C2C); */
+  background: var(--Colors-nav-bar-button-fill, #2C2C2C);
 
-  color: var(--text-primary-inverted, #FFF);
+  color: var(--Colors-text-primary, #FFF);
 font-family: "Instrument Sans";
 font-size: var(--font-h4-font-size, 24px);
 font-style: normal;
@@ -356,12 +357,15 @@ transition: all 1s linear;
 
 
 .header_nav_logo {
-  stroke: none;
-  fill: #222 !important;
+  /* stroke: none;
+  fill: #222 !important; */
   text-decoration: none;
-  transition: all 300ms ease-in;
+  transition: all 300ms ease-out;
 }
-
+/* .header_nav_logo svg circle {
+  stroke: none;
+  fill: var(--Colors-text-primary, #2C2C2C) !important;
+} */
 /* .header_nav_logo .content {
   color: var(--text-primary, #2C2C2C);
   visibility: collapse;
