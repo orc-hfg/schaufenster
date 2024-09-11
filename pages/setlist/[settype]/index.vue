@@ -113,7 +113,7 @@
         @scroll="scrollEvent"
         @wheel="wheelEvent"
         :style="year_info_style"
-        v-if="currentYear && !intro_info">
+        v-show="currentYear && !intro_info">
         {{ currentYear }}
       </div>
     </Transition>
@@ -233,12 +233,12 @@ const setSwiperMoving = () => {
 const scrollEvent = (ev) => {
   const current = swiperMain.value.getTranslate()
   console.log("got scroll event" + ev.deltaY + ":" + current)
-  //swiperMain.value.translateTo(current - 20 * ev.deltaY)
+  swiperMain.value.translateTo(current - 20 * ev.deltaY)
 }
 const wheelEvent = (ev) => {
   const current = swiperMain.value.getTranslate()
   console.log("got wheel event" + ev.deltaY + ":" + current)
-  //swiperMain.value.translateTo(current - 2 * ev.deltaY)
+  swiperMain.value.translateTo(current - 2 * ev.deltaY)
 }
 
 const SWITCH_TYPE_PAGE_DELAY = 250;
