@@ -1,26 +1,32 @@
 <template>
   <div>
-  <div class="tree_info_back"></div>
-    <div class="tree_info" 
+  <!-- <div class="project_counter_back"></div> -->
+    <div class="project_counter" 
       :style="info_tree_style">
       
-      <div>&nbsp;</div>
-      <div>&nbsp;</div>
-      <div>&nbsp;</div>
-      <div v-for="(treeInfo,idx) in sortedTrees" :id="'treeInfo_' + treeInfo.col_id"
-          :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
-        <span>
-          {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
-          &nbsp;
-        </span>
-        <span v-for="author in treeInfo.cols_authors[treeInfo.col_id]">
-          {{ author }}
-          &nbsp;
-        </span>
+      
+      <div class="project_counter_line">&nbsp;</div>
+      <div class="project_counter_line">&nbsp;</div>
+      <div v-for="(treeInfo,idx) in sortedTrees"
+        class="project_counter_line"
+        :id="'treeInfo_' + treeInfo.col_id"
+        :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
+        <div class="back_layer_blur">
+        </div>
+        <div class="content">
+          <div class="cell">
+            {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
+          </div>
+          <div class="cell"
+            v-for="author in treeInfo.cols_authors[treeInfo.col_id]">
+            {{ author }}  
+          </div>
+        </div>
+        
       </div>
-      <div>&nbsp;</div>
-      <div>&nbsp;</div>
-      <!-- <div class="tree_info_blur"></div> -->
+      <div class="project_counter_line">&nbsp;</div>
+      <div class="project_counter_line">&nbsp;</div>
+      <!-- <div class="project_counter_blur"></div> -->
       
     </div>
   </div>
@@ -36,26 +42,34 @@ const {
 } = treeHelper()
 
 
-const info_tree_style = ref({'color': ''})
 
 const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
   
-  info_tree_style.value['color'] = color
+const info_tree_style = ref({'color': ''})
+info_tree_style.value['color'] = color
 
-const TREE_INFO_OPACITY_DIFF_2 = 0.05; // 0.05
-const TREE_INFO_OPACITY_DIFF_1 = 0.15; // 0.15
+const OPACITY_DIFF_3 = 0.0
+const OPACITY_DIFF_2 = 0.10; // 0.05
+const OPACITY_DIFF_1 = 0.30; // 0.15
 
 const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   const diff = (treeInfoIdx - idx)
-  const opval = (diff >= 2 || diff < 0) ? TREE_INFO_OPACITY_DIFF_2 
-    : (diff >= 1 ? TREE_INFO_OPACITY_DIFF_1 : 1)
+  
+  let opval = 0.0;
+  if (diff >= 2) {
+    opval = OPACITY_DIFF_2
+  } else if (diff >= 1) {
+    opval = OPACITY_DIFF_1
+  } else if (diff == 0) {
+    opval = 1.0
+  }
   return { opacity: opval }
 }
 
 </script>
 <style>
 /* 33% 40% */
-.tree_info_back {
+.project_counter_back {
   /* border: 1px solid red; */
   position: fixed;
   bottom: 0px;
@@ -69,50 +83,75 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) 20%,
   var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) 60%,
   transparent 100%);
-
 }
 /* var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) */
-.tree_info {
+.project_counter {
   clip-path: margin-box;
   display: block;
   
+  /* border:  1px solid blue; */
   position: fixed;
-  bottom: 8px;
+  bottom: 0px;
+  left: -16px;
   
-  left: 24px;
-  height: 160px;
-  width: 100vw;
+  /* width: 650px; */
+  width: calc(100vw+ 32px);
+  height: 240px;
+
+  padding-left: 48px;
+
   overflow-y: scroll;
 
-  
   z-index: 980;
   transition: all 800ms ease-out;
 
-  /* display: inline-flex; */
-  /* padding: 0px 0px 16px 32px; */
-  /* flex-direction: column; */
-  /* justify-content: flex-end; */
-  /* align-items: flex-start; */
-  /* gap: -64px; */
+  /* direction: rtl; */
 
 }
-.tree_info * {
+.project_counter_line {
   user-select: none;
   transition: opacity 550ms linear;
   
-  font-size: 20px;
-  line-height: 40px;
+  /* border: 1px solid red; */
+  display: block;
+  
+  width: fit-content;
+  height: 48px;
+  
+  /* direction: ltr; */
 }
-/* .tree_info_blur {
-  position: fixed;
-  bottom: 16px;
-  left: 32px;
+.back_layer_blur {
+  display: inline-block;
+  position: relative;
+  top:0px; left: 0px;
+  width: 100%; height: 48px;
+  background-color: var(--Colors-background-default, #F3F2EF);
+  filter: blur(90px);
+}
+.content {
+  display: flex;
+  position: relative;
+  top:0px; left: 0px;
+  height: 48px;
+  width: fit-content;
   
-  height: 162px;
-  
-  width: calc(100vw - 64px);
+  display: flex;
+  padding: 0 20px;
+  align-items: center;
 
-  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 66%, rgba(255,255,255,0) 100%) ;
-} */
+  
+}
+.cell {
+
+  /* border: 1px solid green; */
+  display: inline-block;
+  width: fit-content;
+  padding: var(--padding-item-horizontal-M, 12px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+
+  font-size: 20px;
+}
 
 </style>

@@ -372,9 +372,9 @@ const setTreeInfo = (el: iTree) => {
   //const elem = document.getElementById('treeInfo_' + el.col_id)
   treeInfoIdx.value = filteredSortedTrees.value.findIndex((val) => { return val.col_id == el.col_id})
   //elem?.scrollIntoView({block: "start", behavior: "smooth"})
-  const ntop = 40 + treeInfoIdx.value * 40
+  const ntop = 8 + treeInfoIdx.value * 48
   console.log("stroll to " + treeInfoIdx.value + ": " + ntop)
-  document.getElementsByClassName('tree_info')[0].scrollTo({top: ntop, behavior: "smooth"})
+  document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
   
 }
 const previewUrl = (treeId: string): string => {
