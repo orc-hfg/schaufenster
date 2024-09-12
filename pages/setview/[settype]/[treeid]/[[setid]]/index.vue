@@ -851,8 +851,9 @@ onMounted(() => {
     activeEntryId.value = entries.value[0].id
     activeSetId.value = setid.value
     addShowCount(activeSetId.value)
+    swiperMain.value.slideTo(1)
     swiperMain.value.slideTo(0)
-    swiperNav.value.slideTo(0)
+    //swiperNav.value.slideTo(0)
 
   },100)
 
