@@ -27,6 +27,7 @@ svg {
 svg,
 svg g, svg g path {
     /* mix-blend-mode: difference; */
+    stroke-width: 2px;
     stroke: var(--Colors-text-primary, #2C2C2C) !important;
     fill: var(--Colors-text-primary, #2C2C2C) !important;
 }

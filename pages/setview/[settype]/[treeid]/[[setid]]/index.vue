@@ -1298,8 +1298,8 @@ const handleMouseLeave = () => {
 .swiper-main-button-prev,
 .swiper-main-button-next 
 {
-  position: absolute;
-  top: calc(50% - 24px);
+  position: fixed;
+  top: calc(50vh - 24px);
 
   display: flex;
   width: 48px;
@@ -1312,19 +1312,19 @@ const handleMouseLeave = () => {
 
   cursor: pointer;
   z-index: 10;
-  background-color: rgba(255,255,255,0.4);
+  /* background-color: rgba(255,255,255,0.4); */
   
-  color: var(--Colors-text-primary, #2C2C2C);
+  /* color: var(--Colors-text-primary, #2C2C2C); */
 
   
-  opacity: 0.3;
+  /* opacity: 0.3; */
   
-  font-family: "Instrument Sans";
+  /* font-family: "Instrument Sans"; */
 /* font-size: var(--font-h4-font-size, 32px); */
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: var(--font-h4-line-height, 40px); /* 125% */
+  /* font-size: 40px; */
+  /* font-style: normal; */
+  /* font-weight: 400; */
+  /* line-height: var(--font-h4-line-height, 40px); */
 }
 
 /* TODO swiper main nav btn position */
@@ -1347,14 +1347,13 @@ const handleMouseLeave = () => {
   content: '->';
 } */
 .swiper-button-disabled {
-  /* visibility: hidden; */
+  visibility: hidden;
 
 }
 .swiper-main-button-prev:hover,
 .swiper-main-button-next:hover {
-  cursor: pointer;
-  opacity: 1;
-  /* font-size: 64px; */
+  /* cursor: pointer; */
+  /* opacity: 1; */
 }
 
 .entry_info_title {
