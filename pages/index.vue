@@ -7,8 +7,10 @@
         </NuxtLink>
       </nav>
       <nav class="wrap_right">
-        <NuxtLink class="hfg_link" to="https://madek.hfg-karlsruhe.de">
-        <IconsNavIconHfG/>
+        <NuxtLink class="hfg_link"
+          to="https://madek.hfg-karlsruhe.de"
+          target="_blank" rel="noopener noreferer">
+          <IconsNavIconHfG/>
         </NuxtLink>
       </nav>
     </header>
@@ -24,10 +26,10 @@
   </div>
 </template>
 <script setup lang="ts">
-const SHOW_CONTENT_DELAY = 1500;
+const SHOW_CONTENT_DELAY = 300;
 const SHOW_LIST_DELAY = 5000;
 const TITLE_ENTER_DELAY_PER_LINE = 50;
-const TITLE_ENTER_DURATION = 500;
+const TITLE_ENTER_DURATION = 800;
 
 const router = useRouter()
 const {
@@ -92,6 +94,7 @@ onMounted(() => {
     user-select: none;
   }
   .hfg_link {
+    cursor: pointer;
     user-select: none;
     padding: 12px;
     /* border: 1px solid white; */
@@ -151,13 +154,13 @@ onMounted(() => {
   position: relative;
   opacity: 1;
  
-  transition: all 500ms ease-out;
+  transition: all 800ms ease-out;
   /* transition: opacity 800ms ease-out; */
   
 }
 .intro_line.hidden {
   opacity: 0;
-  transform: translateY(100vh);
+  transform: translateY(50vh);
 }
 
 

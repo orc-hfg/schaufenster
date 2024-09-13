@@ -50,7 +50,9 @@
         <Transition name="move-u50">
           <NuxtLink class="navbar_link aarchive"
             v-if="!hideNavBtns"
-            to="https://dev.madek.hfg-karlsruhe.de">
+            to="https://dev.madek.hfg-karlsruhe.de"
+            target="_blank" rel="noopener noreferer"          
+            >
             <IconsNavIconHfG/>
           </NuxtLink>
         </Transition>
@@ -175,6 +177,7 @@ header nav a {
 }
 
 .navbar_link.aarchive {
+  cursor: pointer;
   display: flex;
   padding: var(--padding-item-vertical-M, 8px) var(--padding-item-horizontal-M, 8px);
   align-items: center;
