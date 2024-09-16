@@ -180,14 +180,12 @@ onMounted(() => {
 .page-in.page-leave-to {
   filter: blur(1rem);
 }
-
 .page-in.page-enter-to {
-  clip-path: circle(100vw at 50vw 50vh) !important;
+  clip-path: circle(150vw at 50vw 50vh) !important;
 }
 
 .fade.page-enter-active {
   opacity: 0;
-  filter: blur(1rem);
   transition: all 400ms ease-out;
   z-index: 10;
 }
@@ -196,7 +194,6 @@ onMounted(() => {
   transition: all 400ms ease-out;
 }
 .fade.page-leave-to {
-  filter: blur(1rem);
   opacity: 0;
 }
 
