@@ -56,7 +56,10 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   const diff = (treeInfoIdx - idx)
   
   let opval = 0.0;
-  if (diff >= 2) {
+  if (diff >= 3) {
+    opval = OPACITY_DIFF_3
+  }
+  else if (diff >= 2) {
     opval = OPACITY_DIFF_2
   } else if (diff >= 1) {
     opval = OPACITY_DIFF_1

@@ -1,16 +1,4 @@
-<template>
-  <!-- <div>
-  
-    <Transition name="move-u30-fade">
-      <div class="entry_info_title"
-        :class="{hidden: entry_info_hidden}"
-        v-if="currentTree && currentTree.colTitlesMap"
-        >
-        {{ currentTree.colTitlesMap[setid] }}
-      </div>
-    </Transition> -->
-    
-    
+<template>    
 <div class="entry_info"
         @scroll="scrolled"
         @wheel="scrolled">
@@ -210,7 +198,7 @@ const scrolled = (event) => {
 
 .entry_info_panel {
   width: calc(50vw - 48px);
-  padding: var(--spacing__betweenitemsM, 12px) var(--spacing__betweenitemsM,12px);
+  padding: var(--spacing-betweenitemsM, 12px) var(--spacing-betweenitemsM,12px);
 
     display: flex;
     /* width: 100%; */
@@ -251,7 +239,7 @@ const scrolled = (event) => {
     gap: 12px;
     align-self: stretch;
 
-    color: var(--text-secondary, #CAC9C2);
+    color: var(--Colors-text-secondary, #CAC9C2);
 
     /* Subline */
     font-family: "Instrument Sans";
@@ -268,7 +256,7 @@ const scrolled = (event) => {
     gap: 12px;
     align-self: stretch;
 
-    color: var(--text-primary, #2C2C2C);
+    color: var(--Colors-text-primary, #2C2C2C);
 
     /* Body */
     font-family: "Instrument Sans";
@@ -279,16 +267,16 @@ const scrolled = (event) => {
 }
 
 .meta_content * {
-    
-/* Body */
-font-family: "Instrument Sans";
-font-size: var(--font-body-font-size, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--font-body-line-height, 24px); /* 120% */
+      
+  /* Body */
+  font-family: "Instrument Sans";
+  font-size: var(--font-body-font-size, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 
-
+/* 
 .entry_info_title {
   user-select: none;
 
@@ -307,5 +295,5 @@ line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 .entry_info_title.hidden {
   opacity: 0;
-}
+} */
 </style>

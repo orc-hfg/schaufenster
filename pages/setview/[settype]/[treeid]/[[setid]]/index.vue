@@ -13,14 +13,16 @@
       @toggle-show-info="toggleShowInfo"
       @parent-clicked="swiperMain.slideTo(0)"
     />
-    <Transition name="move-u30-fade">
+    <!-- <Transition name="move-u30-fade"> -->
       <div class="entry_info_title"
-        :class="{hidden: entry_info_hidden}"
-        v-if="currentTree && currentTree.colTitlesMap && showInfo"
+        :class="{
+          move_up_hidden: !showInfo,
+          fade_hidden: entry_info_hidden}"
+        v-if="currentTree && currentTree.colTitlesMap"
         >
         {{ currentTree.colTitlesMap[setid] }}
       </div>
-    </Transition>
+    <!-- </Transition> -->
     
     <swiper
       :modules="modules"
@@ -100,9 +102,10 @@
         :active-set-id="activeSetId"
         :current-tree="currentTree"
         :setid="setid"
+        @scrollPosChanged="entryInfoScrollPosChanged"
         
       />
-      <!-- @scrollPosChanged="entryInfoScrollPosChanged" -->
+      
     <!-- </Transition> -->
     
     
@@ -287,7 +290,7 @@ const currentTree = ref({} as iTree)
 
 const entry_info_hidden = ref(false)
 const entryInfoScrollPosChanged = (pos) => {
-  //console.log("entryInfoScrollPosChanged: " + pos)
+  console.log("entryInfoScrollPosChanged: " + pos)
   if (pos > 50) {
     entry_info_hidden.value = true;
   }
@@ -951,10 +954,8 @@ const handleMouseLeave = () => {
 
   width: 100vw;
   height: calc(100vh - 260px);
-  
-  
-  /* z-index: -100; */
-  transition: all 0.5s;
+
+  transition: all 500ms ease-out;
 }
 .swiper_main.bottom_nav_hide {
   top: 0px;
@@ -966,10 +967,10 @@ const handleMouseLeave = () => {
   left: 24px;
   height: 70vh;
   width: calc(50vw - 48px); */
+  
   transform-origin: 0vw 20vh;
   transform: scale(50%);
   height: 150vh;
-
 }
 .swiper-slide.main_slide {
   /* border: 2px solid blue; */
@@ -991,7 +992,7 @@ const handleMouseLeave = () => {
 .swiper_main.info_active .main_preview {
   /* border: 1px solid green; */
   width: calc(100% - 96px);
-  height: 100%;
+  /* height: 100%; */
   margin: 0 48px;
 }
 .bottom_nav {
@@ -1161,6 +1162,7 @@ const handleMouseLeave = () => {
 }
 .nav_slide_btns {
   width: 36px !important;
+  padding-right: var(--margin-btmbar-betweensets, 4px);
 }
 .nav_slide_btn_add {
   width: 1px !important;
@@ -1329,19 +1331,6 @@ const handleMouseLeave = () => {
 
   cursor: pointer;
   z-index: 10;
-  /* background-color: rgba(255,255,255,0.4); */
-  
-  /* color: var(--Colors-text-primary, #2C2C2C); */
-
-  
-  /* opacity: 0.3; */
-  
-  /* font-family: "Instrument Sans"; */
-/* font-size: var(--font-h4-font-size, 32px); */
-  /* font-size: 40px; */
-  /* font-style: normal; */
-  /* font-weight: 400; */
-  /* line-height: var(--font-h4-line-height, 40px); */
 }
 
 /* TODO swiper main nav btn position */
@@ -1385,11 +1374,16 @@ const handleMouseLeave = () => {
   font-size: 3rem;
   line-height: 3rem;
 
+  color: var(--Colors-text-primary, #fff);
+  opacity: 1;
   transition: opacity 100ms linear;
   transition: transform 300ms ease-in;
 }
-.entry_info_title.hidden {
+.entry_info_title.fade_hidden {
   opacity: 0;
+}
+.entry_info_title.move_up_hidden {
+  transform: translateY(-128px);
 }
 
 .entry_info {

@@ -1,5 +1,5 @@
 <template>
-  <div class="intro_page" data-theme="dark" @click="switchPage">
+  <div class="intro_page" data-theme="dark" @click.prevent.once="switchPage()">
     <header>
       <nav class="wrap_left">
         <NuxtLink to="/" class="home_link">

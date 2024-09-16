@@ -1,11 +1,10 @@
 
 /* primitives colors */
 :root {
-    --Primitives-color-blurs-diplom-counter-blur: rgba(137,132,126,0.9);
+--Primitives-color-blurs-diplom-counter-blur: rgba(137,132,126,0.9);
 --Primitives-color-blurs-diplom-img-blur: rgba(137,132,126,0.3);
 --Primitives-color-blurs-project-counter-blur: rgba(243,242,239,0.9);
 --Primitives-color-blurs-project-img-blur: rgba(243,242,239,0.3);
-
 --Primitives-color-greys-Black: #000000;
 --Primitives-color-greys-DarkGrey: #524F4F;
 --Primitives-color-greys-Diplom-DarkRedGrey: #6D6863;
@@ -99,8 +98,10 @@
 --Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
 --Colors-text-secondary: var(--Primitives-color-greys-MediumGrey)
 }
+
+/* colors dark */
 [data-theme="dark"] {
-    --Colors-background-default: var(--Primitives-color-greys-ORCBlack);
+--Colors-background-default: var(--Primitives-color-greys-ORCBlack);
 --Colors-background-video: var(--Primitives-color-greys-Black);
 --Colors-background-audio: var(--Primitives-color-greys-Black);
 --Colors-btm-bar-galleryView-gradient-default-stop-1: #000000;
@@ -148,7 +149,7 @@
 }
 
 
-  .Spaces_Dimensions {
+.Spaces_Dimensions {
 
   /* :root { */
     --spacing-between-items-S:4;
@@ -166,52 +167,54 @@
     --dimension__btmbar__imgheight:64;
     --dimension__btmbar__imgwidth:48;
     --padding__itemverticalS:8;
-    --spacing__betweenitemsM:12;
+    --spacing-betweenitemsM:12;
     --padding__itemhorizontalS:8;
-    --spacing__metainfo__betweensections:80;
-    --font__h1__fontsize:240;
-    --font__h1__lineheight:210;
-    --font__h2__fontsize:120;
-    --font__h2__lineheight:146;
-    --font__h3__fontsize:48;
-    --font__h3__lineheight:60;
-    --font__h4__fontsize:32;
-    --font__h4__lineheight:40;
-    --font__body__fontsize:20;
-    --font__body__lineheight:24;
-    --font__button__fontsize:20;
-    --font__button__lineheight:24;
-    --font__subline__fontsize:20;
-    --font__subline__lineheight:24;
-    --font__number__L__fontsize:16;
-    --font__number__L__lineheight:18;
-    --font__number__M__fontsize:14;
-    --font__number__M__lineheight:18;
-    --font__number__S__fontsize:12;
-    --font__number__S__lineheight:14;
-    --spacing__betweenitemsL:16;
-    --spacing__metainfo__betweenrows:6;
-    --margin__headermargin:12;
-    --margin__bodymargin:96;
-    --spacing__metainfo__betweensliderlist:20;
-    --padding__filterheadbtm_:24;
-    --dimension__btmbar__plusicon:48;
-    --margin__navbar__leftrighttopbtm:12;
-    --margin__navbar__institutionlogo__right:10;
-    --spacing__betweenmenuitems:20;
-    --margin__btmbar__mainbutton:20;
-    --margin__btmbar__set__right:46;
-    --margin__btmbar__betweensets:4;
-    --margin__btmbar__endofsets:40;
-    --padding__itemhorizontalXS:0;
-    --padding__itemverticalL:16;
-    --padding__itemverticalXS:0;
-    --padding__containerbottomXL:112;
-    --padding__containerbottomM:32;
-    --padding__containerverticalM:32;
-    --padding__containerbottomL:48;
+    --spacing-meta-info-between-sections:80;
+    --spacing-meta-info-between-sub-sections:24px;
+    --font-h1-fontsize:240;
+    --font-h1-lineheight:210;
+    --font-h2-fontsize:120;
+    --font-h2-lineheight:146;
+    --font-h3-fontsize:48;
+    --font-h3-lineheight:60;
+    --font-h4-fontsize:32;
+    --font-h4-lineheight:40;
+    --font-body-fontsize:20;
+    --font-body-lineheight:24;
+    --font-button-font-size:20;
+    --font-button-line-height:24;
+    --font-subline-fontsize:20;
+    --font-subline-lineheight:24;
+    --font-number-L-fontsize:16;
+    --font-number-L-lineheight:18;
+    --font-number-M-fontsize:14;
+    --font-number-M-lineheight:18;
+    --font-number-S-fontsize:12;
+    --font-number-S-lineheight:14;
+    --spacing-betweenitemsL:16;
+    --spacing-meta-info-betweenrows:6;
+    --margin-headermargin:12;
+    --margin-bodymargin:96;
+    --spacing-metainfo-betweensliderlist:20;
+    --padding-filterheadbtm_:24;
+    --dimension-btmbar-plusicon:48;
+    --margin-navbar-leftrighttopbtm:12;
+    --margin-navbar-institutionlogo-right:10;
+    --spacing-betweenmenuitems:20;
+    --margin-btmbar-mainbutton:20;
+    --margin-btmbar-set-right:46;
+    --margin-btmbar-betweensets:4;
+    --margin-btmbar-endofsets:40;
+    --padding-itemhorizontalXS:0;
+    --padding-itemverticalL:16;
+    --padding-itemverticalXS:0;
+    --padding-containerbottomXL:112;
+    --padding-containerbottomM:32;
+    --padding-containerverticalM:32;
+    --padding-containerbottomL:48;
   }
-  .Blurs{
+
+  .Blurs {
     --valuepills:30;
     --valueoverly:112;
   }
