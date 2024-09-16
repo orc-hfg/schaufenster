@@ -35,6 +35,12 @@ const font_1:iFontData = {
     line_height_factor: 0.9,
 }
 
+// --Primitives-color-highlight-bright-tone
+// --Primitives-color-greys-ORCBlack
+const COLOR_DIPLOM =  '#FF4D00'
+const COLOR_PROJECTS = '#2C2C2C'
+const MATCH_DIPLOM = "diplom";
+
 export const DynFonts = () => {
     const initFontList = () => {
         dynFontsState.font_list.push(font_0)
@@ -74,12 +80,18 @@ export const DynFonts = () => {
         }
         return result;
     }
+    const mergeSetTypeColor = (settype: string, obj: object): object =>  {
+        const color = settype == MATCH_DIPLOM ? COLOR_DIPLOM : COLOR_PROJECTS
+        obj['color'] = color
+        return obj 
+    }
     return {
         initFontList,
         initPageFonts,
         selectRandomFont,
         getViewSizedStyle,
         getPixelSizedStyle,
+        mergeSetTypeColor,
         ...toRefs(dynFontsState)
     }
 }

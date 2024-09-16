@@ -50,16 +50,19 @@
         <div v-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
           <audio :id="'slide-audio-'+ el.id"
-            class="audio-slide"
-            style="width: 100%; height:80%; margin: auto;">
+            class="audio_slide"
+            style="width: 100%; height:100%; margin: auto;"
+            @click="toggleStatePlay(!av_state_play)">
             <source v-for="url in previewAudioUrls(el.id)" :src="url">
           </audio>
         </div>
         <div v-else-if="currentTree.previewsVideo[el.id]"
           class="main_preview">
           <video :id="'slide-video-'+ el.id"
-            class="video-slide"
-            style="width: 100%; height:80%; margin: auto;  position:relative">
+            class="video_slide"
+            style=""
+            @click="toggleStatePlay(!av_state_play)"
+            >
             <source v-for="url in previewVideoUrls(el.id)" :src="url">
           </video>
         </div>
@@ -214,7 +217,8 @@
       
       </swiper>
   </div>
-  <div class="av_control" v-show="show_av_control && !showBottomNav">
+  <div class="av_control" 
+    :class="{hidden: !show_av_control || showBottomNav}">
     <div class="av_playpause"
       @click="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
@@ -239,7 +243,10 @@
       :class="{hidden: !showSetTitle}"
       
       :style="showSetTitleStyle">
+      <div class="content">
         {{ getColTitle(setid) }}
+      </div>
+      
     </div>
   <!-- </Transition> -->
 </div>
@@ -265,7 +272,8 @@ const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
 const {
   font_list, font_selected,
   getPixelSizedStyle,
-  getViewSizedStyle
+  getViewSizedStyle,
+  mergeSetTypeColor
 } = DynFonts()
 
 const settype = ref((route.params.settype || MATCH_PROJECTS) as string)
@@ -841,7 +849,7 @@ const initData = () => {
 }
 
 const showSetTitle = ref(false)
-const showSetTitleStyle = ref(getPixelSizedStyle(120,146))
+const showSetTitleStyle = ref(mergeSetTypeColor(settype.value, getPixelSizedStyle(120,146)))
 const SHOW_SET_TITLE_DELAY = 3000
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
@@ -858,8 +866,8 @@ onMounted(() => {
   },100)
 
 
-  const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
-  showSetTitleStyle.value['color'] = color;
+  //const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
+  //showSetTitleStyle.value['color'] = color;
 
   showSetTitle.value = true;
   setTimeout(() => {
@@ -922,8 +930,9 @@ const handleMouseLeave = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  vertical-align: middle;
-  gap: 40px;
+  justify-content: center;
+  /* vertical-align: middle; */
+  /* gap: 40px; */
   text-align: center;
 
   /* box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08); */
@@ -953,15 +962,17 @@ const handleMouseLeave = () => {
 }
 .swiper_main.info_active {
   /* border: 1px solid red; */
-  top: 16vh;
+  /* top: 16vh;
   left: 24px;
   height: 70vh;
-  width: calc(50vw - 48px);
-  /* transform-origin: 24px 288px;
-  transform: scale(50%) */
+  width: calc(50vw - 48px); */
+  transform-origin: 0vw 20vh;
+  transform: scale(50%);
+  height: 150vh;
+
 }
 .swiper-slide.main_slide {
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   align-items: center;
   justify-content: center;
 }
@@ -972,7 +983,11 @@ const handleMouseLeave = () => {
   background-position: center;
   background-repeat: no-repeat;
 }
-
+.video_slide {
+  position:absolute;
+  top: 88px; bottom: 128px;
+  height: 80%;width: 100%; margin: auto;  
+}
 .swiper_main.info_active .main_preview {
   /* border: 1px solid green; */
   width: calc(100% - 96px);
@@ -996,6 +1011,7 @@ const handleMouseLeave = () => {
   visibility: hidden;
 }
 .av_control {
+  display: block;
   /* border: 1px solid green; */
   position: fixed;
   left: 0px;
@@ -1006,9 +1022,10 @@ const handleMouseLeave = () => {
   z-index: 100;
   /* background-color: var(--Colors-btm-bar-playerView-background); */
   color: var(--Colors-btm-bar-playerView-button, #2C2C2C);
-
-  
-
+  transition: transform 300ms ease-out;
+}
+.av_control.hidden {
+  transform: translateY(128px);
 }
 .av_control * {
   float: left;

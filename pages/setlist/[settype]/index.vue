@@ -28,7 +28,9 @@
         No data yet!
       </div>
 
-      <div v-if="settype==MATCH_DIPLOM" class="year_stepper">
+      <Transition name="fade">
+      <div v-if="settype==MATCH_DIPLOM && !showMenuView && !showAboutView"
+         class="year_stepper">
         <IconsYearSelectorUp
           @click="clickedYearBack()"
           :class="{disabled: !isEnabledYearBack()}"
@@ -38,6 +40,8 @@
           :class="{disabled: !isEnabledYearForward()}"
           />
       </div>
+    </Transition>
+      
       <!-- <Transition name="move-u100-fade"> -->
     <swiper
       v-if="slideList && slideList.length"
@@ -90,15 +94,17 @@
     </swiper>
   <!-- </Transition> -->
     
+  <Transition name="fade">
     <SetListTreeInfo
       @scroll.prevent="scrollEvent"
       @wheel.prevent="wheelEvent"
-      v-if="filteredSortedTrees && (!showMenuView || !showAboutView)"
+      v-if="filteredSortedTrees && (!showMenuView && !showAboutView)"
       :sorted-trees="filteredSortedTrees"
       :settype="settype"
       :tree-info-idx="treeInfoIdx"
       />
-    
+    </Transition>
+
     <Transition name="fade">
       <div class="intro_info"
         :style="intro_info_style"
@@ -123,6 +129,8 @@
                   :settype="settype"
         @onShowFonts="showFontsView = true"
         @onShowAbout="showAboutView = true"
+        @onShowImpressum="showImpressumView = true"
+        @onShowDSA="showDSAView = true"
         @on-close-menu="showMenuView = false"/>
     </Transition>
     <Transition name="fade">
@@ -132,6 +140,14 @@
     <Transition name="fade">
       <AboutView v-if="showAboutView"
         @on-close="showAboutView = false"/>
+    </Transition>
+    <Transition name="fade">
+      <ImpressumView v-if="showImpressumView"
+        @on-close="showImpressumView = false"/>
+    </Transition>
+    <Transition name="fade">
+      <ImpressumView v-if="showDSAView"
+        @on-close="showDSAView = false"/>
     </Transition>
 
     <Transition name="fade">
@@ -148,15 +164,18 @@
   </div>
 </template>
 <script setup lang="ts">
+import ImpressumView from '~/components/ImpressumView.vue';
+
 //import type { Swiper } from '#build/components';
 
 const {
   font_list, font_selected,
   getPixelSizedStyle,
-  getViewSizedStyle
+  getViewSizedStyle,
+  mergeSetTypeColor
 } = DynFonts()
-const intro_info_style = ref(getViewSizedStyle(16,16))
-const year_info_style = ref(getPixelSizedStyle(240,240))
+const intro_info_style = ref(getPixelSizedStyle(240,210))
+const year_info_style = ref(getPixelSizedStyle(240,210))
 const showFontsView = ref(false)
 const showAboutView = ref(false)
 const showDSAView = ref(false)
@@ -520,12 +539,10 @@ const updateSetType = () => {
 
   colCount.value = settype.value == MATCH_DIPLOM ? COL_COUNT_DIPLOM : COL_COUNT_INDEX;
   toggleBtnSetType.value = settype.value
-  // --Primitives-color-highlight-bright-tone
-  // --Primitives-color-greys-ORCBlack
-  const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
-  intro_info_style.value['color'] = color
-  year_info_style.value['color'] = color
-  //info_tree_style.value['color'] = color
+
+  intro_info_style.value = mergeSetTypeColor(settype.value, intro_info_style.value)
+  year_info_style.value = mergeSetTypeColor(settype.value, year_info_style.value)
+  
   if (!useTree || !useTree.value || !useTree.value[settype.value]) {
     setTimeout(() => {
       console.error("no useTree yet, retry later");

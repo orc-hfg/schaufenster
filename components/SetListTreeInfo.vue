@@ -68,23 +68,7 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
 
 </script>
 <style>
-/* 33% 40% */
-.project_counter_back {
-  /* border: 1px solid red; */
-  position: fixed;
-  bottom: 0px;
-  left: 0px;
-  
-  height: 168px;
-  width: 100vw;
-  z-index: 60;
-  background: linear-gradient(0deg,
-  transparent 0%,
-  var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) 20%,
-  var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) 60%,
-  transparent 100%);
-}
-/* var(--Primitives-color-greys-UltraLightGrey, #F3F2EF) */
+
 .project_counter {
   clip-path: margin-box;
   display: block;
@@ -95,7 +79,7 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   left: -16px;
   
   /* width: 650px; */
-  width: calc(100vw+ 32px);
+  width: calc(100vw + 32px);
   height: 240px;
 
   padding-left: 48px;

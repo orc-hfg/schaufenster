@@ -8,7 +8,7 @@
       </nav>
       <nav class="wrap_right">
         <NuxtLink class="hfg_link"
-          to="https://madek.hfg-karlsruhe.de"
+          to="https://hfg-karlsruhe.de"
           target="_blank" rel="noopener noreferer">
           <IconsNavIconHfG/>
         </NuxtLink>
@@ -92,6 +92,10 @@ onMounted(() => {
     padding: 0px;
     height: 48px;
     user-select: none;
+    transition: transform 300ms ease-out;
+  }
+  .home_link:hover {
+    transform: scale(0.83);
   }
   .hfg_link {
     cursor: pointer;

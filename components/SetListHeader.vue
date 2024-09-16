@@ -5,10 +5,13 @@
           <IconsNavIconORC />
         </NuxtLink>
 
-        <Transition name="move-u50">
+        <!-- <Transition name="move-u50">
+        v-if="!hideNavBtns"
+             -->
           <div class="settype_toggle"
-            v-if="!hideNavBtns"
-            :class="{diplom: toggleBtnSetType == MATCH_DIPLOM,
+            :class="{
+              hidden: hideNavBtns,
+              diplom: toggleBtnSetType == MATCH_DIPLOM,
               projects: toggleBtnSetType == MATCH_PROJECTS}">
             <NuxtLink class="navbar_link navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
@@ -20,56 +23,48 @@
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
               @click="$emit('switch2settype' , [MATCH_DIPLOM])"
               >
-              <!-- Abschluss -->
               Abschlussarbeiten
             </NuxtLink>
           </div>
-        </Transition>
+        <!-- </Transition> -->
 
-        <Transition name="move-u50">
+        <!-- <Transition name="move-u50"> 
+        v-if="!hideNavBtns"
+            -->
           <NuxtLink class="navbar_link afilter"
-            v-if="!hideNavBtns"
-            :class="{active:showFilterView}"
+            :class="{hidden: hideNavBtns,
+              active:showFilterView}"
             @click="$emit('showFilter')">
             Filter
             <span v-if="filterCount">({{filterCount}})</span>
           </NuxtLink>
-        </Transition>
+        <!-- </Transition> -->
 
-        <Transition name="move-u50">
+        <!-- <Transition name="move-u50">
+        v-if="!hideNavBtns && filterCount"
+             -->
         <NuxtLink class="navbar_link areset"
-            v-if="!hideNavBtns && filterCount"
+            :class="{hidden: hideNavBtns || filterCount == 0}"
             @click="$emit('resetFilter')"
             >
             Reset
           </NuxtLink>
-        </Transition>
+        <!-- </Transition> -->
         
       </nav>
       <nav class="wrapper_right">
-        <Transition name="move-u50">
+        <!-- <Transition name="move-u50">
+        v-if="!hideNavBtns" -->
           <NuxtLink class="navbar_link aarchive"
-            v-if="!hideNavBtns"
-            to="https://dev.madek.hfg-karlsruhe.de"
+            :class="{hidden: hideNavBtns}"
+            to="https://hfg-karlsruhe.de"
             target="_blank" rel="noopener noreferer"          
             >
             <IconsNavIconHfG/>
           </NuxtLink>
-        </Transition>
+        <!-- </Transition> -->
       </nav>
-      <!-- <nav class="wrapper_right"
-        @mouseenter="setShowArchiveLink(true)"
-        @mouseleave="setShowArchiveLink(false)"
-        >
-        <IconsNavIconHfG/>
-        <Transition name="move-u30-fade">
-          <NuxtLink class="navbar_link aarchive"
-            v-if="showArchive"
-            to="https://dev.madek.hfg-karlsruhe.de">
-            Zur Seite
-          </NuxtLink>
-        </Transition>
-      </nav> -->
+      
     </header>
 </template>
 <script setup lang="ts">
@@ -156,6 +151,11 @@ header nav a {
   border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
   
  /*  background: var(--Colors-nav-bar-button-fill, #F3F2EF); */
+ transition: transform 300ms ease-out;
+}
+.settype_toggle.hidden,
+.navbar_link.hidden {
+  transform: translateY(-100px);
 }
 
 .navbar_link.afilter {

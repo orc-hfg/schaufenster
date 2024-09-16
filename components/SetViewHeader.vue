@@ -346,46 +346,22 @@ nav {
   background: var(--Colors-nav-bar-button-fill, #2C2C2C);
 
   color: var(--Colors-text-primary, #FFF);
-font-family: "Instrument Sans";
-font-size: var(--font-h4-font-size, 24px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--font-h4-line-height, 32px); /* 125% */
+  font-family: "Instrument Sans";
+  font-size: var(--font-h4-font-size, 24px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-h4-line-height, 32px); /* 125% */
 
-transition: all 1s linear;
+  transition: all 1s linear;
 }
 
 
 .header_nav_logo {
-  /* stroke: none;
-  fill: #222 !important; */
   text-decoration: none;
   transition: all 300ms ease-out;
 }
-/* .header_nav_logo svg circle {
-  stroke: none;
-  fill: var(--Colors-text-primary, #2C2C2C) !important;
-} */
-/* .header_nav_logo .content {
-  color: var(--text-primary, #2C2C2C);
-  visibility: collapse;
-  font-size: var(--font__body__fontsize, 20px);
-  line-height: var(--font__body__lineheight, 24px);
-  position: relative;
-  top: -40px; left: 48px;
-  text-decoration: none;
-  overflow: hidden;
-  transition: all 0.5s;
-  opacity: 0;
-} */
 .header_nav_logo:hover {
-  /* width: 8rem; */
-  transform: scale(0.833);
-  
+  transform: scale(0.833);  
 }
-/* .header_nav_logo:hover .content {
-  visibility: visible; 
-  opacity: 1;
-} */
 
 </style>

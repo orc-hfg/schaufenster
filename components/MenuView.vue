@@ -52,7 +52,9 @@
             </div>
             <br/>
             
-          
+            <br/>
+            <br/>
+            
         </div>
     
   </div>
@@ -64,6 +66,7 @@ const {
 const {
     getPixelSizedStyle,
     getViewSizedStyle,
+    mergeSetTypeColor,
 } = DynFonts()
 
 //TODO close menu on click beside text
@@ -90,12 +93,14 @@ const switchLocale = (loc: string) => {
 }
 onMounted(() => {
     console.log("mounted menu: " + props.settype)
-    //font_style.value = getPixelSizedStyle(240, 240)
-    font_style.value = getViewSizedStyle(20, 20)
+    font_style.value = mergeSetTypeColor(props.settype, getPixelSizedStyle(240, 210))
+
+    /*font_style.value = getViewSizedStyle(20, 20)
     console.log("font before")
     console.dir(font_style.value)
     const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
     font_style.value['color'] = color;
+    */
     console.log("font after")
     console.dir(font_style.value)
 })
@@ -121,10 +126,10 @@ header {
 .dialog_menu .menu_panel {
     /* border: 3px solid red; */
     position: absolute;
-    left: 2rem;
-    top: 2rem;
-    width: calc(100% - 4rem);
-    height: calc(100% - 4rem);
+    left: -24px;
+    top: 0rem;
+    width: calc(100vw + 48px);
+    height: calc(100vh);
     overflow-y: auto;
     
     
@@ -132,8 +137,6 @@ header {
     filter: none;
 
     display: flex;
-    width: 1856px;
-    height: 695px;
     padding-top: 250px;
     flex-direction: column;
     align-items: center;
