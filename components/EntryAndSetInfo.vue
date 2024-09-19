@@ -1,128 +1,135 @@
 <template>    
 <div class="entry_info"
-        @scroll="scrolled"
-        @wheel="scrolled">
+  @scroll="scrolled"
+  @wheel="scrolled">
+      
+  <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
+    No meta data yet.
+  </div>
 
+  <div class="entry_info_panel" 
+    @scroll="scrolled"
+    @wheel="scrolled"
+    v-else>
 
-        
-      <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
-        No meta data yet.
-      </div>
-
-      <div class="entry_info_panel" 
-        @scroll="scrolled"
-        @wheel="scrolled"
-        v-else>
-        <!-- <div style="display: block; height: 15vh">
-          <br/>  
-          <br/>
-        </div> -->
-        <div class="section_entry">
-          <div class="meta_info"
-            style=" height: 15vh">
-            <br/>  
-            <br/>
-          </div>
-            <div class="meta_info">
-                <div class="meta_title">
-                    Titel
-                </div>
-                    <MetaDatumView
-                        class="meta_content" 
-                        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:title']"/>                
-            </div>
-            <div class="meta_info">
-                <div class="meta_title">
-                    Medienersteller (Autor)
-                </div>
-                    <MetaDatumView
-                        class="meta_content"
-                        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:authors']"/>
-            </div>
-            <div class="meta_info">
-                <div class="meta_title">
-                    Copyright
-                </div>
-                    <MetaDatumView
-                        class="meta_content"
-                        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"/>
-            </div>        
-        </div>
-
-        <div class="section_set">
-            <div class="meta_info">
-                <div class="meta_title">
-                    Projekt-Autoren
-                </div>
-                    <MetaDatumView
-                        class="meta_content"
-                        :md="currentTree.cols_meta_data[activeSetId]['madek_core:authors']"/>
-            </div>
-            <div class="meta_info">
-                <div class="meta_title">
-                    Zeitraum
-                </div>
-                    <MetaDatumView
-                        class="meta_content"
-                        :md="currentTree.cols_meta_data[activeSetId]['institution:semester']"/>
-            </div>
-            <div class="meta_info">
-                <div class="meta_title">
-                    Schlagworte
-                </div>
-                    <MetaDatumView
-                        class="meta_content"
-                        :md="currentTree.cols_meta_data[activeSetId]['madek_core:keywords']"/>
-            </div>                        
-            <div class="meta_info">
-                <div class="meta_title">
-                    Projektbeschreibung
-                </div>
-                    <MetaDatumView
-                        class="meta_content"
-                        :md="currentTree.cols_meta_data[activeSetId]['madek_core:description']"/>
-            </div>
-        </div>
-        <!--
-        <h3>
-          Entry {{ activeEntryId }} Meta Data:<br/>
-        </h3>
-        
+    <div class="section_entry">
+      <div class="meta_info"
+        style=" height: 15vh">
+        <br/>  
         <br/>
-
-        <div v-for="(md,meta_key) in currentTree.entries_meta_data[activeEntryId]">
-          <div>K:{{meta_key}}:&nbsp;</div><br/>
-            <MetaDatumView :md="md"/>
-          
-          <br/>
-          <hr/>
-        </div>
       </div>
 
-      <div v-if="!activeSetId || !currentTree || !currentTree.cols_meta_data">
-        No set meta data yet.
-      </div>
-
-      <div class="entry_info_panel" v-else>
-      <h3>
-        Set {{ activeSetId }} Meta Data:<br/>
-      </h3>
-        
-        
-        <br/>
-
-        <div v-for="(md,meta_key) in currentTree.cols_meta_data[activeSetId]">
-          <div>K:{{meta_key}}:&nbsp;</div><br/>
-          <MetaDatumView :md="md"/>
-
+      
           
-          <br/>
-          <hr/>
-        </div>
+      <MetaDatumView
+        :title="$t('meta_info.label_title')"
+        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:title']"/>                
+        
+      <MetaDatumView
+        :title="$t('meta_info.label_title_en')"
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:title_en']"/>                
+
+      <MetaDatumView
+        :title="$t('meta_info.label_authors')"
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:creator_of_media_object']"/>
+
+      <MetaDatumView
+        :title="$t('meta_info.label_copyright')"
+        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"/>
+      <MetaDatumView
+        :md="currentTree.entries_meta_data[activeEntryId]['rights:license']"/>
+
+<!--      <MetaDatumView
+        :title="$t('meta_info.label_license')"
+        :md="currentTree.entries_meta_data[activeEntryId]['rights:license']"/>
         -->
+
+
+      <MetaDatumView
+        title="MediaObject All Text"
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:all-text']"/>
+
+      <MetaDatumView
+        title="MediaObject All Text (en)"
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:all-text_en']"/>
+
+      </div>
+
+      <div class="section_set">
+      
+        <MetaDatumView
+          v-if="isShowParentSetTitle()"
+          :title="$t('meta_info.label_project_parent_title')"
+          :md="currentTree.cols_meta_data[parentSetId]['madek_core:title']"/>
+      
+        <MetaDatumView
+          :title="$t('meta_info.label_project_title')"
+          :md="currentTree.cols_meta_data[activeSetId]['madek_core:title']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_title_en')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:project_title_en']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_subtitle')"
+          :md="currentTree.cols_meta_data[activeSetId]['madek_core:subtitle']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_subtitle_en')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:project_subtitle_en']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_authors')"
+          :md="currentTree.cols_meta_data[activeSetId]['madek_core:authors']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_category')"
+          :md="currentTree.cols_meta_data[activeSetId]['institution:project_category']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_keywords')"
+          :md="currentTree.cols_meta_data[activeSetId]['madek_core:keywords']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_leader')"
+          :md="currentTree.cols_meta_data[activeSetId]['institution:project_leader']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_semester')"
+          :md="currentTree.cols_meta_data[activeSetId]['institution:semester']"/>
+        
+        <MetaDatumView
+          :title="$t('meta_info.label_project_program_of_study')"
+          :md="currentTree.cols_meta_data[activeSetId]['institution:program_of_study']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_description')"
+          :md="currentTree.cols_meta_data[activeSetId]['madek_core:description']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_description_en')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:description_en']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_participants')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:other_creative_participants']"/>
+
+        <MetaDatumView
+          :title="$t('meta_info.label_project_extra')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:material']"/>
+        <MetaDatumView
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:dimension']"/>
+        <MetaDatumView
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:duration']"/>
+        <MetaDatumView
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:format']"/>
+        
+        
+      </div>
+      
       </div>
     </div>
-  <!-- </div> -->
+  
 </template>
 <script setup lang="ts">
 //TODO hide scrollbar
@@ -141,23 +148,33 @@ const props = defineProps([
     'activeEntryId',
     'activeSetId',
     'currentTree',
-    'setid'
+    'parentSetId'
 ])
 
 const emit = defineEmits(['scrollPosChanged'])
 
-const entry_info_hidden = ref(false)
+//const entry_info_hidden = ref(false)
 
 const scrolled = (event) => {
   const pos = document.getElementsByClassName('entry_info')[0].scrollTop
-  //console.log("scrolled: " + pos)
   emit('scrollPosChanged',[pos])
-  /* if (pos > 50) {
-    entry_info_hidden.value = true;
+}
+const MAX_SET_TITLE_LENGTH = 50;
+
+const isShowParentSetTitle = ():boolean => {
+  const pid = props.parentSetId
+  if (pid == props.activeSetId) {
+    return false
   }
-  else {
-    entry_info_hidden.value = false;
-  } */
+  if (!props.currentTree
+      || !props.currentTree.colTitlesMap[pid]
+      || !props.currentTree.colTitlesMap[pid].length) {
+    return false
+  }
+  if (props.currentTree.colTitlesMap[pid].length > MAX_SET_TITLE_LENGTH) {
+    return true
+  }
+  return false
 }
 </script>
 <style>

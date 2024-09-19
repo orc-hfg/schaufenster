@@ -17,13 +17,15 @@
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
               @click="$emit('switch2settype', [MATCH_PROJECTS])"
               >
-              Alle Projekte
+              <!-- Alle Projekte -->
+              {{ $t('setlist.btn_title_toggle_project') }}
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
               @click="$emit('switch2settype' , [MATCH_DIPLOM])"
               >
-              Abschlussarbeiten
+              <!-- Abschlussarbeiten -->
+              {{ $t('setlist.btn_title_toggle_diplom') }}
             </NuxtLink>
           </div>
         <!-- </Transition> -->
@@ -35,7 +37,8 @@
             :class="{hidden: hideNavBtns,
               active:showFilterView}"
             @click="$emit('showFilter')">
-            Filter
+            <!-- Filter -->
+            {{ $t('setlist.btn_title_filter') }}
             <span v-if="filterCount">({{filterCount}})</span>
           </NuxtLink>
         <!-- </Transition> -->
@@ -47,7 +50,8 @@
             :class="{hidden: hideNavBtns || filterCount == 0}"
             @click="$emit('resetFilter')"
             >
-            Reset
+            <!-- Reset -->
+            {{ $t('setlist.btn_title_filter_reset') }}
           </NuxtLink>
         <!-- </Transition> -->
         
@@ -211,19 +215,17 @@ header nav a {
 }
 .settype_toggle.projects {
   background: linear-gradient(90deg, 
-    var(--Primitives-color-greys-ORCBlack, #2C2C2C) 0%,
-    var(--Primitives-color-greys-ORCBlack, #2C2C2C) 144px,
-    #F3F2EF 144px);
+    var(--Colors-nav-bar-toogle-project, #2C2C2C) 0%,
+    var(--Colors-nav-bar-toogle-project, #2C2C2C) 144px,
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 144px);
 }
 .settype_toggle.diplom {
-  /* background: rgb(242,137,6); */
-
   background: linear-gradient(90deg, 
-    #F3F2EF 0,
-    #F3F2EF 0,
-    var(--Colors-nav-bar-info-button-fill) 0px,
-    var(--Colors-nav-bar-info-button-fill) 200px,
-    #F3F2EF 200px
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
+    var(--Colors-nav-bar-toogle-diplom, #FF4D00) 0px,
+    var(--Colors-nav-bar-toogle-diplom, #FF4D00) 200px,
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 200px
     );
   background-position: 144px 0;
 }
@@ -232,7 +234,7 @@ header nav a {
 .navbar_link.navbar_link_diplom {
   float: left;
   
-  color: var(--text-primary, #2C2C2C);
+  color: var(--Colors-text-primary, #2C2C2C);
 
   /* Buttons */
   font-family: "Instrument Sans";
@@ -251,20 +253,17 @@ header nav a {
 
   
   border-radius: var(--radius-none, 0px);
-  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
+  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
 }
-.navbar_link_diplom:hover {
-  /* background-color: var(--Colors-nav-bar-info-button-fill); */
-}
+
 .navbar_link.navbar_link_projects {
   border-right: none;
   width: 119px;
 }
 
 .navbar_link.navbar_link_projects.active {
-  
-  color: var(--text-primary-inverted, #FFF);
-  border-color: var(--Primitives-color-greys-ORCBlack, #2C2C2C);
+  color: var(--Colors-text-primary-inverted, #FFF);
+  border-color: var(--Colors-nav-bar-toogle-project, #2C2C2C); 
 
 }
 .navbar_link.navbar_link_projects.active:hover {
@@ -274,8 +273,7 @@ header nav a {
   border-left: none;
 }
 .navbar_link.navbar_link_diplom.active {
-  /* background-color: var(--Colors-nav-bar-toggle-on, #f00); */
-  border-color: var(--Colors-nav-bar-info-button-fill);
+  border-color: var(--Colors-nav-bar-toogle-highlight, #FF4D00);
   color: #fff;
 }
 .navbar_link.navbar_link_diplom.active:hover {
@@ -283,6 +281,6 @@ header nav a {
 }
 .navbar_set_link.active {
   background-color: var(--Colors-nav-bar-toggle-off);
-  font-weight: 800;
+  font-weight: 400;
 }
 </style>

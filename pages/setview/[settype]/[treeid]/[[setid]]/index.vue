@@ -13,16 +13,16 @@
       @toggle-show-info="toggleShowInfo"
       @parent-clicked="swiperMain.slideTo(0)"
     />
-    <!-- <Transition name="move-u30-fade"> -->
-      <div class="entry_info_title"
-        :class="{
-          move_up_hidden: !showInfo,
-          fade_hidden: entry_info_hidden}"
-        v-if="currentTree && currentTree.colTitlesMap"
-        >
-        {{ currentTree.colTitlesMap[setid] }}
-      </div>
-    <!-- </Transition> -->
+
+    <div class="entry_info_title"
+      :class="{
+        move_up_hidden: !showInfo,
+        fade_hidden: entry_info_hidden}"
+      v-if="currentTree && currentTree.colTitlesMap"
+      >
+      {{getAbbrevColTitle(setid)}}
+    </div>
+
     
     <swiper
       :modules="modules"
@@ -97,13 +97,11 @@
       <EntryAndSetInfo
         v-if="currentTree && currentTree.colTitlesMap"
         :class="{hidden: !showInfo}"
-        
         :active-entry-id="activeEntryId"
         :active-set-id="activeSetId"
         :current-tree="currentTree"
-        :setid="setid"
+        :parent-set-id="setid"
         @scrollPosChanged="entryInfoScrollPosChanged"
-        
       />
       
     <!-- </Transition> -->
@@ -144,11 +142,7 @@
         
       >
       <!-- TODO smooth element insert -->
-        <!-- v-show="index < getShowCount(showTreeId)" -->
-        <!-- v-show="el.setIdx < getShowCount(el.collection_id)
-            || el.type === NavSlideType.Set
-            || el.type === NavSlideType.Button"
-             -->
+    
         <swiper-slide
           class="nav_slide"        
           v-for="(el, eindex) in navSlider.slides"
@@ -318,6 +312,20 @@ const toggleStatePlay = (newState:boolean) => {
   } else {
     console.error("no av element")
   }
+}
+
+const MAX_SET_TITLE_LENGTH = 50
+const getAbbrevColTitle = (setid: string): string => {
+    
+    if (!currentTree.value || !currentTree.value.colTitlesMap) {
+      return ""
+    }
+    const title = currentTree.value.colTitlesMap[setid]
+         
+    if (title.length > MAX_SET_TITLE_LENGTH) {
+      return title.substring(0,MAX_SET_TITLE_LENGTH) + '...'
+    }
+    return title
 }
 
 const showCount = ref({} as { [key:string]: number})
@@ -955,11 +963,15 @@ const handleMouseLeave = () => {
   width: 100vw;
   height: calc(100vh - 260px);
 
-  transition: all 500ms ease-out;
+  margin: 0px 0px;
+
+  transition: all 450ms 50ms ease-out;
+  
 }
 .swiper_main.bottom_nav_hide {
   top: 0px;
   height: 100vh;
+  transition: all 500ms ease-out;
 }
 .swiper_main.info_active {
   /* border: 1px solid red; */
@@ -968,9 +980,14 @@ const handleMouseLeave = () => {
   height: 70vh;
   width: calc(50vw - 48px); */
   
+  transition: all 500ms ease-out;
+
   transform-origin: 0vw 20vh;
-  transform: scale(50%);
+  
+  transform: scale( 45% );
+  margin: 0 2.5%;
   height: 150vh;
+  
 }
 .swiper-slide.main_slide {
   /* border: 2px solid blue; */
@@ -991,10 +1008,11 @@ const handleMouseLeave = () => {
 }
 .swiper_main.info_active .main_preview {
   /* border: 1px solid green; */
-  width: calc(100% - 96px);
-  /* height: 100%; */
-  margin: 0 48px;
+  width: calc(100% - 192px);
+  margin: 0 96px;
+  transition: all 500ms ease-out;
 }
+
 .bottom_nav {
   /* border: 1px solid blue; */
   position: fixed;
@@ -1017,7 +1035,7 @@ const handleMouseLeave = () => {
   position: fixed;
   left: 0px;
   width: calc(100vw - 96px);
-  bottom:54px;
+  bottom:58px;
   left: 88px;
   /* height: 6rem; */
   z-index: 100;
@@ -1042,9 +1060,6 @@ const handleMouseLeave = () => {
   padding: 12px;
   align-items: center;
   flex-shrink: 0;
-
-  
-  
   
   background: transparent;
   /* Blur */
@@ -1059,16 +1074,15 @@ const handleMouseLeave = () => {
 }
 .av_progress_cont progress::-webkit-progress-bar {
   border-radius: 50px;
-  background-color: var(--btm-bar-playerView-progress, #CAC9C2);
+  background-color: var(--Colors-btm-bar-playerView-progress, #CAC9C2);
 }
 .av_progress_cont progress::-webkit-progress-value {
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
-  background-color: var(--btm-bar-playerView-background, rgba(0, 0, 0, 0.10));
+  background-color: var(--Colors-btm-bar-playerView-background, rgba(0, 0, 0, 0.10));
 }
 
 .swiper_nav {
-  /* z-index: 100; */
   /* border: 1px solid red; */
   
   width: 100%;
@@ -1076,12 +1090,13 @@ const handleMouseLeave = () => {
   position: absolute;
   top: 0px;
   left: 96px;
-  transition: all 0.5s;
+  transition: all 500ms ease-out;
   overflow: visible;
 }
 .swiper_nav.hidden {
   visibility: hidden;
-  top: 180px;
+  transform: translateY(180px);
+  /* top: 180px; */
 }
 .nav_slide {
   width: fit-content !important;
@@ -1090,19 +1105,17 @@ const handleMouseLeave = () => {
   /* margin: var(--padding-item-vertical-M, 12px) 0px; */
   margin-left: -4px;
   
-  border-top: var(--padding-item-vertical-M, 12px) solid rgba(0,0,0,0);
-  border-left: var(--spacing-between-items-S, 12px) solid rgba(0,0,0,0);
-
-  
+  border-top: var(--padding-item-vertical-M, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
+  border-left: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
+  border-bottom: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
 }
 
 .set_highlight {
-  background: var(--btm-bar-galleryView-set-hover, #E7E6E1);
+  background-color: var(--btm-bar-galleryView-set-hover, var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1));
   /* padding: var(--padding-item-vertical-M, 12px) -4px; */
-  border-top: var(--padding-item-vertical-M, 12px) solid #E7E6E1;
-  border-bottom: var(--padding-item-vertical-M, 12px) solid #E7E6E1;
-  
-  border-left: var(--spacing-between-items-S, 12px) solid #E7E6E1;
+  border-top: var(--padding-item-vertical-M, 12px) solid var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1);
+  border-bottom: var(--padding-item-vertical-M, 12px) solid var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1);
+  border-left: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1);
   transition: width 500ms ease-out;
 }
 
@@ -1151,6 +1164,7 @@ const handleMouseLeave = () => {
   
   width: 80vw;
   height: 28px;
+  color: var(--Colors-text-primary, #2C2C2C);
 }
 
 
@@ -1163,9 +1177,14 @@ const handleMouseLeave = () => {
 .nav_slide_btns {
   width: 36px !important;
   padding-right: var(--margin-btmbar-betweensets, 4px);
+  background-color: var(--Colors-btm-bar-galleryView-gradient-default-stop-1, #F3F2EF);
+}
+.nav_slide_btns.set_highlight {
+  background-color: var(--Colors-btm-bar-galleryView-gradient-hover-stop-1, #F3F2EF);
 }
 .nav_slide_btn_add {
-  width: 1px !important;
+  width: 0px !important;
+  
 }
 .nav_preview_btn {
   position: relative;
@@ -1177,10 +1196,10 @@ const handleMouseLeave = () => {
   width: 76px;
   /* padding-left: 24px; */
   height: 84px;
-  background: linear-gradient(90deg, rgba(243,242,239,0.0) 0%, #f3f2ef 25%, #f3f2ef 100%);
-  /* background: linear-gradient(90deg, rgba(243,242,239,0.0) 0%, #ffffff 25%, #ffffff 100%); */
-  /* background: linear-gradient(180deg, #F3F2EF 20%, rgba(243, 242, 239, 0.00) 100%); */
-  
+  background: linear-gradient(90deg,
+  var(--Colors-btm-bar-galleryView-gradient-default-stop-2, rgba(243,242,239,0.0)) 0%,
+  var(--Colors-btm-bar-galleryView-gradient-default-stop-1, #f3f2ef) 25%,
+  var(--Colors-btm-bar-galleryView-gradient-default-stop-1, #f3f2ef) 100%);
 }
 .nav_slide_btn_add .nav_preview_btn .icon-wrap {
   position: relative;
@@ -1188,7 +1207,10 @@ const handleMouseLeave = () => {
   left: 24px;
 }
 .set_highlight.nav_slide_btn_add .nav_preview_btn {
-  background: linear-gradient(90deg, rgba(231,230,225,0) 0%, #E7E6E1 25%, #E7E6E1 100%);
+  background: linear-gradient(90deg,
+   var(--Colors-btm-bar-galleryView-gradient-hover-stop-2, rgba(231,230,225,0)) 0%,
+   var(--Colors-btm-bar-galleryView-gradient-hover-stop-1, #E7E6E1) 25%,
+   var(--Colors-btm-bar-galleryView-gradient-hover-stop-1, #E7E6E1) 100%);
 }
 .nav_preview_btn svg {
   stroke: #222 !important;
@@ -1204,13 +1226,6 @@ const handleMouseLeave = () => {
   z-index: 250;
 }
 
-.swiper_nav .swiper-slide-active {
-  /* border: 1px solid green; */
-  /* background-color: green !important; */
-}
-
-
-
 .nav_preview_subset {
   cursor: pointer;
   float: left;
@@ -1224,14 +1239,6 @@ const handleMouseLeave = () => {
   background-color: transparent;
 }
 
-/*
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  } 
-}*/
 
 
 .btn_bottom_nav_hide {
@@ -1247,6 +1254,7 @@ const handleMouseLeave = () => {
   z-index: 120;
   /* border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2); */
   border-radius: var(--radius-full, 9999px);
+  /* TODO color vars */
   background: var(--color-blurs-project-img-blur, rgba(243, 242, 239, 0.30));
   backdrop-filter: blur(10px);
 
@@ -1259,17 +1267,6 @@ const handleMouseLeave = () => {
   gap: var(--margin-navbar-institution-logo-right, 10px);
   flex-shrink: 0;
 }
-
-.btn_bottom_nav_hide * {
-  /* position: absolute;
-  top: 12px;
-  left: 12px; */
-  
-  /* z-index: 120;
-  clip-path: circle(48px at 24px 24px) !important;
-  mix-blend-mode: difference; */
-}
-
 
 
 .rotate-enter-active,
@@ -1318,7 +1315,7 @@ const handleMouseLeave = () => {
 .swiper-main-button-next 
 {
   position: fixed;
-  top: calc(50vh - 24px);
+  top: calc(50% - 24px);
 
   display: flex;
   width: 48px;
@@ -1335,16 +1332,20 @@ const handleMouseLeave = () => {
 
 /* TODO swiper main nav btn position */
 .swiper-main-button-prev {
+  
   left: 24px;
 }
 .swiper-main-button-next {
   right: 24px;
 }
 .swiper_main.info_active .swiper-main-button-prev {
-  left: 0px;
+  transform: scale(200%);
+  top: calc(50% - 24px);
+  left: 12px;
 }
 .swiper_main.info_active .swiper-main-button-next {
-  right: 0px;
+  transform: scale(200%);
+  right: 12px;
 }
 /* .swiper-main-button-prev::before {
   content: '<-';
@@ -1376,21 +1377,27 @@ const handleMouseLeave = () => {
 
   color: var(--Colors-text-primary, #fff);
   opacity: 1;
-  transition: opacity 100ms linear;
+  
+  
   transition: transform 300ms ease-in;
+  transition: opacity 500ms ease-in;
+  transition: all 500ms ease-in;
 }
 .entry_info_title.fade_hidden {
+  transition: opacity 200ms linear;
   opacity: 0;
 }
 .entry_info_title.move_up_hidden {
+  transition: transform 300ms ease-in;
   transform: translateY(-128px);
 }
 
 .entry_info {
-  transition: all 500ms ease-in-out;
+  transition: all 50ms 450ms ease-in-out;
 }
 .entry_info.hidden {
-  transform: translateX(50vw)
+  transform: translateX(50vw);
+  transition: all 500ms ease-in-out;
 }
 
 .unblur-enter-active {

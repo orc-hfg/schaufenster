@@ -1,9 +1,7 @@
 <template>
   <div>
-  <!-- <div class="project_counter_back"></div> -->
     <div class="project_counter" 
       :style="info_tree_style">
-      
       
       <div class="project_counter_line">&nbsp;</div>
       <div class="project_counter_line">&nbsp;</div>
@@ -11,7 +9,8 @@
         class="project_counter_line"
         :id="'treeInfo_' + treeInfo.col_id"
         :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
-        <div class="back_layer_blur">
+        <div class="back_layer_blur"
+          :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
         </div>
         <div class="content">
           <div class="cell">
@@ -26,7 +25,6 @@
       </div>
       <div class="project_counter_line">&nbsp;</div>
       <div class="project_counter_line">&nbsp;</div>
-      <!-- <div class="project_counter_blur"></div> -->
       
     </div>
   </div>
@@ -118,7 +116,7 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
 .content {
   display: flex;
   position: relative;
-  top:0px; left: 0px;
+  top:-48px; left: 0px;
   height: 48px;
   width: fit-content;
   

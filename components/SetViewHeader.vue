@@ -188,24 +188,25 @@
 
 </template>
 <script setup lang="ts">
+const SHOW_PATH2ROOT_DELAY = 500
+const MAX_SET_TITLE_LENGTH = 50;
+
 const emit = defineEmits([
     'toggleShowInfo',
     'parentClicked'
 ])
+
 const props = defineProps([
     'settype',
     'treeid',
     'setid',
     'activeSetId',
     'parentSetId',
-
     'showInfo',
-
     'titlesMap'
 ])
 
 const showPath2Root = ref(false)
-const SHOW_PATH2ROOT_DELAY = 500
 
 const setShowPath2Root = (value:boolean) => {
   if (value == true) {
@@ -222,8 +223,11 @@ const setShowPath2Root = (value:boolean) => {
 const getColTitle = (id: string): string => {
     let result = ""
     if (props.titlesMap) {
-            result = props.titlesMap[id]
-        }
+        result = props.titlesMap[id]
+    }
+    if (result && result.length > MAX_SET_TITLE_LENGTH) {
+      result = result.substring(0,MAX_SET_TITLE_LENGTH) + '...'
+    }
     return result
 }
 
@@ -242,6 +246,7 @@ const getTextWidth = (text:string, font:string):number => {
   }
   
 }
+
 
 const getTitleWidth = (id:string): string => {
   //const result = getColTitle(id).length * 24;
@@ -262,7 +267,7 @@ const getTitleWidth = (id:string): string => {
   /* border: 1px solid black; */
   /* border-radius: var(--radius__full, 48px); */
   /* background-color: var(--Colors-nav-bar-toggle-on); */
-  margin: 0 var(--spacing__navbarbetweenitems, 4px);
+  margin: 0 var(--spacing-navbar-between-items, 4px);
 
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
@@ -271,9 +276,9 @@ const getTitleWidth = (id:string): string => {
 
   border-radius: var(--radius-full, 9999px);
   border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
-  background: var(--Colors-nav-bar-button-fill, #F3F2EF);
+  background-color: var(--Colors-nav-bar-button-fill, #F3F2EF); /* or #2C2C2C */
 
-  transition: all 0.5s linear;
+  transition: all 500ms linear;
 
 
   color: var(--Colors-text-primary, #2C2C2C);
@@ -286,6 +291,9 @@ const getTitleWidth = (id:string): string => {
   line-height: var(--font-button-line-height, 24px); /* 120% */
 
 }
+.navbar_set_link:hover {
+  background-color: var(--Colors-nav-bar-button-fill-hover, #E7E6E1);
+}
 .navbar_set_link * {
   text-decoration: none;
   user-select: none;
@@ -295,7 +303,7 @@ const getTitleWidth = (id:string): string => {
 
 .navbar_set_link.parent_link {
   width: 24px;
-  transition: width 0.5s;
+  transition: width 500ms;
   overflow: hidden;
 }
 
@@ -342,10 +350,9 @@ nav {
   flex-shrink: 0;
 
   border-radius: var(--radius-full, 9999px);
-  /* background: var(--Colors-nav-bar-info-button-fill, #2C2C2C); */
-  background: var(--Colors-nav-bar-button-fill, #2C2C2C);
+  background-color: var(--Colors-nav-bar-info-button-fill, #2C2C2C);
 
-  color: var(--Colors-text-primary, #FFF);
+  color: var(--Colors-text-primary-inverted, #FFF);
   font-family: "Instrument Sans";
   font-size: var(--font-h4-font-size, 24px);
   font-style: normal;

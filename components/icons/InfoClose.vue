@@ -20,8 +20,8 @@
     flex-shrink: 0;
 }
 svg, path {
-    stroke: var(--Colors-text-primary, #FFF);
-    fill: var(--Colors-text-primary, #FFF);
+    stroke: var(--Colors-text-primary-inverted, #FFF);
+    fill: var(--Colors-text-primary-inverted, #FFF);
 }
 
 </style>

@@ -723,9 +723,6 @@ onMounted(() => {
 
 
 
-.filter_blured {
-  filter: blur(25px);
-}
 
 .setlistview {
   position: fixed;

@@ -54,11 +54,15 @@
 --Colors-background-menu: var(--Primitives-color-greys-Black);  
 --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-background-video: var(--Primitives-color-greys-Black);
+
 --Colors-background-audio: var(--Primitives-color-greys-Black);
+
 --Colors-btm-bar-galleryView-gradient-default-stop-1: #F3F2EF;
 --Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(243,242,239,0);
+
 --Colors-btm-bar-galleryView-gradient-hover-stop-1: #E7E6E1;
 --Colors-btm-bar-galleryView-gradient-hover-stop-2: rgba(231,230,225,0);
+
 --Colors-btm-bar-galleryView-set-hover: var(--Primitives-color-greys-LightGrey);
 --Colors-btm-bar-main-button-fill: rgba(243,242,239,0.7);
 --Colors-btm-bar-main-button-icon: var(--Primitives-color-greys-Black);
@@ -83,13 +87,21 @@
 --Colors-nav-bar-button-fill: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-nav-bar-button-outline: var(--Primitives-color-greys-MediumGrey);
 --Colors-nav-bar-filter-button: var(--Primitives-color-greys-Grey);
---Colors-nav-bar-info-button-fill: var(--Primitives-color-highlight-dark-tone);
+/* var(--Primitives-color-highlight-dark-tone); */
+--Colors-nav-bar-info-button-fill: var(--Primitives-color-greys-ORCBlack);
+
 --Colors-nav-bar-institution-logo: var(--Primitives-color-greys-ORCBlack);
 --Colors-nav-bar-platform-logo: var(--Primitives-color-greys-ORCBlack);
 --Colors-nav-bar-set-button-folded: var(--Primitives-color-greys-LightGrey);
 --Colors-nav-bar-set-button: var(--Primitives-color-greys-LightGrey);
 --Colors-nav-bar-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
+
 --Colors-nav-bar-toogle-on: var(--Primitives-color-highlight-dark-tone);
+/*--Colors-nav-bar-toggle-on: var(--Primitives-color-greys-ORCBlack);*/
+--Colors-nav-bar-toggle-highlight: var(--Primitives-color-highlight-bright-tone);
+--Colors-nav-bar-toogle-project: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-toogle-diplom: var(--Primitives-color-highlight-bright-tone);
+
 --Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
 --Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
 --Colors-project-counter-text: var(--Primitives-color-highlight-dark-tone);
@@ -99,15 +111,19 @@
 --Colors-text-secondary: var(--Primitives-color-greys-MediumGrey)
 }
 
+
 /* colors dark */
 [data-theme="dark"] {
 --Colors-background-default: var(--Primitives-color-greys-ORCBlack);
 --Colors-background-video: var(--Primitives-color-greys-Black);
 --Colors-background-audio: var(--Primitives-color-greys-Black);
+
 --Colors-btm-bar-galleryView-gradient-default-stop-1: #000000;
 --Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(0,0,0,0);
+
 --Colors-btm-bar-galleryView-gradient-hover-stop-1: var(--Primitives-color-greys-ORCBlack);
 --Colors-btm-bar-galleryView-gradient-hover-stop-2: rgba(44,44,44,0);
+
 --Colors-btm-bar-galleryView-set-hover: var(--Primitives-color-greys-ORCBlack);
 --Colors-btm-bar-main-button-fill: var(--Primitives-color-transparencies-black-30);
 --Colors-btm-bar-main-button-icon: var(--Primitives-color-greys-White);
@@ -129,7 +145,7 @@
 --Colors-filter-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-filter-toggle-on: var(--Primitives-color-greys-ORCBlack);
 --Colors-nav-bar-button-fill-hover: var(--Primitives-color-greys-ORCBlack);
---Colors-nav-bar-button-fill: var(--Primitives-color-greys-Black);
+--Colors-nav-bar-button-fill: var(--Primitives-color-greys-ORCBlack);
 --Colors-nav-bar-button-outline: var(--Primitives-color-greys-DarkGrey);
 --Colors-nav-bar-filter-button: var(--Primitives-color-greys-Diplom-UltraLightGrey);
 --Colors-nav-bar-info-button-fill: var(--Primitives-color-highlight-bright-tone);
@@ -137,8 +153,10 @@
 --Colors-nav-bar-platform-logo: var(--Primitives-color-greys-White);
 --Colors-nav-bar-set-button-folded: var(--Primitives-color-greys-Grey);
 --Colors-nav-bar-set-button: var(--Primitives-color-greys-Grey);
+
 --Colors-nav-bar-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-nav-bar-toogle-on: var(--Primitives-color-highlight-bright-tone);
+
 --Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
 --Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
 --Colors-project-counter-text: var(--Primitives-color-highlight-bright-tone);
@@ -194,7 +212,7 @@
     --spacing-betweenitemsL:16;
     --spacing-meta-info-betweenrows:6;
     --margin-headermargin:12;
-    --margin-bodymargin:96;
+    --margin-body-margin:96;
     --spacing-metainfo-betweensliderlist:20;
     --padding-filterheadbtm_:24;
     --dimension-btmbar-plusicon:48;

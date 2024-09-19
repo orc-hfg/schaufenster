@@ -1,58 +1,66 @@
 <template>
-    <div v-if="md && md.type">
-        <div class="filter_list"
-            v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
-            <span v-if="showAll">{{md.string}}</span>
-            <span v-if="!showAll">
-                {{
-                    md.string?.substring(0, MIN_TEXT_SHOW_COUNT)
-                    + (md.string.length > MIN_TEXT_SHOW_COUNT && !showAll ? '...':'')
-                }}
-            </span>
+    <div class="meta_info"
+        v-if="notEmpty()">
+        <div class="meta_title"
+            v-if="title && title.length">
+            {{title}}
+        </div>        
+        <div class="meta_content">
 
+            <div class="filter_list"
+                v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
+                <span v-if="showAll">{{md.string}}</span>
+                <span v-if="!showAll">
+                    {{
+                        md.string?.substring(0, MIN_TEXT_SHOW_COUNT)
+                        + (md.string.length > MIN_TEXT_SHOW_COUNT && !showAll ? '...':'')
+                    }}
+                </span>
+
+                <MetaDatumViewShowBtn
+                    :show-all="showAll"
+                    :count="md.string.length"
+                    :min="MIN_TEXT_SHOW_COUNT"
+                    @toggle-show-all="showAll=!showAll"
+                    />
+            </div>
+            
+            
+            <div class="filter_list"
+                v-if="md.type == MD_TYPE_KEYWORDS">
+                <div class="filter_tag"
+                    v-for="(kw,idx) in md.selectedKeywords"
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
+                    {{ kw.term }}
+                </div>
+            </div>
             <MetaDatumViewShowBtn
+                v-if="md.type == MD_TYPE_KEYWORDS"
                 :show-all="showAll"
-                :count="md.string.length"
-                :min="MIN_TEXT_SHOW_COUNT"
+                :count="md.selectedKeywords.length"
+                :min="MIN_TAG_SHOW_COUNT"
                 @toggle-show-all="showAll=!showAll"
                 />
-        </div>
-        
-          
-        <div class="filter_list"
-            v-if="md.type == MD_TYPE_KEYWORDS">
-            <div class="filter_tag"
-                v-for="(kw,idx) in md.selectedKeywords"
-                v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
-                {{ kw.term }}
-            </div>
-        </div>
-        <MetaDatumViewShowBtn
-            v-if="md.type == MD_TYPE_KEYWORDS"
-            :show-all="showAll"
-            :count="md.selectedKeywords.length"
-            :min="MIN_TAG_SHOW_COUNT"
-            @toggle-show-all="showAll=!showAll"
-            />
 
-        <div class="filter_list"
-            v-if="md.type == MD_TYPE_PEOPLE">
-        
-            <div class="filter_tag"
-                v-for="p in md.selectedPeople">
-                {{ p.first_name }}&nbsp;{{ p.last_name }}
+            <div class="filter_list"
+                v-if="md.type == MD_TYPE_PEOPLE">
+            
+                <div class="filter_tag"
+                    v-for="p in md.selectedPeople">
+                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                </div>
             </div>
-        </div>
-        <MetaDatumViewShowBtn
-            v-if="md.type == MD_TYPE_PEOPLE"
-            :show-all="showAll"
-            :count="md.selectedPeople.length"
-            :min="MIN_TAG_SHOW_COUNT"
-            @toggle-show-all="showAll=!showAll"
-            />
+            <MetaDatumViewShowBtn
+                v-if="md.type == MD_TYPE_PEOPLE"
+                :show-all="showAll"
+                :count="md.selectedPeople.length"
+                :min="MIN_TAG_SHOW_COUNT"
+                @toggle-show-all="showAll=!showAll"
+                />
 
-        <div v-if="md.type == MD_TYPE_ROLES">
-        ROLES
+            <div v-if="md.type == MD_TYPE_ROLES">
+            ROLES
+            </div>
         </div>
     </div> 
 </template>
@@ -70,8 +78,40 @@ const {
 const MIN_TAG_SHOW_COUNT = 4;
 const MIN_TEXT_SHOW_COUNT = 200;
 
-const props = defineProps(['md'])
+
+const props = defineProps(['md','title'])
 const showAll = ref(false)
+
+const notEmpty = () => {
+    if (!props.md || !props.md.type) {
+        return false;
+    }
+    // ignore json
+    if ( props.md.type == MD_TYPE_JSON ) {
+        return false;
+    }
+    if ( (props.md.type == MD_TYPE_TEXT
+          || props.md.type == MD_TYPE_TEXT_DATE)
+          && props.md.string && props.md.string.length) {
+        return true;
+    }
+    if (props.md.type == MD_TYPE_PEOPLE
+        && props.md.selectedPeople
+        && props.md.selectedPeople.length) {
+        return true;
+    }
+    if (props.md.type == MD_TYPE_KEYWORDS
+        && props.md.selectedKeywords
+        && props.md.selectedKeywords.length) {
+        return true;
+    }
+    if (props.md.type == MD_TYPE_ROLES
+        && props.md.selectedRoles
+        && props.md.selectedRoles.length) {
+        return true;
+    }
+
+}
 </script>
 <style>
 

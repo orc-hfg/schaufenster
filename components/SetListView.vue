@@ -175,7 +175,7 @@ const setTreeInfo = (el: iTree) => {
   //const elem = document.getElementById('treeInfo_' + el.col_id)
   treeInfoIdx.value = props.filteredSortedTrees.findIndex((val) => { return val.col_id == el.col_id})
   //elem?.scrollIntoView({block: "start", behavior: "smooth"})
-  const ntop = 8 + treeInfoIdx.value * 48
+  const ntop = -48 + treeInfoIdx.value * 48
   console.log("stroll to " + treeInfoIdx.value + ": " + ntop)
   document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
   
@@ -308,17 +308,21 @@ const setMainSwiper = (swiper: Swiper) => {
   overflow-y: visible;
   background-color: var(--Colors-background-default);
 }
+.filter_blured {
+  filter: blur(25px);
+}
+.swiper_main.button_pad_left {
+  /* left: 8rem; */
+  /* width: calc(100vw - 10rem); */
+  width: 100vw;
+}
+
 .main_slide {
   /* border: 1px solid blue; */
   height: 600px;
   /* width: calc(100vw - 4rem); */
   width: 100vw;
   cursor: pointer;
-}
-.swiper_main.button_pad_left {
-  /* left: 8rem; */
-  /* width: calc(100vw - 10rem); */
-  width: 100vw;
 }
 .swiper_main.button_pad_left .main_slide{
   /* width: calc(100vw - 12rem); */

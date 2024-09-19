@@ -20,11 +20,11 @@
 svg {
     
     /* stroke: var(--Colors-text-primary-inverted, #FFF);; */
-    fill: var(--Colors-text-primary, #FFF);
+    fill: var(--Colors-text-primary-inverted, #FFF);
 }
 path {
     /* background-color: #000 ; */
-    stroke: var(--Colors-text-primary, #FFF);
-    fill: var(--Colors-text-primary, #FFF);
+    stroke: var(--Colors-text-primary-inverted, #FFF);
+    fill: var(--Colors-text-primary-inverted, #FFF);
 }
 </style>
