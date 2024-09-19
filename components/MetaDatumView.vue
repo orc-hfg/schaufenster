@@ -46,7 +46,8 @@
                 v-if="md.type == MD_TYPE_PEOPLE">
             
                 <div class="filter_tag"
-                    v-for="p in md.selectedPeople">
+                    v-for="(p,idx) in md.selectedPeople"
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
                     {{ p.first_name }}&nbsp;{{ p.last_name }}
                 </div>
             </div>
@@ -58,9 +59,21 @@
                 @toggle-show-all="showAll=!showAll"
                 />
 
-            <div v-if="md.type == MD_TYPE_ROLES">
-            ROLES
+            <div class="filter_list" 
+                v-if="md.type == MD_TYPE_ROLES">
+                <div class="filter_tag"
+                    v-for="(rp,idx) in md.selectedRoles"
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
+                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                </div>
             </div>
+            <MetaDatumViewShowBtn
+                v-if="md.type == MD_TYPE_ROLES"
+                :show-all="showAll"
+                :count="md.selectedRoles.length"
+                :min="MIN_TAG_SHOW_COUNT"
+                @toggle-show-all="showAll=!showAll"
+                />
         </div>
     </div> 
 </template>

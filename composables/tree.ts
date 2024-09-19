@@ -128,6 +128,11 @@ export interface iTreeFilter {
   meta_key: string,
   col_ids: string[]
 }
+export interface iFiltersMap {
+  [key: string]: {
+    [key: string]: iTreeFilter[];
+  }
+}
 export interface iTreeMap {
   [key: string]: iTree;
 }
@@ -138,18 +143,26 @@ export interface iTreeState {
     [key: string]: iTreeMap;
   };
 
-  treeList: {
+  treeList: iTreeMap
+  /*{
     [key: string]: iTree;
-  };
+  };*/
   filterCount: number;
-  filtersMap: {
+  filtersMap: iFiltersMap;
+   /*{
     [key: string]: {
       [key: string]: iTreeFilter[];
     };
-  };
-  filtersText: string;
+  };*/
+  newFiltersMap: iFiltersMap;
+
+  //filtersText: string;
   filtersTitle: string;
+  newFiltersTitle: string;
   filteredTreeList: {
+    [key: string]: iTree;
+  };
+  newFilteredTreeList: {
     [key: string]: iTree;
   };
 }
@@ -161,9 +174,12 @@ const state = reactive<iTreeState>({
   treeList: {},
   filterCount: 0,
   filtersMap: {},
-  filtersText: "",
+  newFiltersMap: {},
+  //filtersText: "",
   filtersTitle: "",
+  newFiltersTitle: "",
   filteredTreeList: {},
+  newFilteredTreeList: {}
 });
 
 export const treeHelper = () => {
@@ -226,41 +242,84 @@ export const treeHelper = () => {
     return undefined;
   };
 
-  const updateFilters = (treeMap: iTreeMap):iTreeMap => {
+  const updateFilters = (treeMap: iTreeMap, filtersTitle: string, filtersMap: iFiltersMap):iTreeMap => {
     const filteredTreeList = {} as iTreeMap;
     state.filterCount = 0;
 
     // and filter
-    if (state.filtersTitle && state.filtersTitle.length) {
+    if (filtersTitle && filtersTitle.length) {
       state.filterCount++;
     }
-    state.filterCount += state.filtersMap[FILTERS_KEYWORD] ? Object.keys(state.filtersMap[FILTERS_KEYWORD]).length : 0
-    state.filterCount += state.filtersMap[FILTERS_PEOPLE] ? Object.keys(state.filtersMap[FILTERS_PEOPLE]).length : 0
-    state.filterCount += state.filtersMap[FILTERS_ROLES] ? Object.keys(state.filtersMap[FILTERS_ROLES]).length : 0
+
+    state.filterCount += filtersMap[FILTERS_KEYWORD] ? Object.keys(filtersMap[FILTERS_KEYWORD]).length : 0
+    state.filterCount += filtersMap[FILTERS_PEOPLE] ? Object.keys(filtersMap[FILTERS_PEOPLE]).length : 0
+    state.filterCount += filtersMap[FILTERS_ROLES] ? Object.keys(filtersMap[FILTERS_ROLES]).length : 0
     
     console.log("filtersMap:");
-      console.dir(state.filtersMap);
+    console.dir(filtersMap);
 
+
+    
     for (const treeId in treeMap) {
       const tree = treeMap[treeId];
-      filteredTreeList[treeId] = treeMap[treeId];
-      if (state.filtersTitle && state.filtersTitle.length) {
-     
-        const filterString = state.filtersTitle.toLocaleLowerCase();
+      
+
+      if (filtersTitle && filtersTitle.length) {
+        const filterString = filtersTitle.toLocaleLowerCase();
+
         const title = tree.colTitlesMap[tree.col_id].toLocaleLowerCase();
-        //TODO search also sub-set-titles ?
-        if (title.indexOf(filterString) < 0) {
-          delete filteredTreeList[treeId];
+
+        if (title.indexOf(filterString) > -1) {
+          filteredTreeList[treeId] = tree;  
         }
+        //TODO search also sub-set-titles ?
+        
+        // TODO search other metadata from text
+        for (const mkey in tree.colKeywordMap) {
+          for (const kwid in tree.colKeywordMap[mkey]) {
+            const kw = tree.colKeywordMap[mkey][kwid].name.toLocaleLowerCase()
+
+            if (kw.indexOf(filterString) > -1) {
+              console.log("text search: found kw " + kw)
+              filteredTreeList[treeId] = tree;  
+            }
+          }
+        }
+
+        for (const mkey in tree.colPeopleMap) {
+          for (const pid in tree.colPeopleMap[mkey]) {
+            const name = tree.colPeopleMap[mkey][pid].name.toLocaleLowerCase()
+
+            if (name.indexOf(filterString) > -1) {
+              console.log("text search: found person " + name)
+              filteredTreeList[treeId] = tree;  
+            }
+          }
+        }
+
+        for (const mkey in tree.colRolesMap) {
+          for (const rpid in tree.colRolesMap[mkey]) {
+            const name = tree.colRolesMap[mkey][rpid].name.toLocaleLowerCase()
+
+            if (name.indexOf(filterString) > -1) {
+              console.log("text search: found role " + name)
+              filteredTreeList[treeId] = tree;  
+            }
+          }
+        }
+
+      }
+      else {
+        filteredTreeList[treeId] = tree;
       }
 
       
 
-      for (const kwId in state.filtersMap[FILTERS_KEYWORD]) {
+      for (const kwId in filtersMap[FILTERS_KEYWORD]) {
         //console.log(" check kw " + JSON.stringify(state.filtersMap[FILTERS_KEYWORD][kwId]));
         
         // if found meta_key
-        const mtKey = state.filtersMap[FILTERS_KEYWORD][kwId].meta_key
+        const mtKey = filtersMap[FILTERS_KEYWORD][kwId].meta_key
 
         if (!tree.colKeywordMap[mtKey]
           || !tree.colKeywordMap[mtKey][kwId]) {
@@ -271,7 +330,7 @@ export const treeHelper = () => {
         
       }
 
-      for (const pId in state.filtersMap[FILTERS_PEOPLE]) {
+      for (const pId in filtersMap[FILTERS_PEOPLE]) {
         //console.log(" check person " + pId);
         let found = false;
         // if found in any meta_key
@@ -286,7 +345,7 @@ export const treeHelper = () => {
         }
       }
 
-      for (const pId in state.filtersMap[FILTERS_ROLES]) {
+      for (const pId in filtersMap[FILTERS_ROLES]) {
         //console.log(" check role person " + pId);
         let found = false;
         // if found in any meta_key
@@ -302,51 +361,8 @@ export const treeHelper = () => {
       }
     }
 
-    /*
-      // or filter
-      if (state.filtersText && state.filtersText.length > 0) {
 
-        state.filterCount++;
-        const filterString = state.filtersText.toLocaleLowerCase()
-        for (const treeId in treeMap) {
-          const colTitle = treeMap[treeId].colTitlesMap[treeId].toLocaleLowerCase()
-          const idx = colTitle.indexOf(filterString)
-          //console.log("search: " + filterString + " in: " + colTitle + " idx:" + idx)
-          if (idx >= 0) {
-            //console.log("search: " + filterString + " in: " + colTitle + " idx:" + idx + " FOUND")
-            state.filteredTreeList[treeId] = treeMap[treeId]
-          }
-        }
-      }
-      if (state.filtersMap[FILTERS_KEYWORD]) {
-        for (const kwId in state.filtersMap[FILTERS_KEYWORD]) {
-          state.filterCount++;
-          for (const kwInfo of state.filtersMap[FILTERS_KEYWORD][kwId]) {
-            state.filteredTreeList[kwInfo.treeId] = treeMap[kwInfo.treeId]
-          }
-        }
-       }
-
-       if (state.filtersMap[FILTERS_PEOPLE]) {
-        for (const kwId in state.filtersMap[FILTERS_PEOPLE]) {
-          state.filterCount++;
-          for (const kwInfo of state.filtersMap[FILTERS_PEOPLE][kwId]) {
-            state.filteredTreeList[kwInfo.treeId] = treeMap[kwInfo.treeId]
-          }
-        }
-       }
-      
-       // TODO filter roles
-       
-       if (state.filterCount == 0) {
-        console.log("updateFilters: fc: " + state.filterCount)
-        state.filteredTreeList = {};
-        for(const treeId in treeMap) {
-          state.filteredTreeList[treeId] = treeMap[treeId]
-        }
-       }
-        */
-       return filteredTreeList;
+    return filteredTreeList;
   };
 
   // watch(() => state.loading, () => {

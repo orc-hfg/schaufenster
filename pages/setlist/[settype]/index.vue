@@ -177,6 +177,7 @@
           :trees_map="useTree[settype]"
           :tree_type="settype"
           @closed="onFilterViewClosed"
+          @applied="onFilterViewApplied"
           />
       </div>
 
@@ -192,7 +193,7 @@ const {
   getViewSizedStyle,
   mergeSetTypeColor
 } = DynFonts()
-const intro_info_style = ref(getPixelSizedStyle(240,210))
+//const intro_info_style = ref(getPixelSizedStyle(240,210))
 //const year_info_style = ref(getPixelSizedStyle(240,210))
 const showFontsView = ref(false)
 const showAboutView = ref(false)
@@ -208,15 +209,12 @@ const {
 
   treeList,
   filterCount,
+  filtersTitle,
   filtersMap,
   filteredTreeList,
 
   updateFilters,
 } = treeHelper();
-
-// TODO move to env / config
-//const { apiConfig } = apiHelper();
-//const apiBaseUrl = apiConfig.baseUrl + "/api-v2/";
 
 const route = useRoute();
 //const router = useRouter();
@@ -239,190 +237,40 @@ const slideList = ref([] as iTreeSlide[])
 
 const showFilterView = ref(false);
 const showMenuView = ref(false)
-/*
-const swiperMain = ref({} as typeof Swiper);
-const activeSetId = ref('' as string)
-const swiper_modules = ref([
-  SwiperKeyboard,
-  SwiperNavigation,
-  SwiperPagination,
-  SwiperEffectCreative,
-  SwiperFreeMode,
-  SwiperGrid,
-  SwiperScrollbar,
-  SwiperEffectCreative,
-  SwiperMousewheel,
-  
-  SwiperVirtual,
-]);
-*/
+
 const toggleBtnSetType = ref(route.params.settype)
-/*
-const swiperMoving = ref(false)
 
-const SWPIPER_MOVING_DELAY = 200;
-
-const setSwiperMoving = () => {
-  swiperMoving.value = true;
-  setTimeout(() => {
-    swiperMoving.value = false;
-  },SWPIPER_MOVING_DELAY)
-}
-
-const scrollEvent = (ev) => {
-  const current = swiperMain.value.getTranslate()
-  console.log("got scroll event" + ev.deltaY + ":" + current)
-  swiperMain.value.translateTo(current - 20 * ev.deltaY)
-}
-const wheelEvent = (ev) => {
-  const current = swiperMain.value.getTranslate()
-  console.log("got wheel event" + ev.deltaY + ":" + current)
-  swiperMain.value.translateTo(current - 2 * ev.deltaY)
-}
-*/
-const SWITCH_TYPE_PAGE_DELAY = 50;
+//const SWITCH_TYPE_PAGE_DELAY = 50;
 
 const switch2settype = (type:string) => {
-  
-  
   route.params.settype = type
   settype.value = type;
   updateSetType()
   toggleBtnSetType.value = type
-  setTimeout(() => {
+  //setTimeout(() => {
     //router.push('/setlist/' + type)
     //route.params.settype = type
     //settype.value = type;
     //updateSetType()
     //router.replace('/setlist/' + type)
-  },SWITCH_TYPE_PAGE_DELAY)
+  //},SWITCH_TYPE_PAGE_DELAY)
 }
 
 
-const applyFilter = () => {
-  console.log("applyFilter")
+const onFilterViewApplied = () => {
+  console.log("onFilterViewApplied")
   showFilterView.value = false
+  filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   updateFilteredTrees2Slides(filteredTreeList.value)
 }
 const onFilterViewClosed = () => {
+  
   console.log("onFilterViewClosed" + Object.keys(filteredTreeList.value).length)
   showFilterView.value = false
+  filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   updateFilteredTrees2Slides(filteredTreeList.value)
 }
-/*
-const isEnabledYearBack = () => {
-  const activeSlide = swiperMain.value?.activeIndex
-  return activeSlide > 0
-}
-const clickedYearBack = () => {
-  const activeSlide = swiperMain.value?.activeIndex
-  let last = 0
-  last = nextYearList.value.findLastIndex((el) => { 
-    return el < activeSlide})
-  console.log("clickedYearBack1: " + activeSlide + ":" + last)
 
-  for(let i = 0; i < nextYearList.value.length; i++) {
-    if (nextYearList.value[i] < activeSlide) {
-      last = nextYearList.value[i]
-    }
-  }
-  
-  console.log("clickedYearBack2: " + activeSlide + ":" + last)
-  swiperMain.value.slideTo(last)
-}
-const isEnabledYearForward = () => {
-  const activeSlide = swiperMain.value?.activeIndex
-  const maxSlides = slideList.value.length
-  return activeSlide < maxSlides
-}
-const clickedYearForward = () => {
-  const activeSlide = swiperMain.value?.activeIndex
-  const maxSlides = slideList.value.length
-  let next = 0
-  next = nextYearList.value.findIndex(el => {
-    return el > activeSlide
-  })
-  console.log("clickedYearForward1: " + activeSlide + ":" + next)
-  
-  for(let i = 0; i < nextYearList.value.length; i++) {
-    next = nextYearList.value[i]
-    if (next > activeSlide) {
-      
-      break;
-    }
-  }
-  
-  console.log("clickedYearForward2: " + activeSlide + ":" + next)
-  swiperMain.value.slideTo(next)
-}
-const currentYear = ref('')
-let currentTimeout = undefined
-
-const onMainSwiperSlideChanged = () => {
-    const activeSlide = swiperMain.value?.activeIndex
-    let yearVal = slideList.value[activeSlide].year
-    if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
-      const sl = yearVal.split(' ')
-      yearVal = sl[0] + ' ' + sl[1].slice(0,1) + 'S'
-      
-    }
-    currentYear.value = yearVal
-    console.log("swiperMain changed slide: " + activeSlide 
-      + ":" + slideList.value[activeSlide].year
-      + ":" + currentYear.value)
-    
-    if (currentTimeout) {
-      clearTimeout(currentTimeout)
-    }
-
-
-    currentTimeout = setTimeout(() => {
-      currentYear.value = ''
-    }, 2000)
-    //const set = treeMap.value[activeSlide]
-}
-const onSwiperEvent = (eventName, ...args) => {
-     console.log('Event: ', eventName);
-     console.log('Event data: ', args);
-}
-const onBeforeSlideChange = () => {
-  console.log("onBeforeSlideChange")
-  swiperMoving.value = true
-}
-const onAfterSlideChange = () => {
-  console.log("onAfterSlideChange")
-  swiperMoving.value = false
-}
-
-const setMainSwiper = (swiper: Swiper) => {
-  swiperMain.value = swiper;
-  swiperMain.value.on('slideChange', onMainSwiperSlideChanged)
-  swiperMain.value.on('transitionStart', onBeforeSlideChange)
-  swiperMain.value.on('transitionEnd', onAfterSlideChange)
-};
-const treeInfoIdx = ref(0)
-const setTreeInfo = (el: iTree) => {
-  treeInfoIdx.value = filteredSortedTrees.value.findIndex((val) => { return val.col_id == el.col_id})
-  const ntop = 8 + treeInfoIdx.value * 48
-  console.log("stroll to " + treeInfoIdx.value + ": " + ntop)
-  document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
-  
-}
-const previewUrl = (treeId: string): string => {
-  const eId = useTree.value[settype.value][treeId]?.edges[RID][treeId].coverId
-  const pid = useTree.value[settype.value][treeId]?.previews[eId]?.id;
-  return apiBaseUrl + "previews/" + pid + "/data-stream";
-};
-const previewLargeUrl = (treeId: string): string => {
-  const eId = useTree.value[settype.value][treeId]?.edges[RID][treeId].coverId
-  const pid = useTree.value[settype.value][treeId]?.previewsLarge[eId]?.id;
-  return apiBaseUrl + "previews/" + pid + "/data-stream";
-};
-const switch2set = (setid) => {
-  const url = "/setview/" + settype.value + "/" + setid + '/' + setid;
-  router.push(url);
-};
-*/
 const nextYearList = ref([])
 const filteredSortedTrees = ref([] as iTree[])
 const TREE_PLACEMENT_CLASSES = [
@@ -543,7 +391,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
 
 }
 
-//const info_tree_style = ref({})
+
 
 const updateSetType = () => {
   settype.value = route.params.settype || MATCH_PROJECTS;
@@ -620,20 +468,13 @@ const showMenu = () => {
     
   }
 };
-/*
-const closedFilterView = () => {
-  console.log("closedFilterView");
-  showFilterView.value = false;
-  updateFilters(settype.value);
-};
-*/
+
 const resetFilter = () => {
-  //filtersTitle.value = ''
-  //filtersText.value = ''
+  filtersTitle.value = ''
   filtersMap.value = {};
 
   
-  filteredTreeList.value = updateFilters(treeList.value);
+  filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value);
   console.log(" after reset ")
   console.dir(filteredTreeList.value)
   updateFilteredTrees2Slides(filteredTreeList.value)

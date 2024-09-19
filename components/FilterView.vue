@@ -14,30 +14,32 @@ const {
   RID,
   
   treeList,
+
   filtersMap,
-  filtersText,
+  //filtersText,
+  newFiltersMap,
   filtersTitle,
-  filteredTreeList,
+  newFiltersTitle,
   
   updateFilters,
   
 } = treeHelper()
 
+const filteredTreeList = ref()
 const filterFor = ref('')
 
-const emit = defineEmits(['closed'])
+const emit = defineEmits(['closed', 'applied'])
 const props = defineProps(['trees_map', 'tree_type'])
 
+// global counts
 const keywordMap = ref({})
 const peopleMap = ref({})
 const rolesMap = ref({})
+// filtered counts
 const filteredKeywordMap = ref({})
 const filteredPeopleMap = ref({})
 const filteredRolesMap = ref({})
 
-
-let treeType: string;
-//const treeList = ref({});
 
 watch(route, (newVal, oldVal) => {
   console.log("FV: changed route: " + JSON.stringify(newVal))
@@ -45,74 +47,72 @@ watch(route, (newVal, oldVal) => {
 })
 
 const closeFilter = () => {
+
+  newFiltersMap.value[FILTERS_KEYWORD] = {};
+  newFiltersMap.value[FILTERS_PEOPLE] = {};
+  newFiltersMap.value[FILTERS_ROLES] = {};
+  newFiltersTitle.value = ''
+
   emit('closed')
+}
+const applyFilter = () => {
+  filtersTitle.value = newFiltersTitle.value
+  //filtersMap.value = newFiltersMap.value
+  for (const type in filtersMap.value) {
+    for (const fid in filtersMap.value[type]) {
+      filtersMap.value[type][fid] = newFiltersMap.value[type][fid]
+    }
+  }
+  console.error("cloned back filter map")
+  console.dir(filtersMap.value)
+  console.dir(newFiltersMap.value)
+
+  emit('applied')
 }
 
 const initKeywords = (treeMap:iTreeMap, kwMap, kwMetaKey:string) => {
   for(const treeId in treeMap) {
-    
-    //for (const kwMetaKey in treeMap[treeId].colKeywordMap) {
-      //if (kwMetaKey == 'madek_core:keywords') {
-        for (const kwId in treeMap[treeId].colKeywordMap[kwMetaKey]) {
-          const kw = treeMap[treeId].colKeywordMap[kwMetaKey][kwId]
-          kwMap[kwId] = kwMap[kwId] || []
-          kwMap[kwId].push({
-            id: kwId,
-            name: kw.name,
-            treeId: treeId,
-            meta_key: kwMetaKey})
-          
-          
-        }
-        
+    for (const kwId in treeMap[treeId].colKeywordMap[kwMetaKey]) {
+      const kw = treeMap[treeId].colKeywordMap[kwMetaKey][kwId]
+      kwMap[kwId] = kwMap[kwId] || []
+      kwMap[kwId].push({
+        id: kwId,
+        name: kw.name,
+        treeId: treeId,
+        meta_key: kwMetaKey})
       }
-    //}
-  //}
+    }
 }
 
 const initPeople = (treeMap:iTreeMap, pMap, metaKey:string) => {
   for(const treeId in treeMap) {
-    
-    //for (const kwMetaKey in treeMap[treeId].colPeopleMap) {
-      //if (kwMetaKey == 'madek_core:authors') {
-        for (const kwId in treeMap[treeId].colPeopleMap[metaKey]) {
-          const kw = treeMap[treeId].colPeopleMap[metaKey][kwId]
-          
-          pMap[kwId] = pMap[kwId] || []
-          pMap[kwId].push({ 
-            id: kwId,
-            name: kw.name,
-            treeId: treeId,
-            meta_key: metaKey})
-        }  
-      }
-    //}
-  //}
+    for (const kwId in treeMap[treeId].colPeopleMap[metaKey]) {
+      const kw = treeMap[treeId].colPeopleMap[metaKey][kwId]
+      
+      pMap[kwId] = pMap[kwId] || []
+      pMap[kwId].push({ 
+        id: kwId,
+        name: kw.name,
+        treeId: treeId,
+        meta_key: metaKey})
+    }  
+  }
 }
 
 const initRoles = (treeMap:iTreeMap, pMap, metaKey:string) => {
   for(const treeId in treeMap) {
-    
-    //for (const kwMetaKey in treeMap[treeId].colRolesMap) {
-      //if (kwMetaKey == 'madek_core:authors') {
-        for (const kwId in treeMap[treeId].colRolesMap[metaKey]) {
-          const kw = treeMap[treeId].colRolesMap[metaKey][kwId]
-          
-          pMap[kwId] = pMap[kwId] || []
-          pMap[kwId].push({ 
-            id: kwId,
-            name: kw.name,
-            treeId: treeId,
-            meta_key: metaKey})
-        }  
-      }
-    //}
-  //}
+    for (const kwId in treeMap[treeId].colRolesMap[metaKey]) {
+      const kw = treeMap[treeId].colRolesMap[metaKey][kwId]
+      
+      pMap[kwId] = pMap[kwId] || []
+      pMap[kwId].push({ 
+        id: kwId,
+        name: kw.name,
+        treeId: treeId,
+        meta_key: metaKey})
+    }  
+  }
 }
-
-filtersMap.value[FILTERS_KEYWORD] = filtersMap.value[FILTERS_KEYWORD] || {};
-filtersMap.value[FILTERS_PEOPLE] = filtersMap.value[FILTERS_PEOPLE] || {};
-filtersMap.value[FILTERS_ROLES] = filtersMap.value[FILTERS_ROLES] || {};
 
 const initTreeType = () => {
   
@@ -129,6 +129,7 @@ const initTreeType = () => {
   initKeywords(treeList.value, keywordMap.value, MK_KEYWORDS);
   initPeople(treeList.value, peopleMap.value, MK_AUTHORS);
   initRoles(treeList.value, rolesMap.value, MK_PARTICIPANTS);
+
   console.log("people map")
   console.dir(peopleMap.value)
   console.log("roles map")
@@ -137,13 +138,6 @@ const initTreeType = () => {
   initPeople(filteredTreeList.value, filteredPeopleMap.value, MK_AUTHORS);
   initRoles(filteredTreeList.value, filteredRolesMap.value, MK_PARTICIPANTS);
 
-    //TODO roles
-
- 
-  //console.log("got kw map")
-  //console.dir(keywordMap.value)
-  //console.dir(keywordMap.value)
-  
   
 }
 
@@ -151,7 +145,9 @@ const updateFilteredCounts = () => {
   console.log("updateFilteredCounts: ")
   console.dir(filtersMap)
 
-  filteredTreeList.value = updateFilters(props.trees_map)
+  //filteredTreeList.value = updateFilters(props.trees_map, filtersTitle.value, filtersMap.value)
+  filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
+
   filteredKeywordMap.value = {}
   initKeywords(filteredTreeList.value, filteredKeywordMap.value, MK_KEYWORDS)
   filteredPeopleMap.value = {}
@@ -172,118 +168,56 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
   console.log("clickedFilter: " + type + " : " + id + ":" + JSON.stringify(data))
 
   if (isSelected(type,id)) {
-    console.log("already has selected person: reset")
-    delete filtersMap.value[type][id]
+    console.log("already has selected item: reset")
+    //delete filtersMap.value[type][id]
+    delete newFiltersMap.value[type][id]
     console.dir(filtersMap.value)
   }
   else {
 
-    //for (const kw of kwInfo) {
-      filtersMap.value[type][id] = data
-      // =  filtersMap.value[FILTERS_PEOPLE][kw.id] || [ kw ]
-      //filtersMap.value[FILTERS_PEOPLE][kw.id].push(kw)
+      newFiltersMap.value[type][id] = data
       console.log("clickedFilter: filter for data: " + JSON.stringify(data))
-      //filteredTreeList.value[kw.treeId] = treeList.value[kw.treeId]
-    //}
-    console.log("clickedFilter: new filtersMap: " + JSON.stringify(filtersMap.value))
-    console.dir(filtersMap.value)
+
+      console.log("clickedFilter: new filtersMap: " + JSON.stringify(filtersMap.value))
+      console.dir(filtersMap.value)
   }
   updateFilteredCounts()
 }
 const clickedKeyword = (kwInfo) => {
   console.log("clickedKeyword: " + JSON.stringify(kwInfo))
   clickedFilter(FILTERS_KEYWORD, kwInfo)
-  /*if (kwInfo.length && isSelectedKeyword(kwInfo[0].id)) {
-    console.log("already has selected kw: reset")
-    delete filtersMap.value[FILTERS_KEYWORD][kwInfo[0].id]
-    console.dir(filtersMap.value)
-  }
-  else {
-    for (const kw of kwInfo) {
-      filtersMap.value[FILTERS_KEYWORD][kw.id] = kw
-      //= filtersMap.value[FILTERS_KEYWORD][kw.id] || [ kw]
-      //filtersMap.value[FILTERS_KEYWORD][kw.id].push(kw)
-      console.log("clickedKeyword: insert tree for kw: " + JSON.stringify(kw))
-    }
-    console.log("clickedKeyword: new filtersMap: " + JSON.stringify(filtersMap.value))
-    console.dir(filtersMap.value)
-  }
-  updateFilteredCounts()*/
 }
+
 const clickedPeople = (kwInfo) => {
   console.log("clickedPeople: " + JSON.stringify(kwInfo))
   clickedFilter(FILTERS_PEOPLE, kwInfo)
-  /*
-  if (!kwInfo.length) {
-    console.error("clickedPeople: invalid info")
-    return;
-  }
-  const data = kwInfo[0]
-  const id = data.id
-  if (isSelectedPerson(id)) {
-    console.log("already has selected person: reset")
-    delete filtersMap.value[FILTERS_PEOPLE][id]
-    console.dir(filtersMap.value)
-  }
-  else {
-
-    //for (const kw of kwInfo) {
-      filtersMap.value[FILTERS_PEOPLE][id] = kwInfo[0]
-      // =  filtersMap.value[FILTERS_PEOPLE][kw.id] || [ kw ]
-      //filtersMap.value[FILTERS_PEOPLE][kw.id].push(kw)
-      console.log("clickedPeople: insert tree for person: " + JSON.stringify(data))
-      //filteredTreeList.value[kw.treeId] = treeList.value[kw.treeId]
-    //}
-    console.log("clickedPeople: new filtersMap: " + JSON.stringify(filtersMap.value))
-    console.dir(filtersMap.value)
-  }
-  updateFilteredCounts()
-  */
 }
 
 const clickedRole = (kwInfo) => {
   console.log("clickedRole: " + JSON.stringify(kwInfo))
   clickedFilter(FILTERS_ROLES, kwInfo)
-  /*if (kwInfo.length && isSelectedRole(kwInfo[0].id)) {
-    console.log("already has selected role: reset")
-    delete filtersMap.value[FILTERS_ROLES][kwInfo[0].id]
-    console.dir(filtersMap.value)
-  }
-  else {
-    for (const kw of kwInfo) {
-
-      filtersMap.value[FILTERS_ROLES][kw.id] = kw
-      // = filtersMap.value[FILTERS_ROLES][kw.id] || [ kw ]
-      //filtersMap.value[FILTERS_ROLES][kw.id].push(kw)
-      console.log("clickedRole: insert tree for role: " + JSON.stringify(kw))
-      //filteredTreeList.value[kw.treeId] = treeList.value[kw.treeId]
-    }
-    console.log("clickedRole: new filtersMap: " + JSON.stringify(filtersMap.value))
-    console.dir(filtersMap.value)
-  }
-  updateFilteredCounts()  
-  */
 }
 
 const changedFilterTitle = () => {
+  //filtersText.value = filtersTitle.value
   console.log("changedFilterTitle " + filtersTitle.value)
   updateFilteredCounts();
 }
 
-const changedFilterString = () => {
-  console.log("changedFilterString " + filtersText.value)
-  //updateFilteredCounts();
-}
+// const changedFilterString = () => {
+//   console.log("changedFilterString " + filtersText.value)
+//   updateFilteredCounts();
+// }
 
 
 const isSelected = (type:string, id:string) => {
-  if (!filtersMap.value
-      || !filtersMap.value[type]
-      || !filtersMap.value[type][id])
+  if (!newFiltersMap.value
+      || !newFiltersMap.value[type]
+      || !newFiltersMap.value[type][id])
       {
         return false
       }
-  return filtersMap.value[type][id]
+  return newFiltersMap.value[type][id]
 }
 const isSelectedKeyword = (id:string) => {
   return isSelected(FILTERS_KEYWORD,id)
@@ -325,38 +259,63 @@ const getFilteredRolesCount = (id: string) => {
 }
 
 const isSubString = (data:string): boolean => {
-  if (!filtersText.value || !filtersText.value.length) {
+  if (!filtersTitle.value || !filtersTitle.value.length) {
     return false
   }
   if (!data || !data.toLocaleLowerCase) {
     return false;
   }
-  return (data.toLocaleLowerCase().indexOf(filtersText.value) >= 0)
+  return (data.toLocaleLowerCase().indexOf(filtersTitle.value.toLocaleLowerCase()) >= 0)
 }
 
 const isHideIfNotSubString = (data:string): boolean => {
-  if (!filtersText.value || !filtersText.value.length) {
+  if (!filtersTitle.value || !filtersTitle.value.length) {
     return false
   }
   return !isSubString(data)
 }
 
-initTreeType()
+
+
+onMounted(() => {
+
+filtersMap.value[FILTERS_KEYWORD] = filtersMap.value[FILTERS_KEYWORD] || {};
+filtersMap.value[FILTERS_PEOPLE] = filtersMap.value[FILTERS_PEOPLE] || {};
+filtersMap.value[FILTERS_ROLES] = filtersMap.value[FILTERS_ROLES] || {};
+
+newFiltersMap.value[FILTERS_KEYWORD] = filtersMap.value[FILTERS_KEYWORD]
+newFiltersMap.value[FILTERS_PEOPLE] = filtersMap.value[FILTERS_PEOPLE]
+newFiltersMap.value[FILTERS_ROLES] = filtersMap.value[FILTERS_ROLES]
+/*
+for (const type in filtersMap.value) {
+  for (const fid in filtersMap.value[type]) {
+    newFiltersMap.value[type][fid] = filtersMap.value[type][fid]
+  }
+}*/
+console.error("cloned filter map")
+console.dir(filtersMap.value)
+console.dir(newFiltersMap.value)
+
+
+  initTreeType()
+
+})
 
 </script>
 <template>
   <div class="filter_view">
     <div class="filter_head">
-      <h1>This is the filter page for type [{{ treeType }}]</h1>
+      <h1>This is the filter page for type [{{ tree_type }}]</h1>
       <p>Search:&nbsp;
-        Keywords:
+        <!-- Keywords:
         <input type="text" @input="changedFilterString" v-model="filtersText"/>
-
-        Title:
+ -->
+        <!-- Title: -->
         <input type="text" @input="changedFilterTitle" v-model="filtersTitle"/>
         
       </p>
       <button @click="closeFilter()">Close</button>
+      <button @click="applyFilter()">Apply</button>
       
     </div>
     <div class="filter_content">
@@ -380,8 +339,7 @@ initTreeType()
                 disabled: getFilteredKWCount(kws[0].id) == 0}"
               >
               {{ kws[0].name }}
-              <!-- FC: {{ getFilteredKWCount(kws[0].id) }} -->
-              <!-- C: {{ kws.length }} -->
+              ( {{ getFilteredKWCount(kws[0].id) }} / {{ kws.length }} )
             </button>
           </div>
           
@@ -400,8 +358,7 @@ initTreeType()
                 disabled: getFilteredPersonCount(person[0].id) == 0}"
               >
               {{ person[0].name }}
-              <!-- FC: {{ getFilteredPersonCount(person[0].id) }} -->
-              <!-- C: {{ person.length }} -->
+              ( {{ getFilteredPersonCount(person[0].id) }} / {{ person.length }} )
             </button>
           </div>
         </div>
@@ -418,8 +375,7 @@ initTreeType()
                 preselected: isSubString(person[0].name),
                 disabled: getFilteredRolesCount(person[0].id) == 0}">
               {{ person[0].name }}
-              <!-- FC: {{ getFilteredRolesCount(person[0].id) }} -->
-              <!-- C: {{ person.length }} -->
+              ( {{ getFilteredRolesCount(person[0].id) }} / {{ person.length }} )
             </button>
           </div>
         </div>

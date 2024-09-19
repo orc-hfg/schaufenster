@@ -5,12 +5,16 @@
       
       <div class="project_counter_line">&nbsp;</div>
       <div class="project_counter_line">&nbsp;</div>
+      
+      <div class="project_counter_line">&nbsp;</div>
+      <div class="project_counter_line">&nbsp;</div>
+      
       <div v-for="(treeInfo,idx) in sortedTrees"
         class="project_counter_line"
         :id="'treeInfo_' + treeInfo.col_id"
         :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
         <div class="back_layer_blur"
-          :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
+          :style="getBlurLineStyle(treeInfoIdx, idx)">
         </div>
         <div class="content">
           <div class="cell">
@@ -50,9 +54,7 @@ const OPACITY_DIFF_3 = 0.0
 const OPACITY_DIFF_2 = 0.10; // 0.05
 const OPACITY_DIFF_1 = 0.30; // 0.15
 
-const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
-  const diff = (treeInfoIdx - idx)
-  
+const getDiffOpacity = (diff) => {
   let opval = 0.0;
   if (diff >= 3) {
     opval = OPACITY_DIFF_3
@@ -64,6 +66,18 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   } else if (diff == 0) {
     opval = 1.0
   }
+  return opval
+}
+const getBlurLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
+  const diff = (treeInfoIdx - idx)
+  const style = getTreeInfoLineStyle(treeInfoIdx, idx)
+  const opval = getDiffOpacity(diff)
+  style['background-color'] = 'rgba(243,242,239, ' + opval + ')'
+  return style
+}
+const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
+  const diff = (treeInfoIdx - idx)
+  const opval = getDiffOpacity(diff)
   return { opacity: opval }
 }
 
