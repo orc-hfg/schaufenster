@@ -1,195 +1,91 @@
 <template>
-        <header>
-        <nav class="nav">
-            <Transition name="fade">
-              <NuxtLink 
-                v-if="!showInfo"
-                :to="'/setlist/' + settype" class="header_nav_logo">
-                  <IconsNavHome/>
-                  <!-- <div class="content">Zurück</div> -->
-              </NuxtLink>
-            </Transition>
+  <header>
+    <nav class="nav">
 
-<!--
-            <Transition name="grow-width">
-              <NuxtLink class="navbar_set_link"
-                  :class="{grow_width:showPath2Root}"
-                  v-if="activeSetId !== setid"
-                  @mouseover="setShowPath2Root(true)"
-                  @mouseleave="setShowPath2Root(false)"
-                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
-
-                  {{ showPath2Root ? getColTitle(setid) : '...' }}
-              </NuxtLink>
-            </Transition>
--->
-            
-            <Transition type="transition" :css="true" :name="showInfo ? 'move-u50' : 'grow-width' ">
+      <NuxtLink 
+        class="header_nav_logo fade_out"
+        :class="{hidden_fade_out: showInfo}"
+        :to="'/setlist/' + settype" >
+          <IconsNavHome/>
+          <!-- <div class="content">Zurück</div> -->
+      </NuxtLink>
               
-              <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ setid" -->
-              <NuxtLink class="navbar_set_link parent_link"
-                  v-if="activeSetId !== setid && !showInfo"
-                  :class="{showPath2Root: showPath2Root}"
-                  :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}"
-                  @click="emit('parentClicked')"
-                  @mouseover="setShowPath2Root(true)"
-                  @mouseleave="setShowPath2Root(false)"
-                  >
-                  <span
-                    :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}">
-                    {{ showPath2Root ? getColTitle(setid) : '&nbsp;...' }}
-                  </span>
-              </NuxtLink>
-              <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId" -->
-              <NuxtLink class="navbar_set_link parent_link"
-                v-else-if="activeSetId == setid && parentSetId !== 'root' && !showInfo"
-                :class="{showPath2Root: showPath2Root }"
-                :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}"
-                @mouseover="setShowPath2Root(true)"
-                @mouseleave="setShowPath2Root(false)"
-                >
-                <span 
-                  :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}">
-                  {{showPath2Root ? getColTitle(parentSetId) : '&nbsp;...' }}
-                </span>
-              </NuxtLink>
+      <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ setid" -->
+      <NuxtLink class="navbar_set_link parent_link animate_up"
+          v-if="activeSetId !== setid"
+          :class="{
+            showPath2Root: showPath2Root,
+            hidden_move_up: showInfo,
+
+            }"
+          :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}"
+          @click="emit('parentClicked')"
+          @mouseover="setShowPath2Root(true)"
+          @mouseleave="setShowPath2Root(false)"
+          >
+          <span
+            :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}">
+            {{ showPath2Root ? getColTitle(setid) : '&nbsp;...' }}
+          </span>
+      </NuxtLink>
+
+      <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId" -->
+      <NuxtLink class="navbar_set_link parent_link animate_up"
+        v-else-if="activeSetId == setid && parentSetId !== 'root'"
+        :class="{
+          showPath2Root: showPath2Root,
+          hidden_move_up: showInfo
+        }"
+        :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}"
+        @mouseover="setShowPath2Root(true)"
+        @mouseleave="setShowPath2Root(false)"
+        >
+        <span 
+          :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}">
+          {{showPath2Root ? getColTitle(parentSetId) : '&nbsp;...' }}
+        </span>
+      </NuxtLink>
               
-<!--
-              <NuxtLink class="navbar_set_link parent_link"
-                  :class="{grow_width:showPath2Root,
-                    showPath2Root: showPath2Root}"
-                  v-if="activeSetId !== setid && !showInfo && !showPath2Root"
-                  @mouseover="setShowPath2Root(true)"
-                  @mouseleave="setShowPath2Root(false)"
-                  :style="{width: showPath2Root? 'auto' : '16px'}"      
-                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
-                    ...
-                  
-              </NuxtLink>
-              <NuxtLink class="navbar_set_link parent_link"
-                  :class="{grow_width:showPath2Root,
-                    showPath2Root: showPath2Root}"
-                  v-else-if="activeSetId !== setid && !showInfo"
-                  @mouseover="setShowPath2Root(true)"
-                  @mouseleave="setShowPath2Root(false)"
-                  :style="{width: showPath2Root? 'auto' : '16px'}"      
-                  :to="'/setview/'+settype+'/'+treeid+'/'+ setid">
-
-                  {{ showPath2Root ? getColTitle(setid) : '...' }}
-              </NuxtLink>
-              <NuxtLink class="navbar_set_link"
-                v-else-if="activeSetId == setid && parentSetId !== 'root' && !showInfo && !showPath2Root"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId"
-                :class="{showPath2Root: showPath2Root,
-                  }"
-                
-                @mouseover="setShowPath2Root(true)"
-                @mouseleave="setShowPath2Root(false)">
-                  ...
-                
-              </NuxtLink>
-              <NuxtLink class="navbar_set_link"
-                v-else-if="activeSetId == setid && parentSetId !== 'root' && !showInfo"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId"
-                :class="{showPath2Root: showPath2Root,
-                  }"
-                
-                @mouseover="setShowPath2Root(true)"
-                @mouseleave="setShowPath2Root(false)">
-
-                {{showPath2Root ? getColTitle(parentSetId) : '...' }}
-              </NuxtLink>
-              -->
-            </Transition>
-
-            <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId" -->
-            <!-- v-if="activeSetId == setid && !showInfo" -->
-            <Transition type="transition" :css="true" :name="showInfo ? 'move-u50' : 'grow-width' ">
-            <NuxtLink class="navbar_set_link"
-              v-if="!showInfo"
-              @click="activeSetId == setid && emit('parentClicked')"
-              >
-              {{ getColTitle(activeSetId) }}
-            </NuxtLink>
-          </Transition>
+      <NuxtLink class="navbar_set_link animate_up"
+        :class="{hidden_move_up: showInfo}"
+        @click="activeSetId == setid && emit('parentClicked')"
+        >
+        {{ getColTitle(activeSetId) }}
+      </NuxtLink>
+        
             
-            <!-- <NuxtLink class="navbar_set_link"
-              v-else-if="parentSetId == 'root'"
-              >
-              T {{getColTitle(treeid)}}
-            </NuxtLink> -->
+      <Transition :css="true" name="fade">            
+        <NuxtLink
+          v-if="!showInfo"
+          @click="$emit('toggleShowInfo')"
+          class="navbar_set_link info"
+          :style="infoBtnStyle">
+          <IconsInfoShow/>
+        </NuxtLink>
 
-            
+        <NuxtLink
+          v-else
+          @click="$emit('toggleShowInfo')"
+          class="navbar_set_link info"
+          :style="infoBtnStyle">
+          <IconsInfoClose/>
+        </NuxtLink>
+      </Transition>
 
-            <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId" -->
-            <!-- <Transition :css="true" :name="showInfo ? 'move-u50' : 'grow-width' ">
-            <NuxtLink
-                v-if="activeSetId !== setid && !showInfo"
-                class="navbar_set_link"
-                >
-                {{ getColTitle(activeSetId) }}
-            </NuxtLink>
-          </Transition> -->
-
-          
-
-            <!-- <Transition name="fade_io">
-              <NuxtLink class="navbar_set_link"
-                v-if="path2root.length >= 1 && showPath2Root == false"
-                @mouseover="setShowPath2Root(true)">
-                ...
-              </NuxtLink>
-            </Transition>
-            <Transition name="fade_io">
-              <div v-if="showPath2Root"
-                @mouseleave="setShowPath2Root(false)">
-                <NuxtLink
-                  v-for="colid in path2root"
-                  class="navbar_set_link path_to_root"
-                  :to="'/setview/'+settype+'/'+treeid+'/'+ colid">
-                  {{ getColTitle(colid) }}
-              </NuxtLink>
-              </div>
-            </Transition> -->
-            <!-- <Transition name="fade_io">
-              <NuxtLink
-                v-if="activeSetId !== setid || !showPath2Root"
-                class="navbar_set_link"
-                :to="'/setview/'+settype+'/'+treeid+'/'+ activeSetId">
-                {{ getColTitle(activeSetId) }}
-              </NuxtLink>
-            </Transition> -->
-            
-            <Transition :css="true" name="fade">
-            <NuxtLink
-              v-if="!showInfo"
-              @click="$emit('toggleShowInfo')"
-              class="navbar_set_link info"
-              :class="{info_active: showInfo}"
-              >
-              <!-- &nbsp;i&nbsp; -->
-              <IconsInfoShow/>
-            </NuxtLink>
-
-            <NuxtLink
-              v-else="showInfo"
-              @click="$emit('toggleShowInfo')"
-              class="navbar_set_link info"
-              :class="{info_active: !showInfo}"
-              >
-              <IconsInfoClose/>
-            </NuxtLink>
-
-          </Transition>
-
-        </nav>
-    </header>
-
-
+    </nav>
+  </header>
 </template>
 <script setup lang="ts">
+
 const SHOW_PATH2ROOT_DELAY = 500
 const MAX_SET_TITLE_LENGTH = 50;
+
+const {
+  mergeSetTypeColor,
+  mergeSetTypeBackColor,
+} = DynFonts()
+
+const infoBtnStyle = ref({})
 
 const emit = defineEmits([
     'toggleShowInfo',
@@ -205,6 +101,7 @@ const props = defineProps([
     'showInfo',
     'titlesMap'
 ])
+
 
 const showPath2Root = ref(false)
 
@@ -253,6 +150,12 @@ const getTitleWidth = (id:string): string => {
   const result = getTextWidth(getColTitle(id),"20px Instrument Sans")
   return (result + 10) + 'px';
 }
+
+onMounted(() => {
+  mergeSetTypeBackColor(props.settype, infoBtnStyle.value)
+
+})
+
 </script>
 <style scoped>
 
@@ -290,7 +193,27 @@ const getTitleWidth = (id:string): string => {
   font-weight: 500;
   line-height: var(--font-button-line-height, 24px); /* 120% */
 
+  
+  
 }
+.fade_out {
+  opacity: 1;
+  transition: all 800ms ease-out;
+}
+.hidden_fade_out {
+  opacity: 0;
+  transition: all 800ms ease-out;
+}
+
+.navbar_set_link.animate_up {
+  top: 0px;
+  transition: all 500ms ease-out;
+}
+.navbar_set_link.hidden_move_up {
+  top: -72px;
+  transition: all 500ms ease-out;
+}
+
 .navbar_set_link:hover {
   background-color: var(--Colors-nav-bar-button-fill-hover, #E7E6E1);
 }
@@ -303,7 +226,8 @@ const getTitleWidth = (id:string): string => {
 
 .navbar_set_link.parent_link {
   width: 24px;
-  transition: width 500ms;
+  /* transition: width 500ms; */
+  transition: all 500ms ease-out;
   overflow: hidden;
 }
 
@@ -312,12 +236,7 @@ const getTitleWidth = (id:string): string => {
   height: 24px;
   overflow: hidden;
 }
-/* .navbar_set_link.parent_link::before {
-  content: '...  .........';
-}
-.navbar_set_link.parent_link:hover::before {
-  content: '';
-} */
+
 .navbar_set_link.parent_link:hover {
   width: 20rem;
 }
@@ -325,10 +244,7 @@ const getTitleWidth = (id:string): string => {
   width: auto;
   transition: all 1s linear;
 } */
-/* .navbar_set_link.info_active {
-  background-color: var(--Colors-nav-bar-toggle-off);
-  font-weight: 800;
-} */
+
 nav {
   width: calc(100vw - var(--dimension__icon__sizeM, 24px));
 }
@@ -350,13 +266,14 @@ nav {
   flex-shrink: 0;
 
   border-radius: var(--radius-full, 9999px);
+  border: 1px solid transparent;
   background-color: var(--Colors-nav-bar-info-button-fill, #2C2C2C);
 
   color: var(--Colors-text-primary-inverted, #FFF);
   font-family: "Instrument Sans";
   font-size: var(--font-h4-font-size, 24px);
   font-style: normal;
-  font-weight: 500;
+  
   line-height: var(--font-h4-line-height, 32px); /* 125% */
 
   transition: all 1s linear;

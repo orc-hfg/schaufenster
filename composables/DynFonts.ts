@@ -80,9 +80,17 @@ export const DynFonts = () => {
         }
         return result;
     }
-    const mergeSetTypeColor = (settype: string, obj: object): object =>  {
+
+    const getSetTypeColor = (settype: string) => {
         const color = settype == MATCH_DIPLOM ? COLOR_DIPLOM : COLOR_PROJECTS
-        obj['color'] = color
+        return color
+    }
+    const mergeSetTypeColor = (settype: string, obj: object): object =>  {
+        obj['color'] = getSetTypeColor(settype)
+        return obj 
+    }
+    const mergeSetTypeBackColor = (settype: string, obj: object): object =>  {
+        obj['background-color'] = getSetTypeColor(settype)
         return obj 
     }
     return {
@@ -92,6 +100,7 @@ export const DynFonts = () => {
         getViewSizedStyle,
         getPixelSizedStyle,
         mergeSetTypeColor,
+        mergeSetTypeBackColor,
         ...toRefs(dynFontsState)
     }
 }
