@@ -29,7 +29,7 @@
       class="swiper_main"
       :class="{info_active: showInfo,
         bottom_nav_hide: !showBottomNav}"
-      :zoom="true"
+      
       :navigation="{
         nextEl: '.swiper-main-button-next',
         prevEl: '.swiper-main-button-prev',
@@ -37,7 +37,9 @@
       @swiper="setMainSwiper"
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"
-      :keyboard="true"      
+      :keyboard="true"
+      :auto-resize="false"
+      :initial-slide="0"
       :slides-per-view="1"
       :virtual="true"
       :centered-slides="true"
@@ -284,7 +286,7 @@ const currentTree = ref({} as iTree)
 
 const entry_info_hidden = ref(false)
 const entryInfoScrollPosChanged = (pos) => {
-  console.log("entryInfoScrollPosChanged: " + pos)
+  //console.log("entryInfoScrollPosChanged: " + pos)
   if (pos > 50) {
     entry_info_hidden.value = true;
   }
@@ -332,6 +334,7 @@ const showCount = ref({} as { [key:string]: number})
 const maxCount = ref({} as { [key:string]: number})
 const showBottomNav = ref(true)
 const show_av_control = ref(false)
+
 const showInfo = ref(false)
 const toggleShowInfo = () => {
   showInfo.value = !showInfo.value
@@ -349,7 +352,7 @@ const toggleShowInfo = () => {
     swiperMain.value.slidePrev() 
     swiperMain.value.updateSize()
     swiperMain.value.update()
-  }, 1000)
+  }, 700)
   
 }
 
@@ -965,7 +968,7 @@ const handleMouseLeave = () => {
 
   margin: 0px 0px;
 
-  transition: all 450ms 50ms ease-out;
+  transition: all 450ms 50ms linear;
   
 }
 .swiper_main.bottom_nav_hide {
@@ -973,22 +976,7 @@ const handleMouseLeave = () => {
   height: 100vh;
   transition: all 500ms ease-out;
 }
-.swiper_main.info_active {
-  /* border: 1px solid red; */
-  /* top: 16vh;
-  left: 24px;
-  height: 70vh;
-  width: calc(50vw - 48px); */
-  
-  transition: all 500ms ease-out;
 
-  transform-origin: 0vw 20vh;
-  
-  transform: scale( 45% );
-  margin: 0 2.5%;
-  height: 150vh;
-  
-}
 .swiper-slide.main_slide {
   /* border: 2px solid blue; */
   align-items: center;
@@ -1006,12 +994,47 @@ const handleMouseLeave = () => {
   top: 88px; bottom: 128px;
   height: 80%;width: 100%; margin: auto;  
 }
+.info_active {
+  transition: all 450ms 50ms linear;
+}
+.swiper_main.info_active {
+  /* border: 1px solid red; */
+  top: 16vh;
+  left: 24px;
+  height: 70vh;
+  width: calc(50vw - 48px);
+  
+  /* transition: height 500ms cubic-bezier(1, 0, 0, 1); */
+  transition: all 500ms ease-out;
+
+  
+  /* transform-origin: 0vw 20vh;
+  transform: scale( 47.5% );
+  margin: 0 0% 0 2.5%;
+  
+  height: 150%;
+  height: calc(200vh - 520px); */
+}
 .swiper_main.info_active .main_preview {
   /* border: 1px solid green; */
-  width: calc(100% - 192px);
-  margin: 0 96px;
+  /* width: calc(100vw - 192px); 
+  margin: 0 96px;*/
+
+  /* width: calc(100% - 48px);
+  margin: 0 24px;
+  transition: all 500ms linear;
+  */
+}
+
+.entry_info {
+  /* border: 1px solid blue; */
   transition: all 500ms ease-out;
 }
+.entry_info.hidden {
+  transform: translateX(50vw);
+  transition: all 500ms linear;
+}
+
 
 .bottom_nav {
   /* border: 1px solid blue; */
@@ -1231,7 +1254,7 @@ const handleMouseLeave = () => {
   float: left;
   position: relative;
   top: 0.5rem; 
-  width: 22px; height: 22px;
+  width: 32px; height: 32px;
   margin: 2px 0.5px;
   background-size: 120% 100%;
   background-position: center;
@@ -1314,7 +1337,7 @@ const handleMouseLeave = () => {
 .swiper-main-button-prev,
 .swiper-main-button-next 
 {
-  position: fixed;
+  position: absolute;
   top: calc(50% - 24px);
 
   display: flex;
@@ -1339,20 +1362,17 @@ const handleMouseLeave = () => {
   right: 24px;
 }
 .swiper_main.info_active .swiper-main-button-prev {
-  transform: scale(200%);
+  /* transform: scale(200%);
   top: calc(50% - 24px);
-  left: 12px;
+  left: 12px; */
+  left: -12px;
 }
 .swiper_main.info_active .swiper-main-button-next {
-  transform: scale(200%);
-  right: 12px;
+  /* transform: scale(200%);
+  right: 12px; */
+  right: -12px;  
 }
-/* .swiper-main-button-prev::before {
-  content: '<-';
-}
-.swiper-main-button-next::after {
-  content: '->';
-} */
+
 .swiper-button-disabled {
   visibility: hidden;
 
@@ -1390,14 +1410,6 @@ const handleMouseLeave = () => {
 .entry_info_title.move_up_hidden {
   transition: transform 300ms ease-in;
   transform: translateY(-128px);
-}
-
-.entry_info {
-  transition: all 50ms 450ms ease-in-out;
-}
-.entry_info.hidden {
-  transform: translateX(50vw);
-  transition: all 500ms ease-in-out;
 }
 
 .unblur-enter-active {
