@@ -120,7 +120,7 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   /* direction: ltr; */
 }
 .back_layer_blur {
-  display: inline-block;
+  display: block;
   position: relative;
   top:0px; left: 0px;
   width: 100%; height: 48px;
@@ -137,11 +137,8 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   display: flex;
   padding: 0 20px;
   align-items: center;
-
-  
 }
 .cell {
-
   /* border: 1px solid green; */
   display: inline-block;
   width: fit-content;
@@ -151,6 +148,8 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   gap: var(--margin-navbar-institution-logo-right, 10px);
 
   font-size: 20px;
+  font-weight: 400;
+  
 }
 
 </style>

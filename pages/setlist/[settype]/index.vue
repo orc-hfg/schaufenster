@@ -59,92 +59,6 @@
     
       
       
-  <!--
-
-    <swiper
-      v-if="slideList && slideList.length"
-      :modules="swiper_modules"
-      class="swiper_main"
-      :class="{filter_blured: showMenuView || showFilterView || showFontsView,
-        button_pad_left: settype == MATCH_DIPLOM}"
-      @scroll="setSwiperMoving()"
-      @swiper="setMainSwiper"
-      @onAny="onSwiperEvent"
-      :keyboard="true"      
-      :slidesPerView="'auto'"
-      :spaceBetween="20"
-      
-      :direction="'vertical'"
-      
-      :freeMode="{
-        momentum:true,
-        momentumBounce: true,
-        sticky: false
-      }"
-      :scrollbar="false"
-      :mousewheel="{forceToAxis:false}"
-      >
-
-      
-    <swiper-slide
-        class="main_slide"
-        v-for="slide in slideList"
-        >
-        
-        <div class="sub_slide"
-          v-for="el in slide.trees"
-          :onMouseover="() => setTreeInfo(el)"
-          :style="{'width': 'calc(' + ((100 / colCount)) + 'vw - ' + (colCount * 20) + 'px)'}">
-          <div class="set_preview"
-            :class="[el.previewDirection, el.previewPlacement]"
-            :style="el.previewstyle"
-            @click="switch2set(el.col_id)">
-            <div class="img"
-              :class="{swiper_moving: swiperMoving}"
-              :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.col_id) + '\')' }">
-            </div>
-          </div>
-          
-        </div>
-        
-      </swiper-slide>
-
-    </swiper>
-  -->
-   <!-- 
-  <Transition name="fade">
-    <SetListTreeInfo
-      @scroll.prevent="scrollEvent"
-      @wheel.prevent="wheelEvent"
-      v-if="filteredSortedTrees && (!showMenuView && !showAboutView)"
-      :sorted-trees="filteredSortedTrees"
-      :settype="settype"
-      :tree-info-idx="treeInfoIdx"
-      />
-    </Transition>
--->
-<!--
-    <Transition name="fade">
-      <div class="intro_info"
-        :style="intro_info_style"
-        v-if="intro_info">
-        {{ intro_info }}
-        <br/>
-        {{ intro_info2 }}
-      </div>
-    </Transition>
-    -->
-<!--
-    <Transition name="fade">
-      <div class="year_info"
-        @scroll="scrollEvent"
-        @wheel="wheelEvent"
-        :style="year_info_style"
-        v-show="currentYear && !intro_info">
-        {{ currentYear }}
-      </div>
-    </Transition>
--->
     <Transition name="fade">
       <MenuView v-if="showMenuView"
                   :settype="settype"
@@ -359,10 +273,11 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
       tree.previewstyle['height'] = getRandom(80,20) + '%'
     }
     
+    /*
     console.log("preview wh: " + wh 
     + " placement: " + tree.previewPlacement
     + " style " + JSON.stringify(tree.previewstyle))
-    
+    */
     
     tl.push(tree)
     ti++
@@ -485,25 +400,6 @@ updateSetType();
 onMounted(() => {
   updateSetType();
   document.documentElement.setAttribute("data-theme", "");
-  /* if (import.meta.client) {
-    setTimeout(() => {
-
-      if (settype.value == MATCH_DIPLOM) {
-           document.documentElement.setAttribute("data-theme", "diplom");    
-        } else {
-            document.documentElement.setAttribute("data-theme", "");
-        }
-      },100)
-    } */
-
-  /*watch(() => useTree.value, () => {
-        console.error("SetList: watch changed use tree state: " + useTree.value)
-        //updateSetType()
-    })*/
-  /*watch(() => treeMapper.value, () => {
-        console.log("watch changed treeMapper: " + treeMapper.value)
-        updateSetType()
-    })*/
 
   watch(
     () => route.path,
