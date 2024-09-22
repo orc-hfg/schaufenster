@@ -7,8 +7,13 @@
         </div>        
         <div class="meta_content">
 
+            
             <div class="filter_list"
+                :class="{show_all: showAll}"
+                :style="getTextStyle(md.string, showAll)"
                 v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
+                <span>{{getAbbrevString(md.string, showAll) }}</span>
+                <!--
                 <span v-if="showAll">{{md.string}}</span>
                 <span v-if="!showAll">
                     {{
@@ -16,17 +21,29 @@
                         + (md.string.length > MIN_TEXT_SHOW_COUNT && !showAll ? '...':'')
                     }}
                 </span>
-
-                <MetaDatumViewShowBtn
-                    :show-all="showAll"
-                    :count="md.string.length"
-                    :min="MIN_TEXT_SHOW_COUNT"
-                    @toggle-show-all="showAll=!showAll"
-                    />
+-->
+            </div>
+            <MetaDatumViewShowBtn
+                v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE"
+                :show-all="showAll"
+                :count="md.string.length"
+                :min="MIN_TEXT_SHOW_COUNT"
+                @toggle-show-all="showAll=!showAll"
+                />
+            
+            <div class="filter_listo "
+                :id="getFilterListId(md, 'max')"
+                v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
+                <span>{{ md.string }}</span>
+            </div>
+            <div class="filter_listo "
+                :id="getFilterListId(md, 'min')"
+                v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
+                <span>{{ md.string.substring(0, MIN_TEXT_SHOW_COUNT + 3) }}</span>
             </div>
             
-            
             <div class="filter_list"
+                :class="{show_all: showAll}"
                 v-if="md.type == MD_TYPE_KEYWORDS">
                 <div class="filter_tag"
                     v-for="(kw,idx) in md.selectedKeywords"
@@ -43,6 +60,7 @@
                 />
 
             <div class="filter_list"
+                :class="{show_all: showAll}"
                 v-if="md.type == MD_TYPE_PEOPLE">
             
                 <div class="filter_tag"
@@ -59,7 +77,8 @@
                 @toggle-show-all="showAll=!showAll"
                 />
 
-            <div class="filter_list" 
+            <div class="filter_list"
+                :class="{show_all: showAll}"
                 v-if="md.type == MD_TYPE_ROLES">
                 <div class="filter_tag"
                     v-for="(rp,idx) in md.selectedRoles"
@@ -125,6 +144,93 @@ const notEmpty = () => {
     }
 
 }
+
+const getTextSize = (show_all:boolean):number[] => {
+  // re-use canvas object for better performance
+  console.log("md: " + JSON.stringify(props.md))
+  const listos = document.getElementsByClassName('filter_listo')
+  for (let i = 0; i < listos.length; i++) {
+    console.log("width: " + listos[i].clientWidth
+        + " height: " + listos[i].clientHeight
+    )
+  }
+  const type = show_all == true ? 'max' : 'min'
+  const id = getFilterListId(props.md, type)
+    
+  const listo = document.getElementById(id)
+  if (listo && listo.clientWidth) {
+    const rect = listo.getBoundingClientRect()
+    console.log(
+        
+        + " My width: " + listo.clientWidth // rect.width
+        + " My height: " + rect.height
+    )
+    return [listo.clientWidth, rect.height]
+  }
+  return [100,50]
+/*
+  try {
+    //const canvas = getTextSize.canvas || (getTextSize.canvas = document.createElement("canvas"));
+    const canvas = getTextSize.canvas || (getTextSize.canvas = document.createElement("canvas"));
+    canvas.width = ((window.innerWidth / 2) - 48) + 'px';
+    canvas.display = "block"
+  //const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.textAlign = 'left'
+    context.font = font;
+    context.fillStyle = 'black'
+    const metrics = context.measureText(text);
+    const actualWidth = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight
+    const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+    
+    
+    console.log(
+        "height" + metrics.height 
+        + " actual hight: " + actualHeight
+        + " width: "+ metrics.width
+        + " actual width: "+ actualWidth
+        
+    )
+
+    
+
+    return metrics.width;
+  } catch (error) {
+    console.error("getTextWidth: Error: " + error)
+    return 100;
+  }*/
+}
+
+const getFilterListId = (md, type) => {
+    return 'filter_list_'
+        + type
+        + '_'
+        + (md.media_entry_id ? md.media_entry_id : md.collection_id)
+        + '_'
+        + md.meta_key_id
+}
+
+const getAbbrevString = (text:string, show_all:boolean):string => {
+    if (show_all == false && text.length > MIN_TEXT_SHOW_COUNT) {
+        return text.substring(0, MIN_TEXT_SHOW_COUNT) + '...'
+    }
+    return text;
+}
+
+const getTextStyle = (text:string, show_all:boolean) => {
+    /*if (show_all) {
+        return { height: '100%'}
+    }*/
+    const [width,height] = getTextSize(show_all) 
+    
+    
+    const style = {
+        
+        height: height + 'px'
+    }
+    return style
+}
+
 </script>
 <style>
 
@@ -141,8 +247,27 @@ align-content: flex-start;
 gap: var(--spacing-between-items-S, 4px);
 align-self: stretch;
 flex-wrap: wrap;
+height: 50px;
+overflow: hidden;
 
+transition: all 300ms ease-out;
+}
+.filter_listo {
+    position:fixed;
+    top: 1000vh;
+    width: calc(50vw - 48px);
+    display: block;
+    box-sizing: border-box;
 
+align-items: flex-start;
+align-content: flex-start;
+gap: var(--spacing-between-items-S, 4px);
+align-self: stretch;
+flex-wrap: wrap;
+
+}
+.filter_list.show_all {
+    height: fit-content;
 }
 .filter_tag {
 /*  float: left;
