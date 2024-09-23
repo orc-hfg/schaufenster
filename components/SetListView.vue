@@ -133,6 +133,7 @@ const props = defineProps([
 'introInfo',
 'introInfo2',
 ])
+const emits = defineEmits(['switch2setview'])
 
 const { apiConfig } = apiHelper();
 const apiBaseUrl = apiConfig.baseUrl + "/api-v2/";
@@ -187,8 +188,9 @@ const previewLargeUrl = (treeId: string): string => {
   return apiBaseUrl + "previews/" + pid + "/data-stream";
 };
 const switch2set = (setid) => {
-  const url = "/setview/" + props.settype + "/" + setid + '/' + setid;
-  router.push(url);
+  emits('switch2setview', setid)
+  /*const url = "/setview/" + props.settype + "/" + setid + '/' + setid;
+  router.push(url);*/
 };
 
 const isEnabledYearBack = () => {

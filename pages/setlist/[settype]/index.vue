@@ -2,7 +2,7 @@
   <div class="setlist_page">
     <SetListHeader
       :settype="settype"
-      :hide-nav-btns="showMenuView"
+      :hide-nav-btns="showMenuView || animateSwitch2Set"
       :toggle-btn-set-type="toggleBtnSetType"
       :show-filter-view="showFilterView"
       @show-menu="showMenu()"
@@ -25,6 +25,7 @@
       :intro-info="intro_info"
       :intro-info2="intro_info2"
       :next-year-list="nextYearList"
+      @switch2setview="switch2setview"
       />
     <SetListView
       class="setlistview"
@@ -38,6 +39,7 @@
       :intro-info="intro_info"
       :intro-info2="intro_info2"
       :next-year-list="nextYearList"
+      @switch2setview="switch2setview"
       />
       
     </Transition>
@@ -114,6 +116,7 @@ const showAboutView = ref(false)
 const showDSAView = ref(false)
 const showImpressumView = ref(false)
 
+const router = useRouter()
 
 const {
   loading,
@@ -169,7 +172,16 @@ const switch2settype = (type:string) => {
     //router.replace('/setlist/' + type)
   //},SWITCH_TYPE_PAGE_DELAY)
 }
-
+const animateSwitch2Set = ref(true)
+const switch2setview = (setid: string) => {
+  animateSwitch2Set.value = true
+  setTimeout(() => {
+    console.log("switch2set: " + setid)
+    const url = "/setview/" + settype.value + "/" + setid + '/' + setid;
+    router.push(url);
+  },100)
+    
+}
 
 const onFilterViewApplied = () => {
   console.log("onFilterViewApplied")
@@ -416,6 +428,10 @@ onMounted(() => {
       updateSetType();
     }
   );
+
+  setTimeout(() => {
+    animateSwitch2Set.value = false
+  },500)
 });
 </script>
 <style scoped>

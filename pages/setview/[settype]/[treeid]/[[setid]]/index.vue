@@ -7,11 +7,12 @@
       :active-set-id="activeSetId"
       :parent-set-id="parent_id"
 
-      :show-info="showInfo"
+      :show-info="showInfo || animateSwitch2SetList"
       
       :titles-map="currentTree.colTitlesMap"  
       @toggle-show-info="toggleShowInfo"
       @parent-clicked="swiperMain.slideTo(0)"
+      @clicked-back="switch2setlist"
     />
 
     <div class="entry_info_title"
@@ -27,8 +28,10 @@
     <swiper
       :modules="modules"
       class="swiper_main"
-      :class="{info_active: showInfo,
-        bottom_nav_hide: !showBottomNav}"
+      :class="{
+        info_active: showInfo,
+        bottom_nav_hide: !showBottomNav
+      }"
       
       :navigation="{
         nextEl: '.swiper-main-button-next',
@@ -49,16 +52,26 @@
         '--swiper-pagination-color': '#000',
       }"
     >
-      <swiper-slide class="main_slide" v-for="(el,index) in entries" :key="el.id" :virtualIndex="index">
+      <swiper-slide
+        class="main_slide"
+        v-for="(el,index) in entries"
+        :key="el.id" :virtualIndex="index">
         
         <div v-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
-          <audio :id="'slide-audio-'+ el.id"
-            class="audio_slide"
-            style="width: 100%; height:100%; margin: auto;"
-            @click="toggleStatePlay(!av_state_play)">
-            <source v-for="url in previewAudioUrls(el.id)" :src="url">
-          </audio>
+          <div class="audio_slide">
+            <audio :id="'slide-audio-'+ el.id"
+              class="audio_player"
+              @click="toggleStatePlay(!av_state_play)">
+              <source v-for="url in previewAudioUrls(el.id)" :src="url">
+            </audio>
+            <div class="audio_slide_icon">
+              <IconsAudioBack />  
+            </div>
+            <div class="audio_slide_title">
+              {{currentTree.entryTitlesMap[activeEntryId]}}
+            </div>
+          </div>
         </div>
         <div v-else-if="currentTree.previewsVideo[el.id]"
           class="main_preview">
@@ -117,10 +130,10 @@
     :space-between="spaceBetween"
     :centeredSlides="true"
     -->
-    <div class="bottom_nav" :class="{hidden: showInfo}">
+    <div class="bottom_nav" :class="{hidden: showInfo  }">
       <Transition name="fade">
         <div
-          v-if="!showInfo"
+          v-if="!showInfo && !animateSwitch2SetList"
           @click="showBottomNav = !showBottomNav"
           class="btn_bottom_nav_hide">
           <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav" />
@@ -130,7 +143,7 @@
       <swiper
         :modules="modules"
         class="swiper_nav"
-        :class="{hidden: !showBottomNav || showInfo}"
+        :class="{hidden: !showBottomNav || showInfo || animateSwitch2SetList}"
         @swiper="setNavSwiper"
         :freeMode="{
           momentum:true,
@@ -267,6 +280,8 @@ const {
 
 const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
+
+//TODO watch resolution change
 
 const {
   font_list, font_selected,
@@ -412,6 +427,18 @@ const switch2Set = (setId: string) => {
   router.push(url)
 }
 
+const animateSwitch2SetList = ref(true)
+
+const switch2setlist = () => {
+  animateSwitch2SetList.value = true
+  setTimeout(() => {
+    const url = '/setlist/' + settype.value
+    console.log("switch2setlist: " + settype.value + ":" + url)
+    router.push(url)
+  },350)
+  
+}
+
 const getShowCount = (treeId:string) => {
     showCount.value[treeId] = showCount.value[treeId] || Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
     return showCount.value[treeId]
@@ -448,14 +475,14 @@ const reload = () => {
     window && window.location && window.location.reload()
 }
 
-interface iSlideElement {
-  entries: [];
-  collection_id: {};
-  coverId: string;
-  collections: iSlideElement[];
-  showEntries: boolean;
+// interface iSlideElement {
+//   entries: [];
+//   collection_id: {};
+//   coverId: string;
+//   collections: iSlideElement[];
+//   showEntries: boolean;
   
-}
+// }
 enum NavSlideType {
   Entry,
   Set,
@@ -868,6 +895,8 @@ const SHOW_SET_TITLE_DELAY = 3000
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
+
+  
   
   setTimeout(() => {
     activeEntryId.value = entries.value[0].id
@@ -878,6 +907,10 @@ onMounted(() => {
     //swiperNav.value.slideTo(0)
 
   },100)
+
+  setTimeout(() => {
+    animateSwitch2SetList.value = false
+  },250)
 
 
   //const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
@@ -994,6 +1027,36 @@ const handleMouseLeave = () => {
   top: 88px; bottom: 128px;
   height: 80%;width: 100%; margin: auto;  
 }
+.audio_slide {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+.audio_player {
+
+}
+.audio_slide_icon {
+  /* border: 1px solid red; */
+  position: absolute;
+  top: calc(50% - 98px);
+  left: calc(50% - 60px);
+  width: 120px;
+  height: 196px;
+}
+.audio_slide_title {
+  /* border: 1px solid green; */
+  position: absolute;
+  top: calc(50% - 12px);
+  left: 25%;
+  width: 50%;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--Colors-text-primary, #2C2C2C)  
+}
+
+
 .info_active {
   transition: all 450ms 50ms linear;
 }

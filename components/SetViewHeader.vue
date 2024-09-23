@@ -5,7 +5,8 @@
       <NuxtLink 
         class="header_nav_logo fade_out"
         :class="{hidden_fade_out: showInfo}"
-        :to="'/setlist/' + settype" >
+        @click="$emit('clickedBack')">
+        <!-- :to="'/setlist/' + settype" > -->
           <IconsNavHome/>
           <!-- <div class="content">Zurück</div> -->
       </NuxtLink>
@@ -89,7 +90,8 @@ const infoBtnStyle = ref({})
 
 const emit = defineEmits([
     'toggleShowInfo',
-    'parentClicked'
+    'parentClicked',
+    'clickedBack'
 ])
 
 const props = defineProps([
