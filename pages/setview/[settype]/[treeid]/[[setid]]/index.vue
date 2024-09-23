@@ -165,7 +165,9 @@
           :virtualIndex="el.index"
           @mouseover="setHoverSetId(el.collection_id)"
           @mouseleave="resetHoverSetId()"
-          :class="{set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id) && el.collection_id !== treeid,
+          :class="{
+
+            set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id) && el.collection_id !== treeid,
             grow_slides: nav_grow_width,
             nav_slide_btns: el.type == NavSlideType.Button && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
             nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
@@ -180,6 +182,12 @@
             @click="nav2Element(el)"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
 
+            <div v-if="currentTree.previewsAudio[el.entry_id]"
+              class="nav_preview_audio"
+              :class="{nav_preview_audio_highlight: el.entry_id == activeEntryId}">
+              audio
+            </div>
+            <!-- TODO get abbrev title, calc title width -->
             <div v-if="el.collection_id !== treeid && el.setIdx == 0 && (activeSetId == el.collection_id || hoverSetId == el.collection_id)"
               class="nav_preview_col_title"
               :style="{width: ((getShowCount(el.collection_id)- 0.3) * 72) + 'px'}">
@@ -1240,6 +1248,42 @@ const handleMouseLeave = () => {
   background-repeat: no-repeat;
 }
 
+.nav_preview_audio {
+  background-color: #DAD6CE;
+  display: flex;
+  width: 72px;
+  height: var(--margin-body-margin, 96px);
+  /* padding: 0px 7px 0px 8px; */
+  
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  color: var(--Primitives-color-greys-ORCBlack, #2C2C2C);
+
+  font-family: "Instrument Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-subline-line-height, 24px); /* 171.429% */
+
+  /* position: relative;
+  top: 0px; */
+  padding-top: 0px;
+  transition: all 500ms ease-out;
+}
+.nav_preview_audio_highlight {
+  
+  height: calc(var(--margin-body-margin, 96px) - 54px);
+  
+  
+  /* justify-content: flex-end; */
+  
+  /* gap: 6px; */
+  
+  /* top: 36px; */
+  padding-top: 54px;
+}
 .nav_preview_col_title {
   user-select: none;
   position: relative;
