@@ -53,7 +53,11 @@ const closeFilter = () => {
   newFiltersMap.value[FILTERS_ROLES] = {};
   newFiltersTitle.value = ''
 
-  emit('closed')
+  
+  animate_intro.value = true;
+  setTimeout(() => {
+    emit('closed')
+  }, 200)
 }
 const applyFilter = () => {
   filtersTitle.value = newFiltersTitle.value
@@ -67,7 +71,11 @@ const applyFilter = () => {
   console.dir(filtersMap.value)
   console.dir(newFiltersMap.value)
 
-  emit('applied')
+  animate_intro.value = true;
+  setTimeout(() => {
+    emit('applied')
+  }, 200)
+  
 }
 
 const initKeywords = (treeMap:iTreeMap, kwMap, kwMetaKey:string) => {
@@ -141,6 +149,7 @@ const initTreeType = () => {
   
 }
 
+const selectedFilterCount = ref(0)
 const updateFilteredCounts = () => {
   console.log("updateFilteredCounts: ")
   console.dir(filtersMap)
@@ -154,6 +163,11 @@ const updateFilteredCounts = () => {
   initPeople(filteredTreeList.value, filteredPeopleMap.value, MK_AUTHORS)
   filteredRolesMap.value = {}
   initRoles(filteredTreeList.value, filteredRolesMap.value, MK_PARTICIPANTS)
+  selectedFilterCount.value = 
+  (newFiltersTitle.value.length ? 1 : 0)
+  + Object.keys(newFiltersMap.value[FILTERS_KEYWORD]).length
+  + Object.keys(newFiltersMap.value[FILTERS_PEOPLE]).length
+  + Object.keys(newFiltersMap.value[FILTERS_ROLES]).length
 }
 
 const clickedFilter = (type:string, kwInfo:object[]) => {
@@ -275,7 +289,7 @@ const isHideIfNotSubString = (data:string): boolean => {
   return !isSubString(data)
 }
 
-
+const animate_intro = ref(true)
 
 onMounted(() => {
 
@@ -299,12 +313,17 @@ console.dir(newFiltersMap.value)
 
   initTreeType()
 
+  animate_intro.value = true;
+  setTimeout(() => {
+    animate_intro.value = false;
+  }, 300)
 })
 
 </script>
 <template>
-  <div class="filter_view">
-    <header>
+  <div class="filter_view"
+    :class="{hidden: animate_intro}">
+    <header class="header">
       <nav class="nav">
         <div class="wrapper_left">
           <button class="btn_apply"
@@ -314,13 +333,13 @@ console.dir(newFiltersMap.value)
               xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
               <circle cx="24" cy="24" r="12" transform="rotate(180 24 24)" fill="#2C2C2C"/>
             </svg>
-            <div class="label">Anwenden ({{ 6 }})</div>
+            <div class="label">Anwenden ({{ selectedFilterCount }})</div>
           </button>
         </div>
         
         <div class="wrapper_mid">
           <button class="btn_close"
-            @click.once="closeFilter()">
+            @click="closeFilter()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -457,18 +476,41 @@ console.dir(newFiltersMap.value)
   top: 0px; left: 0px; width: 100vw; height: 100vh;
   z-index: 1000;
   /* padding: 8rem 2rem; */
-  background: var(--background-default, #F3F2EF);
+  background-color: var(--background-default, #F3F2EF);
   color: var(--Colors-text-primary);
 
+  opacity: 1;
+  transition: all 500ms ease-out;
 }
+.hidden {
+  transition: all 500ms ease-out;
+}
+.filter_view.hidden {
+  opacity: 0;
+  background-color: transparent;  
+  /* 
+  
+  display: none; */
+}
+
+button {
+  cursor: pointer;
+  user-select: none;
+}
+
 .filter_view * {
   
   /* color: var(--Primitives-color-transparencies-black-70); */
   font-family: Instrument Sans, sans-serif;
 }
 header {
-  background: var(--background-default, #F3F2EF);
+  /* background: var(--background-default, #F3F2EF); */
+  transition: all 300ms ease-out;
 }
+.hidden .header {
+  top: -120px;
+}
+
 nav {
   background: var(--background-default, #F3F2EF);
   /* border: 1px solid green; */
@@ -593,7 +635,11 @@ button {
   align-items: flex-start;
   gap: var(--spacing-meta-info-between-sections, 80px);
   flex-shrink: 0;
-  
+  transition: all 800ms ease-out;
+}
+
+.hidden .filter_content {
+  top: 100vh;
 }
 
 .wrapper_filter {

@@ -2,7 +2,7 @@
   <div class="setlist_page">
     <SetListHeader
       :settype="settype"
-      :hide-nav-btns="showMenuView || animateSwitch2Set"
+      :hide-nav-btns="showMenuView || animateSwitch2Set || showFilterView"
       :toggle-btn-set-type="toggleBtnSetType"
       :show-filter-view="showFilterView"
       @show-menu="showMenu()"
@@ -15,6 +15,7 @@
       >
       <SetListView
       class="setlistview"
+      :class="{hidden: animateSwitch2Set}"
       v-if="settype == MATCH_PROJECTS"
       :col-count="colCount"
       :settype="settype"
@@ -29,6 +30,7 @@
       />
     <SetListView
       class="setlistview"
+      :class="{hidden: animateSwitch2Set}"
       v-else-if="settype == MATCH_DIPLOM"
       :col-count="colCount"
       :settype="settype"
@@ -87,17 +89,19 @@
         @on-close="showDSAView = false"/>
     </Transition>
 
-    <Transition name="fade">
-      <div v-if="showFilterView" class="dialog_filter">
+    <!-- <Transition name="fade"> -->
+      <!-- <div  class="dialog_filter"> -->
         <FilterView
+          v-if="showFilterView"
+          
           :trees_map="useTree[settype]"
           :tree_type="settype"
           @closed="onFilterViewClosed"
           @applied="onFilterViewApplied"
           />
-      </div>
+      <!-- </div> -->
 
-    </Transition>
+    <!-- </Transition> -->
 
   </div>
 </template>
@@ -469,10 +473,6 @@ onMounted(() => {
   background-color: var(--Colors-nav-bar-toggle-off);
   font-weight: 800;
 }
-.dialog_filter {
-  
-}
-
 
 
 
@@ -481,6 +481,11 @@ onMounted(() => {
   position: fixed;
   top: 0px; left: 0px; width: 100vw; height: 100vh;
   clip-path: circle(calc(max(100vw, 100vh)) at 50vw 50vh) !important;
+  transition: top 500ms ease-out;
+}
+.setlistview.hidden {
+  transition: top 500ms ease-out;
+  top: 50vh;
 }
 
 .clipout-enter-active {

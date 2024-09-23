@@ -730,7 +730,7 @@ const initSetBtns = (treeId:string, setIdx: number) => {
 }
 
 const MIN_SHOW_COUNT = 4
-
+// TODO BUG: dont show reset btn if entry count is MIN_SHOW_COUNT
 const initSetEntries = (parentId:string, setId:string, els):number => {
     let setIdx = 0
     let mx = 0;
