@@ -105,7 +105,7 @@
       </div>
     </swiper>
 
-    
+
     <EntryAndSetInfo
       v-if="currentTree && currentTree.colTitlesMap"
       :class="{hidden: !showInfo}"
@@ -154,7 +154,7 @@
       <!-- TODO smooth element insert -->
     
         <swiper-slide
-          class="nav_slide"        
+          class="nav_slide"
           v-for="(el, eindex) in navSlider.slides"
           :key="el.entry_id"
           :virtualIndex="el.index"
@@ -251,19 +251,15 @@
   <div v-if="showSetTitle" class="set_info_blur"></div>
   </Transition>
 
-  <!-- <Transition :duration="{ enter: 150, leave: 300}" name="fade">
-    v-if="showSetTitle" -->
-    <div 
-      class="set_info_blend"
-      :class="{hidden: !showSetTitle}"
-      
-      :style="showSetTitleStyle">
-      <div class="content">
-        {{ getColTitle(setid) }}
-      </div>
-      
+  <div 
+    class="set_info_blend"
+    :class="{hidden: !showSetTitle}"
+    :style="showSetTitleStyle">
+    <div class="content">
+      {{ getColTitle(setid) }}
     </div>
-  <!-- </Transition> -->
+  </div>
+
 </div>
 </template>
 <script setup lang="ts">
@@ -909,7 +905,18 @@ onMounted(() => {
     swiperMain.value.slideTo(0)
     //swiperNav.value.slideTo(0)
 
-  },100)
+    
+  },200)
+  let maxIdx = 0;
+  navSlider.value.slides.forEach((el, idx) => {
+    setTimeout(() => {
+      activeSetId.value = el.collection_id
+    }, idx * 10)
+    maxIdx = idx
+  })
+  setTimeout(() => {
+    activeSetId.value = setid.value
+  }, maxIdx * 10)
 
   setTimeout(() => {
     animateSwitch2SetList.value = false
@@ -1426,6 +1433,7 @@ const handleMouseLeave = () => {
   opacity: 0;
 }
 
+/* TODO larger click area */
 .swiper-main-button-prev,
 .swiper-main-button-next 
 {
