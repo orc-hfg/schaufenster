@@ -104,22 +104,17 @@
         <IconsSliderArrowRight/>
       </div>
     </swiper>
-    
 
     
-    <!-- <Transition name="entry-info-slide">
-      v-show="currentTree && showInfo" -->
-      <EntryAndSetInfo
-        v-if="currentTree && currentTree.colTitlesMap"
-        :class="{hidden: !showInfo}"
-        :active-entry-id="activeEntryId"
-        :active-set-id="activeSetId"
-        :current-tree="currentTree"
-        :parent-set-id="setid"
-        @scrollPosChanged="entryInfoScrollPosChanged"
-      />
-      
-    <!-- </Transition> -->
+    <EntryAndSetInfo
+      v-if="currentTree && currentTree.colTitlesMap"
+      :class="{hidden: !showInfo}"
+      :active-entry-id="activeEntryId"
+      :active-set-id="activeSetId"
+      :current-tree="currentTree"
+      :parent-set-id="setid"
+      @scrollPosChanged="entryInfoScrollPosChanged"
+    />
     
     
     <!-- thumb-swiper=".swiper_main" -->
@@ -1253,8 +1248,7 @@ const handleMouseLeave = () => {
   display: flex;
   width: 72px;
   height: var(--margin-body-margin, 96px);
-  /* padding: 0px 7px 0px 8px; */
-  
+    
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -1266,24 +1260,15 @@ const handleMouseLeave = () => {
   font-style: normal;
   font-weight: 500;
   line-height: var(--font-subline-line-height, 24px); /* 171.429% */
-
-  /* position: relative;
-  top: 0px; */
+  
   padding-top: 0px;
   transition: all 500ms ease-out;
 }
 .nav_preview_audio_highlight {
-  
   height: calc(var(--margin-body-margin, 96px) - 54px);
-  
-  
-  /* justify-content: flex-end; */
-  
-  /* gap: 6px; */
-  
-  /* top: 36px; */
   padding-top: 54px;
 }
+
 .nav_preview_col_title {
   user-select: none;
   position: relative;

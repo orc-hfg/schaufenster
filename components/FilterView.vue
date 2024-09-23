@@ -304,28 +304,50 @@ console.dir(newFiltersMap.value)
 </script>
 <template>
   <div class="filter_view">
-    <div class="filter_head">
-      <h1>This is the filter page for type [{{ tree_type }}]</h1>
-      <p>Search:&nbsp;
-        <!-- Keywords:
-        <input type="text" @input="changedFilterString" v-model="filtersText"/>
- -->
-        <!-- Title: -->
-        <input type="text" @input="changedFilterTitle" v-model="filtersTitle"/>
-        
-      </p>
-      <button @click="closeFilter()">Close</button>
-      <button @click="applyFilter()">Apply</button>
-      
-    </div>
-    <div class="filter_content">
-    
-      <div class="tree_filter">
-        <div class="filter_headline">
-        Filters:
+    <header>
+      <nav class="nav">
+        <div class="wrapper_left">
+          <button class="btn_apply"
+            @click.once="applyFilter()">
+            <!-- <IconsNavHome class="logo"/> -->
+            <svg class="logo"
+              xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="12" transform="rotate(180 24 24)" fill="#2C2C2C"/>
+            </svg>
+            <div class="label">Anwenden ({{ 6 }})</div>
+          </button>
         </div>
         
-        <hr/>
+        <div class="wrapper_mid">
+          <button class="btn_close"
+            @click.once="closeFilter()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Filter zurücksetzen
+          </button>
+          <input class="filter_text_input"
+            type="text"
+            @input="changedFilterTitle"
+            v-model="filtersTitle"/>
+          <div class="filer_text_clear">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M6 6L18 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          
+        </div>
+      </nav>
+    </header>
+    <!-- <div class="filter_head">
+      
+    </div> -->
+    <div class="filter_content">
+    
+      <div class="wrapper_filter">
+        
         <div class="tree_filter_keywords">
           <div class="filter_headline">Keywords:</div>
           
@@ -381,7 +403,7 @@ console.dir(newFiltersMap.value)
         </div>
       </div>
 
-      <div class="filtered_tree_list">
+      <div class="wrapper_projects">
         <div class="filter_headline">Projekte:</div>
         
 
@@ -434,18 +456,117 @@ console.dir(newFiltersMap.value)
   position: fixed;
   top: 0px; left: 0px; width: 100vw; height: 100vh;
   z-index: 1000;
-  padding: 8rem 2rem;
-  background-color: #fff;
-  color: var(--Primitives-color-transparencies-black-70);
+  /* padding: 8rem 2rem; */
+  background: var(--background-default, #F3F2EF);
+  color: var(--Colors-text-primary);
+
 }
 .filter_view * {
-  background-color: #fff;
-  color: var(--Primitives-color-transparencies-black-70);
+  
+  /* color: var(--Primitives-color-transparencies-black-70); */
   font-family: Instrument Sans, sans-serif;
 }
+header {
+  background: var(--background-default, #F3F2EF);
+}
+nav {
+  background: var(--background-default, #F3F2EF);
+  /* border: 1px solid green; */
+  width: 100%;
+  display: flex;
+}
+.wrapper_left {
+  display: flex;
+  justify-content: start;
+}
+.wrapper_mid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 768px;
+  position: absolute;
+  left: calc(50% - 384px);
+  
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+  flex-shrink: 0;
+}
+.btn_apply {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-navbar--space-between-items, 4px);
 
+  border: none;
+  color: var(--Colors-text-primary, #2C2C2C);
+
+/* Buttons */
+font-family: "Instrument Sans";
+font-size: var(--font-button-font-size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--font-button-line-height, 24px); /* 120% */
+}
+
+.btn_apply .logo {
+
+}
+.btn_apply .logo:hover {
+  transform: scale(0.83);
+}
+.btn_apply .label {
+  display: flex;
+  padding-right: var(--margin-navbar-institution-logo-right, 10px);
+  align-items: center;
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+}
+.btn_close {
+  cursor: pointer;
+  user-select: none;
+
+  display: flex;
+  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-navbar-between-items, 4px);
+
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
+
+  color: var(--Colors-text-primary, #2C2C2C);
+
+/* Buttons */
+  font-family: "Instrument Sans";
+  font-size: var(--font-button-font-size, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-button-line-height, 24px); /* 120% */
+}
+.filter_text_input {
+
+  display: flex;
+  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-L, 16px);
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 0 0;
+
+  border-radius: var(--radius-full, 9999px);
+  background: var(--filter-searchbar-fill-default, #E7E6E1);
+
+  color: var(--filter-searchbar-text-actice, #2C2C2C);
+
+/* Buttons */
+font-family: "Instrument Sans";
+font-size: var(--font-button-font-size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--font-button-line-height, 24px); /* 120% */
+}
+.filter_text_clear {
+  position: relative;
+  left: -24px;
+}
 button {
-  padding: 0.75rem;
+  
+  
 }
 .tree_list {
 
@@ -456,23 +577,56 @@ button {
 
 
 .filter_content {
-  position: relative;
-  width: calc(100vw - 10rem);
-  height: calc(100vh - 16rem);
+  /* border: 1px solid green; */
+  position: absolute;
+  top: 200px;
+  left: -3rem;
+  width: calc(100vw + 6rem);
+  height: calc(100vh - 200px);
   overflow-y: auto;
-  padding: 3rem 3rem;
+  padding: 0px 0rem;
 
+  display: flex;
+
+  /* padding-top: 200px; */
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--spacing-meta-info-between-sections, 80px);
+  flex-shrink: 0;
+  
 }
 
-.tree_filter {
+.wrapper_filter {
+  /* border: 1px solid red; */
   position: relative;
   width: 50%;
   float: left;
+/*
+  display: flex;
+justify-content: center;
+align-items: flex-start;
+gap: var(--margin-navbar-institution-logo-right, 10px);
+align-self: stretch;
+*/
+display: flex;
+width: 700px;
+padding-bottom: 200px;
+flex-direction: column;
+align-items: flex-start;
+gap: 40px;
 }
-.filtered_tree_list {
+.wrapper_projects {
+  /* border: 1px solid blue; */
   position: relative;
   width: 50%;
   float: left;
+
+  display: flex;
+  width: 700px;
+  padding-bottom: 200px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .tree_filter_keywords,
@@ -481,9 +635,7 @@ button {
   width: 100%;
   float: left;
 }
-.filter_content * {
 
-}
 .keyword_item {
   float: left;
   height: var(--dimension-button-height-M, 48px);
@@ -509,22 +661,6 @@ button {
   
 }
 
-.keyword_item * {
-  /* align-items: center; */
-  /* gap: var(--spacing-item-inner, 8px); */
-  /* flex-shrink: 0; */
-  /* border-radius: var(--radius-none, 0px); */
-  
-  /* border: 1px solid var(--filter-chip-fill-outline, #CAC9C2); */
-  /* color: var(--filter-chip-text-default, #2C2C2C); */
-
-/* Buttons */
-/* font-family: Instrument Sans, sans-serif; */
-/* font-size: var(--font-button-font-size, 1.25rem); */
-/* font-style: normal; */
-/* font-weight: 500; */
-/* line-height: var(--font-button-line-height, 1.5rem); 120% */
-}
 
 .keyword_item:hover,
 .keyword_item:hover * {
@@ -537,14 +673,6 @@ button {
 .keyword_item.preselected *
 {
   color: var(--filter-chip-text-active, #FFF);
-
-/* Buttons */
-  /* font-family: Instrument Sans, sans-serif; */
-  /* font-size: var(--font-button-font-size, 1.25rem); */
-  /* font-style: normal; */
-  /* font-weight: 500; */
-  /* line-height: var(--font-button-line-height, 1.5rem); */ /* 120% */
-
   background: var(--filter-chip-fill-active, #2C2C2C);
 }
 
@@ -559,19 +687,25 @@ button {
 
 .filter_headline {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  gap: 0.625rem;
+  /* gap: 26px; */
+  padding-bottom: 16px;
+  align-self: stretch;
 
-  color: var(--text-secondary, #CAC9C2);
-  /* font-family: Instrument Sans, sans-serif; */
+  color: var(--Colors-text-secondary, #CAC9C2);
+  font-family: "Instrument Sans";
   font-size: var(--font-subline-font-size, 20px);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
+  font-stretch: 0.2px;
   line-height: var(--font-subline-line-height, 24px) /* 120% */;
 
 }
-
-.filtered_tree_list .tree_list_item {
+.wrapper_projects .filter_headline {
+  padding-bottom: 0px;
+} 
+.wrapper_projects .tree_list_item {
   /* display: flex; */
   /* width: 100%; */
   /* flex-direction: column; */
