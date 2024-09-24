@@ -176,11 +176,11 @@ const switch2settype = (type:string) => {
 const animateSwitch2Set = ref(true)
 const switch2setview = (setid: string) => {
   animateSwitch2Set.value = true
-  setTimeout(() => {
+  /* setTimeout(() => { */
     console.log("switch2set: " + setid)
     const url = "/setview/" + settype.value + "/" + setid + '/' + setid;
     router.push(url);
-  },100)
+  /* },100) */
     
 }
 
