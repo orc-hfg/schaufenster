@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { iFilterTypeMap } from '~/composables/tree';
+
 
 const route = useRoute()
 const router = useRouter()
@@ -32,13 +34,13 @@ const emit = defineEmits(['closed', 'applied'])
 const props = defineProps(['trees_map', 'tree_type'])
 
 // global counts
-const keywordMap = ref({})
-const peopleMap = ref({})
-const rolesMap = ref({})
+const keywordMap = ref({} as iFilterTypeMap)
+const peopleMap = ref({} as iFilterTypeMap)
+const rolesMap = ref({} as iFilterTypeMap)
 // filtered counts
-const filteredKeywordMap = ref({})
-const filteredPeopleMap = ref({})
-const filteredRolesMap = ref({})
+const filteredKeywordMap = ref({} as iFilterTypeMap)
+const filteredPeopleMap = ref({} as iFilterTypeMap)
+const filteredRolesMap = ref({} as iFilterTypeMap)
 
 
 watch(route, (newVal, oldVal) => {
@@ -164,7 +166,7 @@ const updateFilteredCounts = () => {
   filteredRolesMap.value = {}
   initRoles(filteredTreeList.value, filteredRolesMap.value, MK_PARTICIPANTS)
   selectedFilterCount.value = 
-  (newFiltersTitle.value.length ? 1 : 0)
+  (newFiltersTitle.value.length > 0 ? 1 : 0)
   + Object.keys(newFiltersMap.value[FILTERS_KEYWORD]).length
   + Object.keys(newFiltersMap.value[FILTERS_PEOPLE]).length
   + Object.keys(newFiltersMap.value[FILTERS_ROLES]).length
@@ -192,8 +194,8 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
       newFiltersMap.value[type][id] = data
       console.log("clickedFilter: filter for data: " + JSON.stringify(data))
 
-      console.log("clickedFilter: new filtersMap: " + JSON.stringify(filtersMap.value))
-      console.dir(filtersMap.value)
+      //console.log("clickedFilter: new filtersMap: " + JSON.stringify(filtersMap.value))
+      //console.dir(filtersMap.value)
   }
   updateFilteredCounts()
 }
@@ -214,7 +216,7 @@ const clickedRole = (kwInfo) => {
 
 const changedFilterTitle = () => {
   //filtersText.value = filtersTitle.value
-  console.log("changedFilterTitle " + filtersTitle.value)
+  console.log("changedFilterTitle " + newFiltersTitle.value)
   updateFilteredCounts();
 }
 
@@ -273,7 +275,7 @@ const getFilteredRolesCount = (id: string) => {
 }
 
 const isSubString = (data:string): boolean => {
-  if (!filtersTitle.value || !filtersTitle.value.length) {
+  if (!newFiltersTitle.value || !newFiltersTitle.value.length) {
     return false
   }
   if (!data || !data.toLocaleLowerCase) {
@@ -283,7 +285,7 @@ const isSubString = (data:string): boolean => {
 }
 
 const isHideIfNotSubString = (data:string): boolean => {
-  if (!filtersTitle.value || !filtersTitle.value.length) {
+  if (!newFiltersTitle.value || !newFiltersTitle.value.length) {
     return false
   }
   return !isSubString(data)
@@ -319,6 +321,15 @@ console.dir(newFiltersMap.value)
   }, 300)
 })
 
+const switch2SetView = (tree_col_id: string) => {
+  const url = '/setview/' 
+    + props.tree_type
+    + '/'
+    + tree_col_id
+    + '/'
+    + tree_col_id
+  router.push(url)
+}
 </script>
 <template>
   <div class="filter_view"
@@ -349,7 +360,7 @@ console.dir(newFiltersMap.value)
           <input class="filter_text_input"
             type="text"
             @input="changedFilterTitle"
-            v-model="filtersTitle"/>
+            v-model="newFiltersTitle"/>
           <div class="filer_text_clear">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -429,6 +440,7 @@ console.dir(newFiltersMap.value)
         <div class="tree_list">
           <div class="tree_list_item"
             v-for="tree in filteredTreeList"
+            @click="switch2SetView(tree.col_id)"
             :key="tree.col_id">
             <div class="tree_title">
               {{ tree.colTitlesMap[tree.col_id] }}
@@ -440,10 +452,10 @@ console.dir(newFiltersMap.value)
               </div>
             </div>
             <div class="tree_fachbereich">
-              <div class="tree_fachbereich_item"
-                v-for="fb in tree.cols_authors[tree.col_id]">
+              <!-- <div class="tree_fachbereich_item"
+                v-for="fb in tree.cols_departments[tree.col_id]">
                 {{ fb }}
-              </div>
+              </div> -->
             </div>
             <div class="tree_divider"><hr></div>
             
@@ -621,11 +633,11 @@ button {
 .filter_content {
   /* border: 1px solid green; */
   position: absolute;
-  top: 200px;
+  top: 0px;
   left: -3rem;
   width: calc(100vw + 6rem);
-  height: calc(100vh - 200px);
-  overflow-y: auto;
+  height: calc(100vh - 240px);
+  overflow-y: visible;
   padding: 0px 0rem;
 
   display: flex;
@@ -645,6 +657,8 @@ button {
 .wrapper_filter {
   /* border: 1px solid red; */
   position: relative;
+  top: 0px;
+  
   width: 50%;
   float: left;
 /*
@@ -654,12 +668,19 @@ align-items: flex-start;
 gap: var(--margin-navbar-institution-logo-right, 10px);
 align-self: stretch;
 */
-display: flex;
+display: block;
 width: 700px;
-padding-bottom: 200px;
+height: calc(100vh - 240px);
+overflow-y: scroll;
+padding-top: 200px;
+
 flex-direction: column;
 align-items: flex-start;
 gap: 40px;
+}
+/* TODO scrollbar firefox and others */
+.wrapper_filter::-webkit-scrollbar {
+  width: 0;
 }
 .wrapper_projects {
   /* border: 1px solid blue; */
@@ -669,10 +690,16 @@ gap: 40px;
 
   display: flex;
   width: 700px;
-  padding-bottom: 200px;
+  height: calc(100vh - 240px);
+  overflow-y: scroll;
+  padding-top: 200px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
+}
+/* TODO scrollbar firefox and others */
+.wrapper_projects::-webkit-scrollbar {
+  width: 0;
 }
 
 .tree_filter_keywords,
@@ -694,8 +721,8 @@ gap: 40px;
   gap: var(--spacing-item-inner, 8px);
   border-radius: var(--radius-none, 0px);
 
-  border: 1px solid var(--filter-chip-fill-outline, #CAC9C2);
-  color: var(--filter-chip-text-default, #2C2C2C);
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
   display: inline-flex;
 
   font-size: var(--font-button-font-size, 1.25rem);
@@ -710,7 +737,7 @@ gap: 40px;
 
 .keyword_item:hover,
 .keyword_item:hover * {
-  background: var(--filter-chip-fill-hover, #E7E6E1);
+  background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
 }
 
 .keyword_item.selected,
@@ -718,13 +745,14 @@ gap: 40px;
 .keyword_item.preselected,
 .keyword_item.preselected *
 {
-  color: var(--filter-chip-text-active, #FFF);
-  background: var(--filter-chip-fill-active, #2C2C2C);
+  color: var(--Colors-filter-chip-text-active, #FFF);
+  background: var(--Colors-filter-chip-fill-active, #2C2C2C);
 }
 
 .keyword_item.disabled,
 .keyword_item.disabled * {
   opacity: 0.5;
+  display: none;
 }
 
 .keyword_item.selected.disabled *{
