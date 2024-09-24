@@ -21,7 +21,8 @@
       v-if="slideList && slideList.length"
       :modules="swiper_modules"
       class="swiper_main"
-      :class="{filter_blured: showMenuView,
+      :class="{
+        filter_blured: showMenuView,
         button_pad_left: settype == MATCH_DIPLOM}"
       @scroll="setSwiperMoving()"
       @swiper="setMainSwiper"
@@ -156,12 +157,12 @@ const treeInfoIdx = ref(0)
 const scrollEvent = (ev) => {
   const current = swiperMain.value.getTranslate()
   console.log("got scroll event" + ev.deltaY + ":" + current)
-  swiperMain.value.translateTo(current - 20 * ev.deltaY)
+  swiperMain.value.translateTo(current - 10 * ev.deltaY)
 }
 const wheelEvent = (ev) => {
   const current = swiperMain.value.getTranslate()
   console.log("got wheel event" + ev.deltaY + ":" + current)
-  swiperMain.value.translateTo(current - 2 * ev.deltaY)
+  swiperMain.value.translateTo(current - 10 * ev.deltaY)
 }
 
 const setSwiperMoving = () => {

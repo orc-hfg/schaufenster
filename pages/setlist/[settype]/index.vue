@@ -60,18 +60,15 @@
       />
     </Transition>
 -->
+
+    <MenuView v-if="showMenuView"
+      :settype="settype"
+      @onShowFonts="showFontsView = true"
+      @onShowAbout="showAboutView = true"
+      @onShowImpressum="showImpressumView = true"
+      @onShowDSA="showDSAView = true"
+      @on-close-menu="showMenuView = false"/>
     
-      
-      
-    <Transition name="fade">
-      <MenuView v-if="showMenuView"
-                  :settype="settype"
-        @onShowFonts="showFontsView = true"
-        @onShowAbout="showAboutView = true"
-        @onShowImpressum="showImpressumView = true"
-        @onShowDSA="showDSAView = true"
-        @on-close-menu="showMenuView = false"/>
-    </Transition>
     <Transition name="fade">
       <FontsView v-if="showFontsView"
         @on-close="showFontsView = false"/>
@@ -85,7 +82,7 @@
         @on-close="showImpressumView = false"/>
     </Transition>
     <Transition name="fade">
-      <ImpressumView v-if="showDSAView"
+      <DatenschutzView v-if="showDSAView"
         @on-close="showDSAView = false"/>
     </Transition>
 
@@ -382,6 +379,8 @@ const showFilter = () => {
   }
 };
 
+const SHOW_MENU_DELAY = 100;
+
 const showMenu = () => {
   if (showMenuView.value == true
     || showFilterView.value == true
@@ -395,7 +394,7 @@ const showMenu = () => {
     console.log("show menu")
     setTimeout(() => {
       showMenuView.value = true;
-    }, 1000)
+    }, SHOW_MENU_DELAY)
     
   }
 };

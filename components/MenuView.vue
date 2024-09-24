@@ -1,9 +1,10 @@
 <template>
 
-    <div class="dialog_menu" >
+    <div class="dialog_menu" 
+        :class="{hidden: animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink @click="$emit('onCloseMenu')" class="logo">
+                <NuxtLink @click="closeMenu()" class="logo">
                     <IconsNavIconORC />
                 </NuxtLink>
             </nav>
@@ -11,17 +12,17 @@
 
         <!-- data-theme="dark" -->
         <div class="menu_panel"
-            @click="$emit('onCloseMenu')"
+            @click="closeMenu()"
             :style="font_style">
            
-            <div>
+            <div class="lang_switch">
                 <span class="btn"
                     @click="switchLocale('de')"
                     :class="{disabled: locale.indexOf('de') < 0}"
                     >
                     {{ $t('menu.label_de')}}
                 </span>
-                &nbsp;
+                
                 <span class="btn"
                     @click="switchLocale('en')"
                     :class="{disabled: locale.indexOf('en') < 0}"
@@ -60,9 +61,18 @@
   </div>
 </template>
 <script setup lang="ts">
+const DELAY_ANIMATE_OUT = 500;
+
 const {
     MATCH_DIPLOM
 } = treeHelper()
+
+const {
+    locale,
+    defaultLocale,
+    setLocale
+} = useI18n()
+
 const {
     getPixelSizedStyle,
     getViewSizedStyle,
@@ -72,38 +82,39 @@ const {
 //TODO close menu on click beside text
 
 const emit = defineEmits([
-    'onShowAbout','onShowFonts', 'onShowDSA', 'onShowImpressum', 'onCloseMenu'])
+    'onShowAbout',
+    'onShowFonts',
+    'onShowDSA',
+    'onShowImpressum',
+    'onCloseMenu'
+])
     
 const props = defineProps(['settype'])
-
 const font_style = ref({})
-const {
-    locale,
-    defaultLocale,
-setLocale
-} = useI18n()
-
-
-
+const animate_io = ref(true)
 
 const switchLocale = (loc: string) => {
     setLocale(loc)
     console.log("switchLocale: " + loc + ":" + locale.value)
     //locale.value = loc
 }
+const closeMenu = () => {
+    animate_io.value = true
+    setTimeout(() => {
+        emit('onCloseMenu')
+    }, DELAY_ANIMATE_OUT)
+    
+}
+
 onMounted(() => {
     console.log("mounted menu: " + props.settype)
     font_style.value = mergeSetTypeColor(props.settype, getPixelSizedStyle(240, 210))
 
-    /*font_style.value = getViewSizedStyle(20, 20)
-    console.log("font before")
-    console.dir(font_style.value)
-    const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
-    font_style.value['color'] = color;
-    */
     console.log("font after")
     console.dir(font_style.value)
+    animate_io.value = false;
 })
+
 </script>
 <style scoped>
 header {
@@ -119,9 +130,15 @@ header {
     width: 100vw;
     height: 100vh;
     z-index: 1000;
-    
+    opacity: 1;
+    transition: all 300ms ease-out;
     /* color: var(--Colors-text-primary-inverted, #000); */
     /* background-color: var(--Colors-background-menu, #fff); */
+}
+.dialog_menu.hidden {
+    opacity: 0;
+    transition: all 300ms ease-out;
+    /* display: none; */
 }
 .dialog_menu .menu_panel {
     /* border: 3px solid red; */
@@ -152,12 +169,17 @@ header {
     /* background-color: var(--Colors-background-menu2, rgba(255,255,255, 0.3)); */
 }
 
+.lang_switch {
+    display: flex;
+    gap: 40px;
+}
 .menu_panel .btn {
     /* color: var(--text-headlines, #FF4D00); */
     /* h1 */
     /* font-size: var(--font-h1-font-size, 240px); */
     font-style: normal;
     font-weight: 400;
+    font-stretch: 0.2px;
     /* line-height: var(--font-h1-line-height, 210px);  */
 }
 /* no hover in menu */
