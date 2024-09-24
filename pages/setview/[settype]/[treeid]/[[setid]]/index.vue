@@ -29,6 +29,7 @@
       :modules="modules"
       class="swiper_main"
       :class="{
+        hidden: animateSwitch2SetList,
         info_active: showInfo,
         bottom_nav_hide: !showBottomNav
       }"
@@ -246,7 +247,13 @@
     </div>
   </div>
 
-  <!-- :duration="{ enter: 250, leave: 500}" -->
+  <SetViewIntroInfo
+    v-if="showSetTitle"
+    :set-type="settype"
+    :set-title="getColTitle(setid)"
+    @on-close="showSetTitle = false" />
+
+  <!-- :duration="{ enter: 250, leave: 500}" 
   <Transition  name="unblur">
   <div v-if="showSetTitle" class="set_info_blur"></div>
   </Transition>
@@ -254,12 +261,13 @@
   <div 
     class="set_info_blend"
     :class="{hidden: !showSetTitle}"
-    :style="showSetTitleStyle">
+    :style="showSetTitleStyle"
+    @click="showSetTitle = false">
     <div class="content">
       {{ getColTitle(setid) }}
     </div>
   </div>
-
+-->
 </div>
 </template>
 <script setup lang="ts">
@@ -889,8 +897,8 @@ const initData = () => {
 }
 
 const showSetTitle = ref(false)
-const showSetTitleStyle = ref(mergeSetTypeColor(settype.value, getPixelSizedStyle(120,146)))
-const SHOW_SET_TITLE_DELAY = 3000
+//const showSetTitleStyle = ref(mergeSetTypeColor(settype.value, getPixelSizedStyle(120,146)))
+//const SHOW_SET_TITLE_DELAY = 3000
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
@@ -927,10 +935,10 @@ onMounted(() => {
   //showSetTitleStyle.value['color'] = color;
 
   showSetTitle.value = true;
-  setTimeout(() => {
+  /* setTimeout(() => {
     showSetTitle.value = false;
   }, SHOW_SET_TITLE_DELAY)
-
+ */
 })
 
 const swiperNavBtnHoverRight = ref(false)
@@ -967,39 +975,6 @@ const handleMouseLeave = () => {
 }
 
 
-.set_info_blur {
-  position: fixed;
-  left: 0px; top: 0px; width: 100vw; height: 100vh; z-index: 90;
-  background: var(--Color-blurs-project-img-blur, rgba(243, 242, 239, 0.30));
-  backdrop-filter: blur(25px);
-
-}
-.set_info_blend {
-  position: fixed;
-  z-index: 1010;
-  
-  left: 6.5vw;
-  right: 6.5vw;
-  top: 19vh;
-  height: 46vh;
-  /* bottom: 26vh; */
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /* vertical-align: middle; */
-  /* gap: 40px; */
-  text-align: center;
-
-  /* box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08); */
-  opacity: 1;
-  transition: all 300ms ease-out;
-}
-.set_info_blend.hidden {
-  opacity: 0;
-  display: none;
-}
 .swiper_main {
   /* border: 1px solid red; */
   position: fixed;
@@ -1010,10 +985,11 @@ const handleMouseLeave = () => {
   height: calc(100vh - 260px);
 
   margin: 0px 0px;
-
-  transition: all 450ms 50ms linear;
+  opacity: 1;
+  transition: all 450ms linear 50ms ;
   
 }
+
 .swiper_main.bottom_nav_hide {
   top: 0px;
   height: 100vh;
@@ -1031,6 +1007,12 @@ const handleMouseLeave = () => {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  opacity: 1;
+  
+}
+.swiper_main.hidden .main_preview {
+  transition: opacity 300ms ease-out;
+  opacity: 0;
 }
 .video_slide {
   position:absolute;
