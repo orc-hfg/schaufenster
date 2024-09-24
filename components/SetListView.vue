@@ -190,8 +190,6 @@ const previewLargeUrl = (treeId: string): string => {
 };
 const switch2set = (setid) => {
   emits('switch2setview', setid)
-  /*const url = "/setview/" + props.settype + "/" + setid + '/' + setid;
-  router.push(url);*/
 };
 
 const isEnabledYearBack = () => {

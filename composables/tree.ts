@@ -128,10 +128,11 @@ export interface iTreeFilter {
   meta_key: string,
   col_ids: string[]
 }
-export interface iFiltersMap {
-  [key: string]: {
+export interface iFilterTypeMap {
     [key: string]: iTreeFilter[];
-  }
+}
+export interface iFiltersMap {
+  [key: string]: iFilterTypeMap
 }
 export interface iTreeMap {
   [key: string]: iTree;
@@ -224,6 +225,7 @@ export const treeHelper = () => {
         cols_authors: {},
         cols_participants: {},
         cols_semesters: {},
+        // cols_departments: {},
         entries_authors: {},
 
         previews: {},
@@ -264,12 +266,13 @@ export const treeHelper = () => {
       const tree = treeMap[treeId];
       
 
-      if (filtersTitle && filtersTitle.length) {
+      if (filtersTitle.length > 0) {
         const filterString = filtersTitle.toLocaleLowerCase();
 
         const title = tree.colTitlesMap[tree.col_id].toLocaleLowerCase();
 
         if (title.indexOf(filterString) > -1) {
+          console.log("text search: found md title text: "+ title)
           filteredTreeList[treeId] = tree;  
         }
         //TODO search also sub-set-titles ?
@@ -310,6 +313,7 @@ export const treeHelper = () => {
 
       }
       else {
+        console.log("no filter text, so tree is in list")
         filteredTreeList[treeId] = tree;
       }
 
@@ -467,13 +471,14 @@ export const treeHelper = () => {
             //tree.previewsLarge[entryId] = preview;
             tree.previewsAudio[entryId] = tree.previewsAudio[entryId] || [];
             tree.previewsAudio[entryId].push(preview)
-            console.error("found entry with audio " + entryId)
+            //console.error("found entry with audio " + entryId)
           } else if (preview.media_type == "video") {
             //tree.previewsLarge[entryId] = preview;
             tree.previewsVideo[entryId] = tree.previewsVideo[entryId] || [];
             tree.previewsVideo[entryId].push(preview)
-            console.error("found entry with video " + entryId)
+            //console.error("found entry with video " + entryId)
           } else if (preview.media_type == "document") {
+
             console.error("found entry with document " + entryId);
           } else {
             console.error(
@@ -858,31 +863,22 @@ export const treeHelper = () => {
       .data as CollectionsListData;
 
     console.log("got cols for keyword: " + keyword_match + ":" + treeType)
-    console.dir(cols_data)
+    //console.dir(cols_data)
 
     for await (const colEl of cols_data.collections) {
       if (keyword_match !== MATCH_PROJECTS && 
         !CHILD_IDS_SCHAUFENSTER[colEl.id]) {
-        console.log("not in schaufenster set ids: " + colEl.id)
+        //console.log("not in schaufenster set ids: " + colEl.id)
         
       } else {
-        console.log("found col id in schaufenster set ids: " + colEl.id)
+        //console.log("found col id in schaufenster set ids: " + colEl.id)
         await buildTree(treeType, colEl.id);
         await buildTreeMetaData(treeType, colEl.id);
         useTree.value = state.treeMapper;
         console.log("finished build tree and meta_data " + colEl.id);
       }
     }
-    /*for await (const colEl of cols_data.collections) {
-      await buildTree(treeType, colEl.id);
-      useTree.value = state.treeMapper;
-      console.log("finished build tree " + colEl.id);
-    }
-    for await (const colEl of cols_data.collections) {
-      await buildTreeMetaData(treeType, colEl.id);
-      useTree.value = state.treeMapper;
-      console.log("finished build tree meta_data " + colEl.id);
-    }*/
+  
 
     //useState('tree-' + keyword_match, () => { return state.treeMapper[keyword_match] })
     console.log("finished build tree all " + keyword_match);
