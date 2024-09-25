@@ -230,7 +230,7 @@ h3 {
     font-family: "Instrument Sans";
     font-size: var(--font-h3-font-size, 48px);
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-h3-line-height, 60px); /* 125% */
 }
 .about_content {
@@ -239,7 +239,7 @@ h3 {
     font-family: "Instrument Sans";
     font-size: var(--font-body-font-size, 20px);
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 .row_100 {
@@ -277,7 +277,7 @@ h3 {
     font-family: "Instrument Sans";
     font-size: var(--font-subline-font-size, 20px);
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-subline-line-height, 24px); /* 120% */
 }
 
@@ -303,7 +303,7 @@ h3 {
     font-family: "Instrument Sans";
     font-size: var(--font-body-font-size, 20px);
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 .about_list_content_link {
@@ -313,7 +313,7 @@ h3 {
     font-family: "Instrument Sans";
     font-size: var(--font-body-font-size, 20px);
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-body-line-height, 24px);
     text-decoration-line: underline;
 }

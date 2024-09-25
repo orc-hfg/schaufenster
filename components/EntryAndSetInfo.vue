@@ -262,7 +262,7 @@ const isShowParentSetTitle = ():boolean => {
     font-family: "Instrument Sans";
     font-size: var(--font-subline-font-size, 20px);
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-subline-line-height, 24px); /* 120% */
 }
 .meta_content {
@@ -279,7 +279,7 @@ const isShowParentSetTitle = ():boolean => {
     font-family: "Instrument Sans";
     font-size: var(--font-body-font-size, 20px);
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 
@@ -289,7 +289,7 @@ const isShowParentSetTitle = ():boolean => {
   font-family: "Instrument Sans";
   font-size: var(--font-body-font-size, 20px);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 

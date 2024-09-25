@@ -1247,7 +1247,7 @@ const handleMouseLeave = () => {
   font-family: "Instrument Sans";
   font-size: 14px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-subline-line-height, 24px); /* 171.429% */
   
   padding-top: 0px;

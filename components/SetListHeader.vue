@@ -148,7 +148,7 @@ header nav a {
   font-family: "Instrument Sans";
   font-size: var(--font-button-font-size, 20px);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-button-line-height, 24px); /* 120% */
 
   border-radius: var(--radius-full, 9999px);
@@ -240,7 +240,7 @@ header nav a {
   font-family: "Instrument Sans";
   font-size: var(--font-button-font-size, 20px);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-button-line-height, 24px); /* 120% */
 
   

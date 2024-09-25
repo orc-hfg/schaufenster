@@ -556,7 +556,7 @@ nav {
 font-family: "Instrument Sans";
 font-size: var(--font-button-font-size, 20px);
 font-style: normal;
-font-weight: 500;
+font-weight: 400; letter-spacing: 0.02rem;
 line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
@@ -591,7 +591,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   font-family: "Instrument Sans";
   font-size: var(--font-button-font-size, 20px);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 .filter_text_input {
@@ -611,7 +611,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
 font-family: "Instrument Sans";
 font-size: var(--font-button-font-size, 20px);
 font-style: normal;
-font-weight: 500;
+font-weight: 400; letter-spacing: 0.02rem;
 line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 .filter_text_clear {
@@ -727,7 +727,7 @@ gap: 40px;
 
   font-size: var(--font-button-font-size, 1.25rem);
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-button-line-height, 1.5rem); /* 120% */
 
   
@@ -797,7 +797,7 @@ gap: 40px;
  font-family: Instrument Sans, sans-serif;
  font-size: var(--font-h4-font-size, 32px);
  font-style: normal;
- font-weight: 500;
+ font-weight: 400; letter-spacing: 0.02rem;
  line-height: var(--font-h4-line-height, 40px) /* 125% */;
 
 }
