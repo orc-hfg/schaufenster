@@ -246,27 +246,37 @@ const clickedYearForward = () => {
 const currentYear = ref('')
 let currentTimeout = undefined
 
+const SHOW_YEAR_DURATION = 2000;
+
+const showYear = () => {
+  let yearVal = props.slideList[activeSlide].year
+  if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
+    const sl = yearVal.split(' ')
+    yearVal = sl[0] + ' ' + sl[1].slice(0,1) + 'S'
+    
+  }
+  
+  currentYear.value = yearVal
+  /* console.log("swiperMain changed slide: " + activeSlide 
+    + ":" + props.slideList[activeSlide].year
+    + ":" + currentYear.value) */
+  
+  if (currentTimeout) {
+    clearTimeout(currentTimeout)
+  }
+
+
+  currentTimeout = setTimeout(() => {
+    currentYear.value = ''
+  }, SHOW_YEAR_DURATION)
+}
+
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex
-    let yearVal = props.slideList[activeSlide].year
-    if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
-      const sl = yearVal.split(' ')
-      yearVal = sl[0] + ' ' + sl[1].slice(0,1) + 'S'
-      
+    if (props.settype == MATCH_DIPLOM) {
+      showYear()
     }
-    currentYear.value = yearVal
-    console.log("swiperMain changed slide: " + activeSlide 
-      + ":" + props.slideList[activeSlide].year
-      + ":" + currentYear.value)
     
-    if (currentTimeout) {
-      clearTimeout(currentTimeout)
-    }
-
-
-    currentTimeout = setTimeout(() => {
-      currentYear.value = ''
-    }, 2000)
     //const set = treeMap.value[activeSlide]
 }
 
