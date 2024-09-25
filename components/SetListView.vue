@@ -7,11 +7,11 @@
         class="year_stepper">
     <IconsYearSelectorUp
         @click="clickedYearBack()"
-        :class="{disabled: !isEnabledYearBack()}"
+        :class="{disabled: !isEnabledYearBack}"
         />
     <IconsYearSelectorDown
         @click="clickedYearForward()"
-        :class="{disabled: !isEnabledYearForward()}"
+        :class="{disabled: !isEnabledYearForward}"
         />
     </div>
     </Transition>
@@ -178,7 +178,7 @@ const setTreeInfo = (el: iTree) => {
   treeInfoIdx.value = props.filteredSortedTrees.findIndex((val) => { return val.col_id == el.col_id})
   //elem?.scrollIntoView({block: "start", behavior: "smooth"})
   const ntop = (treeInfoIdx.value) * 48 + 48
-  console.log("stroll to " + treeInfoIdx.value + ": " + ntop)
+  //console.log("scroll to " + treeInfoIdx.value + ": " + ntop)
   document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
   
 }
@@ -192,9 +192,12 @@ const switch2set = (setid) => {
   emits('switch2setview', setid)
 };
 
-const isEnabledYearBack = () => {
+const isEnabledYearBack = ref(false)
+const isEnabledYearForward = ref(false)
+
+const upateEnabledYearBack = () => {
   const activeSlide = swiperMain.value?.activeIndex
-  return activeSlide > 0
+  isEnabledYearBack.value = activeSlide > 0
 }
 const clickedYearBack = () => {
   const activeSlide = swiperMain.value?.activeIndex
@@ -215,11 +218,19 @@ const clickedYearBack = () => {
     swiperMain.value.slideTo(activeSlide-1)
   }*/
 }
-const isEnabledYearForward = () => {
+
+const upateEnabledYearForward = () => {
   const activeSlide = swiperMain.value?.activeIndex
-  const maxSlides = props.slideList.length
-  return activeSlide < maxSlides
+  
+  
+  let next = 0
+  next = props.nextYearList.findIndex(el => {
+    return el > activeSlide
+  })
+  console.log("active Slide: " + activeSlide + " has next: " + next)
+  isEnabledYearForward.value = (next != -1)
 }
+
 const clickedYearForward = () => {
   const activeSlide = swiperMain.value?.activeIndex
   const maxSlides = props.slideList.length
@@ -248,7 +259,7 @@ let currentTimeout = undefined
 
 const SHOW_YEAR_DURATION = 2000;
 
-const showYear = () => {
+const showYear = (activeSlide:number) => {
   let yearVal = props.slideList[activeSlide].year
   if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
     const sl = yearVal.split(' ')
@@ -274,9 +285,10 @@ const showYear = () => {
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex
     if (props.settype == MATCH_DIPLOM) {
-      showYear()
+      showYear(activeSlide)
     }
-    
+    upateEnabledYearBack()
+    upateEnabledYearForward()
     //const set = treeMap.value[activeSlide]
 }
 
@@ -305,6 +317,8 @@ const setMainSwiper = (swiper: Swiper) => {
   //swiperMain.value.on('slideChangeTransitionStart', onBeforeSlideChange)
   //swiperMain.value.on('slideChangeTransitionEnd', onAfterSlideChange)
   
+  upateEnabledYearBack()
+  upateEnabledYearForward()
 };
 </script>
 <style scoped>
