@@ -4,7 +4,7 @@
 
       <NuxtLink 
         class="header_nav_logo fade_out"
-        :class="{hidden_fade_out: showInfo}"
+        :class="{hidden_fade_out: hideNav || showInfo}"
         @click="$emit('clickedBack')">
         <!-- :to="'/setlist/' + settype" > -->
           <IconsNavHome/>
@@ -16,7 +16,7 @@
           v-if="activeSetId !== setid"
           :class="{
             showPath2Root: showPath2Root,
-            hidden_move_up: showInfo,
+            hidden_move_up: hideNav || showInfo,
 
             }"
           :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}"
@@ -35,7 +35,7 @@
         v-else-if="activeSetId == setid && parentSetId !== 'root'"
         :class="{
           showPath2Root: showPath2Root,
-          hidden_move_up: showInfo
+          hidden_move_up: hideNav || showInfo
         }"
         :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}"
         @mouseover="setShowPath2Root(true)"
@@ -48,18 +48,19 @@
       </NuxtLink>
               
       <NuxtLink class="navbar_set_link animate_up"
-        :class="{hidden_move_up: showInfo}"
+        :class="{hidden_move_up: hideNav || showInfo}"
         @click="activeSetId == setid && emit('parentClicked')"
         >
         {{ getColTitle(activeSetId) }}
       </NuxtLink>
         
-            
-      <Transition :css="true" name="fade">            
+          
+      <!-- <Transition :css="true" name="fade"> -->
         <NuxtLink
           v-if="!showInfo"
           @click="$emit('toggleShowInfo')"
-          class="navbar_set_link info"
+          class="navbar_set_link info animate_up"
+          :class="{hidden_move_up: hideNav}"
           :style="infoBtnStyle">
           <IconsInfoShow/>
         </NuxtLink>
@@ -67,11 +68,12 @@
         <NuxtLink
           v-else
           @click="$emit('toggleShowInfo')"
-          class="navbar_set_link info"
+          class="navbar_set_link info animate_up"
+          :class="{hidden_move_up: hideNav}"
           :style="infoBtnStyle">
           <IconsInfoClose/>
         </NuxtLink>
-      </Transition>
+      <!-- </Transition> -->
 
     </nav>
   </header>
@@ -101,6 +103,7 @@ const props = defineProps([
     'activeSetId',
     'parentSetId',
     'showInfo',
+    'hideNav',
     'titlesMap'
 ])
 
@@ -270,15 +273,16 @@ nav {
   border-radius: var(--radius-full, 9999px);
   border: 1px solid transparent;
   background-color: var(--Colors-nav-bar-info-button-fill, #2C2C2C);
-
   color: var(--Colors-text-primary-inverted, #FFF);
-  font-family: "Instrument Sans";
-  font-size: var(--font-h4-font-size, 24px);
-  font-style: normal;
-  
-  line-height: var(--font-h4-line-height, 32px); /* 125% */
 
-  transition: all 1s linear;
+  top: 12px;
+  
+}
+.navbar_set_link.info.animate_up {
+  top: 12px;
+}
+.navbar_set_link.info.hidden_move_up {
+  top: -72px;
 }
 
 

@@ -7,7 +7,8 @@
       :active-set-id="activeSetId"
       :parent-set-id="parent_id"
 
-      :show-info="showInfo || animateSwitch2SetList"
+      :show-info="showInfo"
+      :hide-nav="animateSwitch2SetList"
       
       :titles-map="currentTree.colTitlesMap"  
       @toggle-show-info="toggleShowInfo"
