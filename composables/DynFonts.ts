@@ -99,6 +99,7 @@ export const DynFonts = () => {
         selectRandomFont,
         getViewSizedStyle,
         getPixelSizedStyle,
+        getSetTypeColor,
         mergeSetTypeColor,
         mergeSetTypeBackColor,
         ...toRefs(dynFontsState)
