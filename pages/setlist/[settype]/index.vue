@@ -104,6 +104,8 @@
 </template>
 <script setup lang="ts">
 
+const { t } = useI18n()
+
 const {
   font_list, font_selected,
   getPixelSizedStyle,
@@ -357,11 +359,11 @@ const updateSetType = () => {
 
   //setTimeout(() => {
     if (settype.value == MATCH_DIPLOM) {
-      intro_info.value = 'Abschluss-'
-      intro_info2.value = ' arbeiten '
+      intro_info.value = t('setlist.intro_title_diplom')
+      intro_info2.value = t('setlist.intro_title_diplom2')
     } else {
-      intro_info.value = 'Alle'
-      intro_info2.value = 'Projekte'
+      intro_info.value = t('setlist.intro_title_project')
+      intro_info2.value = t('setlist.intro_title_project2')
     }
     setTimeout(() => {
       intro_info.value = ''

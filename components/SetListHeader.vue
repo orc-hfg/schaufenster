@@ -12,9 +12,11 @@
             :class="{
               hidden: hideNavBtns,
               diplom: toggleBtnSetType == MATCH_DIPLOM,
-              projects: toggleBtnSetType == MATCH_PROJECTS}">
+              projects: toggleBtnSetType == MATCH_PROJECTS}"
+              >
             <NuxtLink class="navbar_link navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
+              
               @click="$emit('switch2settype', [MATCH_PROJECTS])"
               >
               <!-- Alle Projekte -->
@@ -22,6 +24,7 @@
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
+              
               @click="$emit('switch2settype' , [MATCH_DIPLOM])"
               >
               <!-- Abschlussarbeiten -->
@@ -75,10 +78,22 @@
 // TODO dynamic width for project type toggle
 
 const {
+  t,
+  locale
+} = useI18n()
+
+const {
   MATCH_DIPLOM,
   MATCH_PROJECTS,
   filterCount,
 } = treeHelper();
+
+const {
+  getSetTypeColor,
+  mergeSetTypeColor,
+  mergeSetTypeBackColor,
+} = DynFonts()
+
 
 const emit = defineEmits([
     'showMenu',
@@ -94,6 +109,45 @@ const props = defineProps([
     'showFilterView'
 ])
 
+const SET_TYPE_TOGGLE_FONT="20px Instrument Sans"
+const getTextWidth = (text:string):number => {
+  // re-use canvas object for better performance
+  try {
+    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+
+    const context = canvas.getContext("2d");
+    context.font = SET_TYPE_TOGGLE_FONT;
+    const metrics = context.measureText(text);
+    return metrics.width;
+  } catch (error) {
+    console.error("getTextWidth: Error: " + error)
+    return 146;
+  }
+}
+
+
+const toggle_project_width = ref("146px")
+const toggle_diplom_width = ref("202px")
+
+const updateStyle = () => {
+  const project_width = 29 + getTextWidth( t('setlist.btn_title_toggle_project') )
+  const diplom_width = 30 + getTextWidth( t('setlist.btn_title_toggle_diplom') )
+  console.log(
+    t('setlist.btn_title_toggle_project')
+    + t('setlist.btn_title_toggle_diplom')
+    + " pw: " + project_width 
+    + " dw: " + diplom_width)
+  toggle_diplom_width.value = diplom_width + 'px'
+  toggle_project_width.value = project_width + 'px'
+}
+onMounted(() => {
+  updateStyle()
+})
+
+watch(locale, () => {
+  console.log("locale changed: update style")
+  updateStyle()
+})
 // const showArchive = ref(false)
 // const setShowArchiveLink = (val:boolean) => {
 //   if (val == true) {
@@ -218,18 +272,18 @@ header nav a {
 .settype_toggle.projects {
   background: linear-gradient(90deg, 
     var(--Colors-nav-bar-toogle-project, #2C2C2C) 0%,
-    var(--Colors-nav-bar-toogle-project, #2C2C2C) 147px,
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) 147px);
+    var(--Colors-nav-bar-toogle-project, #2C2C2C) v-bind(toggle_project_width),
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) v-bind(toggle_project_width));
 }
 .settype_toggle.diplom {
   background: linear-gradient(90deg, 
     var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
     var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
     var(--Colors-nav-bar-toogle-diplom, #FF4D00) 0px,
-    var(--Colors-nav-bar-toogle-diplom, #FF4D00) 202px,
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) 202px
+    var(--Colors-nav-bar-toogle-diplom, #FF4D00) v-bind(toggle_diplom_width),
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) v-bind(toggle_diplom_width)
     );
-  background-position: 147px 0;
+  background-position: v-bind(toggle_project_width) 0;
 }
 
 .navbar_link.navbar_link_projects,
