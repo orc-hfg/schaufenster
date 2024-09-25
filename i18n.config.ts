@@ -4,7 +4,7 @@ export default defineI18nConfig(() => ({
     messages: {
         de: {
             intro: {
-                title1: "Projektarchiv",
+                title1: "Schaufenster",
                 title2: "der",
                 title3: "Hochschule",
                 title4: "für Gestaltung ",
@@ -20,6 +20,11 @@ export default defineI18nConfig(() => ({
                 dsa: "Datenschutz"
             },
             setlist: {
+                intro_title_project: "Alle",
+                intro_title_project2: "Projekte",
+                intro_title_diplom: "Abschluss-",
+                intro_title_diplom2:"arbeiten",
+
                 btn_title_menu: "Menu",
                 btn_title_toggle_project: "Alle Projekte",
                 btn_title_toggle_diplom: "Abschlussarbeiten",
@@ -27,6 +32,7 @@ export default defineI18nConfig(() => ({
                 btn_title_filter_reset: "Reset",
             },
             setview: {
+                
                 btn_title_nav_back: "Zurück",
                 btn_title_nav_parent_set: "Über-Set",
                 btn_title_nav_current_set: "Aktuelles Set",
@@ -70,20 +76,33 @@ export default defineI18nConfig(() => ({
         },
         en: {
             intro: {
-                title1: "Project archive",
-                title2: "der",
-                title3: "Hochschule",
-                title4: "für Gestaltung ",
-                title5: "Karlsruhe",
+                title1: "Schaufenster",
+                title2: "of",
+                title3: "Karlsruhe",
+                title4: "University",
+                title5: "of Arts and Design",
             },
             menu: {
-                about: "About",
+                about: "Info",
                 label_de: "de",
                 label_en: "en",
                 fonts: "Fonts",
-                impressum: "Impressum",
-                dsa: "DSA"
-            }
+                impressum: "Imprint",
+                dsa: "Privacy Policy"
+            },
+            setlist: {
+                intro_title_project: "All",
+                intro_title_project2: "Projects",
+                intro_title_diplom: "Graduation",
+                intro_title_diplom2: "Projects",
+                
+                btn_title_menu: "Menu",
+                btn_title_toggle_project: "All Projects",
+                btn_title_toggle_diplom: "Graduation Projects",
+                btn_title_filter: "Filter",
+                btn_title_filter_reset: "Reset",
+            },
+            
         }
     }
 }))
