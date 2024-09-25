@@ -72,6 +72,8 @@
     </header>
 </template>
 <script setup lang="ts">
+// TODO dynamic width for project type toggle
+
 const {
   MATCH_DIPLOM,
   MATCH_PROJECTS,
@@ -216,18 +218,18 @@ header nav a {
 .settype_toggle.projects {
   background: linear-gradient(90deg, 
     var(--Colors-nav-bar-toogle-project, #2C2C2C) 0%,
-    var(--Colors-nav-bar-toogle-project, #2C2C2C) 144px,
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) 144px);
+    var(--Colors-nav-bar-toogle-project, #2C2C2C) 147px,
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 147px);
 }
 .settype_toggle.diplom {
   background: linear-gradient(90deg, 
     var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
     var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
     var(--Colors-nav-bar-toogle-diplom, #FF4D00) 0px,
-    var(--Colors-nav-bar-toogle-diplom, #FF4D00) 200px,
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) 200px
+    var(--Colors-nav-bar-toogle-diplom, #FF4D00) 202px,
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 202px
     );
-  background-position: 144px 0;
+  background-position: 147px 0;
 }
 
 .navbar_link.navbar_link_projects,
@@ -258,7 +260,7 @@ header nav a {
 
 .navbar_link.navbar_link_projects {
   border-right: none;
-  width: 119px;
+  /* width: 146px; */
 }
 
 .navbar_link.navbar_link_projects.active {
