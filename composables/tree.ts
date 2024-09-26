@@ -126,7 +126,8 @@ export interface iTreeFilter {
   id: string,
   name: string,
   meta_key: string,
-  col_ids: string[]
+  col_ids: string[],
+  treeId: string
 }
 export interface iFilterTypeMap {
     [key: string]: iTreeFilter[];

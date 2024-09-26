@@ -49,12 +49,12 @@ watch(route, (newVal, oldVal) => {
 })
 
 const closeFilter = () => {
-
+/*
   newFiltersMap.value[FILTERS_KEYWORD] = {};
   newFiltersMap.value[FILTERS_PEOPLE] = {};
   newFiltersMap.value[FILTERS_ROLES] = {};
   newFiltersTitle.value = ''
-
+*/
   
   animate_intro.value = true;
   setTimeout(() => {
@@ -71,7 +71,8 @@ const applyFilter = () => {
   
 }
 
-const initKeywords = (treeMap:iTreeMap, kwMap, kwMetaKey:string) => {
+const initKeywords = (treeMap:iTreeMap, kwMetaKey:string) => {
+  const kwMap = {} as iFilterTypeMap
   for(const treeId in treeMap) {
     for (const kwId in treeMap[treeId].colKeywordMap[kwMetaKey]) {
       const kw = treeMap[treeId].colKeywordMap[kwMetaKey][kwId]
@@ -81,11 +82,14 @@ const initKeywords = (treeMap:iTreeMap, kwMap, kwMetaKey:string) => {
         name: kw.name,
         treeId: treeId,
         meta_key: kwMetaKey})
-      }
     }
+  }
+  return kwMap
+
 }
 
-const initPeople = (treeMap:iTreeMap, pMap, metaKey:string) => {
+const initPeople = (treeMap:iTreeMap, metaKey:string) => {
+  const pMap = {} as iFilterTypeMap
   for(const treeId in treeMap) {
     for (const kwId in treeMap[treeId].colPeopleMap[metaKey]) {
       const kw = treeMap[treeId].colPeopleMap[metaKey][kwId]
@@ -98,9 +102,11 @@ const initPeople = (treeMap:iTreeMap, pMap, metaKey:string) => {
         meta_key: metaKey})
     }  
   }
+  return pMap
 }
 
-const initRoles = (treeMap:iTreeMap, pMap, metaKey:string) => {
+const initRoles = (treeMap:iTreeMap, metaKey:string) => {
+  const pMap = {} as iFilterTypeMap
   for(const treeId in treeMap) {
     for (const kwId in treeMap[treeId].colRolesMap[metaKey]) {
       const kw = treeMap[treeId].colRolesMap[metaKey][kwId]
@@ -113,33 +119,33 @@ const initRoles = (treeMap:iTreeMap, pMap, metaKey:string) => {
         meta_key: metaKey})
     }  
   }
+  return pMap
 }
 
 const initTreeType = () => {
   
   treeList.value = props.trees_map
-  filteredTreeList.value = {}
+  filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
   
   console.log("got tree list" + Object.keys(treeList.value).length)
   
   
-  for(const treeId in treeList.value) {
-    filteredTreeList.value[treeId] = treeList.value[treeId];
-  }
-  
-  initKeywords(treeList.value, keywordMap.value, MK_KEYWORDS);
-  initPeople(treeList.value, peopleMap.value, MK_AUTHORS);
-  initRoles(treeList.value, rolesMap.value, MK_PARTICIPANTS);
+  // for(const treeId in treeList.value) {
+  //   filteredTreeList.value[treeId] = treeList.value[treeId];
+  // }
+  // global counts
+  keywordMap.value = initKeywords(treeList.value, MK_KEYWORDS);
+  peopleMap.value = initPeople(treeList.value, MK_AUTHORS);
+  rolesMap.value = initRoles(treeList.value, MK_PARTICIPANTS);
 
-  console.log("people map")
+  console.log("keyword map: ")
+  console.dir(keywordMap.value)
+  console.log("people map: ")
   console.dir(peopleMap.value)
-  console.log("roles map")
+  console.log("roles map: ")
   console.dir(rolesMap.value)
-  initKeywords(filteredTreeList.value, filteredKeywordMap.value, MK_KEYWORDS);
-  initPeople(filteredTreeList.value, filteredPeopleMap.value, MK_AUTHORS);
-  initRoles(filteredTreeList.value, filteredRolesMap.value, MK_PARTICIPANTS);
 
-  
+  updateFilteredCounts()
 }
 
 const selectedFilterCount = ref(0)
@@ -151,12 +157,11 @@ const updateFilteredCounts = () => {
   //filteredTreeList.value = updateFilters(props.trees_map, filtersTitle.value, filtersMap.value)
   filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
 
-  filteredKeywordMap.value = {}
-  initKeywords(filteredTreeList.value, filteredKeywordMap.value, MK_KEYWORDS)
-  filteredPeopleMap.value = {}
-  initPeople(filteredTreeList.value, filteredPeopleMap.value, MK_AUTHORS)
-  filteredRolesMap.value = {}
-  initRoles(filteredTreeList.value, filteredRolesMap.value, MK_PARTICIPANTS)
+  
+  filteredKeywordMap.value = initKeywords(filteredTreeList.value, MK_KEYWORDS)
+  filteredPeopleMap.value = initPeople(filteredTreeList.value, MK_AUTHORS)
+  filteredRolesMap.value = initRoles(filteredTreeList.value, MK_PARTICIPANTS)
+
   selectedFilterCount.value = 
   (newFiltersTitle.value.length > 0 ? 1 : 0)
   + Object.keys(newFiltersMap.value[FILTERS_KEYWORD]).length
@@ -303,7 +308,7 @@ onMounted(() => {
     
     
   })
-  updateFilteredCounts() 
+  
   /* 
 filtersMap.value[FILTERS_KEYWORD] = filtersMap.value[FILTERS_KEYWORD] || {};
 filtersMap.value[FILTERS_PEOPLE] = filtersMap.value[FILTERS_PEOPLE] || {};

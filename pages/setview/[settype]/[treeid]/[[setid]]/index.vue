@@ -149,6 +149,7 @@
           momentumBounce: true,
           sticky: false
         }"
+        :css-mode="false"
         :spaceBetween="4"
         :mousewheel="{forceToAxis:false}"
         :centeredSlides="false"
@@ -167,7 +168,7 @@
           :class="{
 
             set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id) && el.collection_id !== treeid,
-            grow_slides: nav_grow_width,
+            //grow_slides: nav_grow_width,
             nav_slide_btns: el.type == NavSlideType.Button && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
             nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
             nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
@@ -870,13 +871,13 @@ const initSubTree = (rootId:string, treeId: string) => {
     );
     //console.dir(navSlider.value);
   }
-  nav_grow_width.value = true
+  /* nav_grow_width.value = true
   setTimeout(() => {
     nav_grow_width.value = false
-  },1000)
+  },1000) */
 };
 
-const nav_grow_width = ref(true);
+//const nav_grow_width = ref(true);
 
 const initData = () => {
 
@@ -1233,6 +1234,7 @@ const handleMouseLeave = () => {
   border-top: var(--padding-item-vertical-M, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
   border-left: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
   border-bottom: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
+
 }
 
 .set_highlight {
@@ -1244,9 +1246,10 @@ const handleMouseLeave = () => {
   transition: width 500ms ease-out;
 }
 
-.grow_slides {
-  width: 1px ;
-}
+/* .grow_slides {
+  width: 1px !important;
+  transition: width 300ms;
+} */
 .entry_highlight {
   position: absolute;
   top: 36px;
