@@ -257,8 +257,8 @@ export const treeHelper = () => {
     state.filterCount += filtersMap[FILTERS_PEOPLE] ? Object.keys(filtersMap[FILTERS_PEOPLE]).length : 0
     state.filterCount += filtersMap[FILTERS_ROLES] ? Object.keys(filtersMap[FILTERS_ROLES]).length : 0
     
-    console.log("filtersMap:");
-    console.dir(filtersMap);
+    console.log("updateFilters: filtersMap: " + JSON.stringify(filtersMap));
+    
 
 
     
@@ -313,7 +313,7 @@ export const treeHelper = () => {
 
       }
       else {
-        console.log("no filter text, so tree is in list")
+        //console.log("no filter text, so tree is in list")
         filteredTreeList[treeId] = tree;
       }
 
@@ -327,7 +327,7 @@ export const treeHelper = () => {
 
         if (!tree.colKeywordMap[mtKey]
           || !tree.colKeywordMap[mtKey][kwId]) {
-          console.log(" kw " + kwId + " not in tree: delete");
+          //console.log(" kw " + kwId + " not in tree: delete");
           delete filteredTreeList[treeId];
           
         }
@@ -344,7 +344,7 @@ export const treeHelper = () => {
           }
         }
         if (found == false) {
-          console.log(" person " + pId + " not in tree: delete");
+          //console.log(" person " + pId + " not in tree: delete");
           delete filteredTreeList[treeId];
         }
       }
@@ -359,7 +359,7 @@ export const treeHelper = () => {
           }
         }
         if (found == false) {
-          console.log(" role person " + pId + " not in tree: delete");
+          //console.log(" role person " + pId + " not in tree: delete");
           delete filteredTreeList[treeId];
         }
       }

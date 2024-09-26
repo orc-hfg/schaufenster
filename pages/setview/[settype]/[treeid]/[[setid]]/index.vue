@@ -43,6 +43,7 @@
       @mousemove="handleMouseMove"
       @mouseleave="handleMouseLeave"
       :keyboard="true"
+      :css-mode="false"
       :auto-resize="false"
       :initial-slide="0"
       :slides-per-view="1"
@@ -58,7 +59,7 @@
         class="main_slide"
         v-for="(el,index) in entries"
         :key="el.id" :virtualIndex="index">
-        
+        <div class="swiper-slide-transform">
         <div v-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
           <div class="audio_slide">
@@ -92,7 +93,7 @@
           class="main_preview"
           :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
         </div>
-
+      </div>
         
       </swiper-slide>
       <div class="swiper-main-button-prev"
@@ -258,7 +259,8 @@
 
     <FilterView
           v-if="useTree && showFilterView"
-          
+          :use-clean-filters="false"
+          :use-current-filters="false"
           :trees_map="useTree[settype]"
           :tree_type="settype"
           @closed="onFilterViewClosed"
@@ -281,6 +283,7 @@ const {
     getPath2Root,
     
     newFiltersMap,
+    filtersMap
 
 } = treeHelper()
 
@@ -330,13 +333,29 @@ const addedFilter = (type, data) => {
 const onFilterViewApplied = () => {
   console.log("onFilterViewApplied")
   showFilterView.value = false
-  router.push('/setlist/' + settype.value)
+  // set new filters
+  for (const type in newFiltersMap.value) {
+    filtersMap.value[type] = {}
+    for (const fid in newFiltersMap.value[type]) {
+      filtersMap.value[type][fid] = newFiltersMap.value[type][fid]
+    }
+  }
+
+  console.error("onFilterViewApplied: filter map: new: " + JSON.stringify(newFiltersMap.value))
+  console.error("onFilterViewApplied: filter map: old: " + JSON.stringify(filtersMap.value))
+  
+
+  switch2setlist()
+  //router.push('/setlist/' + settype.value)
   //filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   //updateFilteredTrees2Slides(filteredTreeList.value)
 }
 const onFilterViewClosed = () => {
   
   console.log("onFilterViewClosed" + Object.keys(filteredTreeList.value).length)
+  // reset selection
+  //newFiltersMap.value = {}
+
   showFilterView.value = false
 }
 
@@ -1021,9 +1040,13 @@ const handleMouseLeave = () => {
 }
 
 .swiper-slide.main_slide {
-  /* border: 2px solid blue; */
+  border: 2px solid blue;
   align-items: center;
   justify-content: center;
+}
+.swiper-slide .swiper-slide-transform {
+  /* width: 100%; */
+  height: 100%;
 }
 .main_preview {
   width: 100%;

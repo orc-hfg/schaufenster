@@ -90,7 +90,8 @@
       <!-- <div  class="dialog_filter"> -->
         <FilterView
           v-if="showFilterView"
-          
+          :use-clean-filters="true"
+          :use-current-filters="true"
           :trees_map="useTree[settype]"
           :tree_type="settype"
           @closed="onFilterViewClosed"
@@ -132,6 +133,9 @@ const {
   filtersTitle,
   filtersMap,
   filteredTreeList,
+
+  newFiltersMap,
+  newFiltersTitle,
 
   updateFilters,
 } = treeHelper();
@@ -189,6 +193,22 @@ const switch2setview = (setid: string) => {
 const onFilterViewApplied = () => {
   console.log("onFilterViewApplied")
   showFilterView.value = false
+
+  filtersTitle.value = newFiltersTitle.value
+  
+  // set new filters
+  for (const type in newFiltersMap.value) {
+    filtersMap.value[type] = {}
+    for (const fid in newFiltersMap.value[type]) {
+      filtersMap.value[type][fid] = newFiltersMap.value[type][fid]
+    }
+  }
+
+  console.error("cloned back filter map: new: " + JSON.stringify(newFiltersMap.value))
+  console.error("cloned back filter map: old: " + JSON.stringify(filtersMap.value))
+  
+  
+
   filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   updateFilteredTrees2Slides(filteredTreeList.value)
 }
@@ -196,6 +216,11 @@ const onFilterViewClosed = () => {
   
   console.log("onFilterViewClosed" + Object.keys(filteredTreeList.value).length)
   showFilterView.value = false
+  newFiltersMap.value = {}
+  newFiltersTitle.value = ''
+  console.error("ignore new filter map: " + JSON.stringify(newFiltersMap.value))
+  console.error("use old filter map: " + JSON.stringify(filtersMap.value))
+  
   filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   updateFilteredTrees2Slides(filteredTreeList.value)
 }
@@ -342,20 +367,28 @@ const updateSetType = () => {
     return;
   }
 
-  console.error("use Tree state value: " + useTree.value[settype.value]);
+  //console.error("use Tree state value: " + useTree.value[settype.value]);
 
   treeList.value = useTree.value[settype.value];
   
+/*
+  // set new filters, clean old ones
+  for (const type in newFiltersMap.value) {
+    filtersMap.value[type] = {}
+    for (const fid in newFiltersMap.value[type]) {
+      filtersMap.value[type][fid] = newFiltersMap.value[type][fid]
+    }
+  }
+*/
+  filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
 
-  filteredTreeList.value = treeList.value;
-
-  console.log(" filtered list")
-  //console.dir(filteredTreeList.value);
+  console.log("updateSetType: filtered list: " + filteredTreeList.value && Object.keys(filteredTreeList.value) )
+  
 
   updateFilteredTrees2Slides(filteredTreeList.value)
   
-  filterCount.value = 0;
-  filtersMap.value = {};
+  //filterCount.value = 0;
+  //filtersMap.value = {};
 
   //setTimeout(() => {
     if (settype.value == MATCH_DIPLOM) {

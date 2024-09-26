@@ -31,7 +31,7 @@ const filteredTreeList = ref()
 const filterFor = ref('')
 
 const emit = defineEmits(['closed', 'applied'])
-const props = defineProps(['trees_map', 'tree_type'])
+const props = defineProps(['trees_map', 'tree_type', 'useCurrentFilters', 'useCleanFilters'])
 
 // global counts
 const keywordMap = ref({} as iFilterTypeMap)
@@ -62,16 +62,7 @@ const closeFilter = () => {
   }, 200)
 }
 const applyFilter = () => {
-  filtersTitle.value = newFiltersTitle.value
-  //filtersMap.value = newFiltersMap.value
-  for (const type in filtersMap.value) {
-    for (const fid in filtersMap.value[type]) {
-      filtersMap.value[type][fid] = newFiltersMap.value[type][fid]
-    }
-  }
-  console.error("cloned back filter map")
-  console.dir(filtersMap.value)
-  console.dir(newFiltersMap.value)
+  
 
   animate_intro.value = true;
   setTimeout(() => {
@@ -153,8 +144,9 @@ const initTreeType = () => {
 
 const selectedFilterCount = ref(0)
 const updateFilteredCounts = () => {
-  console.log("updateFilteredCounts: ")
-  console.dir(filtersMap)
+  console.log("updateFilteredCounts: new: " + JSON.stringify(newFiltersMap.value))
+  console.log("updateFilteredCounts: old: " + JSON.stringify(filtersMap.value))
+  
 
   //filteredTreeList.value = updateFilters(props.trees_map, filtersTitle.value, filtersMap.value)
   filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
@@ -295,13 +287,33 @@ const animate_intro = ref(true)
 
 onMounted(() => {
 
+  [FILTERS_KEYWORD, FILTERS_PEOPLE, FILTERS_ROLES].forEach(type => {
+    filtersMap.value[type] = filtersMap.value[type] || {}
+    if (props.useCurrentFilters) {
+      newFiltersMap.value[type] = {}
+      for (const id in filtersMap.value[type]) {
+        newFiltersMap.value[type][id] = filtersMap.value[type][id]
+      }
+      //newFiltersMap.value[type] = filtersMap.value[type]
+    } else if (props.useCleanFilters) {
+      newFiltersMap.value[type] = {}
+    } else {
+      newFiltersMap.value[type] = newFiltersMap.value[type] || {}
+    }
+    
+    
+  })
+  updateFilteredCounts() 
+  /* 
 filtersMap.value[FILTERS_KEYWORD] = filtersMap.value[FILTERS_KEYWORD] || {};
 filtersMap.value[FILTERS_PEOPLE] = filtersMap.value[FILTERS_PEOPLE] || {};
 filtersMap.value[FILTERS_ROLES] = filtersMap.value[FILTERS_ROLES] || {};
+ 
 
-newFiltersMap.value[FILTERS_KEYWORD] = filtersMap.value[FILTERS_KEYWORD]
-newFiltersMap.value[FILTERS_PEOPLE] = filtersMap.value[FILTERS_PEOPLE]
-newFiltersMap.value[FILTERS_ROLES] = filtersMap.value[FILTERS_ROLES]
+newFiltersMap.value[FILTERS_KEYWORD] = newFiltersMap.value[FILTERS_KEYWORD] || filtersMap.value[FILTERS_KEYWORD]
+newFiltersMap.value[FILTERS_PEOPLE] = newFiltersMap.value[FILTERS_PEOPLE] || filtersMap.value[FILTERS_PEOPLE]
+newFiltersMap.value[FILTERS_ROLES] = newFiltersMap.value[FILTERS_ROLES] || filtersMap.value[FILTERS_ROLES]
+*/
 /*
 for (const type in filtersMap.value) {
   for (const fid in filtersMap.value[type]) {
@@ -391,7 +403,8 @@ const switch2SetView = (tree_col_id: string) => {
                 disabled: getFilteredKWCount(kws[0].id) == 0}"
               >
               {{ kws[0].name }}
-              ( {{ getFilteredKWCount(kws[0].id) }} / {{ kws.length }} )
+              ( {{ getFilteredKWCount(kws[0].id) }} )
+              <!-- / {{ kws.length }} -->
             </button>
           </div>
           
