@@ -1,7 +1,7 @@
 <template>
     <div class="setview_intro_info"
         :class="{hidden: animate_io}">
-        <div class="set_info_blur"></div>
+        <div class="set_info_blur" @click="doClose()"></div>
         <div 
             class="set_info_blend"
             :style="showSetTitleStyle"
