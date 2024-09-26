@@ -7,21 +7,11 @@
         </div>        
         <div class="meta_content">
 
-            
             <div class="filter_list"
                 :class="{show_all: showAll}"
                 :style="getTextStyle(md.string, showAll)"
                 v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
-                <span>{{getAbbrevString(md.string, showAll) }}</span>
-                <!--
-                <span v-if="showAll">{{md.string}}</span>
-                <span v-if="!showAll">
-                    {{
-                        md.string?.substring(0, MIN_TEXT_SHOW_COUNT)
-                        + (md.string.length > MIN_TEXT_SHOW_COUNT && !showAll ? '...':'')
-                    }}
-                </span>
--->
+                <span class="filter_content">{{getAbbrevString(md.string, showAll) }}</span>
             </div>
             <MetaDatumViewShowBtn
                 v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE"
@@ -42,12 +32,15 @@
                 <span>{{ md.string.substring(0, MIN_TEXT_SHOW_COUNT + 3) }}</span>
             </div>
             
+
+
             <div class="filter_list"
                 :class="{show_all: showAll}"
                 v-if="md.type == MD_TYPE_KEYWORDS">
                 <div class="filter_tag"
                     v-for="(kw,idx) in md.selectedKeywords"
-                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
+                    @click="$emit('addFilter', FILTERS_KEYWORD,kw)">
                     {{ kw.term }}
                 </div>
             </div>
@@ -65,7 +58,8 @@
             
                 <div class="filter_tag"
                     v-for="(p,idx) in md.selectedPeople"
-                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
+                    @click="$emit('addFilter', FILTERS_PEOPLE,p)">
                     {{ p.first_name }}&nbsp;{{ p.last_name }}
                 </div>
             </div>
@@ -82,7 +76,8 @@
                 v-if="md.type == MD_TYPE_ROLES">
                 <div class="filter_tag"
                     v-for="(rp,idx) in md.selectedRoles"
-                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
+                    @click="$emit('addFilter', FILTERS_ROLES,rp)">
                     {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
                 </div>
             </div>
@@ -107,11 +102,17 @@ const {
   MD_TYPE_PEOPLE,
   MD_TYPE_ROLES
 } = madekHelper()
+const {
+    FILTERS_KEYWORD,
+    FILTERS_PEOPLE,
+    FILTERS_ROLES
+} = treeHelper()
 const MIN_TAG_SHOW_COUNT = 4;
 const MIN_TEXT_SHOW_COUNT = 200;
 
 
 const props = defineProps(['md','title'])
+const emits = defineEmits(['addFilter'])
 const showAll = ref(false)
 
 const notEmpty = () => {
@@ -269,7 +270,12 @@ flex-wrap: wrap;
 .filter_list.show_all {
     height: fit-content;
 }
+.filter_content {
+    user-select: text;
+}
 .filter_tag {
+    cursor: pointer;
+    user-select: text;
 /*  float: left;
   display: block;
   font-size: var(--font__body__fontsize, 20px);
@@ -287,7 +293,7 @@ flex-wrap: wrap;
     gap: var(--spacing-item-inner, 8px);
 
     border-radius: var(--radius-none, 0px);
-    border: 1px solid var(--filter-chip-fill-outline, #CAC9C2);
+    border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 
     font-family: "Instrument Sans";
     font-size: var(--font-body-font-size, 20px);
