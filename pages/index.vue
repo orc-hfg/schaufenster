@@ -47,7 +47,7 @@ const showContent = ref(false)
 const font_style = ref({})
 
 const switchPage = () => {
-  router.push('setlist/' + MATCH_DIPLOM)
+  router.push('/setlist/' + MATCH_DIPLOM)
 }
 const getFontStyle = (idx) => {
   const fs = getViewSizedStyle(18,18)
