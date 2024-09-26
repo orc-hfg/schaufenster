@@ -117,12 +117,18 @@
 --Colors-background-default: var(--Primitives-color-greys-ORCBlack);
 --Colors-background-video: var(--Primitives-color-greys-Black);
 --Colors-background-audio: var(--Primitives-color-greys-Black);
-
+/*
 --Colors-btm-bar-galleryView-gradient-default-stop-1: #000000;
 --Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(0,0,0,0);
 
 --Colors-btm-bar-galleryView-gradient-hover-stop-1: var(--Primitives-color-greys-ORCBlack);
 --Colors-btm-bar-galleryView-gradient-hover-stop-2: rgba(44,44,44,0);
+*/
+--Colors-btm-bar-galleryView-gradient-default-stop-1: var(--Primitives-color-greys-ORCBlack);
+--Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(44,44,44,0);
+
+--Colors-btm-bar-galleryView-gradient-hover-stop-1: #000000;
+--Colors-btm-bar-galleryView-gradient-hover-stop-2: rgba(0,0,0,0);
 
 --Colors-btm-bar-galleryView-set-hover: var(--Primitives-color-greys-ORCBlack);
 --Colors-btm-bar-main-button-fill: var(--Primitives-color-transparencies-black-30);
