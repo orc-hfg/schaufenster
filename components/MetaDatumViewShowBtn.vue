@@ -9,6 +9,7 @@
 
 </template>
 <script setup lang="ts">
+//TODO use svg icon
 const emits = defineEmits(['toggleShowAll'])
 const props = defineProps(['showAll','count', 'min'])
 </script>

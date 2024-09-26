@@ -116,6 +116,7 @@
       :current-tree="currentTree"
       :parent-set-id="setid"
       @scrollPosChanged="entryInfoScrollPosChanged"
+      @added-filter="addedFilter"
     />
     
     
@@ -254,21 +255,15 @@
     :set-title="getColTitle(setid)"
     @on-close="showSetTitle = false" />
 
-  <!-- :duration="{ enter: 250, leave: 500}" 
-  <Transition  name="unblur">
-  <div v-if="showSetTitle" class="set_info_blur"></div>
-  </Transition>
 
-  <div 
-    class="set_info_blend"
-    :class="{hidden: !showSetTitle}"
-    :style="showSetTitleStyle"
-    @click="showSetTitle = false">
-    <div class="content">
-      {{ getColTitle(setid) }}
-    </div>
-  </div>
--->
+    <FilterView
+          v-if="useTree && showFilterView"
+          
+          :trees_map="useTree[settype]"
+          :tree_type="settype"
+          @closed="onFilterViewClosed"
+          @applied="onFilterViewApplied"
+          />
 </div>
 </template>
 <script setup lang="ts">
@@ -284,10 +279,15 @@ const {
     filteredTreeList,
     getParent,
     getPath2Root,
+    
+    newFiltersMap,
+
 } = treeHelper()
 
 const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
+
+const useTree = useState("tree");
 
 //TODO watch resolution change
 
@@ -303,7 +303,7 @@ const treeid = ref(route.params.treeid as string)
 const setid = ref(route.params.setid as string)
 const parent_id = ref(treeid.value as string)
 const path2root = ref([] as string[])
-const useTree = useState('tree')
+
 
 const currentTree = ref({} as iTree)
 
@@ -317,6 +317,29 @@ const entryInfoScrollPosChanged = (pos) => {
     entry_info_hidden.value = false;
   }
 }
+
+const showFilterView = ref(false)
+const addedFilter = (type, data) => {
+  showFilterView.value = true;
+  setTimeout(() => {
+    newFiltersMap.value[type][data.id] = data
+    //TODO update filter counts
+  }, 100)
+  
+}
+const onFilterViewApplied = () => {
+  console.log("onFilterViewApplied")
+  showFilterView.value = false
+  router.push('/setlist/' + settype.value)
+  //filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
+  //updateFilteredTrees2Slides(filteredTreeList.value)
+}
+const onFilterViewClosed = () => {
+  
+  console.log("onFilterViewClosed" + Object.keys(filteredTreeList.value).length)
+  showFilterView.value = false
+}
+
 const av_state_play = ref(false)
 const toggleStatePlay = (newState:boolean) => {
   console.error("toggleStatePlay: " + newState)

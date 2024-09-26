@@ -20,99 +20,129 @@
       </div>
 
       
-          
       <MetaDatumView
+        v-if="isShowLocale(currentTree.entries_meta_data[activeEntryId]['media_object:title_en'])"
+        :title="$t('meta_info.label_title_en')"
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:title_en']"/>
+
+      <MetaDatumView
+        v-else
         :title="$t('meta_info.label_title')"
         :md="currentTree.entries_meta_data[activeEntryId]['madek_core:title']"/>                
         
-      <MetaDatumView
-        :title="$t('meta_info.label_title_en')"
-        :md="currentTree.entries_meta_data[activeEntryId]['media_object:title_en']"/>                
+      
 
       <MetaDatumView
         :title="$t('meta_info.label_authors')"
-        :md="currentTree.entries_meta_data[activeEntryId]['media_object:creator_of_media_object']"/>
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:creator_of_media_object']"
+        @add-filter="addFilter"
+        />
 
       <MetaDatumView
         :title="$t('meta_info.label_copyright')"
-        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"/>
+        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"
+        @add-filter="addFilter"/>
       <MetaDatumView
-        :md="currentTree.entries_meta_data[activeEntryId]['rights:license']"/>
+        :md="currentTree.entries_meta_data[activeEntryId]['rights:license']"
+        @add-filter="addFilter"/>
 
 <!--      <MetaDatumView
         :title="$t('meta_info.label_license')"
         :md="currentTree.entries_meta_data[activeEntryId]['rights:license']"/>
         -->
 
-
       <MetaDatumView
-        title="MediaObject All Text"
-        :md="currentTree.entries_meta_data[activeEntryId]['media_object:all-text']"/>
-
-      <MetaDatumView
+        v-if="isShowLocale(currentTree.entries_meta_data[activeEntryId]['media_object:all-text_en'])"
         title="MediaObject All Text (en)"
         :md="currentTree.entries_meta_data[activeEntryId]['media_object:all-text_en']"/>
+
+      <MetaDatumView
+        v-else
+        title="MediaObject All Text"
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:all-text']"/>
 
       </div>
 
       <div class="section_set">
-      
         <MetaDatumView
-          v-if="isShowParentSetTitle()"
+          v-if="isShowParentSetTitle() && isShowLocale(currentTree.cols_meta_data[parentSetId]['madek_core:title_en'])"
+          :title="$t('meta_info.label_project_parent_title')"
+          :md="currentTree.cols_meta_data[parentSetId]['madek_core:title_en']"/>
+
+        <MetaDatumView
+          v-else-if="isShowParentSetTitle()"
           :title="$t('meta_info.label_project_parent_title')"
           :md="currentTree.cols_meta_data[parentSetId]['madek_core:title']"/>
-      
+
         <MetaDatumView
+          v-if="isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:project_title_en'])"
+          :title="$t('meta_info.label_project_title_en')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:project_title_en']"/>
+        <MetaDatumView
+          v-else
           :title="$t('meta_info.label_project_title')"
           :md="currentTree.cols_meta_data[activeSetId]['madek_core:title']"/>
 
         <MetaDatumView
-          :title="$t('meta_info.label_project_title_en')"
-          :md="currentTree.cols_meta_data[activeSetId]['creative_work:project_title_en']"/>
-
+          v-if="isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:project_subtitle_en'])"
+          :title="$t('meta_info.label_project_subtitle_en')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:project_subtitle_en']"/>
         <MetaDatumView
+          v-else
           :title="$t('meta_info.label_project_subtitle')"
           :md="currentTree.cols_meta_data[activeSetId]['madek_core:subtitle']"/>
 
-        <MetaDatumView
-          :title="$t('meta_info.label_project_subtitle_en')"
-          :md="currentTree.cols_meta_data[activeSetId]['creative_work:project_subtitle_en']"/>
-
+        
         <MetaDatumView
           :title="$t('meta_info.label_project_authors')"
-          :md="currentTree.cols_meta_data[activeSetId]['madek_core:authors']"/>
+          :md="currentTree.cols_meta_data[activeSetId]['madek_core:authors']"
+          @add-filter="addFilter"
+          />
 
         <MetaDatumView
           :title="$t('meta_info.label_project_category')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:project_category']"/>
+          :md="currentTree.cols_meta_data[activeSetId]['institution:project_category']"
+          @add-filter="addFilter"
+          />
 
         <MetaDatumView
           :title="$t('meta_info.label_project_keywords')"
-          :md="currentTree.cols_meta_data[activeSetId]['madek_core:keywords']"/>
+          :md="currentTree.cols_meta_data[activeSetId]['madek_core:keywords']"
+          @add-filter="addFilter"
+          />
 
         <MetaDatumView
           :title="$t('meta_info.label_project_leader')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:project_leader']"/>
+          :md="currentTree.cols_meta_data[activeSetId]['institution:project_leader']"
+          @add-filter="addFilter"
+          />
 
         <MetaDatumView
           :title="$t('meta_info.label_project_semester')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:semester']"/>
+          :md="currentTree.cols_meta_data[activeSetId]['institution:semester']"
+          @add-filter="addFilter"
+          />
         
         <MetaDatumView
           :title="$t('meta_info.label_project_program_of_study')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:program_of_study']"/>
+          :md="currentTree.cols_meta_data[activeSetId]['institution:program_of_study']"
+          @add-filter="addFilter"
+          />
 
         <MetaDatumView
+          v-if="isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:description_en'])"
+          :title="$t('meta_info.label_project_description_en')"
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:description_en']"/>
+        <MetaDatumView
+          v-else
           :title="$t('meta_info.label_project_description')"
           :md="currentTree.cols_meta_data[activeSetId]['madek_core:description']"/>
 
         <MetaDatumView
-          :title="$t('meta_info.label_project_description_en')"
-          :md="currentTree.cols_meta_data[activeSetId]['creative_work:description_en']"/>
-
-        <MetaDatumView
           :title="$t('meta_info.label_project_participants')"
-          :md="currentTree.cols_meta_data[activeSetId]['creative_work:other_creative_participants']"/>
+          :md="currentTree.cols_meta_data[activeSetId]['creative_work:other_creative_participants']"
+          @add-filter="addFilter"
+          />
 
         <MetaDatumView
           :title="$t('meta_info.label_project_extra')"
@@ -132,6 +162,12 @@
   
 </template>
 <script setup lang="ts">
+const { 
+  locale,
+  setLocale
+} = useI18n()
+
+
 //TODO hide scrollbar
 //TODO show more btns for tags and text
 //TODO animation in vs out
@@ -151,8 +187,15 @@ const props = defineProps([
     'parentSetId'
 ])
 
-const emit = defineEmits(['scrollPosChanged'])
+const emit = defineEmits(['scrollPosChanged','addedFilter'])
 
+const addFilter = (type:string, md:object) => {
+  console.log("addFilter: "
+    + "type: " + type
+    + "data: " + JSON.stringify(md)
+  )
+  emit("addedFilter", type, md)
+}
 //const entry_info_hidden = ref(false)
 
 const scrolled = (event) => {
@@ -174,6 +217,18 @@ const isShowParentSetTitle = ():boolean => {
   if (props.currentTree.colTitlesMap[pid].length > MAX_SET_TITLE_LENGTH) {
     return true
   }
+  return false
+}
+
+
+const isShowLocale = (md:object) :boolean => {
+  if (locale.value == 'en') {
+    if (md && md.string && md.string.length) {
+      console.log("isShowLocale: true")
+      return true
+    }
+  }
+  console.log("isShowLocale: false")
   return false
 }
 </script>
@@ -293,24 +348,4 @@ const isShowParentSetTitle = ():boolean => {
   line-height: var(--font-body-line-height, 24px); /* 120% */
 }
 
-/* 
-.entry_info_title {
-  user-select: none;
-
-  position: fixed;
-  top: 2.5rem;
-  left: 10vw;
-  width: 80vw;
-  text-align: center;
-  align-content: center;
-  font-size: 3rem;
-  line-height: 3rem;
-}
-
-.entry_info_title {
-  transition: opacity 50ms linear;
-}
-.entry_info_title.hidden {
-  opacity: 0;
-} */
 </style>
