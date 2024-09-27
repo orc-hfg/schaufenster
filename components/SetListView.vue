@@ -57,8 +57,14 @@
             :style="el.previewstyle"
             @click="switch2set(el.col_id)">
             <div class="img"
+              v-if="hasPreview(el.col_id)"
               :class="{swiper_moving: swiperMoving}"
               :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.col_id) + '\')' }">
+            </div>
+            <div class="img_alt" v-else>
+                <div class="img_alt_title">
+                  {{getColTitle(el.col_id)}}
+                </div>
             </div>
           </div>
           
@@ -141,6 +147,7 @@ const apiBaseUrl = apiConfig.baseUrl + "/api-v2/";
 const {
   RID,
   MATCH_DIPLOM,
+  
 } = treeHelper();
 
 //const RID = 'root'
@@ -180,7 +187,24 @@ const setTreeInfo = (el: iTree) => {
   const ntop = (treeInfoIdx.value) * 48 + 48
   //console.log("scroll to " + treeInfoIdx.value + ": " + ntop)
   document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
-  
+}
+
+const getColTitle = (id: string): string => {
+    let result = ""
+    if (props.useTree 
+        && props.useTree[props.settype]
+        && props.useTree[props.settype][id]
+        && props.useTree[props.settype][id].colTitlesMap[id]) {
+            result = props.useTree[props.settype][id].colTitlesMap[id]
+        }
+    return result
+}
+
+const hasPreview = (id:string):boolean => {
+  if (previewLargeUrl(id).indexOf('undefined') > -1) {
+    return false
+  }
+  return true
 }
 
 const previewLargeUrl = (treeId: string): string => {
@@ -393,6 +417,19 @@ const setMainSwiper = (swiper: Swiper) => {
   /* border: 1px solid red; */
   transition:all 0.25s linear;
 }
+.set_preview .img_alt {
+  border: 1px solid var(--Colors-text-primary);
+  /* position: absolute;
+  top: 0px; left: 0px;
+  */
+  width: 100%; height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img_alt .img_alt_title {
+  display: flex;
+}
 .set_preview:hover {
   transform: scale(1.01);
 }
@@ -413,7 +450,7 @@ const setMainSwiper = (swiper: Swiper) => {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  transition: transform 0.3s linear;
+  transition: transform 300ms linear;
 }
 .set_preview .img.swiper_moving {
   transform: scale(0.98);
