@@ -224,11 +224,11 @@ const isShowParentSetTitle = ():boolean => {
 const isShowLocale = (md:object) :boolean => {
   if (locale.value == 'en') {
     if (md && md.string && md.string.length) {
-      console.log("isShowLocale: true")
+      //console.log("isShowLocale: true")
       return true
     }
   }
-  console.log("isShowLocale: false")
+  //console.log("isShowLocale: false")
   return false
 }
 </script>

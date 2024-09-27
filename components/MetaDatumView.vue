@@ -148,13 +148,13 @@ const notEmpty = () => {
 
 const getTextSize = (show_all:boolean):number[] => {
   // re-use canvas object for better performance
-  console.log("md: " + JSON.stringify(props.md))
-  const listos = document.getElementsByClassName('filter_listo')
-  for (let i = 0; i < listos.length; i++) {
+  //console.log("md: " + JSON.stringify(props.md))
+  //const listos = document.getElementsByClassName('filter_listo')
+  /* for (let i = 0; i < listos.length; i++) {
     console.log("width: " + listos[i].clientWidth
         + " height: " + listos[i].clientHeight
     )
-  }
+  } */
   const type = show_all == true ? 'max' : 'min'
   const id = getFilterListId(props.md, type)
     

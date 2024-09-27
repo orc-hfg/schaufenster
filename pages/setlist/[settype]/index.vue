@@ -136,7 +136,8 @@ const {
 
   newFiltersMap,
   newFiltersTitle,
-
+  getMapCount,
+  getFilterCount,
   updateFilters,
 } = treeHelper();
 
@@ -222,6 +223,7 @@ const onFilterViewClosed = () => {
   console.error("use old filter map: " + JSON.stringify(filtersMap.value))
   
   filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
+  filterCount.value = getFilterCount(filtersTitle.value, filtersMap.value)
   updateFilteredTrees2Slides(filteredTreeList.value)
 }
 
@@ -381,8 +383,8 @@ const updateSetType = () => {
   }
 */
   filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
-
-  console.log("updateSetType: filtered list: " + filteredTreeList.value && Object.keys(filteredTreeList.value) )
+  filterCount.value = getFilterCount(filtersTitle.value, filtersMap.value)
+  console.log("updateSetType: filtered list: " + getMapCount(filteredTreeList.value) )
   
 
   updateFilteredTrees2Slides(filteredTreeList.value)
@@ -436,10 +438,10 @@ const showMenu = () => {
 
 const resetFilter = () => {
   filtersTitle.value = ''
-  filtersMap.value = {};
-
+  filtersMap.value = {}
   
-  filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value);
+  filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
+  filterCount.value = getFilterCount(filtersTitle.value, filtersMap.value)
   console.log(" after reset ")
   console.dir(filteredTreeList.value)
   updateFilteredTrees2Slides(filteredTreeList.value)

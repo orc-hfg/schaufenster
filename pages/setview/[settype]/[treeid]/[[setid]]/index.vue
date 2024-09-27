@@ -325,10 +325,16 @@ const entryInfoScrollPosChanged = (pos) => {
 const showFilterView = ref(false)
 const addedFilter = (type, data) => {
   showFilterView.value = true;
-  setTimeout(() => {
+  newFiltersMap.value[type] = {}
+  newFiltersMap.value[type][data.id] = {
+    id: data.id,
+    name: data.term,
+    meta_key: data.meta_key_id
+  }
+  /* setTimeout(() => {
     newFiltersMap.value[type][data.id] = data
     //TODO update filter counts
-  }, 100)
+  }, 100) */
   
 }
 const onFilterViewApplied = () => {
@@ -355,7 +361,7 @@ const onFilterViewClosed = () => {
   
   console.log("onFilterViewClosed" + Object.keys(filteredTreeList.value).length)
   // reset selection
-  //newFiltersMap.value = {}
+  newFiltersMap.value[settype.value] = {}
 
   showFilterView.value = false
 }

@@ -127,7 +127,11 @@ export interface iTreeFilter {
   name: string,
   meta_key: string,
   col_ids: string[],
-  treeId: string
+  treeId: string,
+  count: number,
+}
+export interface iFilterCountMap {
+  [key: string]: iTreeFilter
 }
 export interface iFilterTypeMap {
     [key: string]: iTreeFilter[];
@@ -245,19 +249,31 @@ export const treeHelper = () => {
     return undefined;
   };
 
-  const updateFilters = (treeMap: iTreeMap, filtersTitle: string, filtersMap: iFiltersMap):iTreeMap => {
-    const filteredTreeList = {} as iTreeMap;
-    state.filterCount = 0;
+  const getMapCount = (data:object):number => {
+    if (!data || typeof data !== 'object') {
+      return 0
+    }
+    return Object.keys(data).length
+  }
+
+  const getFilterCount = (filter_string: string, filtersMap: iFiltersMap):number => {
+    let filterCount = 0;
 
     // and filter
-    if (filtersTitle && filtersTitle.length) {
-      state.filterCount++;
+    if (filter_string && filter_string.length) {
+      filterCount++;
     }
 
-    state.filterCount += filtersMap[FILTERS_KEYWORD] ? Object.keys(filtersMap[FILTERS_KEYWORD]).length : 0
-    state.filterCount += filtersMap[FILTERS_PEOPLE] ? Object.keys(filtersMap[FILTERS_PEOPLE]).length : 0
-    state.filterCount += filtersMap[FILTERS_ROLES] ? Object.keys(filtersMap[FILTERS_ROLES]).length : 0
+    filterCount += filtersMap[FILTERS_KEYWORD] ? Object.keys(filtersMap[FILTERS_KEYWORD]).length : 0
+    filterCount += filtersMap[FILTERS_PEOPLE] ? Object.keys(filtersMap[FILTERS_PEOPLE]).length : 0
+    filterCount += filtersMap[FILTERS_ROLES] ? Object.keys(filtersMap[FILTERS_ROLES]).length : 0
     
+    return filterCount
+  }
+  const updateFilters = (treeMap: iTreeMap, filtersTitle: string, filtersMap: iFiltersMap):iTreeMap => {
+    const filteredTreeList = {} as iTreeMap;
+    
+    state.filterCount = getFilterCount(filtersTitle, filtersMap)
     console.log("updateFilters: filtersMap: " + JSON.stringify(filtersMap));
     
 
@@ -320,47 +336,47 @@ export const treeHelper = () => {
 
       
 
-      for (const kwId in filtersMap[FILTERS_KEYWORD]) {
-        //console.log(" check kw " + JSON.stringify(state.filtersMap[FILTERS_KEYWORD][kwId]));
+      for (const id in filtersMap[FILTERS_KEYWORD]) {
+        console.log(" check kw " + JSON.stringify(filtersMap[FILTERS_KEYWORD][id]));
         
         // if found meta_key
-        const mtKey = filtersMap[FILTERS_KEYWORD][kwId].meta_key
+        const mtKey = filtersMap[FILTERS_KEYWORD][id].meta_key
 
         if (!tree.colKeywordMap[mtKey]
-          || !tree.colKeywordMap[mtKey][kwId]) {
-          //console.log(" kw " + kwId + " not in tree: delete");
+          || !tree.colKeywordMap[mtKey][id]) {
+          console.log(" kw " + id + " not in tree: delete");
           delete filteredTreeList[treeId];
           
         }
         
       }
 
-      for (const pId in filtersMap[FILTERS_PEOPLE]) {
-        //console.log(" check person " + pId);
+      for (const id in filtersMap[FILTERS_PEOPLE]) {
+        //console.log(" check person " + id);
         let found = false;
         // if found in any meta_key
         for (const mtKey in tree.colPeopleMap) {
-          if (tree.colPeopleMap[mtKey][pId]) {
+          if (tree.colPeopleMap[mtKey][id]) {
             found = true;
           }
         }
         if (found == false) {
-          //console.log(" person " + pId + " not in tree: delete");
+          //console.log(" person " + id + " not in tree: delete");
           delete filteredTreeList[treeId];
         }
       }
 
-      for (const pId in filtersMap[FILTERS_ROLES]) {
-        //console.log(" check role person " + pId);
+      for (const id in filtersMap[FILTERS_ROLES]) {
+        //console.log(" check role person " + id);
         let found = false;
         // if found in any meta_key
         for (const mtKey in tree.colRolesMap) {
-          if (tree.colRolesMap[mtKey][pId]) {
+          if (tree.colRolesMap[mtKey][id]) {
             found = true;
           }
         }
         if (found == false) {
-          //console.log(" role person " + pId + " not in tree: delete");
+          //console.log(" role person " + id + " not in tree: delete");
           delete filteredTreeList[treeId];
         }
       }
@@ -947,6 +963,8 @@ export const treeHelper = () => {
     getTreeTitle,
     getParent,
     getPath2Root,
+    getMapCount,
+    getFilterCount,
     updateFilters,
 
     ...toRefs(state),
