@@ -8,6 +8,7 @@ import {
   type CollectionsListData,
   type MediaEntryDetailData,
   type CollectionCollectionArcDetailData,
+  type KeywordsDetailData,
 } from "../generated/data-contracts";
 
 import { type iCollection, type iPreview } from "../utils/apiHelper";
@@ -111,6 +112,9 @@ export interface iTree {
   cols_semesters: {
     [key: string]: {};
   };
+  cols_departments: {
+    [key: string]: string[];
+  }
   entries_authors: {
     [key: string]: string[];
   };
@@ -199,13 +203,29 @@ export const treeHelper = () => {
   const FILTERS_PEOPLE = "people";
   const FILTERS_ROLES = "roles";
 
-  const MK_AUTHORS = 'madek_core:authors'
-  const MK_KEYWORDS = 'madek_core:keywords'
   const MK_TITLE = 'madek_core:title'
-  const MK_GRADUATE_TYPE = 'institution:​graduation-project-type'
-  const MK_PARTICIPANTS = 'creative_work:other_creative_participants'
+
+  const MK_AUTHORS = 'madek_core:authors'
+  const MK_PROJECT_TYPE = 'institution:project_category'
+  const MK_KEYWORDS = 'madek_core:keywords'
+  const MK_PROJECT_LEADER = 'institution:project_leader'
   const MK_SEMESTER = 'institution:semester'
-  const MK_FIELD_GROUP = 'institution:​field_of_study'
+  const MK_PROGRAM_OF_STUDY = 'institution:program_of_study'
+  const MK_PARTICIPANTS = 'creative_work:other_creative_participants'
+  
+  const MK_MATERIAL = 'creative_work:material'
+  const MK_DIMENSION = 'creative_work:dimension'
+  const MK_DURATION = 'creative_work:duration'
+  const MK_FORMAT = 'creative_work:format'
+  
+  const MK_COPYRIGHT = 'madek_core:copyright_notice'
+  const MK_LICENCE = 'rights:licence'
+  const MK_CREATOR = 'media_object:creator_of_media_object'
+
+  const MK_GRADUATE_TYPE = 'institution:​graduation-project-type'
+  
+  
+  const MK_DEPARTMENTS = 'institution:​field_of_study'
 
   const useTree = useState("tree");
 
@@ -230,7 +250,7 @@ export const treeHelper = () => {
         cols_authors: {},
         cols_participants: {},
         cols_semesters: {},
-        // cols_departments: {},
+        cols_departments: {},
         entries_authors: {},
 
         previews: {},
@@ -264,9 +284,9 @@ export const treeHelper = () => {
       filterCount++;
     }
 
-    filterCount += filtersMap[FILTERS_KEYWORD] ? Object.keys(filtersMap[FILTERS_KEYWORD]).length : 0
-    filterCount += filtersMap[FILTERS_PEOPLE] ? Object.keys(filtersMap[FILTERS_PEOPLE]).length : 0
-    filterCount += filtersMap[FILTERS_ROLES] ? Object.keys(filtersMap[FILTERS_ROLES]).length : 0
+    filterCount += getMapCount(filtersMap[FILTERS_KEYWORD])
+    filterCount += getMapCount(filtersMap[FILTERS_PEOPLE])
+    filterCount += getMapCount(filtersMap[FILTERS_ROLES])
     
     return filterCount
   }
@@ -740,6 +760,13 @@ export const treeHelper = () => {
         const year = sy.split(' ')[1]
         tree.cols_semesters[clientId] = year + ' ' + sem
         //tree.cols_semesters[clientId] = md.selectedKeywords[0].term
+      } else if (metaKey == MK_PROGRAM_OF_STUDY) {
+        
+        tree.cols_departments[clientId] = tree.cols_departments[clientId] || []
+        md.selectedKeywords.forEach(kw => {
+          tree.cols_departments[clientId].push(kw.term)
+        })
+        console.log("found program of study: " + JSON.stringify(tree.cols_departments[clientId]))
       }
       // TODO mitwirkende
       // TODO year / from semester
@@ -952,6 +979,12 @@ export const treeHelper = () => {
     MK_PARTICIPANTS,
     MK_SEMESTER,
     MK_TITLE,
+
+    MK_PROGRAM_OF_STUDY,
+    MK_PROJECT_LEADER,
+    MK_PROJECT_TYPE,
+    MK_DEPARTMENTS,
+
     collectionsAll,
 
     buildTree,

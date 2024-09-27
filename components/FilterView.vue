@@ -11,6 +11,10 @@ const {
   MK_AUTHORS,
   MK_KEYWORDS,
   MK_PARTICIPANTS,
+  MK_DEPARTMENTS,
+  MK_PROGRAM_OF_STUDY,
+  MK_PROJECT_LEADER,
+  MK_PROJECT_TYPE,
   MK_SEMESTER,
   MK_TITLE,
   RID,
@@ -39,14 +43,23 @@ const animate_intro = ref(true)
 
 const selectedFilterCount = ref(0)
 
+const globalMap = ref({} as {[key:string]: iFilterTypeMap})
+const countMap = ref({} as {[key:string]: iFilterTypeMap})
+
 // global counts
 const keywordMap = ref({} as iFilterTypeMap)
-const peopleMap = ref({} as iFilterTypeMap)
-const rolesMap = ref({} as iFilterTypeMap)
+const authorsMap = ref({} as iFilterTypeMap)
+const participantsMap = ref({} as iFilterTypeMap)
+const project_of_studyMap = ref({} as iFilterTypeMap)
+const project_categoryMap = ref({} as iFilterTypeMap)
+const project_leaderMap = ref({} as iFilterTypeMap)
+const semesterMap = ref({} as iFilterTypeMap)
+
 // filtered counts
 const filteredKeywordMap = ref({} as iFilterTypeMap)
 const filteredPeopleMap = ref({} as iFilterTypeMap)
 const filteredRolesMap = ref({} as iFilterTypeMap)
+const filtered_project_of_studyMap = ref({} as iFilterTypeMap)
 
 
 watch(route, (newVal, oldVal) => {
@@ -83,64 +96,34 @@ const addFilterTagCounter =
         meta_key: kwMetaKey})
 }
 
-const initKeywords = (treeMap:iTreeMap, kwMetaKey:string) => {
-  const kwMap = {} as iFilterTypeMap
+const initKeywords = (treeMap:iTreeMap, kwMetaKey:string, kwMap: iFilterTypeMap) => {
+  //kwMap = kwMap || {} as iFilterTypeMap
   for(const treeId in treeMap) {
     for (const kwId in treeMap[treeId].colKeywordMap[kwMetaKey]) {
       const kw = treeMap[treeId].colKeywordMap[kwMetaKey][kwId]
       addFilterTagCounter(kwMap, kwId, kw.name, treeId, kwMetaKey)
-      /*kwMap[kwId] = kwMap[kwId] || []
-      kwMap[kwId].push({
-        id: kwId,
-        name: kw.name,
-        treeId: treeId,
-        meta_key: kwMetaKey})
-      */
-     /*
-      kwMap[kwId] = kwMap[kwId] || {
-        id: kwId,
-        name: kw.name,
-        treeId: treeId,
-        meta_key: kwMetaKey,
-        count: 0
-      }
-      kwMap[kwId].count++*/
     }
   }
   return kwMap
 
 }
 
-const initPeople = (treeMap:iTreeMap, metaKey:string) => {
-  const pMap = {} as iFilterTypeMap
+const initPeople = (treeMap:iTreeMap, metaKey:string, pMap: iFilterTypeMap) => {
   for(const treeId in treeMap) {
     for (const kwId in treeMap[treeId].colPeopleMap[metaKey]) {
       const kw = treeMap[treeId].colPeopleMap[metaKey][kwId]
       addFilterTagCounter(pMap, kwId, kw.name, treeId, metaKey)  
-
-      /* pMap[kwId] = pMap[kwId] || []
-      pMap[kwId].push({ 
-        id: kwId,
-        name: kw.name,
-        treeId: treeId,
-        meta_key: metaKey}) */
     }  
   }
   return pMap
 }
 
-const initRoles = (treeMap:iTreeMap, metaKey:string) => {
-  const pMap = {} as iFilterTypeMap
+const initRoles = (treeMap:iTreeMap, metaKey:string, pMap: iFilterTypeMap) => {
+  //const pMap = {} as iFilterTypeMap
   for(const treeId in treeMap) {
     for (const kwId in treeMap[treeId].colRolesMap[metaKey]) {
       const kw = treeMap[treeId].colRolesMap[metaKey][kwId]
       addFilterTagCounter(pMap, kwId, kw.name, treeId, metaKey)  
-      /* pMap[kwId] = pMap[kwId] || []
-      pMap[kwId].push({ 
-        id: kwId,
-        name: kw.name,
-        treeId: treeId,
-        meta_key: metaKey}) */
     }  
   }
   return pMap
@@ -149,21 +132,48 @@ const initRoles = (treeMap:iTreeMap, metaKey:string) => {
 const initTreeType = () => {
   
   treeList.value = props.trees_map
-  //filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
   
-  console.log("got tree list" + Object.keys(treeList.value).length)
-  
-  // global counts
-  keywordMap.value = initKeywords(treeList.value, MK_KEYWORDS);
-  peopleMap.value = initPeople(treeList.value, MK_AUTHORS);
-  rolesMap.value = initRoles(treeList.value, MK_PARTICIPANTS);
+  console.log("got tree list" + Object.keys(treeList.value).length);
 
-  console.log("global keyword map: ")
+  [MK_KEYWORDS, MK_PROJECT_TYPE, MK_PROGRAM_OF_STUDY, MK_SEMESTER].forEach(meta_key => {
+    globalMap.value[meta_key] = initKeywords(treeList.value, meta_key, {})
+  });
+
+  [MK_AUTHORS, MK_PROJECT_LEADER].forEach(meta_key => {
+    globalMap.value[meta_key] = initPeople(treeList.value, meta_key, {})
+  });
+
+  [MK_PARTICIPANTS].forEach(meta_key => {
+    globalMap.value[meta_key] = initRoles(treeList.value, meta_key, {})
+  });
+
+
+  // global counts
+  keywordMap.value = initKeywords(treeList.value, MK_KEYWORDS, {})
+  authorsMap.value = initPeople(treeList.value, MK_AUTHORS, {})
+  participantsMap.value = initRoles(treeList.value, MK_PARTICIPANTS, {})
+  
+  project_of_studyMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, {})
+  keywordMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, keywordMap.value)
+
+  project_leaderMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, {})
+  authorsMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, authorsMap.value)
+
+  project_categoryMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, {})
+  keywordMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, keywordMap.value)
+
+  semesterMap.value = initKeywords(treeList.value, MK_SEMESTER, {})
+  keywordMap.value = initKeywords(treeList.value, MK_SEMESTER, keywordMap.value)
+
+  console.log("global departments map: ")
+  console.dir(project_of_studyMap.value)
+
+  /* console.log("global keyword map: ")
   console.dir(keywordMap.value)
   console.log("global people map: ")
-  console.dir(peopleMap.value)
+  console.dir(authorsMap.value)
   console.log("global roles map: ")
-  console.dir(rolesMap.value)
+  console.dir(participantsMap.value) */
 
   updateFilteredCounts()
 }
@@ -177,9 +187,27 @@ const updateFilteredCounts = () => {
   
   filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
   console.log("updateFilteredCounts: filtered tree count " + getMapCount(filteredTreeList.value))
-  filteredKeywordMap.value = initKeywords(filteredTreeList.value, MK_KEYWORDS)
-  filteredPeopleMap.value = initPeople(filteredTreeList.value, MK_AUTHORS)
-  filteredRolesMap.value = initRoles(filteredTreeList.value, MK_PARTICIPANTS)
+  filteredKeywordMap.value = initKeywords(filteredTreeList.value, MK_KEYWORDS, {})
+  filteredPeopleMap.value = initPeople(filteredTreeList.value, MK_AUTHORS, {})
+  filteredRolesMap.value = initRoles(filteredTreeList.value, MK_PARTICIPANTS, {})
+  
+  filteredKeywordMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, filteredKeywordMap.value)
+  filteredPeopleMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, filteredPeopleMap.value)
+  filteredKeywordMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, filteredKeywordMap.value)
+  filteredKeywordMap.value = initKeywords(treeList.value, MK_SEMESTER, filteredKeywordMap.value);
+
+  [MK_KEYWORDS, MK_PROJECT_TYPE, MK_PROGRAM_OF_STUDY, MK_SEMESTER].forEach(meta_key => {
+    countMap.value[meta_key] = initKeywords(treeList.value, meta_key, {})
+  });
+
+  [MK_AUTHORS, MK_PROJECT_LEADER].forEach(meta_key => {
+    countMap.value[meta_key] = initPeople(treeList.value, meta_key, {})
+  });
+
+  [MK_PARTICIPANTS].forEach(meta_key => {
+    countMap.value[meta_key] = initRoles(treeList.value, meta_key, {})
+  });
+
 
   selectedFilterCount.value = getFilterCount(newFiltersTitle.value, newFiltersMap.value)
 
@@ -204,17 +232,12 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
 
   if (isSelected(type,id)) {
     console.log("already has selected item: reset")
-    //delete filtersMap.value[type][id]
     delete newFiltersMap.value[type][id]
     console.dir(filtersMap.value)
   }
   else {
-
       newFiltersMap.value[type][id] = data
       console.log("clickedFilter: filter for data: " + JSON.stringify(data))
-
-      //console.log("clickedFilter: new filtersMap: " + JSON.stringify(filtersMap.value))
-      //console.dir(filtersMap.value)
   }
   updateFilteredCounts()
 }
@@ -238,12 +261,6 @@ const changedFilterTitle = () => {
   console.log("changedFilterTitle " + newFiltersTitle.value)
   updateFilteredCounts();
 }
-
-// const changedFilterString = () => {
-//   console.log("changedFilterString " + filtersText.value)
-//   updateFilteredCounts();
-// }
-
 
 const isSelected = (type:string, id:string) => {
   if (!newFiltersMap.value
@@ -329,9 +346,8 @@ onMounted(() => {
     
   })
   
-console.error("filter map current: " + JSON.stringify(filtersMap.value))
-console.error("filter map new: " + JSON.stringify(newFiltersMap.value))
-
+  console.error("filter map current: " + JSON.stringify(filtersMap.value))
+  console.error("filter map new: " + JSON.stringify(newFiltersMap.value))
 
   initTreeType()
 
@@ -382,7 +398,8 @@ const switch2SetView = (tree_col_id: string) => {
             type="text"
             @input="changedFilterTitle"
             v-model="newFiltersTitle"/>
-          <div class="filer_text_clear">
+          <div class="filer_text_clear"
+            @click="newFiltersTitle = '';updateFilteredCounts()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M6 6L18 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -399,10 +416,11 @@ const switch2SetView = (tree_col_id: string) => {
     
       <div class="wrapper_filter">
         
+        <!-- MK_KEYWORDS -->
         <div class="tree_filter_keywords">
           <div class="filter_headline">Keywords:</div>
           
-          <div v-for="kws in keywordMap" :key="kws">
+          <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
             <button class="keyword_item"
               @click="clickedKeyword(kws)"
               v-if="!isHideIfNotSubString(kws[0].name)"
@@ -412,17 +430,18 @@ const switch2SetView = (tree_col_id: string) => {
                 disabled: getFilteredKWCount(kws[0].id) == 0}"
               >
               {{ kws[0].name }}
-              ( {{ getFilteredKWCount(kws[0].id) }} )
-              <!-- / {{ kws.length }} -->
+              <span class="filter_count">{{ getFilteredKWCount(kws[0].id) }}</span>
             </button>
           </div>
           
         </div>
         <hr/>
+
+        <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
           <div class="filter_headline">Autoren:</div>
           
-          <div v-for="person in peopleMap" :key="person">
+          <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
             <button class="keyword_item"
               @click="clickedPeople(person)"
               v-if="!isHideIfNotSubString(person[0].name)"
@@ -432,15 +451,17 @@ const switch2SetView = (tree_col_id: string) => {
                 disabled: getFilteredPersonCount(person[0].id) == 0}"
               >
               {{ person[0].name }}
-              ( {{ getFilteredPersonCount(person[0].id) }} / {{ person.length }} )
+              <span class="filter_count">{{ getFilteredPersonCount(person[0].id) }}</span>
             </button>
           </div>
         </div>
         <hr/>
+
+        <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
           <div class="filter_headline">Mitwirkende:<hr></div>
 
-          <div v-for="person in rolesMap" :key="person">
+          <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
             <button class="keyword_item"
               @click="clickedRole(person)"
               v-if="!isHideIfNotSubString(person[0].name)"
@@ -449,10 +470,96 @@ const switch2SetView = (tree_col_id: string) => {
                 preselected: isSubString(person[0].name),
                 disabled: getFilteredRolesCount(person[0].id) == 0}">
               {{ person[0].name }}
-              ( {{ getFilteredRolesCount(person[0].id) }} / {{ person.length }} )
+              <span class="filter_count">{{ getFilteredRolesCount(person[0].id) }}</span>
             </button>
           </div>
         </div>
+        <hr/>
+
+        <!-- MK_PROGRAM_OF_STUDY -->
+        <div class="tree_filter_keywords">
+          <div class="filter_headline">Fachbereiche:<hr></div>
+          
+          <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
+            <button class="keyword_item"
+              @click="clickedKeyword(item)"
+              v-if="!isHideIfNotSubString(item[0].name)"
+              :class="{
+                selected: isSelectedKeyword(item[0].id),
+                preselected: isSubString(item[0].name),
+                disabled: getFilteredKWCount(item[0].id) == 0
+                }"
+                >
+              {{ item[0].name }}
+              <span class="filter_count">{{ getFilteredKWCount(item[0].id) }}</span>
+            </button>
+          </div>
+        </div>
+        <hr/>
+
+        <!-- MK_PROJECT_CATEGORY -->
+        <div class="tree_filter_keywords">
+          <div class="filter_headline">Projekt-Kategorie:<hr></div>
+          
+          <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
+            <button class="keyword_item"
+              @click="clickedKeyword(item)"
+              v-if="!isHideIfNotSubString(item[0].name)"
+              :class="{
+                selected: isSelectedKeyword(item[0].id),
+                preselected: isSubString(item[0].name),
+                disabled: getFilteredKWCount(item[0].id) == 0
+                }"
+                >
+              {{ item[0].name }}
+              <span class="filter_count">{{ getFilteredKWCount(item[0].id) }}</span>
+            </button>
+          </div>
+        </div>
+        <hr/>
+        <!-- MK_PROJECT_LEADER -->
+        <div class="tree_filter_keywords">
+          <div class="filter_headline">Betreuer/innen:<hr></div>
+          
+          <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
+            <button class="keyword_item"
+              @click="clickedPeople(item)"
+              v-if="!isHideIfNotSubString(item[0].name)"
+              :class="{
+                selected: isSelectedPerson(item[0].id),
+                preselected: isSubString(item[0].name),
+                disabled: getFilteredPersonCount(item[0].id) == 0
+                }"
+                >
+              {{ item[0].name }}
+              <span class="filter_count">{{ getFilteredPersonCount(item[0].id) }}</span>
+            </button>
+          </div>
+        </div>
+        <hr/>
+
+        <!-- MK_SEMESTER -->
+        <div class="tree_filter_keywords">
+          <div class="filter_headline">Semester::<hr></div>
+          
+          <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
+            <button class="keyword_item"
+              @click="clickedKeyword(item)"
+              v-if="!isHideIfNotSubString(item[0].name)"
+              :class="{
+                selected: isSelectedKeyword(item[0].id),
+                preselected: isSubString(item[0].name),
+                disabled: getFilteredKWCount(item[0].id) == 0
+                }"
+                >
+              {{ item[0].name }}
+              <span class="filter_count">{{ getFilteredKWCount(item[0].id) }}</span>
+            </button>
+          </div>
+        </div>
+        <hr/>
+
+
       </div>
 
       <div class="wrapper_projects">
@@ -474,10 +581,10 @@ const switch2SetView = (tree_col_id: string) => {
               </div>
             </div>
             <div class="tree_fachbereich">
-              <!-- <div class="tree_fachbereich_item"
+              <div class="tree_fachbereich_item"
                 v-for="fb in tree.cols_departments[tree.col_id]">
                 {{ fb }}
-              </div> -->
+              </div>
             </div>
             <div class="tree_divider"><hr></div>
             
@@ -489,17 +596,6 @@ const switch2SetView = (tree_col_id: string) => {
     </div>
 
     
-  
-  
-    <!--Tree List All
-    <div class="tree_list">
-      <div class="tree_list_item"
-        v-for="tree in treeList"
-        :key="tree.col_id">
-        Title: {{ tree.colTitlesMap[tree.col_id] }}
-      </div>
-    </div>
-    -->
 
   </div>
 </template>
@@ -751,11 +847,20 @@ gap: 40px;
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-button-line-height, 1.5rem); /* 120% */
-
-  
-  
 }
 
+.filter_count {
+  width: 24px; height: 24px;
+  border: 1px solid #2C2C2C;
+  border-radius: 1000px;
+  font-size: 20px;
+}
+.filter_count.u100 {
+  font-size: 16px;
+}
+.filter_count.u1000 {
+  font-size: 14px;
+}
 
 .keyword_item:hover,
 .keyword_item:hover * {
@@ -763,12 +868,17 @@ gap: 40px;
 }
 
 .keyword_item.selected,
-.keyword_item.selected *,
-.keyword_item.preselected,
-.keyword_item.preselected *
+.keyword_item.selected *
 {
   color: var(--Colors-filter-chip-text-active, #FFF);
   background: var(--Colors-filter-chip-fill-active, #2C2C2C);
+}
+
+.keyword_item.preselected,
+.keyword_item.preselected *
+{
+  /* color: var(--Colors-filter-chip-text-active, #FFF);
+  background: var(--Colors-filter-chip-fill-active, #2C2C2C); */
 }
 
 .keyword_item.disabled,
