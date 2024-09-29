@@ -211,7 +211,7 @@
           </div>
           <!-- :title="'E: ' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))" -->
           <div
-            v-if="el.type === NavSlideType.Button && maxCount[el.collection_id] >= MIN_SHOW_COUNT"
+            v-if="el.type === NavSlideType.Button && maxCount[el.collection_id] > MIN_SHOW_COUNT"
            
             class="nav_preview_btn ">
             
@@ -221,7 +221,7 @@
               <IconsChevronRight/>
             </IconWrap>
             <IconWrap :large="true"
-              v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT"
+              v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
               @click="resetShowCount(el.collection_id)">
               <IconsChevronLeft/>
             </IconWrap>
@@ -231,7 +231,6 @@
 
           <div class="entry_highlight"
             v-if="el.entry_id == activeEntryId">
-            <!-- <IconWrap :inv="true"><IconsCircle/></IconWrap> -->
             <IconsEntryHighlight />
           </div>
 
@@ -517,23 +516,42 @@ const getShowCount = (treeId:string) => {
     return showCount.value[treeId]
 }
 const resetShowCount = (treeId:string) => {
-    showCount.value[treeId] = Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
-    initData()
+    const start = showCount.value[treeId]
+    const min = Math.min( MIN_SHOW_COUNT, maxCount.value[treeId])
+    for (let i = start; i >= min; i--) {
+      setTimeout(() => {
+        showCount.value[treeId] = i;
+        initData()
+      }, (start - i) * 50)
+      
+    }
+    //showCount.value[treeId] = Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
+    //initData()
     /* setTimeout(() => {
       swiperNav.value.update()
       swiperNav.value.updateSize()
     },200) */
 }
 const addShowCount = (treeId:string) => {
-    showCount.value[treeId] = maxCount.value[treeId]
-    initData()
+    const start = showCount.value[treeId]
+    const max = maxCount.value[treeId]
+    for (let i = start; i <= max; i++) {
+      setTimeout(() => {
+        showCount.value[treeId] = i
+        initData()
+      }, (i-start) * 50)
+      
+    }
+
+    //showCount.value[treeId] = maxCount.value[treeId]
+    //initData()
 
     /* setTimeout(() => {
       swiperNav.value.update()
       swiperNav.value.updateSize()
     },200) */
     //Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
-    return showCount.value[treeId]
+    //return showCount.value[treeId]
 }
 const getColTitle = (id: string): string => {
     let result = ""
