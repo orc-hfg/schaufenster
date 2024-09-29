@@ -10,7 +10,8 @@
       :show-info="showInfo"
       :hide-nav="animateSwitch2SetList"
       
-      :titles-map="currentTree.colTitlesMap"  
+      :titles-map="currentTree.colTitlesMap"
+      :theme="data_theme"
       @toggle-show-info="toggleShowInfo"
       @parent-clicked="swiperMain.slideTo(0)"
       @clicked-back="switch2setlist"
@@ -217,12 +218,12 @@
             
             <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
-              @click="addShowCount(el.collection_id)">
+              @click="clickedNavShowMore(el.collection_id)">
               <IconsChevronRight/>
             </IconWrap>
             <IconWrap :large="true"
               v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
-              @click="resetShowCount(el.collection_id)">
+              @click="clickedNavShowLess(el.collection_id)">
               <IconsChevronLeft/>
             </IconWrap>
               
@@ -355,28 +356,22 @@ const onFilterViewApplied = () => {
   
 
   switch2setlist()
-  //router.push('/setlist/' + settype.value)
-  //filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
-  //updateFilteredTrees2Slides(filteredTreeList.value)
 }
+
 const onFilterViewClosed = () => {
-  
   console.log("onFilterViewClosed" + Object.keys(filteredTreeList.value).length)
   // reset selection
   newFiltersMap.value[settype.value] = {}
-
   showFilterView.value = false
 }
 
 const av_state_play = ref(false)
+
 const toggleStatePlay = (newState:boolean) => {
-  console.error("toggleStatePlay: " + newState)
-  av_state_play.value = !av_state_play.value
-  //if (newState) {
-    av_state_play.value = newState
-  //} else {
-  //  av_state_play.value = !av_state_play.value
-  //}
+  //console.log("toggleStatePlay: " + newState)
+  //av_state_play.value = !av_state_play.value
+  av_state_play.value = newState
+  
   const entryId = activeEntryId.value
   const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
   if (avel) {
@@ -507,7 +502,7 @@ const switch2setlist = () => {
     const url = '/setlist/' + settype.value
     console.log("switch2setlist: " + settype.value + ":" + url)
     router.push(url)
-  },350)
+  },200)
   
 }
 
@@ -515,7 +510,7 @@ const getShowCount = (treeId:string) => {
     showCount.value[treeId] = showCount.value[treeId] || Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
     return showCount.value[treeId]
 }
-const resetShowCount = (treeId:string) => {
+const clickedNavShowLess = (treeId:string) => {
     const start = showCount.value[treeId]
     const min = Math.min( MIN_SHOW_COUNT, maxCount.value[treeId])
     for (let i = start; i >= min; i--) {
@@ -525,14 +520,9 @@ const resetShowCount = (treeId:string) => {
       }, (start - i) * 50)
       
     }
-    //showCount.value[treeId] = Math.min( MIN_SHOW_COUNT, maxCount.value[treeId]);
-    //initData()
-    /* setTimeout(() => {
-      swiperNav.value.update()
-      swiperNav.value.updateSize()
-    },200) */
 }
-const addShowCount = (treeId:string) => {
+
+const clickedNavShowMore = (treeId:string) => {
     const start = showCount.value[treeId]
     const max = maxCount.value[treeId]
     for (let i = start; i <= max; i++) {
@@ -542,17 +532,8 @@ const addShowCount = (treeId:string) => {
       }, (i-start) * 50)
       
     }
-
-    //showCount.value[treeId] = maxCount.value[treeId]
-    //initData()
-
-    /* setTimeout(() => {
-      swiperNav.value.update()
-      swiperNav.value.updateSize()
-    },200) */
-    //Math.min( showCount.value[treeId] + 5, maxCount.value[treeId])
-    //return showCount.value[treeId]
 }
+
 const getColTitle = (id: string): string => {
     let result = ""
     if (currentTree.value
@@ -641,6 +622,9 @@ const on_av_time_update = () => {
   
   //progressBarEl.style.width = Math.floor((avel.currentTime / avel.duration) * 100) + '%'
 }
+
+const data_theme = ref('')
+
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex;
     /* console.log("swiperMain changed slide: " + activeSlide) */
@@ -676,7 +660,7 @@ const onMainSwiperSlideChanged = () => {
     const avel = document.getElementById('slide-audio-'+ entry.id) || document.getElementById('slide-video-'+ entry.id)
     const progressEl = document.getElementById('av_progress')
     //const progressBarEl = document.getElementById('progress_bar')
-    console.error(" avel " + avel + " pEL: " + progressEl)
+    //console.error(" avel " + avel + " pEL: " + progressEl)
     if (avel && progressEl) {
       
       progressEl.setAttribute('max', avel.duration)
@@ -692,11 +676,12 @@ const onMainSwiperSlideChanged = () => {
         showBottomNav.value = false
       }
       document.documentElement.setAttribute("data-theme", "dark");
-
+      data_theme.value="dark"
     }
     else {
       show_av_control.value = false
       document.documentElement.setAttribute("data-theme", "");
+      data_theme.value=""
     }
     /* 
     if (ael) {
@@ -993,7 +978,7 @@ onMounted(() => {
   setTimeout(() => {
     activeEntryId.value = entries.value[0].id
     activeSetId.value = setid.value
-    addShowCount(activeSetId.value)
+    clickedNavShowMore(activeSetId.value)
     //swiperMain.value.slideTo(1)
     swiperMain.value.slideTo(0)
     //swiperNav.value.slideTo(0)

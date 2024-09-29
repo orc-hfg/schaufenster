@@ -86,6 +86,7 @@ const MAX_SET_TITLE_LENGTH = 50;
 const {
   mergeSetTypeColor,
   mergeSetTypeBackColor,
+  getSetTypeColor
 } = DynFonts()
 
 const infoBtnStyle = ref({})
@@ -104,9 +105,15 @@ const props = defineProps([
     'parentSetId',
     'showInfo',
     'hideNav',
-    'titlesMap'
+    'titlesMap',
+    'theme'
 ])
 
+watch(() => props.theme,() => {
+  console.log("theme changed")
+  infoBtnStyle.value['background-color'] = getSetTypeColor(props.settype, props.theme)
+
+})
 
 const showPath2Root = ref(false)
 
@@ -157,7 +164,11 @@ const getTitleWidth = (id:string): string => {
 }
 
 onMounted(() => {
-  mergeSetTypeBackColor(props.settype, infoBtnStyle.value)
+  const theme = document.documentElement.getAttribute('data-theme') || ''
+  
+  infoBtnStyle.value['background-color'] = getSetTypeColor(props.settype, theme)
+  
+  //mergeSetTypeBackColor(props.settype, infoBtnStyle.value)
 
 })
 
@@ -212,11 +223,11 @@ onMounted(() => {
 
 .navbar_set_link.animate_up {
   top: 0px;
-  transition: all 500ms ease-out;
+  transition: all 300ms ease-out;
 }
 .navbar_set_link.hidden_move_up {
-  top: -72px;
-  transition: all 500ms ease-out;
+  top: -144px;
+  transition: all 300ms ease-out;
 }
 
 .navbar_set_link:hover {

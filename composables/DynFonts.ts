@@ -39,6 +39,7 @@ const font_1:iFontData = {
 // --Primitives-color-greys-ORCBlack
 const COLOR_DIPLOM =  '#FF4D00'
 const COLOR_PROJECTS = '#2C2C2C'
+const COLOR_PROJECTS_DARK = '#F3F2EF'
 const MATCH_DIPLOM = "diplom";
 
 export const DynFonts = () => {
@@ -81,8 +82,9 @@ export const DynFonts = () => {
         return result;
     }
 
-    const getSetTypeColor = (settype: string) => {
-        const color = settype == MATCH_DIPLOM ? COLOR_DIPLOM : COLOR_PROJECTS
+    const getSetTypeColor = (settype: string, theme: string = '') => {
+        const color = settype == MATCH_DIPLOM ? COLOR_DIPLOM : 
+            theme == 'dark' ? COLOR_PROJECTS_DARK : COLOR_PROJECTS
         return color
     }
     const mergeSetTypeColor = (settype: string, obj: object): object =>  {
