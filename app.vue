@@ -196,12 +196,12 @@ onMounted(() => {
 
 .fade.page-enter-active {
   opacity: 0;
-  transition: all 100ms ease-out;
+  transition: all 10ms ease-out;
   z-index: 10;
 }
 .fade.page-leave-active {
   z-index: 5;
-  transition: all 100ms ease-out;
+  transition: all 10ms ease-out;
 }
 .fade.page-leave-to {
   opacity: 0;
