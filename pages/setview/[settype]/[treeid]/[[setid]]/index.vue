@@ -62,10 +62,12 @@
         <div class="swiper-slide-transform">
         <div v-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
-          <div class="audio_slide">
+          <div class="audio_slide"
+            @click="toggleStatePlay(!av_state_play)"
+            >
             <audio :id="'slide-audio-'+ el.id"
               class="audio_player"
-              @click="toggleStatePlay(!av_state_play)">
+              >
               <source v-for="url in previewAudioUrls(el.id)" :src="url">
             </audio>
             <div class="audio_slide_icon">
@@ -79,7 +81,7 @@
         <div v-else-if="currentTree.previewsVideo[el.id]"
           class="main_preview">
           <video :id="'slide-video-'+ el.id"
-            class="video_slide"
+            class="video_slide video_player"
             style=""
             @click="toggleStatePlay(!av_state_play)"
             >
@@ -635,17 +637,17 @@ const onMainSwiperSlideChanged = () => {
 
 
     
-    const oael = document.getElementsByClassName('audio-slide')
+    const oael = document.getElementsByClassName('audio_player')
     for (let i=0; i < oael.length; i++) {
       const ael = oael[i]
-      //console.dir(vel)
+      console.log("stop audio "+ ael.id)
       ael.pause()
       ael.removeEventListener('timeupdate', on_av_time_update)
     }
-    const ovel = document.getElementsByClassName('video-slide')
+    const ovel = document.getElementsByClassName('video_player')
     for (let i=0; i < ovel.length; i++) {
       const vel = ovel[i]
-      //console.dir(vel)
+      console.log("stop video "+ vel.id)
       vel.pause()
       vel.removeEventListener('timeupdate', on_av_time_update)
     }
@@ -963,8 +965,7 @@ const initData = () => {
 }
 
 const showSetTitle = ref(false)
-//const showSetTitleStyle = ref(mergeSetTypeColor(settype.value, getPixelSizedStyle(120,146)))
-//const SHOW_SET_TITLE_DELAY = 3000
+
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
@@ -975,10 +976,11 @@ onMounted(() => {
     activeEntryId.value = entries.value[0].id
     activeSetId.value = setid.value
     addShowCount(activeSetId.value)
-    swiperMain.value.slideTo(1)
+    //swiperMain.value.slideTo(1)
     swiperMain.value.slideTo(0)
     //swiperNav.value.slideTo(0)
 
+    onMainSwiperSlideChanged()
     
   },200)
   let maxIdx = 0;
