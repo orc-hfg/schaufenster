@@ -240,7 +240,7 @@
       </swiper>
   </div>
   <div class="av_control" 
-    :class="{hidden: !show_av_control || showBottomNav}">
+    :class="{hidden: !show_av_control || showBottomNav || showInfo}">
     <div class="av_playpause"
       @click="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
