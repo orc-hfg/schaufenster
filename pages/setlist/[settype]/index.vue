@@ -471,7 +471,7 @@ onMounted(() => {
 
   setTimeout(() => {
     animateSwitch2Set.value = false
-  },500)
+  },300)
 });
 </script>
 <style scoped>
