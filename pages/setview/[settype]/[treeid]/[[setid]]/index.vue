@@ -245,7 +245,7 @@
       />
     </div>
     <div class="av_progress_cont">
-      <progress id="av_progress" value="0" min="0">
+      <progress id="av_progress" value="0" min="0" @click="avProgressClicked">
           <!-- <span id="av_progress_bar"></span> -->
       </progress>
     </div>
@@ -386,6 +386,19 @@ const toggleStatePlay = (newState:boolean) => {
   } else {
     console.error("no av element")
   }
+}
+
+const avProgressClicked = (ev:PointerEvent) => {
+  console.log("avProgressClicked: ")
+  
+  const entryId = activeEntryId.value
+  const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
+  const progressEl = document.getElementById('av_progress')
+
+  const pos =
+    (ev.pageX - progressEl.offsetLeft - progressEl.offsetParent.offsetLeft) /
+    progressEl.offsetWidth;
+  avel.currentTime = pos * avel.duration;
 }
 
 const MAX_SET_TITLE_LENGTH = 50
@@ -638,7 +651,7 @@ const onMainSwiperSlideChanged = () => {
 
 
     //const ael = document.getElementById('slide-audio-'+ entry.id)
-    //const vel = document.getElementById('slide-video-'+ entry.id)
+    const vel = document.getElementById('slide-video-'+ entry.id)
     const avel = document.getElementById('slide-audio-'+ entry.id) || document.getElementById('slide-video-'+ entry.id)
     const progressEl = document.getElementById('av_progress')
     //const progressBarEl = document.getElementById('progress_bar')
@@ -650,7 +663,10 @@ const onMainSwiperSlideChanged = () => {
       avel.addEventListener('timeupdate', on_av_time_update)
       //showBottomNav.value = false
       if (!showInfo.value) {
-        //toggleStatePlay(true)
+        // auto play video
+        if (vel) {
+          toggleStatePlay(true)
+        }
         show_av_control.value = true
         showBottomNav.value = false
       }
@@ -684,12 +700,11 @@ const onMainSwiperSlideChanged = () => {
     if (lastActiveEntryId) {
       const lavel = document.getElementById('slide-audio-'+ lastActiveEntryId) 
         || document.getElementById('slide-video-'+ lastActiveEntryId)
-      if (lavel) {
-        console.error("last elem was audio or video")
-        if (!showInfo.value) {
+      if (lavel && !avel && !showInfo.value) {
+
+          console.error("last elem was audio or video, but current is not; info is not shown: show btm nav and hide av_control")
           show_av_control.value = false
           showBottomNav.value = true
-        }
       }
     }
 
