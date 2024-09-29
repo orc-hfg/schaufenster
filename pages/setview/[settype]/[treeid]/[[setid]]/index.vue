@@ -325,6 +325,7 @@ const entryInfoScrollPosChanged = (pos) => {
 const showFilterView = ref(false)
 const addedFilter = (type, data) => {
   showFilterView.value = true;
+  newFiltersMap.value = {}
   newFiltersMap.value[type] = {}
   newFiltersMap.value[type][data.id] = {
     id: data.id,

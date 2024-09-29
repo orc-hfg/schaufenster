@@ -149,7 +149,7 @@ const initTreeType = () => {
 
 
   // global counts
-  keywordMap.value = initKeywords(treeList.value, MK_KEYWORDS, {})
+  /* keywordMap.value = initKeywords(treeList.value, MK_KEYWORDS, {})
   authorsMap.value = initPeople(treeList.value, MK_AUTHORS, {})
   participantsMap.value = initRoles(treeList.value, MK_PARTICIPANTS, {})
   
@@ -164,9 +164,9 @@ const initTreeType = () => {
 
   semesterMap.value = initKeywords(treeList.value, MK_SEMESTER, {})
   keywordMap.value = initKeywords(treeList.value, MK_SEMESTER, keywordMap.value)
-
-  console.log("global departments map: ")
-  console.dir(project_of_studyMap.value)
+ */
+  console.log("global count map: ")
+  console.dir(globalMap.value)
 
   /* console.log("global keyword map: ")
   console.dir(keywordMap.value)
@@ -186,37 +186,33 @@ const updateFilteredCounts = () => {
   console.log("updateFilteredCounts: filters old: " + JSON.stringify(filtersMap.value))
   
   filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
-  console.log("updateFilteredCounts: filtered tree count " + getMapCount(filteredTreeList.value))
-  filteredKeywordMap.value = initKeywords(filteredTreeList.value, MK_KEYWORDS, {})
-  filteredPeopleMap.value = initPeople(filteredTreeList.value, MK_AUTHORS, {})
-  filteredRolesMap.value = initRoles(filteredTreeList.value, MK_PARTICIPANTS, {})
+  console.log("updateFilteredCounts: filtered tree count " + getMapCount(filteredTreeList.value));
+  //filteredKeywordMap.value = initKeywords(filteredTreeList.value, MK_KEYWORDS, {})
+  //filteredPeopleMap.value = initPeople(filteredTreeList.value, MK_AUTHORS, {})
+  //filteredRolesMap.value = initRoles(filteredTreeList.value, MK_PARTICIPANTS, {})
   
-  filteredKeywordMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, filteredKeywordMap.value)
-  filteredPeopleMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, filteredPeopleMap.value)
-  filteredKeywordMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, filteredKeywordMap.value)
-  filteredKeywordMap.value = initKeywords(treeList.value, MK_SEMESTER, filteredKeywordMap.value);
+  //filteredKeywordMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, filteredKeywordMap.value)
+  //filteredPeopleMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, filteredPeopleMap.value)
+  //filteredKeywordMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, filteredKeywordMap.value)
+  //filteredKeywordMap.value = initKeywords(treeList.value, MK_SEMESTER, filteredKeywordMap.value);
 
   [MK_KEYWORDS, MK_PROJECT_TYPE, MK_PROGRAM_OF_STUDY, MK_SEMESTER].forEach(meta_key => {
-    countMap.value[meta_key] = initKeywords(treeList.value, meta_key, {})
+    countMap.value[meta_key] = initKeywords(filteredTreeList.value, meta_key, {})
   });
 
   [MK_AUTHORS, MK_PROJECT_LEADER].forEach(meta_key => {
-    countMap.value[meta_key] = initPeople(treeList.value, meta_key, {})
+    countMap.value[meta_key] = initPeople(filteredTreeList.value, meta_key, {})
   });
 
   [MK_PARTICIPANTS].forEach(meta_key => {
-    countMap.value[meta_key] = initRoles(treeList.value, meta_key, {})
+    countMap.value[meta_key] = initRoles(filteredTreeList.value, meta_key, {})
   });
 
 
   selectedFilterCount.value = getFilterCount(newFiltersTitle.value, newFiltersMap.value)
 
-  console.log("filtered keyword map: ")
-  console.dir(filteredKeywordMap.value)
-  console.log("filtered people map: ")
-  console.dir(filteredPeopleMap.value)
-  console.log("filtered roles map: ")
-  console.dir(filteredRolesMap.value)
+  console.log("filtered count map: ")
+  console.dir(countMap.value)
 }
 
 const clickedFilter = (type:string, kwInfo:object[]) => {
@@ -283,6 +279,15 @@ const isSelectedRole = (p_id:string) => {
   return isSelected(FILTERS_ROLES,p_id)
 }
 
+const getFilteredCount = (meta_key:string, id:string) => {
+  if (!countMap.value
+    || !countMap.value[meta_key]
+    || !countMap.value[meta_key][id]) {
+    return 0
+  }
+  return countMap.value[meta_key][id].length
+}
+/*
 const getFilteredKWCount = (id: string) => {
   if (!filteredKeywordMap.value
       || !filteredKeywordMap.value[id]
@@ -308,7 +313,7 @@ const getFilteredRolesCount = (id: string) => {
     return 0
   }
   return filteredRolesMap.value[id].length
-}
+}*/
 
 const isSubString = (data:string): boolean => {
   if (!newFiltersTitle.value || !newFiltersTitle.value.length) {
@@ -327,6 +332,13 @@ const isHideIfNotSubString = (data:string): boolean => {
   return !isSubString(data)
 }
 
+const getFilterTagClass = (type:string, meta_key: string, filterInfo) => {
+  return {
+    selected: isSelected(type, filterInfo.id),
+    preselected: isSubString(filterInfo.name),
+    disabled: getFilteredCount(meta_key, filterInfo.id) == 0
+  }
+}
 
 onMounted(() => {
 
@@ -424,13 +436,10 @@ const switch2SetView = (tree_col_id: string) => {
             <button class="keyword_item"
               @click="clickedKeyword(kws)"
               v-if="!isHideIfNotSubString(kws[0].name)"
-              :class="{
-                selected: isSelectedKeyword(kws[0].id),
-                preselected: isSubString(kws[0].name),
-                disabled: getFilteredKWCount(kws[0].id) == 0}"
+              :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
               >
               {{ kws[0].name }}
-              <span class="filter_count">{{ getFilteredKWCount(kws[0].id) }}</span>
+              <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, kws[0].id) }}</span>
             </button>
           </div>
           
@@ -445,13 +454,10 @@ const switch2SetView = (tree_col_id: string) => {
             <button class="keyword_item"
               @click="clickedPeople(person)"
               v-if="!isHideIfNotSubString(person[0].name)"
-              :class="{
-                selected: isSelectedPerson(person[0].id),
-                preselected: isSubString(person[0].name),
-                disabled: getFilteredPersonCount(person[0].id) == 0}"
+              :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, person[0])"
               >
               {{ person[0].name }}
-              <span class="filter_count">{{ getFilteredPersonCount(person[0].id) }}</span>
+              <span class="filter_count">{{ getFilteredCount(MK_AUTHORS, person[0].id) }}</span>
             </button>
           </div>
         </div>
@@ -465,12 +471,9 @@ const switch2SetView = (tree_col_id: string) => {
             <button class="keyword_item"
               @click="clickedRole(person)"
               v-if="!isHideIfNotSubString(person[0].name)"
-              :class="{
-                selected: isSelectedRole(person[0].id),
-                preselected: isSubString(person[0].name),
-                disabled: getFilteredRolesCount(person[0].id) == 0}">
+              :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
               {{ person[0].name }}
-              <span class="filter_count">{{ getFilteredRolesCount(person[0].id) }}</span>
+              <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, person[0].id) }}</span>
             </button>
           </div>
         </div>
@@ -484,14 +487,10 @@ const switch2SetView = (tree_col_id: string) => {
             <button class="keyword_item"
               @click="clickedKeyword(item)"
               v-if="!isHideIfNotSubString(item[0].name)"
-              :class="{
-                selected: isSelectedKeyword(item[0].id),
-                preselected: isSubString(item[0].name),
-                disabled: getFilteredKWCount(item[0].id) == 0
-                }"
+              :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, item[0])"
                 >
               {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredKWCount(item[0].id) }}</span>
+              <span class="filter_count">{{ getFilteredCount(MK_PROGRAM_OF_STUDY, item[0].id) }}</span>
             </button>
           </div>
         </div>
@@ -505,14 +504,10 @@ const switch2SetView = (tree_col_id: string) => {
             <button class="keyword_item"
               @click="clickedKeyword(item)"
               v-if="!isHideIfNotSubString(item[0].name)"
-              :class="{
-                selected: isSelectedKeyword(item[0].id),
-                preselected: isSubString(item[0].name),
-                disabled: getFilteredKWCount(item[0].id) == 0
-                }"
+              :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, item[0])"
                 >
               {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredKWCount(item[0].id) }}</span>
+              <span class="filter_count">{{ getFilteredCount(MK_PROJECT_TYPE,item[0].id) }}</span>
             </button>
           </div>
         </div>
@@ -525,14 +520,10 @@ const switch2SetView = (tree_col_id: string) => {
             <button class="keyword_item"
               @click="clickedPeople(item)"
               v-if="!isHideIfNotSubString(item[0].name)"
-              :class="{
-                selected: isSelectedPerson(item[0].id),
-                preselected: isSubString(item[0].name),
-                disabled: getFilteredPersonCount(item[0].id) == 0
-                }"
+              :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, item[0])"
                 >
               {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredPersonCount(item[0].id) }}</span>
+              <span class="filter_count">{{ getFilteredCount(MK_PROJECT_LEADER, item[0].id) }}</span>
             </button>
           </div>
         </div>
@@ -544,16 +535,12 @@ const switch2SetView = (tree_col_id: string) => {
           
           <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
             <button class="keyword_item"
-              @click="clickedKeyword(item)"
+              @click="clickedFilter(FILTERS_KEYWORD, item)"
               v-if="!isHideIfNotSubString(item[0].name)"
-              :class="{
-                selected: isSelectedKeyword(item[0].id),
-                preselected: isSubString(item[0].name),
-                disabled: getFilteredKWCount(item[0].id) == 0
-                }"
+              :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, item[0])"
                 >
               {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredKWCount(item[0].id) }}</span>
+              <span class="filter_count">{{ getFilteredCount(MK_SEMESTER, item[0].id) }}</span>
             </button>
           </div>
         </div>
