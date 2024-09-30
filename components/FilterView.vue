@@ -267,6 +267,10 @@ const getFilterTagClass = (type:string, meta_key: string, filterInfo) => {
   }
 }
 
+const showAll = ref({} as {[key:string]:boolean})
+const showAllHeight = ref({} as {[key:string]:number})
+
+
 onMounted(() => {
 
   [FILTERS_KEYWORD, FILTERS_PEOPLE, FILTERS_ROLES].forEach(type => {
@@ -285,10 +289,52 @@ onMounted(() => {
     
   })
   
+
   console.error("filter map current: " + JSON.stringify(filtersMap.value))
   console.error("filter map new: " + JSON.stringify(newFiltersMap.value))
 
-  initTreeType()
+  initTreeType();
+
+  [MK_AUTHORS,
+   MK_KEYWORDS,
+   MK_PARTICIPANTS,
+   MK_PROGRAM_OF_STUDY,
+   MK_PROJECT_LEADER,
+   MK_PROJECT_TYPE,
+   MK_SEMESTER].forEach(meta_key => {
+    showAll.value[meta_key] = true
+   });
+
+   setTimeout(() => {
+
+    [MK_AUTHORS,
+      MK_KEYWORDS,
+      MK_PARTICIPANTS,
+      MK_PROGRAM_OF_STUDY,
+      MK_PROJECT_LEADER,
+      MK_PROJECT_TYPE,
+      MK_SEMESTER].forEach(meta_key => {
+
+        const fc_elem = document.getElementById('filter_cloud_' + meta_key)
+        const height = fc_elem?.getBoundingClientRect().height || 164
+        showAllHeight.value[meta_key] = height + 'px';
+      })
+      console.log("got show heights: " + JSON.stringify(showAllHeight.value))
+   },100)
+   
+
+   setTimeout(() => {
+    [MK_AUTHORS,
+      MK_KEYWORDS,
+      MK_PARTICIPANTS,
+      MK_PROGRAM_OF_STUDY,
+      MK_PROJECT_LEADER,
+      MK_PROJECT_TYPE,
+      MK_SEMESTER].forEach(meta_key => {
+        showAll.value[meta_key] = false
+      });
+  
+   }, 200)
 
   animate_intro.value = true;
   setTimeout(() => {
@@ -307,7 +353,12 @@ const switch2SetView = (tree_col_id: string) => {
   router.push(url)
 }
 
-const showAll = ref({} as {[key:string]:boolean})
+const getShowAllStyle = (meta_key) => {
+  if (!showAll.value[meta_key]) {
+    return {}
+  } 
+  return {height: showAllHeight.value[meta_key]}
+}
 
 </script>
 <template>
@@ -361,7 +412,10 @@ const showAll = ref({} as {[key:string]:boolean})
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_keywords') }}</div>
-          <div class="filter_cloud" :class="{hide_all:!showAll[MK_KEYWORDS]}">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_KEYWORDS "
+            :style="getShowAllStyle(MK_KEYWORDS)"
+            :class="{hide_all:!showAll[MK_KEYWORDS]}">
             <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
               <button class="keyword_item"
                 @click="clickedKeyword(kws)"
@@ -385,7 +439,10 @@ const showAll = ref({} as {[key:string]:boolean})
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
           <div class="filter_headline">{{ $t('filter.label_filter_authors') }}</div>
-          <div class="filter_cloud" :class="{hide_all:!showAll[MK_AUTHORS]}">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_AUTHORS "
+            :style="getShowAllStyle(MK_AUTHORS)"
+            :class="{hide_all:!showAll[MK_AUTHORS]}">
             <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
               <button class="keyword_item"
                 @click="clickedPeople(person)"
@@ -408,7 +465,10 @@ const showAll = ref({} as {[key:string]:boolean})
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
           <div class="filter_headline">{{ $t('filter.label_filter_participants') }}</div>
-          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_PARTICIPANTS "
+            :style="getShowAllStyle(MK_PARTICIPANTS)"
+            :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
             <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
               <button class="keyword_item"
                 @click="clickedRole(person)"
@@ -430,7 +490,10 @@ const showAll = ref({} as {[key:string]:boolean})
         <!-- MK_PROGRAM_OF_STUDY -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_progofstudy') }}</div>
-          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PROGRAM_OF_STUDY]}">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
+            :style="getShowAllStyle(MK_PROGRAM_OF_STUDY)"
+            :class="{hide_all:!showAll[MK_PROGRAM_OF_STUDY]}">
             <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
               <button class="keyword_item"
                 @click="clickedKeyword(item)"
@@ -453,7 +516,10 @@ const showAll = ref({} as {[key:string]:boolean})
         <!-- MK_PROJECT_CATEGORY -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_project_type') }}</div>
-          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PROJECT_TYPE]}">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
+            :style="getShowAllStyle(MK_PROJECT_TYPE)"
+            :class="{hide_all:!showAll[MK_PROJECT_TYPE]}">
             <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
               <button class="keyword_item"
                 @click="clickedKeyword(item)"
@@ -476,7 +542,10 @@ const showAll = ref({} as {[key:string]:boolean})
         <!-- MK_PROJECT_LEADER -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_project_leader') }}</div>
-          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PROJECT_LEADER]}">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
+            :style="getShowAllStyle(MK_PROJECT_LEADER)"
+            :class="{hide_all:!showAll[MK_PROJECT_LEADER]}">
             <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
               <button class="keyword_item"
                 @click="clickedPeople(item)"
@@ -499,7 +568,10 @@ const showAll = ref({} as {[key:string]:boolean})
         <!-- MK_SEMESTER -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_semester') }}</div>
-          <div class="filter_cloud" :class="{hide_all:!showAll[MK_SEMESTER]}">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_SEMESTER "
+            :style="getShowAllStyle(MK_SEMESTER)"
+            :class="{hide_all:!showAll[MK_SEMESTER]}">
             <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
               <button class="keyword_item"
                 @click="clickedFilter(FILTERS_KEYWORD, item)"
@@ -832,17 +904,19 @@ gap: 40px;
   gap: var(--spacing-between-items-S, 4px);
   align-self: stretch;
   flex-wrap: wrap;
-  height: 100%;
+  overflow: hidden;
+  height: auto;
   transition: all 300ms ease-out;
 }
 
 .filter_cloud.hide_all {
   height: 164px;
-  overflow: hidden;
+  
   transition: all 300ms ease-out;
 }
 
 .btn_show_all {
+  z-index: 10;
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-XS, 0px);
   align-items: center;
