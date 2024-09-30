@@ -43,23 +43,10 @@ const animate_intro = ref(true)
 
 const selectedFilterCount = ref(0)
 
-const globalMap = ref({} as {[key:string]: iFilterTypeMap})
-const countMap = ref({} as {[key:string]: iFilterTypeMap})
-
 // global counts
-const keywordMap = ref({} as iFilterTypeMap)
-const authorsMap = ref({} as iFilterTypeMap)
-const participantsMap = ref({} as iFilterTypeMap)
-const project_of_studyMap = ref({} as iFilterTypeMap)
-const project_categoryMap = ref({} as iFilterTypeMap)
-const project_leaderMap = ref({} as iFilterTypeMap)
-const semesterMap = ref({} as iFilterTypeMap)
-
+const globalMap = ref({} as {[key:string]: iFilterTypeMap})
 // filtered counts
-const filteredKeywordMap = ref({} as iFilterTypeMap)
-const filteredPeopleMap = ref({} as iFilterTypeMap)
-const filteredRolesMap = ref({} as iFilterTypeMap)
-const filtered_project_of_studyMap = ref({} as iFilterTypeMap)
+const countMap = ref({} as {[key:string]: iFilterTypeMap})
 
 
 watch(route, (newVal, oldVal) => {
@@ -147,38 +134,10 @@ const initTreeType = () => {
     globalMap.value[meta_key] = initRoles(treeList.value, meta_key, {})
   });
 
-
-  // global counts
-  /* keywordMap.value = initKeywords(treeList.value, MK_KEYWORDS, {})
-  authorsMap.value = initPeople(treeList.value, MK_AUTHORS, {})
-  participantsMap.value = initRoles(treeList.value, MK_PARTICIPANTS, {})
-  
-  project_of_studyMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, {})
-  keywordMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, keywordMap.value)
-
-  project_leaderMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, {})
-  authorsMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, authorsMap.value)
-
-  project_categoryMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, {})
-  keywordMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, keywordMap.value)
-
-  semesterMap.value = initKeywords(treeList.value, MK_SEMESTER, {})
-  keywordMap.value = initKeywords(treeList.value, MK_SEMESTER, keywordMap.value)
- */
   console.log("global count map: ")
   console.dir(globalMap.value)
-
-  /* console.log("global keyword map: ")
-  console.dir(keywordMap.value)
-  console.log("global people map: ")
-  console.dir(authorsMap.value)
-  console.log("global roles map: ")
-  console.dir(participantsMap.value) */
-
   updateFilteredCounts()
 }
-
-
 
 
 const updateFilteredCounts = () => {
@@ -187,14 +146,6 @@ const updateFilteredCounts = () => {
   
   filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
   console.log("updateFilteredCounts: filtered tree count " + getMapCount(filteredTreeList.value));
-  //filteredKeywordMap.value = initKeywords(filteredTreeList.value, MK_KEYWORDS, {})
-  //filteredPeopleMap.value = initPeople(filteredTreeList.value, MK_AUTHORS, {})
-  //filteredRolesMap.value = initRoles(filteredTreeList.value, MK_PARTICIPANTS, {})
-  
-  //filteredKeywordMap.value = initKeywords(treeList.value, MK_PROGRAM_OF_STUDY, filteredKeywordMap.value)
-  //filteredPeopleMap.value = initPeople(treeList.value, MK_PROJECT_LEADER, filteredPeopleMap.value)
-  //filteredKeywordMap.value = initKeywords(treeList.value, MK_PROJECT_TYPE, filteredKeywordMap.value)
-  //filteredKeywordMap.value = initKeywords(treeList.value, MK_SEMESTER, filteredKeywordMap.value);
 
   [MK_KEYWORDS, MK_PROJECT_TYPE, MK_PROGRAM_OF_STUDY, MK_SEMESTER].forEach(meta_key => {
     countMap.value[meta_key] = initKeywords(filteredTreeList.value, meta_key, {})
@@ -208,12 +159,12 @@ const updateFilteredCounts = () => {
     countMap.value[meta_key] = initRoles(filteredTreeList.value, meta_key, {})
   });
 
-
   selectedFilterCount.value = getFilterCount(newFiltersTitle.value, newFiltersMap.value)
 
   console.log("filtered count map: ")
   console.dir(countMap.value)
 }
+
 
 const clickedFilter = (type:string, kwInfo:object[]) => {
   
@@ -237,6 +188,7 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
   }
   updateFilteredCounts()
 }
+
 const clickedKeyword = (kwInfo) => {
   console.log("clickedKeyword: " + JSON.stringify(kwInfo))
   clickedFilter(FILTERS_KEYWORD, kwInfo)
@@ -267,7 +219,8 @@ const isSelected = (type:string, id:string) => {
       }
   return newFiltersMap.value[type][id]
 }
-const isSelectedKeyword = (id:string) => {
+
+/*const isSelectedKeyword = (id:string) => {
   return isSelected(FILTERS_KEYWORD,id)
 }
 
@@ -277,7 +230,7 @@ const isSelectedPerson = (p_id:string) => {
 
 const isSelectedRole = (p_id:string) => {
   return isSelected(FILTERS_ROLES,p_id)
-}
+}*/
 
 const getFilteredCount = (meta_key:string, id:string) => {
   if (!countMap.value
@@ -287,33 +240,7 @@ const getFilteredCount = (meta_key:string, id:string) => {
   }
   return countMap.value[meta_key][id].length
 }
-/*
-const getFilteredKWCount = (id: string) => {
-  if (!filteredKeywordMap.value
-      || !filteredKeywordMap.value[id]
-  ) {
-    return 0
-  }
-  return filteredKeywordMap.value[id].length
-}
 
-const getFilteredPersonCount = (id: string) => {
-  if (!filteredPeopleMap.value
-      || !filteredPeopleMap.value[id]
-  ) {
-    return 0
-  }
-  return filteredPeopleMap.value[id].length
-}
-
-const getFilteredRolesCount = (id: string) => {
-  if (!filteredRolesMap.value
-      || !filteredRolesMap.value[id]
-  ) {
-    return 0
-  }
-  return filteredRolesMap.value[id].length
-}*/
 
 const isSubString = (data:string): boolean => {
   if (!newFiltersTitle.value || !newFiltersTitle.value.length) {
@@ -322,7 +249,7 @@ const isSubString = (data:string): boolean => {
   if (!data || !data.toLocaleLowerCase) {
     return false;
   }
-  return (data.toLocaleLowerCase().indexOf(filtersTitle.value.toLocaleLowerCase()) >= 0)
+  return (data.toLocaleLowerCase().indexOf(newFiltersTitle.value.toLocaleLowerCase()) >= 0)
 }
 
 const isHideIfNotSubString = (data:string): boolean => {
@@ -379,6 +306,9 @@ const switch2SetView = (tree_col_id: string) => {
     + tree_col_id
   router.push(url)
 }
+
+const showAll = ref({} as {[key:string]:boolean})
+
 </script>
 <template>
   <div class="filter_view"
@@ -429,122 +359,167 @@ const switch2SetView = (tree_col_id: string) => {
       <div class="wrapper_filter">
         
         <!-- MK_KEYWORDS -->
-        <div class="tree_filter_keywords">
+        <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_keywords') }}</div>
-          
-          <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
-            <button class="keyword_item"
-              @click="clickedKeyword(kws)"
-              v-if="!isHideIfNotSubString(kws[0].name)"
-              :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
-              >
-              {{ kws[0].name }}
-              <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, kws[0].id) }}</span>
-            </button>
+          <div class="filter_cloud" :class="{hide_all:!showAll[MK_KEYWORDS]}">
+            <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
+              <button class="keyword_item"
+                @click="clickedKeyword(kws)"
+                v-if="!isHideIfNotSubString(kws[0].name)"
+                :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
+                >
+                {{ kws[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, kws[0].id) }}</span>
+              </button>
+            </div>
           </div>
+          <button class="btn_show_all"
+            @click="showAll[MK_KEYWORDS] = !showAll[MK_KEYWORDS]">
+            <span v-if="!showAll[MK_KEYWORDS]">+ Show all</span>
+            <span v-else>- Show less</span>
+          </button>
           
         </div>
-        <hr/>
+        
 
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
           <div class="filter_headline">{{ $t('filter.label_filter_authors') }}</div>
-          
-          <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
-            <button class="keyword_item"
-              @click="clickedPeople(person)"
-              v-if="!isHideIfNotSubString(person[0].name)"
-              :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, person[0])"
-              >
-              {{ person[0].name }}
-              <span class="filter_count">{{ getFilteredCount(MK_AUTHORS, person[0].id) }}</span>
-            </button>
+          <div class="filter_cloud" :class="{hide_all:!showAll[MK_AUTHORS]}">
+            <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
+              <button class="keyword_item"
+                @click="clickedPeople(person)"
+                v-if="!isHideIfNotSubString(person[0].name)"
+                :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, person[0])"
+                >
+                {{ person[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_AUTHORS, person[0].id) }}</span>
+              </button>
+            </div>
           </div>
+          <button class="btn_show_all"
+            @click="showAll[MK_AUTHORS] = !showAll[MK_AUTHORS]">
+            <span v-if="!showAll[MK_AUTHORS]">+ Show all</span>
+            <span v-else>- Show less</span>
+          </button>
         </div>
-        <hr/>
+        
 
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
           <div class="filter_headline">{{ $t('filter.label_filter_participants') }}</div>
-
-          <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
-            <button class="keyword_item"
-              @click="clickedRole(person)"
-              v-if="!isHideIfNotSubString(person[0].name)"
-              :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
-              {{ person[0].name }}
-              <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, person[0].id) }}</span>
-            </button>
+          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
+            <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
+              <button class="keyword_item"
+                @click="clickedRole(person)"
+                v-if="!isHideIfNotSubString(person[0].name)"
+                :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
+                {{ person[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, person[0].id) }}</span>
+              </button>
+            </div>
           </div>
+          <button class="btn_show_all"
+            @click="showAll[MK_PARTICIPANTS] = !showAll[MK_PARTICIPANTS]">
+            <span v-if="!showAll[MK_PARTICIPANTS]">+ Show all</span>
+            <span v-else>- Show less</span>
+          </button>
         </div>
-        <hr/>
+        
 
         <!-- MK_PROGRAM_OF_STUDY -->
-        <div class="tree_filter_keywords">
+        <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_progofstudy') }}</div>
-          
-          <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
-            <button class="keyword_item"
-              @click="clickedKeyword(item)"
-              v-if="!isHideIfNotSubString(item[0].name)"
-              :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, item[0])"
-                >
-              {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredCount(MK_PROGRAM_OF_STUDY, item[0].id) }}</span>
-            </button>
+          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PROGRAM_OF_STUDY]}">
+            <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
+              <button class="keyword_item"
+                @click="clickedKeyword(item)"
+                v-if="!isHideIfNotSubString(item[0].name)"
+                :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, item[0])"
+                  >
+                {{ item[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_PROGRAM_OF_STUDY, item[0].id) }}</span>
+              </button>
+            </div>
           </div>
+          <button class="btn_show_all"
+            @click="showAll[MK_PROGRAM_OF_STUDY] = !showAll[MK_PROGRAM_OF_STUDY]">
+            <span v-if="!showAll[MK_PROGRAM_OF_STUDY]">+ Show all</span>
+            <span v-else>- Show less</span>
+          </button>
         </div>
-        <hr/>
+        
 
         <!-- MK_PROJECT_CATEGORY -->
-        <div class="tree_filter_keywords">
+        <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_project_type') }}</div>
-          
-          <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
-            <button class="keyword_item"
-              @click="clickedKeyword(item)"
-              v-if="!isHideIfNotSubString(item[0].name)"
-              :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, item[0])"
-                >
-              {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredCount(MK_PROJECT_TYPE,item[0].id) }}</span>
-            </button>
+          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PROJECT_TYPE]}">
+            <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
+              <button class="keyword_item"
+                @click="clickedKeyword(item)"
+                v-if="!isHideIfNotSubString(item[0].name)"
+                :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, item[0])"
+                  >
+                {{ item[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_PROJECT_TYPE,item[0].id) }}</span>
+              </button>
+            </div>
           </div>
+          <button class="btn_show_all"
+            @click="showAll[MK_PROJECT_TYPE] = !showAll[MK_PROJECT_TYPE]">
+            <span v-if="!showAll[MK_PROJECT_TYPE]">+ Show all</span>
+            <span v-else>- Show less</span>
+          </button>
+          
         </div>
-        <hr/>
+        
         <!-- MK_PROJECT_LEADER -->
-        <div class="tree_filter_keywords">
+        <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_project_leader') }}</div>
-          
-          <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
-            <button class="keyword_item"
-              @click="clickedPeople(item)"
-              v-if="!isHideIfNotSubString(item[0].name)"
-              :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, item[0])"
-                >
-              {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredCount(MK_PROJECT_LEADER, item[0].id) }}</span>
-            </button>
+          <div class="filter_cloud" :class="{hide_all:!showAll[MK_PROJECT_LEADER]}">
+            <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
+              <button class="keyword_item"
+                @click="clickedPeople(item)"
+                v-if="!isHideIfNotSubString(item[0].name)"
+                :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, item[0])"
+                  >
+                {{ item[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_PROJECT_LEADER, item[0].id) }}</span>
+              </button>
+            </div>
           </div>
+          <button class="btn_show_all"
+            @click="showAll[MK_PROJECT_LEADER] = !showAll[MK_PROJECT_LEADER]">
+            <span v-if="!showAll[MK_PROJECT_LEADER]">+ Show all</span>
+            <span v-else>- Show less</span>
+          </button>
         </div>
-        <hr/>
+        
 
         <!-- MK_SEMESTER -->
-        <div class="tree_filter_keywords">
+        <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_semester') }}</div>
-          
-          <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
-            <button class="keyword_item"
-              @click="clickedFilter(FILTERS_KEYWORD, item)"
-              v-if="!isHideIfNotSubString(item[0].name)"
-              :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, item[0])"
-                >
-              {{ item[0].name }}
-              <span class="filter_count">{{ getFilteredCount(MK_SEMESTER, item[0].id) }}</span>
-            </button>
+          <div class="filter_cloud" :class="{hide_all:!showAll[MK_SEMESTER]}">
+            <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
+              <button class="keyword_item"
+                @click="clickedFilter(FILTERS_KEYWORD, item)"
+                v-if="!isHideIfNotSubString(item[0].name)"
+                :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, item[0])"
+                  >
+                {{ item[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_SEMESTER, item[0].id) }}</span>
+              </button>
+            </div>
+            
           </div>
+          <button class="btn_show_all"
+            @click="showAll[MK_SEMESTER] = !showAll[MK_SEMESTER]">
+            <span v-if="!showAll[MK_SEMESTER]">+ Show all</span>
+            <span v-else>- Show less</span>
+          </button>
+          
         </div>
-        <hr/>
+        
 
 
       </div>
@@ -613,12 +588,14 @@ const switch2SetView = (tree_col_id: string) => {
 button {
   cursor: pointer;
   user-select: none;
+  background-color: unset;
+  color: var(--Colors-text-primary, #2C2C2C)
 }
 
 .filter_view * {
   
   /* color: var(--Primitives-color-transparencies-black-70); */
-  font-family: Instrument Sans, sans-serif;
+  font-family: "Instrument Sans";
 }
 header {
   /* background: var(--background-default, #F3F2EF); */
@@ -652,7 +629,7 @@ nav {
 .btn_apply {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-navbar--space-between-items, 4px);
+  gap: var(--spacing-navbar-between-items, 4px);
 
   border: none;
   color: var(--Colors-text-primary, #2C2C2C);
@@ -699,6 +676,10 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-button-line-height, 24px); /* 120% */
 }
+.btn_close:hover {
+  
+  background: var(--Colors-nav-bar-button-fill-hover, #E7E6E1);
+}
 
 .filter_text_input {
 
@@ -728,10 +709,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   top: 3px;
 }
 
-button {
-  
-  
-}
+
 .tree_list {
 
 }
@@ -812,46 +790,144 @@ gap: 40px;
   width: 0;
 }
 
-.tree_filter_keywords,
+.meta_key_filter,
 .tree_filter_people {
   position:relative;
   width: 100%;
   float: left;
+  padding-bottom: 40px;
+}
+
+
+.filter_headline {  
+  flex-direction: column;
+ 
+  display: flex;
+  align-items: flex-start;
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+
+  align-self: stretch;
+
+  color: var(--Colors-text-secondary, #CAC9C2);
+
+  font-family: "Instrument Sans";
+  font-size: var(--font-subline-font-size, 20px);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  line-height: var(--font-subline-line-height, 24px) /* 120% */;
+
+  /* padding-bottom: var(--padding-item-vertical-L); */
+  height: 36px;
+}
+
+
+
+
+.filter_cloud {
+  display: flex;
+  
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: var(--spacing-between-items-S, 4px);
+  align-self: stretch;
+  flex-wrap: wrap;
+  height: 100%;
+  transition: all 300ms ease-out;
+}
+
+.filter_cloud.hide_all {
+  height: 164px;
+  overflow: hidden;
+  transition: all 300ms ease-out;
+}
+
+.btn_show_all {
+  display: flex;
+  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-XS, 0px);
+  align-items: center;
+  gap: var(--spacing-item-inner, 8px);
+
+  color: var(--text-primary, #2C2C2C);
+
+  border: none;
+/* Buttons */
+font-family: "Instrument Sans";
+font-size: var(--font-button-font-size, 20px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
 .keyword_item {
   float: left;
-  height: var(--dimension-button-height-M, 48px);
+  
 
-  display: flex;
+  /* display: flex; */
+  display: inline-flex;
+  height: var(--dimension-button-height-M, 48px);
   padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px);
   margin-right: var(--spacing-between-items-S, 4px);
   margin-bottom: var(--spacing-navbar-between-items, 4px);
   align-items: center;
   gap: var(--spacing-item-inner, 8px);
+
   border-radius: var(--radius-none, 0px);
-
   border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
-  color: var(--Colors-filter-chip-text-default, #2C2C2C);
-  display: inline-flex;
 
-  font-size: var(--font-button-font-size, 1.25rem);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
+  
+
+  font-size: var(--font-button-font-size, 20px);
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-button-line-height, 1.5rem); /* 120% */
+  line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
 .filter_count {
-  width: 24px; height: 24px;
-  border: 1px solid #2C2C2C;
-  border-radius: 1000px;
-  font-size: 20px;
+  /* border-radius: var(--radius-full, 9999px); */
+  font-size: var(--font-number-L-font-size, 16px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--font-number-L-line-height, 18px); /* 112.5% */
+
+  color: var(--Colors-text-primary, #2C2C2C);
+
+  display: flex;
+  width: 24px; /* var(--dimension-button-height-S, 32px); */
+  height: 24px; /* var(--dimension-button-height-S, 32px); */
+  padding: var(--margin-navbar-institution-logo-right, 10px);
+
+  justify-content: center;
+  align-items: center;
+  gap: var(--margin-navbar-institution-logo-right, 10px);
+  flex-shrink: 0;
+}
+.filter_content.u10 {
+/* Filter Number L */
+font-family: "Instrument Sans";
+font-size: var(--font-number-L-font-size, 16px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--font-number-L-line-height, 18px); /* 112.5% */
 }
 .filter_count.u100 {
-  font-size: 16px;
+/* Filter Number M */
+font-family: "Instrument Sans";
+font-size: var(--font-number-M-font-size, 14px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--font-number-M-line-height, 18px); /* 128.571% */
+letter-spacing: 0.84px;
 }
 .filter_count.u1000 {
-  font-size: 14px;
+/* Filter Number S */
+font-family: "Instrument Sans";
+font-size: var(--font-number-S-font-size, 12px);
+font-style: normal;
+font-weight: 700;
+line-height: var(--font-number-S-line-height, 14px); /* 116.667% */
+letter-spacing: 0.72px;
 }
 
 .keyword_item:hover,
@@ -873,33 +949,18 @@ gap: 40px;
   background: var(--Colors-filter-chip-fill-active, #2C2C2C); */
 }
 
-.keyword_item.disabled,
-.keyword_item.disabled * {
+.keyword_item.disabled {
+  /* opacity: 0.5;
+  display: none; */
+  /* border-radius: var(--radius-none, 0px); */
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
   opacity: 0.5;
-  display: none;
 }
 
 .keyword_item.selected.disabled *{
   color: #800;
 }
 
-.filter_headline {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  /* gap: 26px; */
-  padding-bottom: 16px;
-  align-self: stretch;
-
-  color: var(--Colors-text-secondary, #CAC9C2);
-  font-family: "Instrument Sans";
-  font-size: var(--font-subline-font-size, 20px);
-  font-style: normal;
-  font-weight: 400;
-  font-stretch: 0.2px;
-  line-height: var(--font-subline-line-height, 24px) /* 120% */;
-
-}
 .wrapper_projects .filter_headline {
   padding-bottom: 0px;
 } 
