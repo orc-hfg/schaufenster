@@ -410,7 +410,7 @@ const switch2SetView = (tree_col_id: string) => {
             type="text"
             @input="changedFilterTitle"
             v-model="newFiltersTitle"/>
-          <div class="filer_text_clear"
+          <div class="filter_text_clear"
             @click="newFiltersTitle = '';updateFilteredCounts()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -720,8 +720,11 @@ font-weight: 400; letter-spacing: 0.02rem;
 line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 .filter_text_clear {
+  cursor: pointer;
+  user-select: none;
   position: relative;
-  left: -24px;
+  left: -48px;
+  top: 3px;
 }
 button {
   
