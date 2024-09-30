@@ -183,8 +183,9 @@
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
             @click="nav2Element(el)"
+            :class="getNavPreviewClass(el)"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
-
+            
             <div v-if="currentTree.previewsAudio[el.entry_id]"
               class="nav_preview_audio"
               :class="{nav_preview_audio_highlight: el.entry_id == activeEntryId}">
@@ -438,6 +439,22 @@ const toggleShowInfo = () => {
   
 }
 
+const getNavPreviewClass = (el) => {
+  if (!currentTree.value.previews[el.entry_id]
+    || !currentTree.value.previews[el.entry_id].width
+  ) {
+    return {}
+  }
+
+  const width = currentTree.value.previews[el.entry_id].width
+  const height = currentTree.value.previews[el.entry_id].height
+  const factor = width / height
+  if (factor < 0.75) {
+    return { 'narrow': true }
+  }
+  return {}
+  
+}
 const hoverSetId = ref('' as string)
 let resetHoverSetIdTimeout = undefined
 
@@ -1309,6 +1326,9 @@ const handleMouseLeave = () => {
   background-repeat: no-repeat;
 }
 
+.nav_preview.narrow {
+  background-size: 100% auto;
+}
 .nav_preview_audio {
   background-color: #DAD6CE;
   display: flex;
