@@ -79,7 +79,7 @@
 --Colors-filter-chip-text-active: var(--Primitives-color-greys-White);
 --Colors-filter-chip-text-default: var(--Primitives-color-greys-ORCBlack);
 --Colors-filter-searchbar-fill-default: var(--Primitives-color-greys-LightGrey);
---Colors-filter-searchbar-text-actice: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-searchbar-text-active: var(--Primitives-color-greys-ORCBlack);
 --Colors-filter-searchbar-text-disabled: var(--Primitives-color-greys-MediumGrey);
 --Colors-filter-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-filter-toggle-on: var(--Primitives-color-greys-ORCBlack);

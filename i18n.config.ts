@@ -19,6 +19,18 @@ export default defineI18nConfig(() => ({
                 impressum: "Impressum",
                 dsa: "Datenschutz"
             },
+            filter: {
+                btn_apply_label: "Anwenden",
+                btn_close_label: "Filter zurücksetzen",
+                label_projects: "Projekte",
+                label_filter_keywords: "Schlagworte",
+                label_filter_authors: "Autor/innen",
+                label_filter_participants: "Mitwirkende",
+                label_filter_progofstudy: "Fachbereich",
+                label_filter_project_type: "Projekt-Kategorie",
+                label_filter_project_leader: "Betreuer/in",
+                label_filter_semester: "Semester",
+            },
             setlist: {
                 intro_title_project: "Alle",
                 intro_title_project2: "Projekte",

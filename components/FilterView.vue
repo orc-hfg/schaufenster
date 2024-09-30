@@ -393,7 +393,7 @@ const switch2SetView = (tree_col_id: string) => {
               xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
               <circle cx="24" cy="24" r="12" transform="rotate(180 24 24)" fill="#2C2C2C"/>
             </svg>
-            <div class="label">Anwenden ({{ selectedFilterCount }})</div>
+            <div class="label">{{ $t('filter.btn_apply_label') }}&nbsp;({{ selectedFilterCount }})</div>
           </button>
         </div>
         
@@ -404,7 +404,7 @@ const switch2SetView = (tree_col_id: string) => {
               <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Filter zurücksetzen
+            {{$t('filter.btn_close_label')}}
           </button>
           <input class="filter_text_input"
             type="text"
@@ -430,7 +430,7 @@ const switch2SetView = (tree_col_id: string) => {
         
         <!-- MK_KEYWORDS -->
         <div class="tree_filter_keywords">
-          <div class="filter_headline">Keywords:</div>
+          <div class="filter_headline">{{ $t('filter.label_filter_keywords') }}</div>
           
           <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
             <button class="keyword_item"
@@ -448,7 +448,7 @@ const switch2SetView = (tree_col_id: string) => {
 
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">Autoren:</div>
+          <div class="filter_headline">{{ $t('filter.label_filter_authors') }}</div>
           
           <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
             <button class="keyword_item"
@@ -465,7 +465,7 @@ const switch2SetView = (tree_col_id: string) => {
 
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">Mitwirkende:<hr></div>
+          <div class="filter_headline">{{ $t('filter.label_filter_participants') }}</div>
 
           <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
             <button class="keyword_item"
@@ -481,7 +481,7 @@ const switch2SetView = (tree_col_id: string) => {
 
         <!-- MK_PROGRAM_OF_STUDY -->
         <div class="tree_filter_keywords">
-          <div class="filter_headline">Fachbereiche:<hr></div>
+          <div class="filter_headline">{{ $t('filter.label_filter_progofstudy') }}</div>
           
           <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
             <button class="keyword_item"
@@ -498,7 +498,7 @@ const switch2SetView = (tree_col_id: string) => {
 
         <!-- MK_PROJECT_CATEGORY -->
         <div class="tree_filter_keywords">
-          <div class="filter_headline">Projekt-Kategorie:<hr></div>
+          <div class="filter_headline">{{ $t('filter.label_filter_project_type') }}</div>
           
           <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
             <button class="keyword_item"
@@ -514,7 +514,7 @@ const switch2SetView = (tree_col_id: string) => {
         <hr/>
         <!-- MK_PROJECT_LEADER -->
         <div class="tree_filter_keywords">
-          <div class="filter_headline">Betreuer/innen:<hr></div>
+          <div class="filter_headline">{{ $t('filter.label_filter_project_leader') }}</div>
           
           <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
             <button class="keyword_item"
@@ -531,7 +531,7 @@ const switch2SetView = (tree_col_id: string) => {
 
         <!-- MK_SEMESTER -->
         <div class="tree_filter_keywords">
-          <div class="filter_headline">Semester::<hr></div>
+          <div class="filter_headline">{{ $t('filter.label_filter_semester') }}</div>
           
           <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
             <button class="keyword_item"
@@ -550,7 +550,7 @@ const switch2SetView = (tree_col_id: string) => {
       </div>
 
       <div class="wrapper_projects">
-        <div class="filter_headline">Projekte:</div>
+        <div class="filter_headline">{{ $t('filter.label_projects') }}</div>
         
 
         <div class="tree_list">
@@ -688,7 +688,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   gap: var(--spacing-navbar-between-items, 4px);
 
   border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
+  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
 
   color: var(--Colors-text-primary, #2C2C2C);
 
@@ -699,6 +699,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-button-line-height, 24px); /* 120% */
 }
+
 .filter_text_input {
 
   display: flex;
@@ -708,9 +709,9 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   flex: 1 0 0;
 
   border-radius: var(--radius-full, 9999px);
-  background: var(--filter-searchbar-fill-default, #E7E6E1);
+  background: var(--Colors-filter-searchbar-fill-default, #E7E6E1);
 
-  color: var(--filter-searchbar-text-actice, #2C2C2C);
+  color: var(--Colors-filter-searchbar-text-active, #2C2C2C);
 
 /* Buttons */
 font-family: "Instrument Sans";
@@ -726,6 +727,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   left: -48px;
   top: 3px;
 }
+
 button {
   
   
