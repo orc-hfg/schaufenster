@@ -219,17 +219,24 @@
             
             <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
-              @click="clickedNavShowMore(el.collection_id)">
+              @click="clickedNavShowMore(el.collection_id)"
+              >
               <IconsChevronRight/>
             </IconWrap>
             <IconWrap :large="true"
               v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
-              @click="clickedNavShowLess(el.collection_id)">
+              @click="clickedNavShowLess(el.collection_id)"
+              >
               <IconsChevronLeft/>
             </IconWrap>
               
 
           </div>
+          <div
+            v-if="el.type === NavSlideType.Spacer"
+            class="nav_preview_spacer">
+          </div>
+
 
           <div class="entry_highlight"
             v-if="el.entry_id == activeEntryId">
@@ -575,7 +582,8 @@ const reload = () => {
 enum NavSlideType {
   Entry,
   Set,
-  Button
+  Button,
+  Spacer
 }
 interface iNavSlide {
   type: NavSlideType,
@@ -823,6 +831,17 @@ const initSetBtns = (treeId:string, setIdx: number) => {
     setIdx: setIdx,
     mainIdx: 0,
   } as iNavSlide)
+
+  const btn_id2 = 'btns_spacer_' + treeId;
+  navSlider.value.slides.push({
+    entry: { id: btn_id2},
+    entry_id: btn_id2,
+    type:NavSlideType.Spacer,
+    collection_id: treeId,
+    index: navSlider.value.slides.length,
+    setIdx: setIdx,
+    mainIdx: 0,
+  } as iNavSlide)
 }
 
 const MIN_SHOW_COUNT = 4
@@ -898,6 +917,7 @@ const initSubTree = (rootId:string, treeId: string) => {
     if (Object.keys(els).length) {
       initSetBtns(childId, els_count)
     }
+
     
     
 
@@ -1393,8 +1413,8 @@ const handleMouseLeave = () => {
 }
 .nav_slide_btn_add .nav_preview_btn {
   top: -12px;
-  left: -84px; 
-  width: 76px;
+  left: -56px; 
+  width: 64px;
   /* padding-left: 24px; */
   height: 84px;
   background: linear-gradient(90deg,
@@ -1425,6 +1445,19 @@ const handleMouseLeave = () => {
   top: 0.5rem; left: 0.5rem;
   width: 2rem; height: 2rem;
   z-index: 250;
+}
+
+.nav_preview_spacer {
+  top: -12px;
+  width: 0px !important;
+  position: relative;
+  
+  height: calc(100% + 16px);
+  background-color: transparent;
+  border: 4px solid var(--Colors-background-default, #f3f2ef);
+}
+.nav_preview_spacer:hover {
+
 }
 
 .nav_preview_subset {
