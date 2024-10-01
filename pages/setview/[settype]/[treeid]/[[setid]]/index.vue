@@ -13,7 +13,8 @@
       :titles-map="currentTree.colTitlesMap"
       :theme="data_theme"
       @toggle-show-info="toggleShowInfo"
-      @parent-clicked="swiperMain.slideTo(0)"
+      @parent-clicked="clickedParent"
+      @grand-parent-clicked="switch2Set"
       @clicked-back="switch2setlist"
     />
 
@@ -332,6 +333,19 @@ const entryInfoScrollPosChanged = (pos) => {
   }
 }
 
+const clickedParent = (col_id) => {
+  
+  if (col_id == activeSetId.value) {
+    // TODO slide to subslide elem
+    swiperMain.value.slideTo(0)
+  }
+  else if (col_id == setid.value) {
+    swiperMain.value.slideTo(0)
+  }
+  else if (col_id == parent_id.value) {
+    switch2Set(col_id)
+  }
+}
 const showFilterView = ref(false)
 const addedFilter = (type, data) => {
   showFilterView.value = true;

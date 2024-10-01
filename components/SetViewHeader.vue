@@ -10,7 +10,25 @@
           <IconsNavHome/>
           <!-- <div class="content">Zurück</div> -->
       </NuxtLink>
-              
+      <!--        
+      <NuxtLink class="navbar_set_link parent_link animate_up"
+          v-if="parentSetId !== treeid"
+          :class="{
+            showPath2Root: showPath2Parent,
+            hidden_move_up: hideNav || showInfo,
+            }"
+          :style="{width: showPath2Parent? getTitleWidth(parentSetId) : '24px'}"
+          @click="emit('parentClicked', parentSetId)"
+          @mouseover="setShowPath2Parent(true)"
+          @mouseleave="setShowPath2Parent(false)"
+          >
+          <span
+            :style="{width: showPath2Parent ? getTitleWidth(parentSetId) : '24px'}">
+            {{ showPath2Parent ? getColTitle(parentSetId) : '&nbsp;...' }}
+          </span>
+      </NuxtLink>
+      -->
+
       <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ setid" -->
       <NuxtLink class="navbar_set_link parent_link animate_up"
           v-if="activeSetId !== setid"
@@ -20,7 +38,7 @@
 
             }"
           :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}"
-          @click="emit('parentClicked')"
+          @click="emit('parentClicked', setid)"
           @mouseover="setShowPath2Root(true)"
           @mouseleave="setShowPath2Root(false)"
           >
@@ -37,19 +55,20 @@
           showPath2Root: showPath2Root,
           hidden_move_up: hideNav || showInfo
         }"
+        @click="emit('parentClicked', parentSetId)"
         :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}"
         @mouseover="setShowPath2Root(true)"
         @mouseleave="setShowPath2Root(false)"
         >
         <span 
           :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}">
-          {{showPath2Root ? getColTitle(parentSetId) : '&nbsp;...' }}
+         {{showPath2Root ? getColTitle(parentSetId) : '&nbsp;...' }}
         </span>
       </NuxtLink>
               
       <NuxtLink class="navbar_set_link animate_up"
         :class="{hidden_move_up: hideNav || showInfo}"
-        @click="activeSetId == setid && emit('parentClicked')"
+        @click="activeSetId == setid && emit('parentClicked', activeSetId)"
         >
         {{ getColTitle(activeSetId) }}
       </NuxtLink>
@@ -94,6 +113,7 @@ const infoBtnStyle = ref({})
 const emit = defineEmits([
     'toggleShowInfo',
     'parentClicked',
+    'grandParentClicked',
     'clickedBack'
 ])
 
@@ -116,6 +136,8 @@ watch(() => props.theme,() => {
 })
 
 const showPath2Root = ref(false)
+const showPath2Parent = ref(false)
+
 
 const setShowPath2Root = (value:boolean) => {
   if (value == true) {
@@ -124,6 +146,18 @@ const setShowPath2Root = (value:boolean) => {
   else {
     setTimeout(() => {
       showPath2Root.value = false
+    }, SHOW_PATH2ROOT_DELAY)
+    
+  }
+}
+
+const setShowPath2Parent = (value:boolean) => {
+  if (value == true) {
+    showPath2Parent.value = true
+  }
+  else {
+    setTimeout(() => {
+      showPath2Parent.value = false
     }, SHOW_PATH2ROOT_DELAY)
     
   }
