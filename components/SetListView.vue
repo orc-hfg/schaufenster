@@ -87,6 +87,7 @@
 
     <Transition name="fade">
       <div class="year_info"
+        @click="currentYear = ''"
         @scroll="scrollEvent"
         @wheel="wheelEvent"
         :style="year_info_style"
@@ -164,12 +165,12 @@ const treeInfoIdx = ref(0)
 const scrollEvent = (ev) => {
   const current = swiperMain.value.getTranslate()
   console.log("got scroll event" + ev.deltaY + ":" + current)
-  swiperMain.value.translateTo(current - 10 * ev.deltaY)
+  swiperMain.value.translateTo(current - 12 * ev.deltaY)
 }
 const wheelEvent = (ev) => {
   const current = swiperMain.value.getTranslate()
   console.log("got wheel event" + ev.deltaY + ":" + current)
-  swiperMain.value.translateTo(current - 10 * ev.deltaY)
+  swiperMain.value.translateTo(current - 12 * ev.deltaY)
 }
 
 const setSwiperMoving = () => {
@@ -471,7 +472,7 @@ const setMainSwiper = (swiper: Swiper) => {
 
 .intro_info {
   position: fixed;
-  top: 40vh;
+  top: calc(50vh - 240px);
   font-size: 10vh;
   left: 0vw;
   width: 100vw;
@@ -482,10 +483,12 @@ const setMainSwiper = (swiper: Swiper) => {
 
 .year_info {
   position: fixed;
-  top: 40vh;
+  top: calc(50vh - 120px);
   font-size: 10vh;
-  left: calc(50vw - 40vh);
+  left: 10vw;
+  right: 10vw;
   text-align: center;
+  align-items: center;
   z-index: 1010;
   user-select: none;
 }
