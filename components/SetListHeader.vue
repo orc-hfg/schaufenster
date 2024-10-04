@@ -17,7 +17,7 @@
             <NuxtLink class="navbar_link navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
               
-              @click="$emit('switch2settype', [MATCH_PROJECTS])"
+              @click="toggleBtnSetType != MATCH_PROJECTS && $emit('switch2settype', [MATCH_PROJECTS])"
               >
               <!-- Alle Projekte -->
               {{ $t('setlist.btn_title_toggle_project') }}
@@ -25,7 +25,7 @@
             <NuxtLink class="navbar_link navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
               
-              @click="$emit('switch2settype' , [MATCH_DIPLOM])"
+              @click="toggleBtnSetType != MATCH_DIPLOM && $emit('switch2settype' , [MATCH_DIPLOM])"
               >
               <!-- Abschlussarbeiten -->
               {{ $t('setlist.btn_title_toggle_diplom') }}
