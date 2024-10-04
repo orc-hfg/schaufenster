@@ -355,6 +355,16 @@ const updateSetType = () => {
   console.log("updateSetType: " + route.params.settype + " : " + settype.value);
 
   colCount.value = settype.value == MATCH_DIPLOM ? COL_COUNT_DIPLOM : COL_COUNT_INDEX;
+  
+  if (window && window.innerWidth) {
+    if (window.innerWidth < 1024) {
+      colCount.value = 1
+    }
+    else if (window.innerWidth < 1280) {
+      colCount.value = 2
+    }
+  }
+  
   toggleBtnSetType.value = settype.value
 
   //intro_info_style.value = mergeSetTypeColor(settype.value, intro_info_style.value)
