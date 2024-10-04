@@ -65,7 +65,7 @@ export const DynFonts = () => {
         const result = {
             'font-family': 'font_' + font_selected,
             'font-size': 'min(' + vw * font_list[font_selected].size_factor + 'vw' + ',' +  vh * font_list[font_selected].size_factor + 'vh' + ')' ,
-            'line-height': vh * font_list[font_selected].size_factor* font_list[font_selected].line_height_factor + 'vh',
+            'line-height': vh * font_list[font_selected].size_factor * font_list[font_selected].line_height_factor + 'vh',
             'font-weight': 400
         }
         return result;
