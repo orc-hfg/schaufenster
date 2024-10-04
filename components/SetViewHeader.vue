@@ -34,7 +34,7 @@
           v-if="activeSetId !== setid"
           :class="{
             showPath2Root: showPath2Root,
-            hidden_move_up: hideNav || showInfo,
+            hidden_move_up: hideNav || showInfo || introRunning,
 
             }"
           :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}"
@@ -53,7 +53,7 @@
         v-else-if="activeSetId == setid && parentSetId !== 'root'"
         :class="{
           showPath2Root: showPath2Root,
-          hidden_move_up: hideNav || showInfo
+          hidden_move_up: hideNav || showInfo || introRunning
         }"
         @click="emit('parentClicked', parentSetId)"
         :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}"
@@ -67,7 +67,7 @@
       </NuxtLink>
               
       <NuxtLink class="navbar_set_link animate_up"
-        :class="{hidden_move_up: hideNav || showInfo}"
+        :class="{hidden_move_up: hideNav || showInfo || introRunning}"
         @click="activeSetId == setid && emit('parentClicked', activeSetId)"
         >
         {{ getColTitle(activeSetId) }}
@@ -79,7 +79,7 @@
           v-if="!showInfo"
           @click="$emit('toggleShowInfo')"
           class="navbar_set_link info animate_up"
-          :class="{hidden_move_up: hideNav}"
+          :class="{hidden_move_up: hideNav || introRunning}"
           :style="infoBtnStyle">
           <IconsInfoShow/>
         </NuxtLink>
@@ -88,7 +88,7 @@
           v-else
           @click="$emit('toggleShowInfo')"
           class="navbar_set_link info animate_up"
-          :class="{hidden_move_up: hideNav}"
+          :class="{hidden_move_up: hideNav || introRunning}"
           :style="infoBtnStyle">
           <IconsInfoClose/>
         </NuxtLink>
@@ -126,7 +126,8 @@ const props = defineProps([
     'showInfo',
     'hideNav',
     'titlesMap',
-    'theme'
+    'theme',
+    'introRunning'
 ])
 
 watch(() => props.theme,() => {

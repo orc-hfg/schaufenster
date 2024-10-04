@@ -8,6 +8,7 @@
       :parent-set-id="parent_id"
 
       :show-info="showInfo"
+      :intro-running="showSetTitle"
       :hide-nav="animateSwitch2SetList"
       
       :titles-map="currentTree.colTitlesMap"
