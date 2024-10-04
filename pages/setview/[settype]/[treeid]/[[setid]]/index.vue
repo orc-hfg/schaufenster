@@ -134,7 +134,7 @@
     :space-between="spaceBetween"
     :centeredSlides="true"
     -->
-    <div class="bottom_nav" :class="{hidden: showInfo  }">
+    <div class="bottom_nav" :class="{hidden: showInfo   }">
       <Transition name="fade">
         <div
           v-if="!showInfo && !animateSwitch2SetList"
@@ -147,7 +147,7 @@
       <swiper
         :modules="modules"
         class="swiper_nav"
-        :class="{hidden: !showBottomNav || showInfo || animateSwitch2SetList}"
+        :class="{hidden: !showBottomNav || showInfo || animateSwitch2SetList || showSetTitle }"
         @swiper="setNavSwiper"
         :freeMode="{
           momentum:true,
