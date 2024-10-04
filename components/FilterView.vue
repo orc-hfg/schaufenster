@@ -53,7 +53,12 @@ watch(route, (newVal, oldVal) => {
   console.log("FV: changed route: " + JSON.stringify(newVal))
   filterFor.value = newVal.path
 })
-
+const resetFilter = () => {
+  newFiltersMap.value[FILTERS_KEYWORD] = {}
+  newFiltersMap.value[FILTERS_PEOPLE] = {}
+  newFiltersMap.value[FILTERS_ROLES] = {}
+  updateFilteredCounts()
+}
 const closeFilter = () => {
   
   animate_intro.value = true;
@@ -368,25 +373,29 @@ const getShowAllStyle = (meta_key) => {
       <nav class="nav">
         <div class="wrapper_left">
           <button class="btn_apply"
-            @click.once="applyFilter()">
+            @click.once="closeFilter()">
             <!-- <IconsNavHome class="logo"/> -->
+            <!-- TODO padding -->
             <svg class="logo"
               xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
               <circle cx="24" cy="24" r="12" transform="rotate(180 24 24)" fill="#2C2C2C"/>
             </svg>
-            <div class="label">{{ $t('filter.btn_apply_label') }}&nbsp;({{ selectedFilterCount }})</div>
           </button>
         </div>
         
         <div class="wrapper_mid">
-          <button class="btn_close"
+          <button class="btn_apply"
+            @click.once="applyFilter()">
+            <div class="label">{{ $t('filter.btn_apply_label') }}&nbsp;({{ selectedFilterCount }})</div>
+          </button>
+          <!-- <button class="btn_close"
             @click="closeFilter()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             {{$t('filter.btn_close_label')}}
-          </button>
+          </button> -->
           <input class="filter_text_input"
             type="text"
             @input="changedFilterTitle"
@@ -398,6 +407,15 @@ const getShowAllStyle = (meta_key) => {
               <path d="M6 6L18 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
+
+          <button class="btn_close"
+            @click="resetFilter()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            {{$t('filter.btn_reset_label')}}
+          </button>
           
         </div>
       </nav>

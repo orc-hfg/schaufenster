@@ -26,6 +26,7 @@ export default defineI18nConfig(() => ({
             filter: {
                 btn_apply_label: "Anwenden",
                 btn_close_label: "Filter zurücksetzen",
+                btn_reset_label: "Filter zurücksetzen",
                 label_projects: "Projekte",
                 label_filter_keywords: "Schlagworte",
                 label_filter_authors: "Autor/in",
@@ -124,7 +125,8 @@ export default defineI18nConfig(() => ({
             },
             filter: {
                 btn_apply_label: "Apply",
-                btn_close_label: "reset filter",
+                btn_close_label: "Reset Filter",
+                btn_reset_label: "Reset Filter",
                 label_projects: "Projects",
                 label_filter_keywords: "Keywords",
                 label_filter_authors: "Author",
