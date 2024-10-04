@@ -500,7 +500,7 @@ export const treeHelper = () => {
             if (preview.thumbnail == "small") {
               tree.previews[entryId] = preview;
               //console.error("found entry with image small " + entryId)
-            } else if (preview.thumbnail == "large") {
+            } else if (preview.thumbnail == "maximum") {
               tree.previewsLarge[entryId] = preview;
               //console.error("found entry with image large" + entryId)
             }
