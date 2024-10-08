@@ -1,18 +1,25 @@
 <template>
 
-    <div class="dialog_menu" 
+    <div class="dialog_menu"
         :class="{hidden: animate_io}">
         <header>
             <nav class="nav">
                 <NuxtLink @click="closeMenu()" class="logo">
-                    <IconsNavIconORC />
+                    <IconsNavHome/>
+                    <!-- <svg
+                        width="48" height="48"
+                        viewBox="0 0 48 48"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="12"/>
+                    </svg> -->
                 </NuxtLink>
             </nav>
         </header>
 
-        <!-- data-theme="dark" -->
         <div class="menu_panel"
+            
             @click="closeMenu()"
+
             :style="font_style">
            
             <div class="lang_switch">
@@ -47,20 +54,13 @@
                 {{ $t('menu.impressum')}}
             </div>
             
-
-            <div>
-            <NuxtLink to="/">Intro</NuxtLink>
-            </div>
-            <br/>
-            
-            <br/>
-            <br/>
-            
         </div>
     
   </div>
 </template>
 <script setup lang="ts">
+
+
 const DELAY_ANIMATE_OUT = 500;
 
 const {
@@ -86,7 +86,8 @@ const emit = defineEmits([
     'onShowFonts',
     'onShowDSA',
     'onShowImpressum',
-    'onCloseMenu'
+    'onCloseMenu',
+    'onSwitchLang'
 ])
     
 const props = defineProps(['settype'])
@@ -106,24 +107,52 @@ const closeMenu = () => {
     
 }
 
-onMounted(() => {
-    console.log("mounted menu: " + props.settype)
-    font_style.value = mergeSetTypeColor(props.settype, getPixelSizedStyle(240, 210))
-
+const init = () => {
+    console.log("init menu: " + props.settype)
+    let vw = 18
+    if (window && window.innerWidth) {
+        const iw = window.innerWidth
+        if (iw < 768) vw = 12
+        else if (iw < 1280) vw = 14
+        else if (iw > 2048) vw = 22
+    }    
+    const fs = getViewSizedStyle(vw,16)
+    font_style.value = mergeSetTypeColor(props.settype, fs)
     console.log("font after")
     console.dir(font_style.value)
-    animate_io.value = false;
+}
+
+onMounted(() => {
+    console.log("mounted menu: " + props.settype)
+    setTimeout(() => {
+        animate_io.value = false;
+    }, 300)
+    
 })
+
+init()
 
 </script>
 <style scoped>
 header {
     z-index: 1100;
+    background-color: var(--Colors-background-default);
+    padding: 12px 12px;
+    height: 50px;
 }
 .logo {
     padding: 0;
     border: 1px solid transparent;
+    height: 48px;
 }
+svg {
+    mix-blend-mode: normal;
+}
+/* svg circle {
+    stroke: var(--Colors-text-primary, #2C2C2C);
+    fill: var(--Colors-text-primary, #2C2C2C);   
+} */
+
 .dialog_menu {
     position: fixed;
     top: 0px; left: 0px;
@@ -131,34 +160,54 @@ header {
     height: 100vh;
     z-index: 1000;
     opacity: 1;
-    transition: all 300ms ease-out;
+    /* transition: all 300ms ease-out; */
     /* color: var(--Colors-text-primary-inverted, #000); */
     /* background-color: var(--Colors-background-menu, #fff); */
 }
-.dialog_menu.hidden {
-    opacity: 0;
-    transition: all 300ms ease-out;
-    /* display: none; */
-}
-.dialog_menu .menu_panel {
+
+.menu_panel {
     /* border: 3px solid red; */
     position: absolute;
-    left: -24px;
-    top: 0rem;
-    width: calc(100vw + 48px);
-    height: calc(100vh);
-    overflow-y: auto;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
     
     
     z-index: 1020;
     filter: none;
 
     display: flex;
-    padding-top: 250px;
+    padding-top: 96px;
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-between-menu-items, 20px);
     flex-shrink: 0;
+    opacity: 1;
+    transition: all 300ms ease-out;
+}
+.hidden {
+    /* opacity: 0; */
+    transition: all 300ms ease-out;
+    /* display: none; */
+}
+
+.hidden header {
+    opacity: 0;
+    transform: translateY(0vh);
+    background-color: transparent;
+    transition: all 300ms ease-out;
+}
+.hidden .menu_panel {
+    opacity: 0;
+    transform: translateY(10vh);
+    /* top: 50vh; */
+    transition: all 300ms ease-out;
+}
+.hidden svg circle {
+    opacity: 0;
+    transition: all 300ms ease-out;
 }
 .menu_panel * {
     align-items: center;
