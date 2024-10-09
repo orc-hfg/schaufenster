@@ -67,7 +67,8 @@
       @onShowAbout="showAboutView = true"
       @onShowImpressum="showImpressumView = true"
       @onShowDSA="showDSAView = true"
-      @on-close-menu="showMenuView = false"/>
+      @on-close-menu="showMenuView = false"
+      @on-switch-lang="onSwitchLang"/>
     
     <Transition name="fade">
       <FontsView v-if="showFontsView"
@@ -105,7 +106,7 @@
 </template>
 <script setup lang="ts">
 
-const { t } = useI18n()
+const { t, setLocale } = useI18n()
 
 const {
   font_list, font_selected,
@@ -191,6 +192,14 @@ const switch2setview = (setid: string) => {
     
 }
 
+const DELAY_SWITCH_LOCALE = 500
+const onSwitchLang = (loc) => {
+  setTimeout(() => {
+    setLocale(loc)
+    console.log("onSwitchLang: switch lang " + loc)
+  }, DELAY_SWITCH_LOCALE)
+  
+}
 const onFilterViewApplied = () => {
   console.log("onFilterViewApplied")
   showFilterView.value = false
@@ -364,7 +373,7 @@ const updateSetType = () => {
       colCount.value = 2
     }
   }
-  
+
   toggleBtnSetType.value = settype.value
 
   //intro_info_style.value = mergeSetTypeColor(settype.value, intro_info_style.value)

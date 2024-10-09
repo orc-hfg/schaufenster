@@ -38,8 +38,13 @@ DONE: home icon ohne mix blend
 
 ## menu animation io gleich wie set view intro info mit blur layer und opacity
 
+DONE: backdrop-filter blur(30px) zusätzlich zum Blur der durch verstecken der header navbar / project-counter / year-selector stattfindet.
+backdrop filter auch für header; das ORC-Logo blurt dann komisch durch. Auch wenn ich den Blur zB auf 90px setze.
+TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
+
 ## menu sprachwahl: menu faded aus, danach wird erst die sprache gesetzt
 
+DONE: 500ms delay with menu close on locale switch
 
 # Filter-View
 
@@ -80,6 +85,8 @@ DONE: home icon ohne mix blend
 ## setview: ani: meta-info: kein btns während der animation
 
 ## setview: meta info: mehr padding
+
+DONE: more padding-right (80px) meta-info
 
 ## setview: meta info: show more / less icon einfügen
 

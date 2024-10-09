@@ -6,12 +6,6 @@
             <nav class="nav">
                 <NuxtLink @click="closeMenu()" class="logo">
                     <IconsNavHome/>
-                    <!-- <svg
-                        width="48" height="48"
-                        viewBox="0 0 48 48"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="24" cy="24" r="12"/>
-                    </svg> -->
                 </NuxtLink>
             </nav>
         </header>
@@ -95,9 +89,8 @@ const font_style = ref({})
 const animate_io = ref(true)
 
 const switchLocale = (loc: string) => {
-    setLocale(loc)
+    emit('onSwitchLang', loc)
     console.log("switchLocale: " + loc + ":" + locale.value)
-    //locale.value = loc
 }
 const closeMenu = () => {
     animate_io.value = true
@@ -136,9 +129,10 @@ init()
 <style scoped>
 header {
     z-index: 1100;
-    background-color: var(--Colors-background-default);
+    /* background-color: var(--Colors-background-default); */
     padding: 12px 12px;
     height: 50px;
+
 }
 .logo {
     padding: 0;
@@ -148,10 +142,6 @@ header {
 svg {
     mix-blend-mode: normal;
 }
-/* svg circle {
-    stroke: var(--Colors-text-primary, #2C2C2C);
-    fill: var(--Colors-text-primary, #2C2C2C);   
-} */
 
 .dialog_menu {
     position: fixed;
@@ -160,13 +150,11 @@ svg {
     height: 100vh;
     z-index: 1000;
     opacity: 1;
-    /* transition: all 300ms ease-out; */
-    /* color: var(--Colors-text-primary-inverted, #000); */
-    /* background-color: var(--Colors-background-menu, #fff); */
+    backdrop-filter: blur(30px);
+    
 }
 
 .menu_panel {
-    /* border: 3px solid red; */
     position: absolute;
     top: 0px;
     left: 0px;
@@ -174,13 +162,12 @@ svg {
     height: 100vh;
     overflow: hidden;
     
-    
     z-index: 1020;
     filter: none;
 
     display: flex;
-    padding-top: 96px;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: var(--spacing-between-menu-items, 20px);
     flex-shrink: 0;
@@ -188,9 +175,13 @@ svg {
     transition: all 300ms ease-out;
 }
 .hidden {
-    /* opacity: 0; */
     transition: all 300ms ease-out;
-    /* display: none; */
+}
+
+.hidden .dialog_menu {
+    opacity: 0;    
+    backdrop-filter: blur(0px);
+    transition: all 900ms ease-out;
 }
 
 .hidden header {
@@ -199,23 +190,20 @@ svg {
     background-color: transparent;
     transition: all 300ms ease-out;
 }
+.hidden svg circle {
+    opacity: 0;
+    transition: all 300ms ease-out;
+}
+
 .hidden .menu_panel {
     opacity: 0;
     transform: translateY(10vh);
     /* top: 50vh; */
     transition: all 300ms ease-out;
 }
-.hidden svg circle {
-    opacity: 0;
-    transition: all 300ms ease-out;
-}
 .menu_panel * {
     align-items: center;
-    text-align: center;  
-    /* font-size: 80px; */
-    /* color: var(--Colors-text-primary, #222); */
-    /* background: var(--Ultra-Light-Grey, #F3F2EF); */
-    /* background-color: var(--Colors-background-menu2, rgba(255,255,255, 0.3)); */
+    text-align: center;
 }
 
 .lang_switch {
