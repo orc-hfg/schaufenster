@@ -35,7 +35,7 @@
       :class="{
         hidden: animateSwitch2SetList,
         info_active: showInfo,
-        bottom_nav_hide: !showBottomNav
+        zoom: !showBottomNav
       }"
       
       :navigation="{
@@ -103,12 +103,12 @@
         
       </swiper-slide>
       <div class="swiper-main-button-prev"
-        :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false}"
+        :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani}"
         @click.once="swiperMain.slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
-        :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false}"
+        :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani}"
         @click.once="swiperMain.slideNext()">
         <IconsSliderArrowRight/>
       </div>
@@ -148,7 +148,7 @@
       <swiper
         :modules="modules"
         class="swiper_nav"
-        :class="{hidden: !showBottomNav || showInfo || animateSwitch2SetList || showSetTitle }"
+        :class="{hidden: !showBottomNav || showInfo || animateSwitch2SetList || showSetTitle | show_av_control }"
         @swiper="setNavSwiper"
         :freeMode="{
           momentum:true,
@@ -243,7 +243,7 @@
       </swiper>
   </div>
   <div class="av_control" 
-    :class="{hidden: !show_av_control || showBottomNav || showInfo}">
+    :class="{hidden: !show_av_control || showInfo}">
     <div class="av_playpause"
       @click="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
@@ -409,7 +409,7 @@ const avProgressClicked = (ev:PointerEvent) => {
   const progressEl = document.getElementById('av_progress')
 
   const pos =
-    (ev.pageX - progressEl.offsetLeft - progressEl.offsetParent.offsetLeft) /
+      (ev.pageX - progressEl.offsetLeft - progressEl.offsetParent.offsetLeft) /
     progressEl.offsetWidth;
   avel.currentTime = pos * avel.duration;
 }
@@ -447,20 +447,28 @@ const showBottomNav = ref(true)
 const show_av_control = ref(false)
 
 const showInfo = ref(false)
+
+const DELAY_META_INFO_TRIGGER_SWIPER_RESIZE = 600
+
+const meta_info_ani = ref(false)
 const toggleShowInfo = () => {
+  meta_info_ani.value = true;
   showInfo.value = !showInfo.value
   if (showInfo.value) {
-    //showBottomNav.value = false
     entry_info_hidden.value = false;
   } else {
-    //showBottomNav.value = true
 
   }
+  
   setTimeout(() => {
-
+    meta_info_ani.value = false;
+  }, DELAY_META_INFO_TRIGGER_SWIPER_RESIZE * 2)
+  
+  setTimeout(() => {
     swiperMain.value.updateSize()
     swiperMain.value.update()
-  }, 600)
+    
+  }, DELAY_META_INFO_TRIGGER_SWIPER_RESIZE)
   
 }
 
@@ -716,7 +724,7 @@ const onMainSwiperSlideChanged = () => {
           toggleStatePlay(true)
         }
         show_av_control.value = true
-        showBottomNav.value = false
+        //showBottomNav.value = false
       }
       document.documentElement.setAttribute("data-theme", "dark");
       data_theme.value="dark"
@@ -726,25 +734,6 @@ const onMainSwiperSlideChanged = () => {
       document.documentElement.setAttribute("data-theme", "");
       data_theme.value=""
     }
-    /* 
-    if (ael) {
-      //progressEl.setAttribute('max', ael.duration)
-      showBottomNav.value = false
-      if (!showInfo.value) {
-        show_av_control.value = true
-      }
-      
-    } else if (vel) {
-      //progressEl.setAttribute('max', vel.duration)
-      showBottomNav.value = false
-      if (!showInfo.value) {
-        show_av_control.value = true
-      }
-    } else if (!showInfo.value) {
-      
-      // showBottomNav.value = true
-      show_av_control.value = false
-    } */
     
     if (lastActiveEntryId) {
       const lavel = document.getElementById('slide-audio-'+ lastActiveEntryId) 
@@ -753,7 +742,7 @@ const onMainSwiperSlideChanged = () => {
 
           console.error("last elem was audio or video, but current is not; info is not shown: show btm nav and hide av_control")
           show_av_control.value = false
-          showBottomNav.value = true
+          //showBottomNav.value = true
       }
     }
 
@@ -1113,7 +1102,7 @@ const handleMouseLeave = () => {
   
 }
 
-.swiper_main.bottom_nav_hide {
+.swiper_main.zoom {
   top: 0px;
   height: 100vh;
   transition: all 500ms ease-out;

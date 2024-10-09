@@ -82,6 +82,8 @@ DONE: 500ms delay with menu close on locale switch
 
 ## setview: on slide video / audio: btm bar hide macht kein zoom für das video / audio slide
 
+DONE: setview: show_av_control does not set zoom
+
 ## setview: ani: meta-info: kein btns während der animation
 
 ## setview: meta info: mehr padding
