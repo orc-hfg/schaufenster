@@ -112,6 +112,7 @@ DONE: more padding-right (80px) meta-info
 
 ## hoover effekt fehlt in meta-info auf filter tags
 
+
 ## setview theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte)
 
 ## difference effekt mit satturation rausgedreht -> SW für Nav-Pfeile
@@ -135,6 +136,8 @@ DONE: kein Notfall mehr nötig.
 ### setview: meta info keyowords show all/less animation fehlt
 
 ### setview: intro title: move text up/down with animation
+
+DONE: setview: intro title: ani: move up/down text
 
 ### setview: audio zentrieren ( nicht 100% width / height, sondern wie image slide)
 
@@ -160,6 +163,8 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 ### no auto play if first element is video
 
+DONE: setview: no auto play if first element is video
+
 ### video bar erst einblenden, wenn set info blur aufgelöst
 
 ## setview: title intro blend: vertical zentrieren
@@ -179,6 +184,8 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 ## btm bar nav hide ( zoom ): animation back fehlt
 
 ## slide video/audio gleich groß, wie wie image slide
+
+DONE: setview: slide video/audio gleich groß, wie wie image slide
 
 # project setlist
 

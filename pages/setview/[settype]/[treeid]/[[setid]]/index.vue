@@ -720,7 +720,7 @@ const onMainSwiperSlideChanged = () => {
       //showBottomNav.value = false
       if (!showInfo.value) {
         // auto play video
-        if (vel) {
+        if (vel && activeSlide !== 0) {
           toggleStatePlay(true)
         }
         show_av_control.value = true

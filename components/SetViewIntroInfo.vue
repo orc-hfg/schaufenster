@@ -82,6 +82,7 @@ onMounted(() => {
 }
 .hidden .set_info_blend {
   opacity: 0;
+  transform: translateY(10vh);
   transition: all 800ms ease-out;
 }
 
