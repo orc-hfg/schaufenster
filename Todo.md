@@ -26,6 +26,12 @@
 
 # menu-view
 
+## menu: about etc. after closing go back to menuview
+
+## menu -> about etc: do fade (to dark more)
+
+## menu: click does not match opened view
+
 ## gleiche logik wie intro  für schriftgrößen / no scrolling / fit to screen
 
 DONE: Fit to screen
@@ -56,6 +62,8 @@ DONE: filter: home faded ein, sonstige ui faehrt nacht oben raus.
 
 ## setview -> filter: animation TBD
 
+## filter -> setview: animation
+
 ### setview->filter-view: von oben / nach oben / show-meta-info-btn und title nach oben animieren
 
 ## filter: hide impossible combinations
@@ -84,9 +92,7 @@ DONE: filter: intro ani auf 20vh gesetzt, damit er sicher aus dem Bild ist
 
 ## filter zahl näher an text
 
-## filter -> setview: animation
-
-
+DONE: filter: tag counter: removed number padding
 
 # setview / [landing page im projekt]
 
@@ -173,7 +179,6 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 ## btm bar nav hide ( zoom ): animation back fehlt
 
 ## slide video/audio gleich groß, wie wie image slide
-
 
 # project setlist
 

@@ -970,12 +970,12 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   color: var(--text-primary, #2C2C2C);
 
   border: none;
-/* Buttons */
-font-family: "Instrument Sans";
-font-size: var(--font-button-font-size, 20px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--font-button-line-height, 24px); /* 120% */
+  /* Buttons */
+  font-family: "Instrument Sans";
+  font-size: var(--font-button-font-size, 20px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
 .keyword_item {
@@ -996,7 +996,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
 
   color: var(--Colors-filter-chip-text-default, #2C2C2C);
   
-
+  font-family: "Instrument Sans";
   font-size: var(--font-button-font-size, 20px);
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
@@ -1015,7 +1015,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   display: flex;
   width: 24px; /* var(--dimension-button-height-S, 32px); */
   height: 24px; /* var(--dimension-button-height-S, 32px); */
-  padding: var(--margin-navbar-institution-logo-right, 10px);
+  /* padding: var(--margin-navbar-institution-logo-right, 10px); */
 
   justify-content: center;
   align-items: center;
