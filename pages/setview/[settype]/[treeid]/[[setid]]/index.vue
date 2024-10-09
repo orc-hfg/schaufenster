@@ -47,7 +47,7 @@
       @mouseleave="handleMouseLeave"
       :keyboard="true"
       :css-mode="false"
-      :auto-resize="false"
+      :auto-resize="true"
       :initial-slide="0"
       :slides-per-view="1"
       :virtual="true"
@@ -62,7 +62,8 @@
         class="main_slide"
         v-for="(el,index) in entries"
         :key="el.id" :virtualIndex="index">
-        <div class="swiper-slide-transform">
+
+        <!-- <div class="swiper-slide-transform"> -->
         <div v-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
           <div class="audio_slide"
@@ -98,7 +99,7 @@
           class="main_preview"
           :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
         </div>
-      </div>
+      <!-- </div> -->
         
       </swiper-slide>
       <div class="swiper-main-button-prev"
@@ -161,7 +162,6 @@
         :slides-per-view="'auto'"
         
       >
-      <!-- TODO smooth element insert -->
     
         <swiper-slide
           class="nav_slide"
@@ -170,14 +170,7 @@
           :virtualIndex="el.index"
           @mouseover="setHoverSetId(el.collection_id)"
           @mouseleave="resetHoverSetId()"
-          :class="{
-
-            set_highlight: (activeSetId == el.collection_id || hoverSetId == el.collection_id) && el.collection_id !== treeid,
-            //grow_slides: nav_grow_width,
-            nav_slide_btns: el.type == NavSlideType.Button && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
-            nav_slide_btn_add: el.type == NavSlideType.Button && showCount[el.collection_id] < maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
-            nav_slide_btn_reset: el.type == NavSlideType.Button && showCount[el.collection_id] == maxCount[el.collection_id] && maxCount[el.collection_id] >= MIN_SHOW_COUNT,
-          }"
+          :class="getNavSlideClass(el)"
           >
           
           <!-- :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))" -->
@@ -437,6 +430,19 @@ const getAbbrevColTitle = (setid: string): string => {
 
 const showCount = ref({} as { [key:string]: number})
 const maxCount = ref({} as { [key:string]: number})
+
+const getNavSlideClass = (el:iSlideElement):object => {
+  const col_id = el.collection_id
+  const max_count = maxCount.value[col_id]
+  const show_count = showCount.value[col_id]
+  const result = {
+    set_highlight: (activeSetId.value == col_id || hoverSetId.value == col_id) && treeid.value !== col_id,
+    nav_slide_btns: el.type == NavSlideType.Button && max_count >= MIN_SHOW_COUNT,
+    nav_slide_btn_add: el.type == NavSlideType.Button && show_count < max_count && max_count >= MIN_SHOW_COUNT,
+    nav_slide_btn_reset: el.type == NavSlideType.Button && show_count == max_count && max_count >= MIN_SHOW_COUNT,
+  }
+  return result
+}
 const showBottomNav = ref(true)
 const show_av_control = ref(false)
 
@@ -451,13 +457,10 @@ const toggleShowInfo = () => {
 
   }
   setTimeout(() => {
-    
-    //swiperMain.value.slideTo(swiperMain.value.activeIndex)
-    swiperMain.value.slideNext()
-    swiperMain.value.slidePrev() 
+
     swiperMain.value.updateSize()
     swiperMain.value.update()
-  }, 700)
+  }, 600)
   
 }
 
@@ -1025,8 +1028,8 @@ onMounted(() => {
   document.documentElement.setAttribute("data-theme", "");
   initData();
 
-  
-  
+
+  // switch to first slide, init all vars
   setTimeout(() => {
     activeEntryId.value = entries.value[0].id
     activeSetId.value = setid.value
@@ -1038,6 +1041,7 @@ onMounted(() => {
     onMainSwiperSlideChanged()
     
   },200)
+  // init sub set state and btns visually
   let maxIdx = 0;
   navSlider.value.slides.forEach((el, idx) => {
     setTimeout(() => {
@@ -1049,19 +1053,15 @@ onMounted(() => {
     activeSetId.value = setid.value
   }, maxIdx * 10)
 
+
+  // intro animation
   setTimeout(() => {
     animateSwitch2SetList.value = false
   },250)
 
-
-  //const color = settype.value == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
-  //showSetTitleStyle.value['color'] = color;
-
+  // intro show title
   showSetTitle.value = true;
-  /* setTimeout(() => {
-    showSetTitle.value = false;
-  }, SHOW_SET_TITLE_DELAY)
- */
+  
 })
 
 const swiperNavBtnHoverRight = ref(false)
@@ -1109,7 +1109,7 @@ const handleMouseLeave = () => {
 
   margin: 0px 0px;
   opacity: 1;
-  transition: all 450ms linear 50ms ;
+  /* transition: all 450ms linear 50ms ; */
   
 }
 
@@ -1129,13 +1129,14 @@ const handleMouseLeave = () => {
   height: 100%;
 }
 .main_preview {
+  position: absolute;
   width: 100%;
   height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 1;
-  
+  transition: all 500ms ease-out;
 }
 .swiper_main.hidden .main_preview {
   transition: opacity 300ms ease-out;
@@ -1143,10 +1144,14 @@ const handleMouseLeave = () => {
 }
 .video_slide {
   position:absolute;
-  top: 88px; bottom: 128px;
-  height: 80%;width: 100%; margin: auto;  
+  /* TODO gleiche hoehe wie img slide */
+  /* top: 88px; bottom: 128px; */
+  height: 100%;
+  width: 100%;
+  margin: auto;  
 }
 .audio_slide {
+  /* TODO gleiche hoehe wie img slide */
   width: 100%;
   height: 100%;
   margin: auto;
@@ -1177,40 +1182,28 @@ const handleMouseLeave = () => {
 
 
 .info_active {
-  transition: all 450ms 50ms linear;
+  transition: all 450ms linear 50ms;
 }
 .swiper_main.info_active {
   /* border: 1px solid red; */
-  top: 16vh;
-  left: 24px;
-  height: 70vh;
-  width: calc(50vw - 48px);
+  transition: all 500ms linear;
   
-  /* transition: height 500ms cubic-bezier(1, 0, 0, 1); */
-  transition: all 500ms ease-out;
-
-  
-  /* transform-origin: 0vw 20vh;
-  transform: scale( 47.5% );
-  margin: 0 0% 0 2.5%;
-  
-  height: 150%;
-  height: calc(200vh - 520px); */
+  height: 90vh;
 }
 .swiper_main.info_active .main_preview {
-  /* border: 1px solid green; */
-  /* width: calc(100vw - 192px); 
-  margin: 0 96px;*/
-
-  /* width: calc(100% - 48px);
-  margin: 0 24px;
-  transition: all 500ms linear;
-  */
+  /* border: 1px solid red; */
+  position: absolute;
+  left: 48px;
+  top: 10vh;
+  height: 74vh;
+  width: calc(50vw - 96px); 
 }
 
 .entry_info {
+  z-index: 10;
   /* border: 1px solid blue; */
-  transition: all 500ms ease-out;
+  background-color: var(--Colors-background-default);
+  transition: all 500ms linear;
 }
 .entry_info.hidden {
   transform: translateX(50vw);
@@ -1564,8 +1557,8 @@ const handleMouseLeave = () => {
 .swiper-main-button-prev,
 .swiper-main-button-next 
 {
-  position: absolute;
-  top: calc(50% - 24px);
+  position: fixed;
+  top: calc(45vh - 24px);
 
   display: flex;
   width: 48px;
@@ -1589,15 +1582,12 @@ const handleMouseLeave = () => {
   right: 24px;
 }
 .swiper_main.info_active .swiper-main-button-prev {
-  /* transform: scale(200%);
-  top: calc(50% - 24px);
-  left: 12px; */
-  left: -12px;
+  /* top: calc(50% - 24px); */
+  left: 62px;
 }
 .swiper_main.info_active .swiper-main-button-next {
-  /* transform: scale(200%);
-  right: 12px; */
-  right: -12px;  
+  /* top: calc(50% - 24px); */
+  right: calc(50vw + 62px);
 }
 
 .swiper-button-disabled {
@@ -1613,6 +1603,7 @@ const handleMouseLeave = () => {
 .entry_info_title {
   user-select: none;
 
+  z-index: 20;
   position: fixed;
   top: 2.5rem;
   left: 10vw;
