@@ -139,7 +139,7 @@
       <Transition name="fade">
         <div
           v-if="!showInfo && !animateSwitch2SetList"
-          @click="showBottomNav = !showBottomNav"
+          @click="toggleShowBottomNav()"
           class="btn_bottom_nav_hide">
           <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav" />
               
@@ -259,7 +259,7 @@
   <SetViewIntroInfo
     v-if="showSetTitle"
     :set-type="settype"
-    :set-title="getColTitle(setid)"
+    :set-title="getAbbrevColTitle(setid)"
     @on-close="showSetTitle = false" />
 
 
@@ -325,6 +325,24 @@ const entryInfoScrollPosChanged = (pos) => {
   else {
     entry_info_hidden.value = false;
   }
+}
+
+const toggleShowBottomNav = () => {
+  const entryId = activeEntryId.value
+  const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
+  
+  if (!showBottomNav.value) {
+    if (show_av_control.value == true) {
+      show_av_control.value = false
+    }
+    showBottomNav.value = true
+  } else {
+    showBottomNav.value = false
+    if (avel) {
+      show_av_control.value = true
+    }
+  }
+  
 }
 
 const clickedParent = (col_id) => {

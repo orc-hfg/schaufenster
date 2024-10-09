@@ -171,6 +171,8 @@ DONE: setview: video bar erst einblenden, wenn set info blur aufgelöst
 
 ## setview: title intro blend: vertical zentrieren
 
+DONE: setview: title intro blend: vertical zentrieren und nach 50 Zeichen abgeschnitten
+
 ## audio video player : play state is wrong (switch auto play / non auto play)
 
 ## AV progress farben; progress click pos noch nicht korrekt

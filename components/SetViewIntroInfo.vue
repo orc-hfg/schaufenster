@@ -6,7 +6,7 @@
             class="set_info_blend"
             :style="showSetTitleStyle"
             @click="doClose()">
-            <div class="content">
+            <div class="blend_content">
             {{ setTitle }}
             </div>
         </div>
@@ -38,7 +38,7 @@ onMounted(() => {
     animate_io.value = false;
     // auto self hide
     setTimeout(() => {
-        doClose()
+        //doClose()
     }, SHOW_SET_TITLE_DELAY)
     
 })
@@ -54,14 +54,16 @@ onMounted(() => {
   transition: all 300ms ease-out;
 }
 .set_info_blend {
+  
   position: fixed;
   z-index: 1010;
   
   left: 6.5vw;
   right: 6.5vw;
-  top: 19vh;
-  height: 46vh;
-
+  top: 0;
+  height: 100vh;
+  
+  
   overflow: hidden;
 
   display: flex;
@@ -71,7 +73,6 @@ onMounted(() => {
 
   text-align: center;
 
-  /* box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.08); */
   opacity: 1;
   transition: all 300ms ease-out;
 }
@@ -85,5 +86,8 @@ onMounted(() => {
   transform: translateY(10vh);
   transition: all 800ms ease-out;
 }
-
+.blend_content {
+  /* border: 1px solid blue; */
+  display: inline-flex;
+}
 </style>
