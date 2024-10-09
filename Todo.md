@@ -167,6 +167,8 @@ DONE: setview: no auto play if first element is video
 
 ### video bar erst einblenden, wenn set info blur aufgelöst
 
+DONE: setview: video bar erst einblenden, wenn set info blur aufgelöst
+
 ## setview: title intro blend: vertical zentrieren
 
 ## audio video player : play state is wrong (switch auto play / non auto play)

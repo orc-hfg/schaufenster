@@ -243,7 +243,7 @@
       </swiper>
   </div>
   <div class="av_control" 
-    :class="{hidden: !show_av_control || showInfo}">
+    :class="{hidden: !show_av_control || showInfo || showSetTitle}">
     <div class="av_playpause"
       @click="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
