@@ -269,7 +269,7 @@ const isShowLocale = (md:object) :boolean => {
 }
 
 .entry_info_panel {
-  width: calc(50vw - 48px);
+  width: calc(50vw - 80px);
   padding: var(--spacing-betweenitemsM, 12px) var(--spacing-betweenitemsM,12px);
 
     display: flex;
