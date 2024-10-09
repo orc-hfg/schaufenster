@@ -11,7 +11,7 @@
                 :class="{show_all: showAll}"
                 :style="getTextStyle(md.string, showAll)"
                 v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
-                <span class="filter_content">{{getAbbrevString(md.string, showAll) }}</span>
+                <span class="filter_content" v-html="getAbbrevString(md.string, showAll)"></span>
             </div>
             <MetaDatumViewShowBtn
                 v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE"
@@ -212,10 +212,11 @@ const getFilterListId = (md, type) => {
 }
 
 const getAbbrevString = (text:string, show_all:boolean):string => {
+    const result = text.replace('\n','<br>')
     if (show_all == false && text.length > MIN_TEXT_SHOW_COUNT) {
-        return text.substring(0, MIN_TEXT_SHOW_COUNT) + '...'
+        return result.substring(0, MIN_TEXT_SHOW_COUNT) + '...'
     }
-    return text;
+    return result;
 }
 
 const getTextStyle = (text:string, show_all:boolean) => {
@@ -272,6 +273,10 @@ flex-wrap: wrap;
 }
 .filter_content {
     user-select: text;
+    
+}
+.filter_content span {
+    display: inline-block;
 }
 .filter_tag {
     cursor: pointer;
