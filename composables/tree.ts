@@ -760,13 +760,13 @@ export const treeHelper = () => {
         const year = sy.split(' ')[1]
         tree.cols_semesters[clientId] = year + ' ' + sem
         //tree.cols_semesters[clientId] = md.selectedKeywords[0].term
-      } else if (metaKey == MK_PROGRAM_OF_STUDY) {
+      /* } else if (metaKey == MK_PROGRAM_OF_STUDY) {
         
         tree.cols_departments[clientId] = tree.cols_departments[clientId] || []
         md.selectedKeywords.forEach(kw => {
           tree.cols_departments[clientId].push(kw.term)
         })
-        console.log("found program of study: " + JSON.stringify(tree.cols_departments[clientId]))
+        console.log("found program of study: " + JSON.stringify(tree.cols_departments[clientId])) */
       }
       // TODO mitwirkende
       // TODO year / from semester
