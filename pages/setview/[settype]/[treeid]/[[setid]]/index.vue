@@ -463,7 +463,7 @@ const toggleShowInfo = () => {
   setTimeout(() => {
     meta_info_ani.value = false;
   }, DELAY_META_INFO_TRIGGER_SWIPER_RESIZE * 2)
-  
+
   setTimeout(() => {
     swiperMain.value.updateSize()
     swiperMain.value.update()
@@ -1090,11 +1090,11 @@ const handleMouseLeave = () => {
 .swiper_main {
   /* border: 1px solid red; */
   position: fixed;
-  top: 80px;
+  
   left: 0px;
-
   width: 100vw;
-  height: calc(100vh - 260px);
+  top: 80px;
+  height: calc(100vh - 280px);
 
   margin: 0px 0px;
   opacity: 1;
@@ -1109,7 +1109,7 @@ const handleMouseLeave = () => {
 }
 
 .swiper-slide.main_slide {
-  border: 2px solid blue;
+  /* border: 1px solid blue; */
   align-items: center;
   justify-content: center;
 }
@@ -1118,14 +1118,17 @@ const handleMouseLeave = () => {
   height: 100%;
 }
 .main_preview {
+  /* border: 1px solid green; */
   position: absolute;
+  top: 0px;
+  left: 0px;
   width: 100%;
   height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   opacity: 1;
-  transition: all 500ms ease-out;
+  transition: all 500ms linear;
 }
 .swiper_main.hidden .main_preview {
   transition: opacity 300ms ease-out;
@@ -1177,7 +1180,7 @@ const handleMouseLeave = () => {
   /* border: 1px solid red; */
   transition: all 500ms linear;
   
-  height: 90vh;
+  /* height: 90vh; */
 }
 .swiper_main.info_active .main_preview {
   /* border: 1px solid red; */
@@ -1185,7 +1188,8 @@ const handleMouseLeave = () => {
   left: 48px;
   top: 10vh;
   height: 74vh;
-  width: calc(50vw - 96px); 
+  width: calc(50vw - 96px);
+  transition: all 500ms linear;
 }
 
 .entry_info {
@@ -1499,7 +1503,7 @@ const handleMouseLeave = () => {
   flex-shrink: 0;
 }
 
-
+/*
 .rotate-enter-active,
 .rotate-leave-active {
   transition: all 0.5s linear;
@@ -1526,6 +1530,7 @@ const handleMouseLeave = () => {
   transform: rotate(-90deg);
   opacity: 0.15;
 }
+*/
 
 .fade-rotate-enter-active,
 .fade-rotate-leave-active {

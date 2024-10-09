@@ -86,6 +86,8 @@ DONE: setview: show_av_control does not set zoom
 
 ## setview: ani: meta-info: kein btns während der animation
 
+DONE: setview: show meta_info ani: hide nav l/r btns
+
 ## setview: meta info: mehr padding
 
 DONE: more padding-right (80px) meta-info
@@ -98,16 +100,23 @@ DONE: more padding-right (80px) meta-info
 
 ## difference effekt mit satturation rausgedreht -> SW für Nav-Pfeile
 
-## setview: entry info animation noch smooth; flickering ist weg Juhu.
+DONE: mit filter: contrast(0) : Passt das so auch für helle und dunkle Hintergründe; Es hat nicht diese bunten Effekte, wie es der difference Filter hätte.
 
-### fullscreen animation blockieren um springen zu unterbinden.
+## setview: entry info animation noch smooth; flickering ist weg Juhu
+
+DONE: smoothie ani show/hide meta-info
+
+### fullscreen animation blockieren um springen zu unterbinden
+
+DONE: fullscreen independant of btm_nav_hide
 
 ### als notfall animationen vorher , dann entry info
 
+DONE: kein Notfall mehr nötig.
+
 ### setview: meta info: init fehler (text wird nicht bis ... angezeigt)
 
-### setview: meta info keyowords show all/less animation fehlt.
-
+### setview: meta info keyowords show all/less animation fehlt
 
 ### setview: intro title: move text up/down with animation
 
