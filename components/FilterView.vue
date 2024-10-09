@@ -179,6 +179,10 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
     return;
   }
 
+  if (getFilteredCount(kwInfo[0].meta_key, kwInfo[0].id) < 1) {
+    console.error("clickedFilter: invalid combination: ignore")
+    return;
+  }
   const data = kwInfo[0]
   const id = data.id
   console.log("clickedFilter: " + type + " : " + id + ":" + JSON.stringify(data))
@@ -431,7 +435,7 @@ const getShowAllStyle = (meta_key) => {
     <div class="filter_content">
     
       <div class="wrapper_filter">
-        <div>SHOW ALL {{ showAll }}</div>
+
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_keywords') }}</div>
@@ -1049,6 +1053,7 @@ letter-spacing: 0.72px;
 }
 
 .keyword_item.disabled {
+  cursor: default;
   /* opacity: 0.5;
   display: none; */
   /* border-radius: var(--radius-none, 0px); */

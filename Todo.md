@@ -58,7 +58,9 @@ DONE: 500ms delay with menu close on locale switch
 
 ### setview->filter-view: von oben / nach oben / show-meta-info-btn und title nach oben animieren
 
-## hide unpossible combinations
+## filter: hide impossible combinations
+
+DONE: filter: make impossible combination impossible to click; cursor default;
 
 ## show all on active filter tag (on init)
 
