@@ -383,7 +383,7 @@ const getShowAllStyle = (meta_key) => {
     <header class="header">
       <nav class="nav">
         <div class="wrapper_left">
-          <button class="btn_apply"
+          <button class="btn_logo"
             @click.once="closeFilter()">
             <!-- <IconsNavHome class="logo"/> -->
             <!-- TODO padding -->
@@ -678,17 +678,15 @@ const getShowAllStyle = (meta_key) => {
 }
 .filter_view.hidden {
   opacity: 0;
-  background-color: transparent;  
-  /* 
-  
-  display: none; */
+  background-color: transparent;
 }
 
 button {
   cursor: pointer;
   user-select: none;
   background-color: unset;
-  color: var(--Colors-text-primary, #2C2C2C)
+  color: var(--Colors-text-primary, #2C2C2C);
+  border: none;
 }
 
 .filter_view * {
@@ -697,12 +695,9 @@ button {
   font-family: "Instrument Sans";
 }
 header {
-  /* background: var(--background-default, #F3F2EF); */
-  transition: all 300ms ease-out;
+   transition: all 800ms ease-out;
 }
-.hidden .header {
-  top: -120px;
-}
+
 
 nav {
   background: var(--background-default, #F3F2EF);
@@ -713,6 +708,12 @@ nav {
 .wrapper_left {
   display: flex;
   justify-content: start;
+  height: 50px; width: 50px;
+  opacity: 1;
+  transition: all 500ms ease-out;
+}
+.hidden .wrapper_left {
+  opacity: 0;
 }
 .wrapper_mid {
   display: flex;
@@ -724,7 +725,12 @@ nav {
   
   gap: var(--margin-navbar-institution-logo-right, 10px);
   flex-shrink: 0;
+  transition: all 500ms ease-out;
 }
+.hidden .wrapper_mid {
+  transform: translateY(-10vh);
+}
+
 .btn_apply {
   display: inline-flex;
   align-items: center;
@@ -741,12 +747,21 @@ font-weight: 400; letter-spacing: 0.02rem;
 line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
-.btn_apply .logo {
+.btn_logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-navbar-between-items, 4px);
+
+  border: none;
+  width: 50px;
+}
+.btn_logo .logo {
 
 }
-.btn_apply .logo:hover {
+.btn_logo .logo:hover {
   transform: scale(0.83);
 }
+
 .btn_apply .label {
   display: flex;
   padding-right: var(--margin-navbar-institution-logo-right, 10px);
@@ -836,11 +851,11 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   align-items: flex-start;
   gap: var(--spacing-meta-info-between-sections, 80px);
   flex-shrink: 0;
-  transition: all 800ms ease-out;
+  transition: all 300ms ease-out;
 }
 
 .hidden .filter_content {
-  top: 100vh;
+  top: 20vh;
 }
 
 .wrapper_filter {

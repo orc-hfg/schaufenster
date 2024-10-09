@@ -50,6 +50,8 @@ DONE: 500ms delay with menu close on locale switch
 
 ## Filter Navbar Home Btn animation nicht von oben
 
+DONE: filter: home faded ein, sonstige ui faehrt nacht oben raus.
+
 ### animation nav-home faded ein (nicht von oben)
 
 ## show more / less icon einfügen
