@@ -154,32 +154,28 @@ onMounted(() => {
 .page {
   opacity: 1;
 }
+
+/* clip circle page out ani */
 .page-out.page-enter-active {
   z-index: 5;
   transition: all 0ms;
 }
 .page-out.page-leave-active {
   clip-path: circle(calc(max(100vw, 100vh)) at 50vw 50vh) !important;
-  /* transition: all 800ms ease-out; */
   transition: clip-path 800ms ease-out;
-  /* transition: opacity 800ms ease-out; */
   z-index: 10;
 }
 .page-out.page-leave-to {
   clip-path: circle(0vw at 50vw 50vh) !important;
-  
 }
 .page-out.page-enter-to {
   opacity: 1;
 }
 
-
-
+/* clip circle page in ani */
 .page-in.page-enter-active {
-  /* opacity: 0; */
   clip-path: circle(0vw at 50vw 50vh) !important;
   transition: clip-path 800ms ease-out;
-  /* transition: opacity 800ms ease-out; */
   z-index: 10;
 }
 .page-in.page-leave-active {
@@ -187,26 +183,24 @@ onMounted(() => {
   transition: all 0ms;
 }
 .page-in.page-leave-to {
-  /* opacity: 0; */
 }
 .page-in.page-enter-to {
-  /* opacity: 1; */
   clip-path: circle(150vw at 50vw 50vh) !important;
 }
 
+/* fade page io ani */
 .fade.page-enter-active {
   opacity: 0;
-  transition: all 10ms ease-out;
+  transition: all 150ms ease-out;
   z-index: 10;
 }
 .fade.page-leave-active {
   z-index: 5;
-  transition: all 10ms ease-out;
+  transition: all 150ms ease-out;
 }
 .fade.page-leave-to {
   opacity: 0;
 }
-
 .fade.page-enter-to {
   opacity: 1;
 }
