@@ -52,8 +52,6 @@ DONE: 500ms delay with menu close on locale switch
 
 DONE: filter: home faded ein, sonstige ui faehrt nacht oben raus.
 
-### animation nav-home faded ein (nicht von oben)
-
 ## show more / less icon einfügen
 
 ## setview -> filter: animation TBD
@@ -72,11 +70,17 @@ DONE: filter: show all for meta_key if has selected filter-tags
 
 ## scrollbar ausblenden alle browser
 
+DONE: filter: hide scrollbar for all browsers
+
 ## filter navbar mit padding ohne transarenz; graue linie als abschluss
 
 ## filter width more responsive
 
+DONE: filter: left/right margin 10vw; content is each 40vw minus a gap of 24px each
+
 ## filter intro animation weniger translate (nur 10vh)
+
+DONE: filter: intro ani auf 20vh gesetzt, damit er sicher aus dem Bild ist
 
 ## filter zahl näher an text
 

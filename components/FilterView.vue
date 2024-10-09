@@ -838,9 +838,9 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   /* border: 1px solid green; */
   position: absolute;
   top: 0px;
-  left: -3rem;
-  width: calc(100vw + 6rem);
-  height: calc(100vh - 240px);
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
   overflow-y: visible;
   padding: 0px 0rem;
 
@@ -860,50 +860,51 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
 
 .wrapper_filter {
   /* border: 1px solid red; */
-  position: relative;
+  position: absolute;
   top: 0px;
+  left: 10vw;
+  width: calc(40vw - 24px);
   
-  width: 50%;
-  float: left;
-/*
-  display: flex;
-justify-content: center;
-align-items: flex-start;
-gap: var(--margin-navbar-institution-logo-right, 10px);
-align-self: stretch;
-*/
-display: block;
-width: 700px;
-height: calc(100vh - 240px);
-overflow-y: scroll;
-padding-top: 200px;
 
-flex-direction: column;
-align-items: flex-start;
-gap: 40px;
+  display: flex;
+  
+  height: calc(100vh - 240px);
+  overflow-y: scroll;
+  padding-top: 200px;
+
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
-/* TODO scrollbar firefox and others */
 .wrapper_filter::-webkit-scrollbar {
-  width: 0;
+  display: none;
 }
 .wrapper_projects {
   /* border: 1px solid blue; */
-  position: relative;
-  width: 50%;
-  float: left;
+  position: absolute;
+  left: calc(50vw + 24px);
+  width: calc(40vw - 24px);
+  height: calc(100vh - 240px);
+  
 
   display: flex;
-  width: 700px;
-  height: calc(100vh - 240px);
+  
+  
   overflow-y: scroll;
   padding-top: 200px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
-/* TODO scrollbar firefox and others */
+
 .wrapper_projects::-webkit-scrollbar {
-  width: 0;
+  display: none;
 }
 
 .meta_key_filter,
