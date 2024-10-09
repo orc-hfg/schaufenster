@@ -1174,7 +1174,7 @@ const handleMouseLeave = () => {
 
 
 .info_active {
-  transition: all 450ms linear 50ms;
+  transition: all 500ms linear;
 }
 .swiper_main.info_active {
   /* border: 1px solid red; */

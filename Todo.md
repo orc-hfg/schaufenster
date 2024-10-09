@@ -62,6 +62,8 @@ DONE: 500ms delay with menu close on locale switch
 
 ## show all on active filter tag (on init)
 
+DONE: filter: show all for meta_key if has selected filter-tags
+
 ## filter project list: line statt hr; volle breite
 
 ## scrollbar ausblenden alle browser

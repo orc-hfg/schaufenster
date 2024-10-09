@@ -166,6 +166,7 @@ const updateFilteredCounts = () => {
 
   selectedFilterCount.value = getFilterCount(newFiltersTitle.value, newFiltersMap.value)
 
+  updateShowAll()
   console.log("filtered count map: ")
   console.dir(countMap.value)
 }
@@ -225,17 +226,12 @@ const isSelected = (type:string, id:string) => {
   return newFiltersMap.value[type][id]
 }
 
-/*const isSelectedKeyword = (id:string) => {
-  return isSelected(FILTERS_KEYWORD,id)
+const getShowAll = (type:string, meta_key:string, id:string) => {
+  if (isSelected(type,id)) {
+    console.log("show all because meta key " + meta_key+ " has selected " + id)
+    showAll[meta_key] = true
+  }
 }
-
-const isSelectedPerson = (p_id:string) => {
-  return isSelected(FILTERS_PEOPLE,p_id)
-}
-
-const isSelectedRole = (p_id:string) => {
-  return isSelected(FILTERS_ROLES,p_id)
-}*/
 
 const getFilteredCount = (meta_key:string, id:string) => {
   if (!countMap.value
@@ -265,6 +261,7 @@ const isHideIfNotSubString = (data:string): boolean => {
 }
 
 const getFilterTagClass = (type:string, meta_key: string, filterInfo) => {
+  getShowAll(type, meta_key, filterInfo.id)
   return {
     selected: isSelected(type, filterInfo.id),
     preselected: isSubString(filterInfo.name),
@@ -275,6 +272,14 @@ const getFilterTagClass = (type:string, meta_key: string, filterInfo) => {
 const showAll = ref({} as {[key:string]:boolean})
 const showAllHeight = ref({} as {[key:string]:number})
 
+const updateShowAll = () => {
+  for (const type in newFiltersMap.value) {
+    for (const id in newFiltersMap.value[type]) {
+        const filterInfo = newFiltersMap.value[type][id]
+        showAll.value[filterInfo.meta_key] = true
+      }
+  }
+}
 
 onMounted(() => {
 
@@ -339,11 +344,13 @@ onMounted(() => {
         showAll.value[meta_key] = false
       });
   
-   }, 200)
+   }, 100)
 
+  
   animate_intro.value = true;
   setTimeout(() => {
     animate_intro.value = false;
+    updateShowAll()
   }, SHOW_ANIMATE_IO_DELAY)
 })
 
@@ -420,13 +427,11 @@ const getShowAllStyle = (meta_key) => {
         </div>
       </nav>
     </header>
-    <!-- <div class="filter_head">
-      
-    </div> -->
+
     <div class="filter_content">
     
       <div class="wrapper_filter">
-        
+        <div>SHOW ALL {{ showAll }}</div>
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('filter.label_filter_keywords') }}</div>
