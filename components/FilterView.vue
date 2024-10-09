@@ -632,12 +632,12 @@ const getShowAllStyle = (meta_key) => {
                 {{ person }}
               </div>
             </div>
-            <div class="tree_fachbereich">
+            <!-- <div class="tree_fachbereich">
               <div class="tree_fachbereich_item"
                 v-for="fb in tree.cols_departments[tree.col_id]">
                 {{ fb }}
               </div>
-            </div>
+            </div> -->
             <div class="tree_divider"><hr></div>
             
           </div>
@@ -790,6 +790,8 @@ font-size: var(--font-button-font-size, 20px);
 font-style: normal;
 font-weight: 400; letter-spacing: 0.02rem;
 line-height: var(--font-button-line-height, 24px); /* 120% */
+
+ outline: none;
 }
 .filter_text_clear {
   cursor: pointer;
