@@ -51,18 +51,16 @@ backdrop filter auch für header; das ORC-Logo blurt dann komisch durch. Auch we
 TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
 # Filter-View
-
 ## show more / less icon einfügen
-
-## filter navbar mit padding ohne transarenz; graue linie als abschluss
-
 
 # setview / project-view
 ## setview: meta info: show more / less icon einfügen
 ## setview: theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte) on slide audio/video
 
 ### setview: meta info: init fehler (text wird nicht bis ... angezeigt)
-### setview: meta info keyowords show all/less animation fehlt
+### setview: meta info filter_tags: show all/less animation fehlt
+## setview: meta-info: disable click for un-searchable filter tags
+
 ### setview: audio zentrieren ( nicht 100% width / height, sondern wie image slide)
 ### setview: bug theme setting by audio or image
 
@@ -70,12 +68,11 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 ### bug: div
 
-## setview: btm bar / nav-slider:
 
+## setview: btm bar / nav-slider:
 ### position show more / less; cursor pointer auf btns;
 
 ## navbar highlight color stimmt noch nicht im dark theme (check changed vars)
-
 
 ## setview: video player: AV progress farben; progress click pos noch nicht korrekt
 
@@ -85,7 +82,6 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 ## setview: subsubset preview new design
 
-## btm bar nav hide ( zoom ): animation back fehlt
 
 
 # project setlist
@@ -120,6 +116,9 @@ Move old pc to branch.
 DONE: intro-view: re-enable timeout
 
 # setview / project-view
+
+## setview: zoom (btm bar nav hide): animation back fehlt
+DONE: zoom: animation back fixed
 
 ### setview: primäres set ist aufgeklappt (mit oder ohne buttons)
 DONE: setview: primäres set ist aufgeklappt (mit oder ohne buttons)
@@ -186,6 +185,9 @@ DONE: video mute/unmute btn and function
 
 
 # filter-view
+
+## filter navbar mit padding ohne transarenz; graue linie als abschluss
+DONE: filter-view: navbar mit padding ohne transarenz; graue linie als abschluss
 
 ## filter-view: project list: line statt hr; volle breite
 DONE: filter-view: project list: line statt hr; volle breite

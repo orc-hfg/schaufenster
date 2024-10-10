@@ -35,7 +35,8 @@
       :class="{
         hidden: animate_view_io,
         info_active: showInfo,
-        zoom: !showBottomNav
+        zoom: !showBottomNav,
+        nozoom: showBottomNav
       }"
       
       :navigation="{
@@ -1132,14 +1133,17 @@ const handleMouseLeave = () => {
 
   margin: 0px 0px;
   opacity: 1;
-  /* transition: all 450ms linear 50ms ; */
   
 }
-
+.swiper_main.nozoom {
+  top: 80px;
+  height: calc(100vh - 280px);
+  transition: all 300ms ease-out;
+}
 .swiper_main.zoom {
   top: 0px;
   height: 100vh;
-  transition: all 500ms ease-out;
+  transition: all 300ms ease-out;
 }
 
 .swiper-slide.main_slide {
@@ -1210,10 +1214,12 @@ const handleMouseLeave = () => {
 .info_active {
   transition: all 500ms linear;
 }
-.swiper_main.info_active {
+
+.swiper_main.info_active,
+.swiper_main.info_active.zoom {
   /* border: 1px solid green; */
   transition: all 500ms linear;
-  
+  top: 80px;
   height: 85vh;
 }
 .swiper_main.info_active .main_preview {
