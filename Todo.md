@@ -131,6 +131,9 @@ Move old pc to branch.
 
 # setview / project-view
 
+## setview: 
+DONE: BUG: after init jumps one position over next slide
+
 ## setview: on slide video / audio: btm bar hide macht kein zoom für das video / audio slide
 DONE: setview: show_av_control does not set zoom
 

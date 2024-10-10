@@ -9,7 +9,7 @@
 
       :show-info="showInfo"
       :intro-running="showSetTitle"
-      :hide-nav="animateSwitch2SetList || showFilterView"
+      :hide-nav="animate_view_io || showFilterView"
       
       :titles-map="currentTree.colTitlesMap"
       :theme="data_theme"
@@ -33,7 +33,7 @@
       :modules="modules"
       class="swiper_main"
       :class="{
-        hidden: animateSwitch2SetList,
+        hidden: animate_view_io,
         info_active: showInfo,
         zoom: !showBottomNav
       }"
@@ -126,20 +126,20 @@
       @added-filter="addedFilter"
     />
 
-    <div class="bottom_nav" :class="{hidden: showInfo   }">
+<!-- TODO broken fade transition?? -->
+    <div class="bottom_nav" :class="{hidden: showInfo}">
       <Transition name="fade">
         <div
-          v-if="!showInfo && !animateSwitch2SetList"
+          v-if="!showInfo && !animate_view_io"
           @click="toggleShowBottomNav()"
           class="btn_bottom_nav_hide">
           <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
-              
         </div>
       </Transition>
       <swiper
         :modules="modules"
         class="swiper_nav"
-        :class="{hidden: !showBottomNav || showInfo || animateSwitch2SetList || showSetTitle | show_av_control }"
+        :class="{hidden: !showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control }"
         @swiper="setNavSwiper"
         :freeMode="{
           momentum:true,
@@ -164,7 +164,7 @@
           :class="getNavSlideClass(el)"
           >
           
-          <!-- :title="'E: ' + JSON.stringify(el) + '\n' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))" -->
+          <!-- :title="'E: \n' + el.index + ':\n' + JSON.stringify(el)" -->
           <div
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
@@ -198,9 +198,10 @@
             </div>
           </div>
           <!-- show more/less btns -->          
+          <!-- :title="'E: \n' + el.index + ':\n' + JSON.stringify(el)" -->
           <div
-            v-if="el.type === NavSlideType.Button && maxCount[el.collection_id] > MIN_SHOW_COUNT"
-           
+            v-if="el.type === NavSlideType.Button"
+            v-show="maxCount[el.collection_id] > MIN_SHOW_COUNT"
             class="nav_preview_btn ">
             
             <IconWrap :large="true" 
@@ -215,24 +216,23 @@
               >
               <IconsChevronLeft/>
             </IconWrap>
-              
-
           </div>
+          <!-- spacer element -->
+          <!-- :title="'E: \n' + el.index + ':\n' + JSON.stringify(el)" -->
           <div
             v-if="el.type === NavSlideType.Spacer"
             class="nav_preview_spacer">
           </div>
-
-
+          <!-- highlight current element -->
           <div class="entry_highlight"
             v-if="el.entry_id == activeEntryId">
             <IconsEntryHighlight />
           </div>
 
         </swiper-slide>
-      
       </swiper>
   </div>
+
   <div class="av_control" 
     :class="{hidden: !show_av_control || showInfo || showSetTitle}">
     <div class="av_control_playpause"
@@ -571,10 +571,10 @@ const switch2Set = (setId: string) => {
   router.push(url)
 }
 
-const animateSwitch2SetList = ref(true)
+const animate_view_io = ref(true)
 
 const switch2setlist = () => {
-  animateSwitch2SetList.value = true
+  animate_view_io.value = true
   setTimeout(() => {
     const url = '/setlist/' + settype.value
     console.log("switch2setlist: " + settype.value + ":" + url)
@@ -624,14 +624,6 @@ const reload = () => {
     window && window.location && window.location.reload()
 }
 
-// interface iSlideElement {
-//   entries: [];
-//   collection_id: {};
-//   coverId: string;
-//   collections: iSlideElement[];
-//   showEntries: boolean;
-  
-// }
 enum NavSlideType {
   Entry,
   Set,
@@ -871,6 +863,8 @@ const initSubSetPreview = (childId:string, subChildId:string) => {
       navSlider.value.slides.push(newSubSlide)
 }
 
+// DONE: BUG: after init jumps one position over next slide
+
 const initSetBtns = (treeId:string, setIdx: number) => {
   const btn_id = 'btns_' + treeId;
   navSlider.value.slides.push({
@@ -1062,38 +1056,34 @@ onMounted(() => {
   initData();
 
 
-  // switch to first slide, init all vars
-  setTimeout(() => {
-    activeEntryId.value = entries.value[0].id
-    activeSetId.value = setid.value
-    clickedNavShowMore(activeSetId.value)
-    //swiperMain.value.slideTo(1)
-    swiperMain.value.slideTo(0)
-    //swiperNav.value.slideTo(0)
+  // intro show title
+  showSetTitle.value = true;
 
-    onMainSwiperSlideChanged()
-    
-  },200)
+  // intro animation
+  setTimeout(() => {
+    animate_view_io.value = false
+  },250)
+ 
   // init sub set state and btns visually
   let maxIdx = 0;
   navSlider.value.slides.forEach((el, idx) => {
     setTimeout(() => {
       activeSetId.value = el.collection_id
     }, idx * 10)
-    maxIdx = idx
+    maxIdx = idx + 1
   })
+
+  // switch to first slide, init all vars
   setTimeout(() => {
+    //activeSetId.value = setid.value
+    activeEntryId.value = entries.value[0].id
     activeSetId.value = setid.value
+    clickedNavShowMore(activeSetId.value)
+    swiperMain.value.slideTo(0)
+    swiperNav.value.slideTo(0)
+    onMainSwiperSlideChanged()
+
   }, maxIdx * 10)
-
-
-  // intro animation
-  setTimeout(() => {
-    animateSwitch2SetList.value = false
-  },250)
-
-  // intro show title
-  showSetTitle.value = true;
   
 })
 
