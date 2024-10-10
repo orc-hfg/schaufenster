@@ -53,16 +53,13 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 # Filter-View
 
 ## show more / less icon einfügen
-## filter project list: line statt hr; volle breite
+
 ## filter navbar mit padding ohne transarenz; graue linie als abschluss
 
+
 # setview / project-view
-
-# setview / [landing page im projekt]
 ## setview: meta info: show more / less icon einfügen
-
-## hoover effekt fehlt in meta-info auf filter tags
-## setview theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte)
+## setview: theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte) on slide audio/video
 
 ### setview: meta info: init fehler (text wird nicht bis ... angezeigt)
 ### setview: meta info keyowords show all/less animation fehlt
@@ -72,8 +69,6 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide navigiert wurde.
 
 ### bug: div
-
-### setview: primäres set ist aufgeklappt (mit oder ohne buttons)
 
 ## setview: btm bar / nav-slider:
 
@@ -126,6 +121,9 @@ DONE: intro-view: re-enable timeout
 
 # setview / project-view
 
+### setview: primäres set ist aufgeklappt (mit oder ohne buttons)
+DONE: setview: primäres set ist aufgeklappt (mit oder ohne buttons)
+
 ## setview: 
 DONE: BUG: after init jumps one position over next slide
 
@@ -137,6 +135,9 @@ DONE: setview: show_av_control does not set zoom
 
 ## setview: ani: meta-info: kein btns während der animation
 DONE: setview: show meta_info ani: hide nav l/r btns
+
+## setview: meta-info: hoover effekt fehlt in meta-info auf filter tags
+DONE: setview: meta-info: hoover effekt fehlt in meta-info auf filter tags
 
 ## setview: meta info: mehr padding
 DONE: more padding-right (80px) meta-info
@@ -185,6 +186,10 @@ DONE: video mute/unmute btn and function
 
 
 # filter-view
+
+## filter-view: project list: line statt hr; volle breite
+DONE: filter-view: project list: line statt hr; volle breite
+DONE: filter-view: text-input: border style
 
 ## setview -> filter: animation TBD
 DONE: setview->filter: ani: fade and move in; show-info-btn /meta-info-title move-out

@@ -306,5 +306,8 @@ flex-wrap: wrap;
     font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-body-line-height, 24px); /* 120% */
 }
+.filter_tag:hover {
+    background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
+}
 
 </style>

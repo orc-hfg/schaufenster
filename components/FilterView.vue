@@ -647,7 +647,7 @@ const getShowAllStyle = (meta_key) => {
                 {{ fb }}
               </div>
             </div> -->
-            <div class="tree_divider"><hr></div>
+            <div class="tree_divider"></div>
             
           </div>
         </div>
@@ -696,11 +696,13 @@ button {
 }
 header {
    transition: all 800ms ease-out;
+   background: var(--background-default, #F3F2EF);
+   border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 }
 
 
 nav {
-  background: var(--background-default, #F3F2EF);
+  
   /* border: 1px solid green; */
   width: 100%;
   display: flex;
@@ -804,6 +806,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   flex: 1 0 0;
 
   border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
   background: var(--Colors-filter-searchbar-fill-default, #E7E6E1);
 
   color: var(--Colors-filter-searchbar-text-active, #2C2C2C);
@@ -816,6 +819,7 @@ font-weight: 400; letter-spacing: 0.02rem;
 line-height: var(--font-button-line-height, 24px); /* 120% */
 
  outline: none;
+ box-shadow: none;
 }
 .filter_text_clear {
   cursor: pointer;
@@ -823,14 +827,6 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   position: relative;
   left: -48px;
   top: 3px;
-}
-
-
-.tree_list {
-
-}
-.tree_list_item {
-
 }
 
 
@@ -1070,9 +1066,6 @@ letter-spacing: 0.72px;
 
 .keyword_item.disabled {
   cursor: default;
-  /* opacity: 0.5;
-  display: none; */
-  /* border-radius: var(--radius-none, 0px); */
   border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
   opacity: 0.5;
 }
@@ -1092,6 +1085,15 @@ letter-spacing: 0.72px;
   /* align-items: flex-start; */
   gap: var(--spacing-between-items-L, 16px);
 }
+
+
+.tree_list {
+  width: 100%;
+}
+.tree_list_item {
+  /* border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2); */
+}
+
 .tree_title {
   display: flex;
  flex-direction: column;
@@ -1113,17 +1115,19 @@ letter-spacing: 0.72px;
   gap: var(--spacing-between-items-L, 16px);
   align-self: stretch;
 }
-.tree_fachbereich {
+/*.tree_fachbereich {
   display: flex;
   align-items: center;
   gap: var(--spacing-between-items-L, 16px);
-}
+}*/
 .tree_divider {
-  /* display: flex; */
   padding-top: 16px;
+  
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  /* gap: 10px; */
+  margin-bottom: 16px;
   align-self: stretch;
+  border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 }
 </style>
