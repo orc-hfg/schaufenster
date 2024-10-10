@@ -74,10 +74,6 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 ### setview: primäres set ist aufgeklappt (mit oder ohne buttons)
 
-
-
-
-
 ## setview: btm bar / nav-slider:
 
 ### position show more / less; cursor pointer auf btns;
@@ -89,13 +85,10 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 ## setview: video player
 
-## audio video player : play state is wrong (switch auto play / non auto play)
-
 ## AV progress farben; progress click pos noch nicht korrekt
 
 ## video play btn fehlt, wenn meta info aktiv;
 
-## video mute btn fehlt noch
 
 ## audio nav bar preview fehler mit title des subsets
 
@@ -178,6 +171,12 @@ DONE: setview: title intro blend: vertical zentrieren und nach 50 Zeichen abgesc
 
 ## slide video/audio gleich groß, wie wie image slide
 DONE: setview: slide video/audio gleich groß, wie wie image slide
+
+## setview: audio/video player : play state is wrong (switch auto play / non auto play)
+DONE: play state in sync with video/audio play state
+
+## setview: video mute btn fehlt noch
+DONE: video mute/unmute btn and function
 
 
 

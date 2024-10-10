@@ -197,7 +197,7 @@
 
             </div>
           </div>
-          <!-- :title="'E: ' + el.setIdx + ':' + getShowCount(el.collection_id) + ':' + (el.setIdx < getShowCount(el.collection_id))" -->
+          <!-- show more/less btns -->          
           <div
             v-if="el.type === NavSlideType.Button && maxCount[el.collection_id] > MIN_SHOW_COUNT"
            
@@ -235,9 +235,15 @@
   </div>
   <div class="av_control" 
     :class="{hidden: !show_av_control || showInfo || showSetTitle}">
-    <div class="av_playpause"
+    <div class="av_control_playpause"
       @click="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
+      />
+    </div>
+    <div class="av_control_mute"
+      v-if="av_state_show_mute"
+      @click="toggleStateMute(!av_state_mute)">
+      <IconsMute :isMute="av_state_mute"
       />
     </div>
     <div class="av_progress_cont">
@@ -408,6 +414,18 @@ const toggleStatePlay = (newState:boolean) => {
   } else {
     console.error("no av element")
   }
+}
+
+const toggleStateMute = (newState:boolean) => {
+  av_state_mute.value = newState
+  const entryId = activeEntryId.value
+  const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
+  if (avel) {
+    if (newState) avel.volume = 0
+    else avel.volume = 1
+  } else {
+    console.error("no av element")
+  } 
 }
 
 const avProgressClicked = (ev:PointerEvent) => {
@@ -664,13 +682,17 @@ const activeSetId = ref('' as string)
 let lastActiveSetId = '' as string;
 let lastActiveEntryId = '' as string;
 
+
+const av_state_show_mute = ref(false)
+const av_state_mute = ref(false)
+
 const on_av_time_update = () => {
   
   const entryId = activeEntryId.value
   const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
   const progressEl = document.getElementById('av_progress')
   //console.error("progress for av elem" + avel + ":" + progressEl)
-  //const progressBarEl = document.getElementById('progress_bar')
+  
   if (avel && progressEl) {
     //console.error("progress for av elem" + avel.currentTime + ":" + avel.duration)
     progressEl.setAttribute('max', avel.duration)
@@ -679,7 +701,7 @@ const on_av_time_update = () => {
   } else {
     console.error("no progress or av elem")
   }
-  
+  //const progressBarEl = document.getElementById('progress_bar')
   //progressBarEl.style.width = Math.floor((avel.currentTime / avel.duration) * 100) + '%'
 }
 
@@ -714,9 +736,11 @@ const onMainSwiperSlideChanged = () => {
       vel.removeEventListener('timeupdate', on_av_time_update)
     }
 
+    av_state_play.value = false
 
     //const ael = document.getElementById('slide-audio-'+ entry.id)
     const vel = document.getElementById('slide-video-'+ entry.id)
+    const ael = document.getElementById('slide-audio-'+ entry.id)
     const avel = document.getElementById('slide-audio-'+ entry.id) || document.getElementById('slide-video-'+ entry.id)
     const progressEl = document.getElementById('av_progress')
     //const progressBarEl = document.getElementById('progress_bar')
@@ -729,8 +753,19 @@ const onMainSwiperSlideChanged = () => {
       //showBottomNav.value = false
       if (!showInfo.value) {
         // auto play video
-        if (vel && activeSlide !== 0) {
-          toggleStatePlay(true)
+        if (vel) {
+          if (activeSlide !== 0) {
+            toggleStatePlay(true)
+          }
+          av_state_show_mute.value = true
+          av_state_mute.value = true
+          toggleStateMute(true)
+          
+        }
+        if (ael) {
+          av_state_play.value = false
+          av_state_show_mute.value = false
+          av_state_mute.value = true
         }
         show_av_control.value = true
         //showBottomNav.value = false
@@ -1186,13 +1221,13 @@ const handleMouseLeave = () => {
   transition: all 500ms linear;
 }
 .swiper_main.info_active {
-  border: 1px solid green;
+  /* border: 1px solid green; */
   transition: all 500ms linear;
   
   height: 85vh;
 }
 .swiper_main.info_active .main_preview {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   position: absolute;
   left: 48px;
   top: 10vh;
@@ -1250,11 +1285,18 @@ const handleMouseLeave = () => {
   float: left;
 }
 
+.av_control_playpause {
+
+}
+.av_control_mute {
+
+}
 .av_control .av_progress_cont {
-  width: 100%;
+  
 
   display: flex;
-  width: calc(100% - 96px);
+  width: calc(100% - 192px);
+  width: calc(100% - 212px);
   
   height: 24px;
   padding: 12px;
