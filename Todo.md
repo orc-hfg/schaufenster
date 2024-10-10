@@ -83,6 +83,9 @@ DONE: filter: home faded ein, sonstige ui faehrt nacht oben raus.
 
 ### setview->filter-view: von oben / nach oben / show-meta-info-btn und title nach oben animieren
 
+DONE: setview->filter-view: ani: meta-info-title: move-up/down
+DONE: setview->filter-view: ani: meta-info-show-btn: move-up/down
+
 ## filter: hide impossible combinations
 
 DONE: filter: make impossible combination impossible to click; cursor default;

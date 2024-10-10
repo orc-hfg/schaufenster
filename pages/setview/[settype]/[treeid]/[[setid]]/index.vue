@@ -9,7 +9,7 @@
 
       :show-info="showInfo"
       :intro-running="showSetTitle"
-      :hide-nav="animateSwitch2SetList"
+      :hide-nav="animateSwitch2SetList || showFilterView"
       
       :titles-map="currentTree.colTitlesMap"
       :theme="data_theme"
@@ -21,7 +21,7 @@
 
     <div class="entry_info_title"
       :class="{
-        move_up_hidden: !showInfo,
+        move_up_hidden: !showInfo || showFilterView,
         fade_hidden: entry_info_hidden}"
       v-if="currentTree && currentTree.colTitlesMap"
       >
