@@ -181,21 +181,19 @@
             <!-- TODO get abbrev title, calc title width -->
             <div v-if="el.collection_id !== treeid && el.setIdx == 0 && (activeSetId == el.collection_id || hoverSetId == el.collection_id)"
               class="nav_preview_col_title"
-              :style="{width: ((getShowCount(el.collection_id)- 0.3) * 72) + 'px'}">
+              :style="{width: ((getShowCount(el.collection_id)) * 72) + 'px'}">
               {{getColTitle(el.collection_id)}}
             </div>
           </div>
+          <!-- :title="'E: ' + JSON.stringify(el)" -->
           <div
+            class="nav_preview nav_set"
             v-if="el.type === NavSlideType.Set"
-            :title="'E: ' + JSON.stringify(el)"
-            class="nav_preview">
+            @click="switch2Set(el.collection_id)">
+            <!-- :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }" -->
             <div class="nav_preview_subset"
-              v-for="ceId in el.cover_entry_ids" :key="ceId"
-              :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }"
-              @click="switch2Set(el.collection_id)"
-              >
+              v-for="ceId in el.cover_entry_ids" :key="ceId">
               
-
             </div>
           </div>
           <!-- show more/less btns -->          
@@ -222,7 +220,9 @@
           <!-- :title="'E: \n' + el.index + ':\n' + JSON.stringify(el)" -->
           <div
             v-if="el.type === NavSlideType.Spacer"
-            class="nav_preview_spacer">
+            class="nav_preview_spacer"
+            
+            >
           </div>
           <!-- highlight current element -->
           <div class="entry_highlight"
@@ -461,16 +461,33 @@ const maxCount = ref({} as { [key:string]: number})
 
 const getNavSlideClass = (el:iSlideElement):object => {
   const col_id = el.collection_id
+  const parent_id = currentTree.value.up[col_id]
   const max_count = maxCount.value[col_id]
   const show_count = showCount.value[col_id]
   const result = {
-    set_highlight: (activeSetId.value == col_id || hoverSetId.value == col_id) && treeid.value !== col_id,
+    set_highlight:
+      (activeSetId.value == col_id || hoverSetId.value == col_id
+        || activeSetId.value == parent_id || hoverSetId.value == parent_id
+      )
+      && treeid.value !== col_id,
     nav_slide_btns: el.type == NavSlideType.Button && max_count >= MIN_SHOW_COUNT,
     nav_slide_btn_add: el.type == NavSlideType.Button && show_count < max_count && max_count >= MIN_SHOW_COUNT,
     nav_slide_btn_reset: el.type == NavSlideType.Button && show_count == max_count && max_count >= MIN_SHOW_COUNT,
   }
   return result
 }
+
+// const getNavSlideParentClass = (el:iSlideElement):object => {
+//   const child_id = el.collection_id
+//   const col_id = currentTree.value.up[child_id]
+//   console.log(" parent id " + col_id)
+//   const max_count = maxCount.value[col_id]
+//   const show_count = showCount.value[col_id]
+//   const result = {
+//     set_highlight: (activeSetId.value == col_id || hoverSetId.value == col_id) && treeid.value !== col_id,
+//   }
+//   return result
+// }
 const showBottomNav = ref(true)
 const show_av_control = ref(false)
 
@@ -1447,6 +1464,7 @@ const handleMouseLeave = () => {
   width: 36px !important;
   padding-right: var(--margin-btmbar-betweensets, 4px);
   background-color: var(--Colors-btm-bar-galleryView-gradient-default-stop-1, #F3F2EF);
+  cursor: pointer;
 }
 .nav_slide_btns.set_highlight {
   background-color: var(--Colors-btm-bar-galleryView-gradient-hover-stop-1, #F3F2EF);
@@ -1512,18 +1530,23 @@ const handleMouseLeave = () => {
 
 }
 
+.nav_preview .nav_set {
+
+}
 .nav_preview_subset {
   cursor: pointer;
   float: left;
   position: relative;
-  top: 0.5rem; 
+  top: 12px; 
   width: 32px; height: 32px;
-  margin: 2px 0.5px;
+  margin: 2px 2px;
   background-size: 120% 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-color: transparent;
+  background-color: #DAD6CE;  
 }
+
 
 
 

@@ -1,27 +1,8 @@
-
 # TODOs
-
-# problems
-[
-## setview: states: btm bar hide vs. zoom vs. video/audio-controls vs. btm-bar-btn
-
-1. switch to video slide
-2. hide btm nav slider
-3. switch btn nav btn state (- -> +)
-4. show video control
-5. We are not in zoom state
-6. if toggle btm-bar-btn (+ -> -)
-7. hide video control
-8. show btm-bar
-9. if toggle btm-bar again (- -> +)
-10. hide btm-bar, set zoom state
-11. show a/v-control
-]
 
 # allgemein
 
 ## Header navbar Home immer an gleicher Stelle (border fehlt). (About View u.w.)
-
 
 # page / view transitions
 
@@ -33,16 +14,18 @@ DONE fade out slide image; TODO fade out meta-info
 
 
 # font-view
-
-## font-view: design in figma
+## font-view: new drop down design TBD
 ## link to font developer (from json)
-## text für font auswahlseite definiert in Figma
+TODO: link und author ausfülllen
 
 
 # menu-view
 
 ## menu: about etc. after closing go back to menuview
 ## menu -> about etc: do fade (to dark more)
+DONE: menu-view -> fonts-view: fade to dark mode
+
+
 ## menu: click does not match opened view
 
 ## menu animation io gleich wie set view intro info mit blur layer und opacity
@@ -67,18 +50,15 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
 Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide navigiert wurde.
 
-### bug: div
-
 
 ## setview: btm bar / nav-slider:
+## setview: main-slider: subsub-set icon
+TODO create dummy entry
+
 ### position show more / less; cursor pointer auf btns;
-
 ## navbar highlight color stimmt noch nicht im dark theme (check changed vars)
-
 ## setview: video player: AV progress farben; progress click pos noch nicht korrekt
-
 ## setview: video-player: overlay video play btn fehlt, wenn meta info aktiv
-
 ## setview: audio nav bar preview fehler mit title des subsets
 
 ## setview: subsubset preview new design
@@ -183,6 +163,9 @@ DONE: play state in sync with video/audio play state
 ## setview: video mute btn fehlt noch
 DONE: video mute/unmute btn and function
 
+## setview: nav-slider: subsub-set: no more preview: now boxes
+DONE: setview: nav-slider: subsub-set: no more preview: now boxes
+DONE: fix hover/active set states
 
 
 # filter-view
@@ -241,4 +224,9 @@ DONE: home icon ohne mix blend
 ## menu sprachwahl: menu faded aus, danach wird erst die sprache gesetzt
 DONE: 500ms delay with menu close on locale switch
 
+# fonts-view
 
+## font-view: design in figma
+DONE: font-view: design in figma
+## font-view: test-text für fontdefiniert in Figma
+DONE: font-view: test-text für fontdefiniert in Figma

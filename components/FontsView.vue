@@ -17,7 +17,9 @@
                         class="font_input"
                         v-model="font_selected"
                         @change="updateFont">
-                        <option v-for="(f,idx) in font_list" :value="idx">
+                        <option 
+                            class="font_option"
+                            v-for="(f,idx) in font_list" :value="idx">
                         <!-- I:{{ idx }} F: {{ f }} -->
                         {{ f.name }}
                         </option>
@@ -202,7 +204,7 @@ nav a svg {
 
     font-size: var(--font-button-font-size, 20px);
     font-style: normal;
-    font-weight: 400;
+    font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-button-line-height, 24px); /* 120% */
 
   /*   background: transparent;
@@ -215,11 +217,28 @@ nav a svg {
   -moz-appearance: none;
   appearance: none; */
 }
+
+select *,
+.font_option {
+    border-radius: var(--radius-full, 9999px);
+border: 1px solid var(--nav-bar-button-outline, #524F4F);
+background: #2C2C2C;
+
+    color: var(--text-primary, #FFF);
+    text-align: center;
+
+    /* Buttons */
+    font-family: "Instrument Sans";
+    font-size: var(--font-button-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-button-line-height, 24px); /* 120% */
+}
 .font_link {
     text-decoration: underline;
 }
 .font_test_view {
-    padding-bottom: 120px;
+    padding-bottom: 20vh;
 }
 .font_test {
     line-break: anywhere;
