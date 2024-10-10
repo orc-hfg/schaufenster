@@ -73,7 +73,7 @@ onMounted(() => {
     showContent.value=true
   }, SHOW_CONTENT_DELAY)
   
-  //setTimeout(switchPage,SHOW_LIST_DELAY)
+  setTimeout(switchPage,SHOW_LIST_DELAY)
 })
 onBeforeUnmount(() => {
   

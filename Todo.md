@@ -60,6 +60,7 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
 # setview / [landing page im projekt]
 ## setview: meta info: show more / less icon einfügen
+
 ## hoover effekt fehlt in meta-info auf filter tags
 ## setview theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte)
 
@@ -78,23 +79,16 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 ### position show more / less; cursor pointer auf btns;
 
-### setview: navbar: hover position leicht nach rechts, nur für show more
-DONE: setview: navbar: show-more: hover position leicht nach rechts (nicht für show-less)
-
-
 ## navbar highlight color stimmt noch nicht im dark theme (check changed vars)
 
 
-## setview: video player
+## setview: video player: AV progress farben; progress click pos noch nicht korrekt
 
-## AV progress farben; progress click pos noch nicht korrekt
+## setview: video-player: overlay video play btn fehlt, wenn meta info aktiv
 
-## video play btn fehlt, wenn meta info aktiv;
+## setview: audio nav bar preview fehler mit title des subsets
 
-
-## audio nav bar preview fehler mit title des subsets
-
-## next/prev btn 50% von preview box (nicht von view height)
+## setview: subsubset preview new design
 
 ## btm bar nav hide ( zoom ): animation back fehlt
 
@@ -118,10 +112,7 @@ Move old pc to branch.
 
 # intro-view
 
-## intro-view: re-enable timeout
-
 ### mobile: text komprimiert in höhe
-
 # lang parameter by url
 
 
@@ -130,11 +121,16 @@ Move old pc to branch.
 
 # DONE
 
+# intro-view
+DONE: intro-view: re-enable timeout
 
 # setview / project-view
 
 ## setview: 
 DONE: BUG: after init jumps one position over next slide
+
+### setview: navbar: hover position leicht nach rechts, nur für show more
+DONE: setview: navbar: show-more: hover position leicht nach rechts (nicht für show-less)
 
 ## setview: on slide video / audio: btm bar hide macht kein zoom für das video / audio slide
 DONE: setview: show_av_control does not set zoom
@@ -164,6 +160,9 @@ DONE: setview: intro title: ani: move up/down text
 
 
 # setview: video
+
+## setview: video player: main slider: next/prev btn 50% von preview box (nicht von view height)
+DONE: setview: video player: main slider: next/prev btn 50% von preview box (nicht von view height)
 
 ### no auto play if first element is video
 DONE: setview: no auto play if first element is video
