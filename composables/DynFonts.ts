@@ -21,16 +21,16 @@ const dynFontsState = reactive<iDynFontsState> ({
 const font_0:iFontData = {
     name: 'Anthony',
     url: 'assets/anthony/anthony.woff2',
-    author: '',
-    year: '',
+    author: 'Anthony',
+    year: '2021',
     size_factor: 0.9,
     line_height_factor: 0.9,
 }
 const font_1:iFontData = {
     name: 'gqom404',
     url: 'assets/gqom404/gqom404.woff',
-    author: '',
-    year: '',
+    author: 'Calvin Kudufia',
+    year: '2020',
     size_factor: 0.9,
     line_height_factor: 0.9,
 }

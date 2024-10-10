@@ -26,8 +26,9 @@
 # page / view transitions
 
 ## setview<->setlist page animation
-### blinken/flackern ist das der page-enter-leave-fade-effekt
+### blinken/flackern ist das der page-enter-leave-fade-effekt??
 ## setview->setlist: animation für slider image fehlt (fade out)
+DONE fade out slide image; TODO fade out meta-info
 ## setview <-> filter: animation TBD
 
 

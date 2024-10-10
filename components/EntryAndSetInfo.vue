@@ -245,8 +245,11 @@ const isShowLocale = (md:object) :boolean => {
   width: calc(50vw + 48px);
   height: 100vh;
   overflow-y: auto;
+
   scrollbar-width: 0px;
   scrollbar-color: transparent;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .entry_info::-webkit-scrollbar {
