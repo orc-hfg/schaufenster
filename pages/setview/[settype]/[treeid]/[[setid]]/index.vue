@@ -1186,13 +1186,13 @@ const handleMouseLeave = () => {
   transition: all 500ms linear;
 }
 .swiper_main.info_active {
-  /* border: 1px solid red; */
+  border: 1px solid green;
   transition: all 500ms linear;
   
-  /* height: 90vh; */
+  height: 85vh;
 }
 .swiper_main.info_active .main_preview {
-  /* border: 1px solid red; */
+  border: 1px solid red;
   position: absolute;
   left: 48px;
   top: 10vh;
@@ -1512,34 +1512,6 @@ const handleMouseLeave = () => {
   flex-shrink: 0;
 }
 
-/*
-.rotate-enter-active,
-.rotate-leave-active {
-  transition: all 0.5s linear;
-}
-.rotate-enter-to {
-  transform: rotate(90deg);
-  opacity: 1;
-}
-.rotate-leave-to {
-  transform: rotate(90deg);
-  opacity: 0.15;
-}
-
-.rotatel-enter-active,
-.rotatel-leave-active {
-  
-  transition: all 0.5s linear;
-}
-.rotatel-enter-to {
-  transform: rotate(-90deg);
-  opacity: 1;
-}
-.rotatel-leave-to {
-  transform: rotate(-90deg);
-  opacity: 0.15;
-}
-*/
 
 .fade-rotate-enter-active,
 .fade-rotate-leave-active {
@@ -1585,11 +1557,13 @@ const handleMouseLeave = () => {
   right: 24px;
 }
 .swiper_main.info_active .swiper-main-button-prev {
-  /* top: calc(50% - 24px); */
+  position: absolute;
+  top: calc(55% - 24px);
   left: 62px;
 }
 .swiper_main.info_active .swiper-main-button-next {
-  /* top: calc(50% - 24px); */
+  position: absolute;
+  top: calc(55% - 24px);
   right: calc(50vw + 62px);
 }
 

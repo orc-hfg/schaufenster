@@ -25,39 +25,24 @@
 
 # page / view transitions
 
-## setview<->setlist page animation; blinken/flackern ist das der page-enter-leave-fade-effekt
-
+## setview<->setlist page animation
+### blinken/flackern ist das der page-enter-leave-fade-effekt
 ## setview->setlist: animation für slider image fehlt (fade out)
-
 ## setview <-> filter: animation TBD
 
 
 # font-view
 
 ## font-view: design in figma
-
 ## link to font developer (from json)
-
 ## text für font auswahlseite definiert in Figma
 
 
 # menu-view
 
 ## menu: about etc. after closing go back to menuview
-
 ## menu -> about etc: do fade (to dark more)
-
 ## menu: click does not match opened view
-
-## gleiche logik wie intro  für schriftgrößen / no scrolling / fit to screen
-
-DONE: Fit to screen
-DONE: animate in: move 10vh up; out: 10vh down; and opacity
-DONE: no logo move, but fade
-
-## menu nicht orc logo sondern den Dot nav-home
-
-DONE: home icon ohne mix blend
 
 ## menu animation io gleich wie set view intro info mit blur layer und opacity
 
@@ -65,102 +50,22 @@ DONE: backdrop-filter blur(30px) zusätzlich zum Blur der durch verstecken der h
 backdrop filter auch für header; das ORC-Logo blurt dann komisch durch. Auch wenn ich den Blur zB auf 90px setze.
 TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
-## menu sprachwahl: menu faded aus, danach wird erst die sprache gesetzt
-
-DONE: 500ms delay with menu close on locale switch
-
 # Filter-View
 
-## Filter Navbar Home Btn animation nicht von oben
-
-DONE: filter: home faded ein, sonstige ui faehrt nacht oben raus.
-
 ## show more / less icon einfügen
-
-## setview -> filter: animation TBD
-
-## filter -> setview: animation
-
-### setview->filter-view: von oben / nach oben / show-meta-info-btn und title nach oben animieren
-
-DONE: setview->filter-view: ani: meta-info-title: move-up/down
-DONE: setview->filter-view: ani: meta-info-show-btn: move-up/down
-
-## filter: hide impossible combinations
-
-DONE: filter: make impossible combination impossible to click; cursor default;
-
-## show all on active filter tag (on init)
-
-DONE: filter: show all for meta_key if has selected filter-tags
-
 ## filter project list: line statt hr; volle breite
-
-## scrollbar ausblenden alle browser
-
-DONE: filter: hide scrollbar for all browsers
-
 ## filter navbar mit padding ohne transarenz; graue linie als abschluss
 
-## filter width more responsive
-
-DONE: filter: left/right margin 10vw; content is each 40vw minus a gap of 24px each
-
-## filter intro animation weniger translate (nur 10vh)
-
-DONE: filter: intro ani auf 20vh gesetzt, damit er sicher aus dem Bild ist
-
-## filter zahl näher an text
-
-DONE: filter: tag counter: removed number padding
+# setview / project-view
 
 # setview / [landing page im projekt]
-
-## setview: on slide video / audio: btm bar hide macht kein zoom für das video / audio slide
-
-DONE: setview: show_av_control does not set zoom
-
-## setview: ani: meta-info: kein btns während der animation
-
-DONE: setview: show meta_info ani: hide nav l/r btns
-
-## setview: meta info: mehr padding
-
-DONE: more padding-right (80px) meta-info
-
 ## setview: meta info: show more / less icon einfügen
-
 ## hoover effekt fehlt in meta-info auf filter tags
-
-
 ## setview theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte)
 
-## difference effekt mit satturation rausgedreht -> SW für Nav-Pfeile
-
-DONE: mit filter: contrast(0) : Passt das so auch für helle und dunkle Hintergründe; Es hat nicht diese bunten Effekte, wie es der difference Filter hätte.
-
-## setview: entry info animation noch smooth; flickering ist weg Juhu
-
-DONE: smoothie ani show/hide meta-info
-
-### fullscreen animation blockieren um springen zu unterbinden
-
-DONE: fullscreen independant of btm_nav_hide
-
-### als notfall animationen vorher , dann entry info
-
-DONE: kein Notfall mehr nötig.
-
 ### setview: meta info: init fehler (text wird nicht bis ... angezeigt)
-
 ### setview: meta info keyowords show all/less animation fehlt
-
-### setview: intro title: move text up/down with animation
-
-DONE: setview: intro title: ani: move up/down text
-
 ### setview: audio zentrieren ( nicht 100% width / height, sondern wie image slide)
-
 ### setview: bug theme setting by audio or image
 
 Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide navigiert wurde.
@@ -168,6 +73,9 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 ### bug: div
 
 ### setview: primäres set ist aufgeklappt (mit oder ohne buttons)
+
+
+
 
 
 ## setview: btm bar / nav-slider:
@@ -180,18 +88,6 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 
 ## setview: video player
-
-### no auto play if first element is video
-
-DONE: setview: no auto play if first element is video
-
-### video bar erst einblenden, wenn set info blur aufgelöst
-
-DONE: setview: video bar erst einblenden, wenn set info blur aufgelöst
-
-## setview: title intro blend: vertical zentrieren
-
-DONE: setview: title intro blend: vertical zentrieren und nach 50 Zeichen abgeschnitten
 
 ## audio video player : play state is wrong (switch auto play / non auto play)
 
@@ -207,9 +103,6 @@ DONE: setview: title intro blend: vertical zentrieren und nach 50 Zeichen abgesc
 
 ## btm bar nav hide ( zoom ): animation back fehlt
 
-## slide video/audio gleich groß, wie wie image slide
-
-DONE: setview: slide video/audio gleich groß, wie wie image slide
 
 # project setlist
 
@@ -234,5 +127,107 @@ Move old pc to branch.
 
 ### mobile: text komprimiert in höhe
 
-
 # lang parameter by url
+
+
+
+
+
+# DONE
+
+
+# setview / project-view
+
+## setview: on slide video / audio: btm bar hide macht kein zoom für das video / audio slide
+DONE: setview: show_av_control does not set zoom
+
+## setview: ani: meta-info: kein btns während der animation
+DONE: setview: show meta_info ani: hide nav l/r btns
+
+## setview: meta info: mehr padding
+DONE: more padding-right (80px) meta-info
+
+## difference effekt mit satturation rausgedreht -> SW für Nav-Pfeile
+DONE: mit filter: contrast(0) : Passt das so auch für helle und dunkle Hintergründe; Es hat nicht diese bunten Effekte, wie es der difference Filter hätte.
+
+## setview: entry info animation noch smooth; flickering ist weg Juhu
+DONE: smoothie ani show/hide meta-info
+
+### fullscreen animation blockieren um springen zu unterbinden
+DONE: fullscreen independant of btm_nav_hide
+
+### als notfall animationen vorher , dann entry info
+DONE: kein Notfall mehr nötig.
+
+
+### setview: intro title: move text up/down with animation
+DONE: setview: intro title: ani: move up/down text
+
+
+
+# setview: video
+
+### no auto play if first element is video
+DONE: setview: no auto play if first element is video
+
+### video bar erst einblenden, wenn set info blur aufgelöst
+DONE: setview: video bar erst einblenden, wenn set info blur aufgelöst
+
+## setview: title intro blend: vertical zentrieren
+DONE: setview: title intro blend: vertical zentrieren und nach 50 Zeichen abgeschnitten
+
+## slide video/audio gleich groß, wie wie image slide
+DONE: setview: slide video/audio gleich groß, wie wie image slide
+
+
+
+# filter-view
+
+## setview -> filter: animation TBD
+DONE: setview->filter: ani: fade and move in; show-info-btn /meta-info-title move-out
+
+## filter -> setview: animation
+DONE: filter->setview: ani: fade and move out; show-info-btn /meta-info-title move-in
+
+## Filter Navbar Home Btn animation nicht von oben
+DONE: filter: home faded ein, sonstige ui faehrt nacht oben raus.
+
+### setview->filter-view: von oben / nach oben / show-meta-info-btn und title nach oben animieren
+DONE: setview->filter-view: ani: meta-info-title: move-up/down
+DONE: setview->filter-view: ani: meta-info-show-btn: move-up/down
+
+## filter: hide impossible combinations
+DONE: filter: make impossible combination impossible to click; cursor default;
+
+## show all on active filter tag (on init)
+DONE: filter: show all for meta_key if has selected filter-tags
+
+## scrollbar ausblenden alle browser
+DONE: filter: hide scrollbar for all browsers
+
+## filter width more responsive
+DONE: filter: left/right margin 10vw; content is each 40vw minus a gap of 24px each
+
+## filter intro animation weniger translate (nur 10vh)
+DONE: filter: intro ani auf 20vh gesetzt, damit er sicher aus dem Bild ist
+
+## filter zahl näher an text
+DONE: filter: tag counter: removed number padding
+
+
+
+# menu-view
+
+## gleiche logik wie intro  für schriftgrößen / no scrolling / fit to screen
+DONE: Fit to screen
+DONE: animate in: move 10vh up; out: 10vh down; and opacity
+DONE: no logo move, but fade
+
+## menu nicht orc logo sondern den Dot nav-home
+DONE: home icon ohne mix blend
+
+
+## menu sprachwahl: menu faded aus, danach wird erst die sprache gesetzt
+DONE: 500ms delay with menu close on locale switch
+
+
