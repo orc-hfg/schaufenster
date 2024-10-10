@@ -1,6 +1,23 @@
 
 # TODOs
 
+# problems
+[
+## setview: states: btm bar hide vs. zoom vs. video/audio-controls vs. btm-bar-btn
+
+1. switch to video slide
+2. hide btm nav slider
+3. switch btn nav btn state (- -> +)
+4. show video control
+5. We are not in zoom state
+6. if toggle btm-bar-btn (+ -> -)
+7. hide video control
+8. show btm-bar
+9. if toggle btm-bar again (- -> +)
+10. hide btm-bar, set zoom state
+11. show a/v-control
+]
+
 # allgemein
 
 ## Header navbar Home immer an gleicher Stelle (border fehlt). (About View u.w.)

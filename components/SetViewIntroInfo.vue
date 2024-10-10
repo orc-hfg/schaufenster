@@ -38,7 +38,7 @@ onMounted(() => {
     animate_io.value = false;
     // auto self hide
     setTimeout(() => {
-        //doClose()
+        doClose()
     }, SHOW_SET_TITLE_DELAY)
     
 })

@@ -125,23 +125,14 @@
       @scrollPosChanged="entryInfoScrollPosChanged"
       @added-filter="addedFilter"
     />
-    
-    
-    <!-- thumb-swiper=".swiper_main" -->
-    <!-- :controller="{ control: swiperMain }" -->
-    <!-- @swiperslidechange="onSlideChange" -->
-    <!-- :
-    nested="true" 
-    :space-between="spaceBetween"
-    :centeredSlides="true"
-    -->
+
     <div class="bottom_nav" :class="{hidden: showInfo   }">
       <Transition name="fade">
         <div
           v-if="!showInfo && !animateSwitch2SetList"
           @click="toggleShowBottomNav()"
           class="btn_bottom_nav_hide">
-          <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav" />
+          <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
               
         </div>
       </Transition>
