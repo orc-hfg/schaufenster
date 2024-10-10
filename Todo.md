@@ -78,7 +78,9 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 
 ### position show more / less; cursor pointer auf btns;
 
-### hover position leicht nach rechts, nur für show more
+### setview: navbar: hover position leicht nach rechts, nur für show more
+DONE: setview: navbar: show-more: hover position leicht nach rechts (nicht für show-less)
+
 
 ## navbar highlight color stimmt noch nicht im dark theme (check changed vars)
 

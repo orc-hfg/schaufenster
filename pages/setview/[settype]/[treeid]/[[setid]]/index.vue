@@ -1468,6 +1468,10 @@ const handleMouseLeave = () => {
   position: relative;
   top: 12px;
   left: 24px;
+  transition: left 200ms ease-out;
+}
+.nav_slide_btn_add:hover .icon-wrap {
+  left: 30px;
 }
 .set_highlight.nav_slide_btn_add .nav_preview_btn {
   background: linear-gradient(90deg,
