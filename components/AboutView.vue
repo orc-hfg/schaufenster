@@ -219,7 +219,7 @@ const emit = defineEmits(['onClose'])
 }
 .close_logo * {
     stroke: none;
-    fill: var(--text-primary, #FFF) !important;
+    fill: var(--Colors-text-primary, #FFF) !important;
 }
 
 
@@ -234,7 +234,7 @@ h3 {
     line-height: var(--font-h3-line-height, 60px); /* 125% */
 }
 .about_content {
-    color: var(--text-primary, #FFF);
+    color: var(--Colors-text-primary, #FFF);
     /* Body */
     font-family: "Instrument Sans";
     font-size: var(--font-body-font-size, 20px);
@@ -320,8 +320,7 @@ h3 {
 
 @media screen and (max-width: 1280px) {
     .row_100 {
-        flex-direction: column;
-        
+        flex-direction: column;    
     }
 }
 </style>

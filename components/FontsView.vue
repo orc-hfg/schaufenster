@@ -39,6 +39,7 @@
             <br>
             <br>
             <br>
+            <br/>
             <h2 class="font_test"
                 :style="font_style">
                 ABCDEFGHIJKLMNOPQRSTUVWXYZ
@@ -49,6 +50,7 @@
                 <br/>
                 .:,;!?#[(€$@)]
             </h2>
+            <br/>
         </div>
         
         <br>
@@ -69,10 +71,10 @@ const {
 } = DynFonts()
 
 const emit = defineEmits(['onClose'])
-const font_style = ref(getPixelSizedStyle(120,120))
+const font_style = ref(getPixelSizedStyle(210,240))
 
 const updateFont = () => {
-    font_style.value = getPixelSizedStyle(120,120)
+    font_style.value = getPixelSizedStyle(210,240)
 }
 const animate_io = ref(true)
 const doClose = () => {
@@ -97,7 +99,7 @@ header {
     width: 100vw;
     height: 72px;*/
     z-index: 1100;
-    background-color: var(--Colors-background-about, #2C2C2C);
+    /*background-color: var(--Colors-background-about, #2C2C2C);*/
     /* border: 1px solid red; */
 }
 nav {
@@ -111,6 +113,7 @@ nav a {
 nav a svg {
     mix-blend-mode: normal;
 }
+
 .wrapper_mid {
     float: left;
     width: calc(100% - 48px);
@@ -120,52 +123,11 @@ nav a svg {
     justify-content: center;
 }
 
-.dialog_menu {
-    position: fixed;
-    top: 0px; left: 0px;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-    
-    color: var(--Colors-text-primary-inverted, #fff);
-    background-color: var(--Colors-background-default, #2C2C2C);
-    transition: all 300ms linear;
-    opacity: 1;
-}
-.dialog_menu.hidden {
-    transition: all 300ms linear;
-    opacity: 0;
-}
-.menu_panel {
-    /* border: 3px solid red; */
-    position: absolute;
-    left: 10vw;
-    top: 120px;
-    width: calc(100% - 20vw);
-    height: calc(100% - 180px);
-    overflow-y: auto;
-    
-    z-index: 1020;
-    filter: none;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-}
-.menu_panel::-webkit-scrollbar {
-    display: none;
-}
-.menu_panel * {
-    align-items: center;
-    text-align: center;  
-    /* font-size: 80px; */
-    color: var(--Colors-text-primary, #fff);
-    
-    background-color: var(--Colors-background-default, rgba(255,255,255, 0.3));
-}
 
 .font_selector {
     display: inline-flex;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
 
     font-family: "Instrument Sans";
     font-size: var(--font-button-font-size, 20px);
@@ -184,6 +146,7 @@ nav a svg {
     font-style: normal;
     font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-button-line-height, 24px); /* 120% */
+    padding-right: 5px;
 }
 .font_input {
     display: flex;
@@ -207,18 +170,15 @@ nav a svg {
     font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-button-line-height, 24px); /* 120% */
 
-  /*   background: transparent;
-  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
-  background-repeat: no-repeat;
-  background-position-x: 100%;
-  background-position-y: 5px;
-   */
-  /* -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none; */
+    margin-right: 5px;
 }
 
-select *,
+.font_by {
+    margin-left: 5px;
+    
+}
+
+select > option,
 .font_option {
     border-radius: var(--radius-full, 9999px);
 border: 1px solid var(--nav-bar-button-outline, #524F4F);
@@ -237,6 +197,49 @@ background: #2C2C2C;
 .font_link {
     text-decoration: underline;
 }
+
+.dialog_menu {
+    position: fixed;
+    top: 0px; left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    
+    color: var(--Colors-text-primary-inverted, #fff);
+    background-color: var(--Colors-background-default, #2C2C2C);
+    transition: all 300ms linear;
+    opacity: 1;
+}
+.dialog_menu.hidden {
+    transition: all 300ms linear;
+    opacity: 0;
+}
+.menu_panel {
+    /* border: 3px solid red; */
+    position: absolute;
+    left: 10vw;
+    top: 0px;
+    width: calc(100% - 20vw);
+    height: 100vh;
+    overflow-y: auto;
+    
+    z-index: 1020;
+    filter: none;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.menu_panel::-webkit-scrollbar {
+    display: none;
+}
+.menu_panel * {
+    align-items: center;
+    text-align: center;  
+    /* font-size: 80px; */
+    color: var(--Colors-text-primary, #fff);
+    
+    background-color: var(--Colors-background-default, rgba(255,255,255, 0.3));
+}
+
 .font_test_view {
     padding-bottom: 20vh;
 }

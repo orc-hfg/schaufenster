@@ -21,7 +21,7 @@ const dynFontsState = reactive<iDynFontsState> ({
 const font_0:iFontData = {
     name: 'Anthony',
     url: 'assets/anthony/anthony.woff2',
-    author: 'Anthony',
+    author: 'Sun Young Oh',
     year: '2021',
     size_factor: 0.9,
     line_height_factor: 0.9,

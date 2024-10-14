@@ -286,11 +286,11 @@ const SHOW_YEAR_DURATION = 2000;
 
 const showYear = (activeSlide:number) => {
   let yearVal = props.slideList[activeSlide].year
-  if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
+  /*if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
     const sl = yearVal.split(' ')
     yearVal = sl[0] + ' ' + sl[1].slice(0,1) + 'S'
     
-  }
+  }*/
   
   currentYear.value = yearVal
   /* console.log("swiperMain changed slide: " + activeSlide 

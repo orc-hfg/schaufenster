@@ -45,21 +45,7 @@
       />
       
     </Transition>
-<!--
-    <Transition name="clipout">
-    <SetListView
-      v-if="settype == MATCH_PROJECTS"
-      :col-count="colCount"
-      :settype="settype"
-      :slide-list="slideList"
-      :use-tree="useTree"
-      :filtered-sorted-trees="filteredSortedTrees"
-      :show-menu-view="showMenuView"
-      :intro-info="intro_info"
-      :next-year-list="nextYearList"
-      />
-    </Transition>
--->
+
 
     <MenuView v-if="showMenuView"
       :settype="settype"

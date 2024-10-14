@@ -18,7 +18,6 @@ import {
 } from '../generated/data-contracts';
 
 import { useMadekStore } from '../stores/madek_store';
-//import { useMetadataStore } from '../stores/metadata_store';
 
 export enum MLType {
     labels = 'labels',

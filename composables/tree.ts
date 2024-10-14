@@ -710,7 +710,7 @@ export const treeHelper = () => {
     parentId: string,
     clientId: string
   ) => {
-    //const md_store = useMetadataStore();
+    
     /* console.log("buildCollectionMetaData: "
           + " Tyoe: " + treeType
           + " Tid: " + treeId
@@ -756,7 +756,9 @@ export const treeHelper = () => {
         //console.log("got participants: " + tree.cols_participants[clientId])
       } else if (metaKey == MK_SEMESTER) {
         const sy = md.selectedKeywords[0].term.split('/')[0]
-        const sem = sy.split(' ')[0] 
+        const sem = sy.split(' ')[0]
+          .replace('Sommersemester','SoSe')
+          .replace('Wintersemester','WiSe')
         const year = sy.split(' ')[1]
         tree.cols_semesters[clientId] = year + ' ' + sem
         //tree.cols_semesters[clientId] = md.selectedKeywords[0].term
