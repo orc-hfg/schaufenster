@@ -12,11 +12,12 @@
       <div v-for="(treeInfo,idx) in sortedTrees"
         class="project_counter_line"
         :id="'treeInfo_' + treeInfo.col_id"
-        :style="getTreeInfoLineStyle(treeInfoIdx, idx)">
-        <div class="back_layer_blur"
+        :style="info_tree_style">
+        <!-- <div class="back_layer_blur"
           :style="getBlurLineStyle(treeInfoIdx, idx)">
-        </div>
-        <div class="content">
+        </div> -->
+        <div class="content"
+          :class="getLineClass(treeInfoIdx, idx)">
           <div class="cell">
             {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
           </div>
@@ -50,35 +51,10 @@ const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
 const info_tree_style = ref({'color': ''})
 info_tree_style.value['color'] = color
 
-const OPACITY_DIFF_3 = 0.0
-const OPACITY_DIFF_2 = 0.10; // 0.05
-const OPACITY_DIFF_1 = 0.30; // 0.15
-
-const getDiffOpacity = (diff) => {
-  let opval = 0.0;
-  if (diff >= 3) {
-    opval = OPACITY_DIFF_3
-  }
-  else if (diff >= 2) {
-    opval = OPACITY_DIFF_2
-  } else if (diff >= 1) {
-    opval = OPACITY_DIFF_1
-  } else if (diff == 0) {
-    opval = 1.0
-  }
-  return opval
-}
-const getBlurLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
+const getLineClass = (treeInfoIdx:number, idx:number, ): {} => {
   const diff = (treeInfoIdx - idx)
-  const style = getTreeInfoLineStyle(treeInfoIdx, idx)
-  const opval = getDiffOpacity(diff)
-  style['background-color'] = 'rgba(243,242,239, ' + opval + ')'
-  return style
-}
-const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
-  const diff = (treeInfoIdx - idx)
-  const opval = getDiffOpacity(diff)
-  return { opacity: opval }
+  
+    return { highlight: (diff == 0) };
 }
 
 </script>
@@ -90,7 +66,7 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   
   /* border:  1px solid blue; */
   position: fixed;
-  bottom: 0px;
+  bottom: -32px;
   left: -16px;
   
   /* width: 650px; */
@@ -104,33 +80,28 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   z-index: 980;
   transition: all 800ms ease-out;
 
-  /* direction: rtl; */
-
+  /*	für das ausblenden oben und unten: */
+  mask-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1), rgba(0,0,0,0));
+  pointer-events: none;
 }
 .project_counter_line {
   user-select: none;
-  transition: opacity 550ms linear;
+  /* transition: opacity 550ms linear; */
   
   /* border: 1px solid red; */
   display: block;
   
   width: fit-content;
   height: 48px;
+  pointer-events: none;
   
-  /* direction: ltr; */
 }
-.back_layer_blur {
-  display: block;
-  position: relative;
-  top:0px; left: 0px;
-  width: 100%; height: 48px;
-  background-color: var(--Colors-background-default, #F3F2EF);
-  filter: blur(90px);
-}
+
 .content {
   display: flex;
   position: relative;
-  top:-48px; left: 0px;
+  top:0px;
+  left: 0px;
   height: 48px;
   width: fit-content;
   
@@ -138,6 +109,7 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   padding: 0 20px;
   align-items: center;
 }
+
 .cell {
   /* border: 1px solid green; */
   display: inline-block;
@@ -150,6 +122,10 @@ const getTreeInfoLineStyle = (treeInfoIdx:number, idx:number, ): {} => {
   font-size: 20px;
   font-weight: 400;
   
+}
+
+.highlight {
+  text-shadow: var(--Colors-background-default, #F3F2EF) 0px 0 24px;
 }
 
 </style>

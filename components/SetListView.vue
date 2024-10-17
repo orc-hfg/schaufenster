@@ -185,7 +185,7 @@ const setTreeInfo = (el: iTree) => {
   //const elem = document.getElementById('treeInfo_' + el.col_id)
   treeInfoIdx.value = props.filteredSortedTrees.findIndex((val) => { return val.col_id == el.col_id})
   //elem?.scrollIntoView({block: "start", behavior: "smooth"})
-  const ntop = (treeInfoIdx.value) * 48 + 48
+  const ntop = (treeInfoIdx.value + 2 ) * 48
   //console.log("scroll to " + treeInfoIdx.value + ": " + ntop)
   document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
 }
