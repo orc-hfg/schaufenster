@@ -864,7 +864,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
 
   display: flex;
   
-  height: calc(100vh - 240px);
+  height: calc(100vh - 200px);
   overflow-y: scroll;
   padding-top: 200px;
 
@@ -883,7 +883,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   position: absolute;
   left: calc(50vw + 24px);
   width: calc(40vw - 24px);
-  height: calc(100vh - 240px);
+  height: calc(100vh - 200px);
   
 
   display: flex;

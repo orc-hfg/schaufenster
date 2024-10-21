@@ -50,7 +50,7 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 # Filter-View
 ## final layout
 ## show more / less icon einfügen
-## scroll-content abgeschnitten! bitte 100vh
+
 
 # setview / project-view
 ## setview: meta info: show more / less icon einfügen
@@ -116,6 +116,11 @@ Move old pc to branch.
 
 
 # DONE
+
+## filter-view: scroll-content abgeschnitten! bitte 100vh
+DONE: filter-view: scroll-content abgeschnitten: 100vh - 200px (padding before scroll)
+
+
 
 # intro-view
 DONE: intro-view: re-enable timeout
