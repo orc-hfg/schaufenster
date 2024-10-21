@@ -74,10 +74,9 @@
 
     </swiper>
   
+    
     <Transition name="fade">
     <SetListTreeInfo
-      @scroll.prevent="scrollEvent"
-      @wheel.prevent="wheelEvent"
       v-if="slideList && !showMenuView"
       :sorted-trees="filteredSortedTrees"
       :settype="settype"
@@ -85,13 +84,13 @@
       />
     </Transition>
 
+    
     <Transition name="fade">
       <div class="year_info"
         @click="currentYear = ''"
-        @scroll="scrollEvent"
-        @wheel="wheelEvent"
         :style="year_info_style"
-        v-show="currentYear && !introInfo">
+        v-show="currentYear && !introInfo"
+        >
         {{ currentYear }}
       </div>
     </Transition>
@@ -99,6 +98,7 @@
     <Transition name="fade">
       <div class="intro_info"
         :style="intro_info_style"
+        @click="introInfo = ''"
         v-if="introInfo">
         {{ introInfo }}
         <br/>
@@ -491,6 +491,7 @@ const setMainSwiper = (swiper: Swiper) => {
   align-items: center;
   z-index: 1010;
   user-select: none;
+  pointer-events: none;
 }
 
 </style>
