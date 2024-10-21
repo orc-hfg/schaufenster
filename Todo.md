@@ -6,6 +6,9 @@
 
 # page / view transitions
 
+## block browser back
+## rewrite browser history
+
 ## setview<->setlist page animation
 ### blinken/flackern ist das der page-enter-leave-fade-effekt??
 ### set list: set-list-view erscheint ebenfalls kurz nach dem ausblenden, vor dem wechsel zur nächsten Seite
@@ -18,9 +21,15 @@ DONE fade out slide image; TODO fade out meta-info
 ## font-view: new drop down design TBD
 ## link to font developer (from json)
 TODO: link und author ausfülllen
+## dropdown: finales layout
+## final layout
+## SVG chevrons bitte exportieren (liegen bei)
 
 
 # menu-view
+
+## Sprachwechsel findet nach schliessen des Menu statt
+TBD kein aufblinken (wechsel) von button
 
 ## menu: about etc. after closing go back to menuview
 ## menu -> about etc: do fade (to dark more)
@@ -30,6 +39,8 @@ DONE: menu-view -> fonts-view: fade to dark mode
 ## menu: click does not match opened view
 DONE: menu: click does not match opened view
 
+## about / impressum: nav-home without label "zurück"
+
 ## menu animation io gleich wie set view intro info mit blur layer und opacity
 
 DONE: backdrop-filter blur(30px) zusätzlich zum Blur der durch verstecken der header navbar / project-counter / year-selector stattfindet.
@@ -37,14 +48,21 @@ backdrop filter auch für header; das ORC-Logo blurt dann komisch durch. Auch we
 TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
 # Filter-View
+## final layout
 ## show more / less icon einfügen
+## scroll-content abgeschnitten! bitte 100vh
 
 # setview / project-view
 ## setview: meta info: show more / less icon einfügen
 ## setview: theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte) on slide audio/video
 
-### setview: meta info: init fehler (text wird nicht bis ... angezeigt)
-### setview: meta info filter_tags: show all/less animation fehlt
+## setview: meta info: init fehler (text wird nicht bis ... angezeigt)
+## setview: meta info: final layout
+## setview: meta-info: -> finales Layout: bitte Reihenfolge entsprechend anpassen
+
+## setview: meta info: "Quelle" / Link to Madek
+
+## setview: meta info filter_tags: show all/less animation fehlt
 ## setview: meta-info: disable click for un-searchable filter tags
 
 ### setview: audio zentrieren ( nicht 100% width / height, sondern wie image slide)
@@ -69,11 +87,15 @@ TODO create dummy entry
 
 # project setlist
 
+## BUG: responsive column count: 1 col < 1024px; 2 cols < 1280px; 3 cols if projects
+
 ## setlist: preview: wenn kein eigene entries im set, dann inhalt aus subset ? TDB: Marcel / Felix
 
 ## setlist: preview: kein Bild: Rahmen auch zufällig positionieren und Größen-definieren
 
 ## setlist: animate in: von unten auch nur 10vh wie intro view
+
+## pointer-events: none: bitte auf super headlines + project-counter anwenden. Dadurch sparen wir das aufwendig scroll imitieren + Projekte werden klickbar obwohl Text darüber liegt
 
 ## setlist: project counter
 
