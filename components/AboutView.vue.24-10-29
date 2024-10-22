@@ -1,0 +1,288 @@
+<template>
+
+    <div class="dialog" data-theme="dark">
+        <header>
+            <nav class="nav">
+                <NuxtLink @click="$emit('onClose')" class="nav_close">
+                    <IconsNavHome class="close_logo"/>
+                    <div class="close_content"></div>
+                </NuxtLink>
+            </nav>
+        </header>
+
+        <!-- data-theme="dark" -->
+        <!-- <div class="about_panel" -->
+        <div class="page_content"
+            @click="$emit('onClose')">
+            <h1>
+                Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.
+            </h1>
+            <p>
+                Alle Projekte können auch im Projektarchiv der HfG unter <a href="https://madek.hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://madek.hfg-karlsruhe.de</a> eingesehen und detaillierter recherchiert werden. Alle Hochschulangehörigen können Projekte, für die Veröffentlichung auf Schaufenster vorschlagen – vorausgesetzt, sie haben die jeweiligen Projekte zuvor in der Projektarchiv-Datenbank angelegt. Einreichungen werden formell überprüft, um sicherzustellen, dass die notwendigen Metadaten eingetragen sind. Bei Abschlussarbeiten wird vor der langfristigen Archivierung abgefragt, ob eine Veröffentlichung auf Schaufenster gewünscht ist. 
+            </p>
+            <p>
+                Kontakt für Einreichungen: <a href="mailto:&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;">&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;</a><br>
+                Mehr Informationen zum Studium an der HfG: <a href="https://hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://hfg-karlsruhe.de</a>
+            </p>
+            <h1>
+                Das Typo-Feature
+            </h1>
+            <p>
+                Schriftgestaltung hat an der HfG eine lange Tradition. Mit dem Typo Feature – den großen Titelschriften, deren Font zufällig wechselt, – geben wir Studierenden die Möglichkeit, ihre Kreationen auf Schaufenster zu präsentieren. Neue Einreichungen sind willkommen!
+            </p>
+            <h1>
+                Über diese Website                 
+            </h1>
+            <p>
+                Diese Website wurde 2024 vom Open Resource Center (ORC) der HfG, gefördert von der Stiftung Innovation in der Hochschullehre, gemeinsam mit den Designern Marcel Strauß und Felix Plachtzik entwickelt. 
+                <!-- Der Quellcode kann auf GitHub eingesehen und weiter genutzt werden. -->
+            </p>
+            <h1>
+                Das Open Resource Center der HfG 
+            </h1>
+            <div class="row">
+                <div class="col">
+                    <h4>Projektleiterin</h4>
+                    Dr. Barbara Kuon
+                    
+                    <h4>Koordinatorin</h4>
+                    Dr. Katarina Schorb
+                    
+                    <h4>Digital Archivists</h4>
+                    Hannes Herold<br>
+                    Víctor Fancelli Capdevila
+                    
+                </div>
+                <div class="col">
+                    <h4>Archival Curators</h4>
+                    Mustafa Emin Büyükcoskun<br>
+                    Zulfikar Filandra
+                    
+                    <h4>Softwareentwicker</h4>
+                    Alexander Liebrich
+                    
+                    <h4>Kontakt</h4>
+                    <a href="mailto:&#32;&#111;&#114;&#x63;&#x40;&#104;&#102;&#x67;&#x2d;&#x6b;&#x61;&#114;&#x6c;&#x73;&#x72;&#117;&#104;&#101;&#46;&#x64;&#101;">mailto:&#32;&#111;&#114;&#x63;&#x40;&#104;&#102;&#x67;&#x2d;&#x6b;&#x61;&#114;&#x6c;&#x73;&#x72;&#117;&#104;&#101;&#46;&#x64;&#101;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script setup lang="ts">
+const emit = defineEmits(['onClose'])
+</script>
+<style scoped>
+.dialog {
+    position: fixed;
+    top: 0px; left: 0px;
+    
+    /* HH try to remove scrollbar -> TESTING */
+    /* width: calc(100vw + 20px); move scroller */
+    width: 100vw;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    scrollbar-color: rgba(0,0,0,0);
+
+    height: 100vh;
+    z-index: 1150;
+    background-color: var(--Colors-background-default,#2C2C2C);
+    color: var(--Colors-text-primary, #FFFFFF);
+    overflow-y: auto;
+    /* scrollbar-width: 0; */
+    /* scrollbar-color: rgba(255,255,255,0.0); */
+}
+/* HH try to remove scrollbar */
+.dialog::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+}
+
+/* .about_panel {
+    position: absolute;
+    left: 23%;
+    right: 23%;
+    top: 12%;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--padding-container-bottom-XL, 112px);
+    align-self: stretch;
+} */
+
+
+.nav_close {
+    height: 48px;
+    padding: 0;
+    cursor: pointer;
+    user-select: none
+}
+.close_logo {
+    float: left;
+    padding: 0;
+    height: 48px;
+    transition: transform 300ms ease-out;
+}
+.close_logo:hover {
+    transform: scale(0.83);
+}
+.close_content {
+    position: relative;
+    float: left;
+    height: 24px;
+    padding: 12px;
+}
+.close_logo * {
+    stroke: none;
+    fill: var(--Colors-text-primary, #FFF) !important;
+}
+
+/* HH -> */
+
+.page_content {
+    max-width: 800px;
+    margin: 0 auto; 
+    padding: 0 16px var(--padding-container-bottom-XL, 112px) 16px;
+}
+h1 {
+    color: var(--text-primary, #FFF);
+
+    /* h3 */
+    font-family: "Instrument Sans";
+    font-size: var(--font-h3-font-size, 48px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-h3-line-height, 60px); /* 125% */
+
+    margin-top: calc(var(--font-h3-line-height, 60px) * 2);
+    margin-bottom: calc(var(--font-h3-line-height, 60px));
+
+}
+h4 {
+    color: var(--Colors-text-secondary, #CAC9C2);
+
+    /* Subline */
+    font-family: "Instrument Sans";
+    font-size: var(--font-subline-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-subline-line-height, 24px); /* 120% */
+
+    margin-bottom: 0;
+}
+p {
+    color: var(--Colors-text-primary, #FFF);
+    /* Body */
+    font-family: "Instrument Sans";
+    font-size: var(--font-body-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-body-line-height, 24px); /* 120% */
+}
+a,
+a:visited,
+a:active,
+a:hover {
+    color: var(--Colors-text-primary, #FFF);
+    /* Body */
+    font-family: "Instrument Sans";
+    font-size: var(--font-body-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-body-line-height, 24px); /* 120% */
+}
+a:hover {
+    text-decoration: none;
+}
+.row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+
+/* <- HH */
+/* 
+.row_100 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: flex-start;
+    gap: var(--padding-container-vertical-M, 32px);
+}
+.col_50 {
+    width: 50%;
+    min-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--padding-container-bottom-M, 32px);
+    flex: 1 0 0;
+}
+
+.about_list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+} 
+
+.about_list_title {
+    color: var(--Colors-text-secondary, #CAC9C2);
+
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 0;
+
+
+    font-family: "Instrument Sans";
+    font-size: var(--font-subline-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-subline-line-height, 24px);
+}
+
+.about_list_content_wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap:0px;
+    align-self: stretch;
+}
+.about_list_content_wrap2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+}
+.about_list_content {
+    color: var(--Colors-text-primary, #FFF);
+
+
+    font-family: "Instrument Sans";
+    font-size: var(--font-body-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-body-line-height, 24px);
+}
+.about_list_content_link {
+    color: var(--Colors-text-primary, #FFF);
+
+
+    font-family: "Instrument Sans";
+    font-size: var(--font-body-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-body-line-height, 24px);
+    text-decoration-line: underline;
+}
+
+@media screen and (max-width: 1280px) {
+    .row_100 {
+        flex-direction: column;    
+    }
+}
+*/
+</style>

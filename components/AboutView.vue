@@ -1,6 +1,6 @@
 <template>
 
-    <div class="dialog_about" data-theme="dark">
+    <div class="dialog" data-theme="dark">
         <header>
             <nav class="nav">
                 <NuxtLink @click="$emit('onClose')" class="nav_close">
@@ -10,315 +10,71 @@
             </nav>
         </header>
 
-        <!-- data-theme="dark" -->
-        <div class="about_panel"
+        <div class="page_content"
             @click="$emit('onClose')">
-
-            <div class="col_100">
-                <h3 class="about_h3">
-                    Diese „Schaufenster-Seite“ lorem ipsum dolor sit amet consectetur. Facilisis est amet proin diam sed. Tempus proin egestas semper commodo proin id nisl.
-                </h3>
-                <div class="about_content">
-                    Text zur Schaufenster-Seite lorem ipsum dolor sit amet consectetur. Facilisis est amet proin diam sed. Tempus proin egestas semper commodo proin id nisl. At est faucibus in pellentesque faucibus aenean. Lorem eleifend pellentesque morbi integer lobortis bibendum id massa. In ac arcu faucibus ac eget enim auctor dolor. Porttitor tellus amet sed quam tortor sociis neque faucibus. Semper nibh purus pellentesque dui. Integer ut malesuada suspendisse integer sit quam. Adipiscing neque venenatis ut in sapien. Interdum blandit fringilla eu consectetur. Venenatis dolor a et luctus dignissim turpis sit viverra id. Magna fermentum viverra eget amet ac metus sed eget. Est non nulla eleifend et sagittis faucibus diam. Ut nibh laoreet vel blandit auctor enim nunc nibh. Imperdiet nisl ut aliquam eu orci massa. Egestas dui sem aliquet magnis. Ut in rhoncus aliquam eleifend mattis scelerisque tincidunt id. Facilisis sed at tortor vitae ultricies praesent. Gravida pharetra tincidunt et consectetur in arc.
-                </div>
-            </div>
-            <div class="col_100">
-                <h3 class="about_h3">
-                    Über das ORC-Projekt
-                </h3>
-                <div class="about_content">
-                    Das HfG Open Resource Center (ORC) ist eine zentrale Einrichtung zur Entwicklung und Verankerung einer nachhaltigen digitalen Infrastruktur für die Hochschule. Darüber hinaus arbeitet das ORC an der Verankerung einer Kultur des eigenverantwortlichen Dokumentierens und Archivierens an der HfG.
-                </div>
-            </div>
-            <div class="col_100">
-                <h3 class="about_h3">
-                    Über die Stiftung                    
-                </h3>
-                <div class="about_content">
-                    Text zur Stiftung lorem ipsum dolor sit amet consectetur. Facilisis est amet proin diam sed. Tempus proin egestas semper commodo proin id nisl. At est faucibus in pellentesque faucibus aenean. Lorem eleifend pellentesque morbi integer lobortis bibendum id massa. In ac arcu faucibus ac eget enim auctor dolor. Porttitor tellus amet sed quam tortor sociis neque faucibus. Semper nibh purus pellentesque dui. Integer ut malesuada suspendisse integer sit quam. Adipiscing neque venenatis ut in sapien. Interdum blandit fringilla eu consectetur. Venenatis dolor a et luctus dignissim turpis sit viverra id. Magna fermentum viverra eget amet ac metus sed eget. Est non nulla eleifend et sagittis faucibus diam. Ut nibh laoreet vel blandit auctor enim nunc nibh. Imperdiet nisl ut aliquam eu orci massa. Egestas dui sem aliquet magnis. Ut in rhoncus aliquam eleifend mattis scelerisque tincidunt id. Facilisis sed at tortor vitae ultricies praesent. Gravida pharetra tincidunt et consectetur in arc.
-                </div>
-            </div>
-
-            <div class="row_100">
-                <div class="col_50">
-                    <div class="about_list">
-                        <div class="about_list_title">
-                            Projektleitung
-                        </div>
-                        <div class="about_list_content_wrap">
-                            <div class="about_list_content">
-                                Dr. Barbara Kuon
-                            </div>
-                            <div class="about_list_content_link">
-                                bkuon(at)hfg-karlsruhe.de
-                            </div>
-                        </div>
-                    </div>
+            <h1>
+                Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.
+            </h1>
+            <p>
+                Alle Projekte können auch im Projektarchiv der HfG unter <a href="https://madek.hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://madek.hfg-karlsruhe.de</a> eingesehen und detaillierter recherchiert werden. Alle Hochschulangehörigen können Projekte, für die Veröffentlichung auf Schaufenster vorschlagen – vorausgesetzt, sie haben die jeweiligen Projekte zuvor in der Projektarchiv-Datenbank angelegt. Einreichungen werden formell überprüft, um sicherzustellen, dass die notwendigen Metadaten eingetragen sind. Bei Abschlussarbeiten wird vor der langfristigen Archivierung abgefragt, ob eine Veröffentlichung auf Schaufenster gewünscht ist. 
+            </p>
+            <p>
+                Kontakt für Einreichungen: <a href="mailto:&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;">&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;</a><br>
+                Mehr Informationen zum Studium an der HfG: <a href="https://hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://hfg-karlsruhe.de</a>
+            </p>
+            <h2>
+                Das Typo-Feature
+            </h2>
+            <p>
+                Schriftgestaltung hat an der HfG eine lange Tradition. Mit dem Typo Feature – den großen Titelschriften, deren Font zufällig wechselt, – geben wir Studierenden die Möglichkeit, ihre Kreationen auf Schaufenster zu präsentieren. Neue Einreichungen sind willkommen!
+            </p>
+            <h2>
+                Über diese Website                 
+            </h2>
+            <p>
+                Diese Website wurde 2024 vom Open Resource Center (ORC) der HfG, gefördert von der Stiftung Innovation in der Hochschullehre, gemeinsam mit den Designern Marcel Strauß und Felix Plachtzik entwickelt. 
+                <!-- Der Quellcode kann auf GitHub eingesehen und weiter genutzt werden. -->
+            </p>
+            <h2>
+                Das Open Resource Center der HfG 
+            </h2>
+            <div class="row">
+                <div class="col">
+                    <h4>Projektleiterin</h4>
+                    <p>Dr. Barbara Kuon</p>
                     
-
-                    <div class="about_list">
-                        <div class="about_list_title">
-                            Koordination
-                        </div>
-                        
-                        <div class="about_list_content_wrap">
-                            <div class="about_list_content">
-                                Dr. Katarina Schorb
-                            </div>
-                            <div class="about_list_content_link">
-                                kschorb(at)hfg-karlsruhe.de
-                            </div>
-                        </div>
-                    </div>
-                    <div class="about_list">
-                        <div class="about_list_title">
-                        Digital Archivists
-                        </div>
-                        <div class="about_list_content_wrap2">
-                            <div class="about_list_content_wrap">
-                                <div class="about_list_content">
-                                    Hannes Herold 
-                                </div>
-                                <div class="about_list_content_link">
-                                    hherold(at)hfg-karlsruhe.de
-                                </div>
-                            </div>
-                            <div class="about_list_content_wrap">
-                                <div class="about_list_content">
-                                    Víctor Fancelli Capdevila 
-                                </div>
-                                <div class="about_list_content_link">
-                                    vfcapdevila(at)hfg-karlsruhe.de
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="about_list">
-                        <div class="about_list_title">
-                        Archival Curators
-                        </div>
-                        <div class="about_list_content_wrap2">
-                            <div class="about_list_content_wrap">
-                                <div class="about_list_content">
-                                    Hannes Herold 
-                                </div>
-                                <div class="about_list_content_link">
-                                    hherold(at)hfg-karlsruhe.de
-                                </div>
-                            </div>
-                            <div class="about_list_content_wrap">
-                                <div class="about_list_content">
-                                    Víctor Fancelli Capdevila 
-                                </div>
-                                <div class="about_list_content_link">
-                                    vfcapdevila(at)hfg-karlsruhe.de
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
+                    <h4>Koordinatorin</h4>
+                    <p>Dr. Katarina Schorb</p>
+                    
+                    <h4>Digital Archivists</h4>
+                    <p>Hannes Herold<br>
+                    Víctor Fancelli Capdevila</p>
+                    
                 </div>
-                <div class="col_50">
-                    <div class="about_list">
-                        <div class="about_list_title">
-                        Mail
-                        </div>
-                        <div class="about_list_content">
-                            Dr. Barbara Kuon
-                        </div>
-                        <div class="about_list_content_link">
-                            bkuon(at)hfg-karlsruhe.de
-                        </div>
-                    </div>
-                    <div class="about_list">
-                        <div class="about_list_title">
-                            Links zu Madek
-                        </div>
-                        
-                        <div class="about_list_content_link">
-                            HfG Handbuch
-                        </div>
-                        <div class="about_list_content_link">
-                            HfG Handbuch
-                        </div>
-                        <div class="about_list_content_link">
-                            HfG Handbuch
-                        </div>
-                        <div class="about_list_content_link">
-                            HfG Handbuch
-                        </div>
-                        <div class="about_list_content_link">
-                            HfG Handbuch
-                        </div>
-                        <div class="about_list_content_link">
-                            HfG Handbuch
-                        </div>
-                    </div>
+                <div class="col">
+                    <h4>Archival Curators</h4>
+                    <p>Mustafa Emin Büyükcoskun<br>
+                    Zulfikar Filandra</p>
+                    
+                    <h4>Softwareentwicker</h4>
+                    <p>Alexander Liebrich</p>
+                    
+                    <h4>Kontakt</h4>
+                    <p><a href="mailto:&#32;&#111;&#114;&#x63;&#x40;&#104;&#102;&#x67;&#x2d;&#x6b;&#x61;&#114;&#x6c;&#x73;&#x72;&#117;&#104;&#101;&#46;&#x64;&#101;">mailto:&#32;&#111;&#114;&#x63;&#x40;&#104;&#102;&#x67;&#x2d;&#x6b;&#x61;&#114;&#x6c;&#x73;&#x72;&#117;&#104;&#101;&#46;&#x64;&#101;</a></p>
                 </div>
             </div>
-            <br/>
-            <br/>
-            <br/>
+            <div class="logos">
+                <LogosHfgReduced class="hfg-logo_reduced" />
+                <LogosOrc class="orc-logo" />
+                <LogosSihl class="sihl-logo" />
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 const emit = defineEmits(['onClose'])
-//TODO content
 </script>
+
 <style scoped>
-.dialog_about {
-    position: fixed;
-    top: 0px; left: 0px;
-    width: calc(100vw + 20px); /*move scroller */
-    height: 100vh;
-    z-index: 1150;
-    background-color: var(--Colors-background-default,#2C2C2C);
-    color: var(--Colors-text-primary, #FFFFFF);
-    overflow-y: auto;
-    /* scrollbar-width: 0; */
-    /* scrollbar-color: rgba(255,255,255,0.0); */
-}
-.about_panel {
-    position: absolute;
-    left: 23%;
-    right: 23%;
-    top: 12%;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--padding-container-bottom-XL, 112px);
-    align-self: stretch;
-}
-
-
-.nav_close {
-    height: 48px;
-    padding: 0;
-    cursor: pointer;
-    user-select: none
-}
-.close_logo {
-    float: left;
-    padding: 0;
-    height: 48px;
-    transition: transform 300ms ease-out;
-}
-.close_logo:hover {
-    transform: scale(0.83);
-}
-.close_content {
-    position: relative;
-    float: left;
-    height: 24px;
-    padding: 12px;
-}
-.close_logo * {
-    stroke: none;
-    fill: var(--Colors-text-primary, #FFF) !important;
-}
-
-
-h3 {
-    color: var(--text-primary, #FFF);
-
-    /* h3 */
-    font-family: "Instrument Sans";
-    font-size: var(--font-h3-font-size, 48px);
-    font-style: normal;
-    font-weight: 400; letter-spacing: 0.02rem;
-    line-height: var(--font-h3-line-height, 60px); /* 125% */
-}
-.about_content {
-    color: var(--Colors-text-primary, #FFF);
-    /* Body */
-    font-family: "Instrument Sans";
-    font-size: var(--font-body-font-size, 20px);
-    font-style: normal;
-    font-weight: 400; letter-spacing: 0.02rem;
-    line-height: var(--font-body-line-height, 24px); /* 120% */
-}
-.row_100 {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    align-items: flex-start;
-    gap: var(--padding-container-vertical-M, 32px);
-}
-.col_50 {
-    width: 50%;
-    min-width: 420px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--padding-container-bottom-M, 32px);
-    flex: 1 0 0;
-}
-
-.about_list {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    align-self: stretch;
-}
-.about_list_title {
-    color: var(--Colors-text-secondary, #CAC9C2);
-
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-
-    /* Subline */
-    font-family: "Instrument Sans";
-    font-size: var(--font-subline-font-size, 20px);
-    font-style: normal;
-    font-weight: 400; letter-spacing: 0.02rem;
-    line-height: var(--font-subline-line-height, 24px); /* 120% */
-}
-
-.about_list_content_wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    /* gap: 12px; */
-    gap:0px;
-    align-self: stretch;
-}
-.about_list_content_wrap2 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    align-self: stretch;
-}
-.about_list_content {
-    color: var(--Colors-text-primary, #FFF);
-
-    /* Body */
-    font-family: "Instrument Sans";
-    font-size: var(--font-body-font-size, 20px);
-    font-style: normal;
-    font-weight: 400; letter-spacing: 0.02rem;
-    line-height: var(--font-body-line-height, 24px); /* 120% */
-}
-.about_list_content_link {
-    color: var(--Colors-text-primary, #FFF);
-
-    /* Body */
-    font-family: "Instrument Sans";
-    font-size: var(--font-body-font-size, 20px);
-    font-style: normal;
-    font-weight: 400; letter-spacing: 0.02rem;
-    line-height: var(--font-body-line-height, 24px);
-    text-decoration-line: underline;
-}
-
-@media screen and (max-width: 1280px) {
-    .row_100 {
-        flex-direction: column;    
-    }
-}
+    @import 'assets/static-pages.css';
 </style>

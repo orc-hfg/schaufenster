@@ -1,0 +1,159 @@
+.dialog {
+  position: fixed;
+  top: 0px; left: 0px;
+  
+  /* HH try to remove scrollbar -> TESTING */
+  width: 100vw;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scrollbar-color: rgba(0,0,0,0);
+
+  height: 100vh;
+  z-index: 1150;
+  background-color: var(--Colors-background-default,#2C2C2C);
+  color: var(--Colors-text-primary, #FFFFFF);
+  overflow-y: auto;
+}
+/* HH try to remove scrollbar Safari & Chrome*/
+.dialog::-webkit-scrollbar { 
+  display: none;
+}
+
+.nav_close {
+  height: 48px;
+  padding: 0;
+  cursor: pointer;
+  user-select: none
+}
+.close_logo {
+  float: left;
+  padding: 0;
+  height: 48px;
+  transition: transform 300ms ease-out;
+}
+.close_logo:hover {
+  transform: scale(0.83);
+}
+.close_content {
+  position: relative;
+  float: left;
+  height: 24px;
+  padding: 12px;
+}
+.close_logo * {
+  stroke: none;
+  fill: var(--Colors-text-primary, #FFF) !important;
+}
+
+.page_content {
+  max-width: 800px;
+  margin: 0 auto; 
+  padding: 0 16px var(--padding-container-bottom-XL, 112px) 16px;
+}
+h1 {
+  color: var(--text-primary, #FFF);
+
+  /* h3 */
+  font-family: "Instrument Sans";
+  font-size: var(--font-h3-font-size, 48px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-h3-line-height, 60px); /* 125% */
+
+  margin-top: calc(var(--font-h3-line-height, 60px) * 2);
+  margin-bottom: calc(var(--font-h3-line-height, 60px) * 1.5);
+
+}
+h2 {
+  color: var(--text-primary, #FFF);
+  font-family: "Instrument Sans";
+  /* COMMENT etwas stimmt nicht mit den Variablen, die Werte sind nicht gesetztt.  */
+  /* was ist ".Spaces_Dimensions" in "vars.css"? */
+  font-size: var(--font-h4-font-size, 32px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-h4-line-height, 40px);
+  /* COMMENT vertikaler Abstand ergänzt */
+  margin-top: calc(var(--font-h4-line-height, 40px) * 2);
+  margin-bottom: calc(var(--font-h4-line-height, 40px) * 1);
+}
+h3 {
+  color: var(--Colors-text-secondary, #CAC9C2);
+
+  font-family: "Instrument Sans";
+  font-size: var(--font-subline-font-size, 20px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-subline-line-height, 24px);
+  
+  margin-top: calc(var(--font-subline-line-height, 24px) * 1.75);
+  margin-bottom: var(--font-subline-line-height, 24px);
+}
+h4 {
+  color: var(--Colors-text-secondary, #CAC9C2);
+
+  /* Subline */
+  font-family: "Instrument Sans";
+  font-size: var(--font-subline-font-size, 20px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-subline-line-height, 24px);
+  
+  margin-top: 0;
+  margin-bottom: 0;
+}
+p {
+  color: var(--Colors-text-primary, #FFF);
+  /* Body */
+  font-family: "Instrument Sans";
+  font-size: var(--font-body-font-size, 20px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-body-line-height, 24px);
+  margin-top: 0;
+}
+a,
+a:visited,
+a:active,
+a:hover {
+  color: var(--Colors-text-primary, #FFF);
+  /* Body */
+  font-family: "Instrument Sans";
+  font-size: var(--font-body-font-size, 20px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-body-line-height, 24px); /* 120% */
+}
+a:hover {
+  text-decoration: none;
+}
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.logos {
+  margin-top: calc(var(--font-h4-line-height, 40px) * 2);
+}
+.logos svg {
+  display: block;
+  stroke: none;
+  fill: var(--Colors-text-secondary, #CAC9C2);
+  margin-bottom: var(--font-body-line-height, 24px);
+}
+.logos .hfg-logo {
+  width: 230px;
+  height: auto;
+}
+.logos .hfg-logo_reduced {
+  width: 95px;
+  height: auto;
+}
+.logos .orc-logo {
+  width: 75px;
+  height: auto;
+}
+.logos .sihl-logo {
+  width: 140px;
+  height: auto;
+}
