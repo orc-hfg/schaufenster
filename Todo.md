@@ -16,6 +16,27 @@
 DONE fade out slide image; TODO fade out meta-info
 ## setview <-> filter: animation TBD
 
+# Impressum view
+## Impressum view: remove "zurück" for nav home/back
+HH
+## Impressum view: Feinschliff
+HH
+## Impressum view: Text-Inhalte
+TBD
+
+# about view
+# about view: remove "zurück" for nav home/back
+HH
+# about view: feinschliff
+HH
+# about view: text-inhalte
+TBD
+# about view: icons
+
+# Content allgemein: Logos unter assets
+HH
+
+
 
 # font-view
 ## font-view: new drop down design TBD
@@ -29,7 +50,7 @@ TODO: link und author ausfülllen
 # menu-view
 
 ## Sprachwechsel findet nach schliessen des Menu statt
-TBD kein aufblinken (wechsel) von button
+TBD kein aufblinken (wechsel) von button; kein btn active
 
 ## menu: about etc. after closing go back to menuview
 ## menu -> about etc: do fade (to dark more)
@@ -39,7 +60,6 @@ DONE: menu-view -> fonts-view: fade to dark mode
 ## menu: click does not match opened view
 DONE: menu: click does not match opened view
 
-## about / impressum: nav-home without label "zurück"
 
 ## menu animation io gleich wie set view intro info mit blur layer und opacity
 
@@ -48,24 +68,45 @@ backdrop filter auch für header; das ORC-Logo blurt dann komisch durch. Auch we
 TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
 # Filter-View
+
+
 ## final layout
+
+
 ## show more / less icon einfügen
+AL icon einfügen
+HH wenn icon eingefügt
+
+
+
 
 
 # setview / project-view
 ## setview: meta info: show more / less icon einfügen
+HH wenn icon eingefügt
+
 ## setview: theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte) on slide audio/video
 
 ## setview: meta info: init fehler (text wird nicht bis ... angezeigt)
+
 ## setview: meta info: final layout
+
+
 ## setview: meta-info: -> finales Layout: bitte Reihenfolge entsprechend anpassen
+HH Reihenfolge
 
 ## setview: meta info: "Quelle" / Link to Madek
+AL Dann HH
 
 ## setview: meta info filter_tags: show all/less animation fehlt
+
+
 ## setview: meta-info: disable click for un-searchable filter tags
 
+
 ### setview: audio zentrieren ( nicht 100% width / height, sondern wie image slide)
+
+
 ### setview: bug theme setting by audio or image
 
 Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide navigiert wurde.
@@ -74,14 +115,25 @@ Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide nav
 ## setview: btm bar / nav-slider:
 ## setview: main-slider: subsub-set icon
 TODO create dummy entry
+AL insert subsub set entry / page / icon
+HH style subsubset-enty in main-slider / nav-slider
 
-### position show more / less; cursor pointer auf btns;
+### setview: btm-bar/nav-slider: position show more / less btns; cursor pointer auf btns
+
 ## navbar highlight color stimmt noch nicht im dark theme (check changed vars)
-## setview: video player: AV progress farben; progress click pos noch nicht korrekt
-## setview: video-player: overlay video play btn fehlt, wenn meta info aktiv
-## setview: audio nav bar preview fehler mit title des subsets
 
-## setview: subsubset preview new design
+## setview: video player: AV progress farben (webkit/firefox)
+HH / AL ?
+
+## setview: video player: progress click pos noch nicht korrekt
+AL: 
+
+## setview: video-player: overlay video play btn fehlt, wenn meta info aktiv
+AL icon einfügen
+HH positionierung
+
+## setview: audio nav bar preview fehler mit title des subsets
+AL ? HH ? Knobel Bug
 
 
 
@@ -96,6 +148,7 @@ TODO create dummy entry
 ## setlist: animate in: von unten auch nur 10vh wie intro view
 
 ## pointer-events: none: bitte auf super headlines + project-counter anwenden. Dadurch sparen wir das aufwendig scroll imitieren + Projekte werden klickbar obwohl Text darüber liegt
+DONE
 
 ## setlist: project counter
 
@@ -108,8 +161,12 @@ Move old pc to branch.
 
 # intro-view
 
+## fix out animation timing
+
 ### mobile: text komprimiert in höhe
 # lang parameter by url
+
+
 
 
 
