@@ -18,20 +18,24 @@ DONE fade out slide image; TODO fade out meta-info
 
 # Impressum view
 ## Impressum view: remove "zurück" for nav home/back
-HH
+DONE
 ## Impressum view: Feinschliff
 HH
 ## Impressum view: Text-Inhalte
 TBD
 
 # about view
-# about view: remove "zurück" for nav home/back
+## about view: remove "zurück" for nav home/back
+DONE
+## about view: feinschliff
 HH
-# about view: feinschliff
-HH
-# about view: text-inhalte
+## about view: text-inhalte
 TBD
-# about view: icons
+## about view: icons
+
+# datenschutz view
+## datenschutz view: remove "zurück" for nav home/back
+DONE
 
 # Content allgemein: Logos unter assets
 HH

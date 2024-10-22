@@ -5,9 +5,7 @@
             <nav class="nav">
                 <NuxtLink @click="$emit('onClose')" class="nav_close">
                     <IconsNavHome class="close_logo"/>
-                    <div class="close_content">
-                        zurück
-                    </div>
+                    <div class="close_content"></div>
                 </NuxtLink>
             </nav>
         </header>
