@@ -23,6 +23,7 @@ DONE
 HH
 ## Impressum view: Text-Inhalte
 TBD
+## impressum view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
 
 # about view
 ## about view: remove "zurück" for nav home/back
@@ -33,9 +34,12 @@ HH
 TBD
 ## about view: icons
 
+## about view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
+
 # datenschutz view
 ## datenschutz view: remove "zurück" for nav home/back
 DONE
+## datenschutz view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
 
 # Content allgemein: Logos unter assets
 HH
