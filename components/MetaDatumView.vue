@@ -1,15 +1,20 @@
 <template>
-    <div class="meta_info"
-        v-if="notEmpty()">
+    <div class="meta_info" v-if="notEmpty() "
+        >
         <div class="meta_title"
-            v-if="title && title.length">
+            v-if="(notEmpty()|| (additStringList && additStringList.length)) && title && title.length">
             {{title}}
         </div>        
-        <div class="meta_content">
-
+        <div v-if="notEmpty()"
+            class="meta_content">
+            <!-- TYPE [{{ md.type }}] -->
+            <!-- ev. BUG: Höhe des containers wird dynamisch berechnet 
+                :style="getTextStyle(md.string, showAll)" 
+            1. Wert stimmt nicht, längere Texte werden abgeschnitten
+            2. nicht nötig? weil .filter_list.show_all hat height: fit-content -->
             <div class="filter_list"
                 :class="{show_all: showAll}"
-                :style="getTextStyle(md.string, showAll)"
+                :style="getContentHeight()"
                 v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
                 <span class="filter_content" v-html="getAbbrevString(md.string, showAll)"></span>
             </div>
@@ -23,12 +28,12 @@
             
             <div class="filter_listo "
                 :id="getFilterListId(md, 'max')"
-                v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
-                <span>{{ md.string }}</span>
+                v-if="(md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE) && md.string.length >= MIN_TEXT_SHOW_COUNT">
+                <span class="filter_content" v-html="getAbbrevString(md.string, true)"></span>
             </div>
             <div class="filter_listo "
                 :id="getFilterListId(md, 'min')"
-                v-if="md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE">
+                v-if="(md.type == MD_TYPE_TEXT || md.type == MD_TYPE_TEXT_DATE) && md.string.length >= MIN_TEXT_SHOW_COUNT">
                 <span>{{ md.string.substring(0, MIN_TEXT_SHOW_COUNT + 3) }}</span>
             </div>
             
@@ -36,14 +41,24 @@
 
             <div class="filter_list"
                 :class="{show_all: showAll}"
+                :style="getContentHeight()"
                 v-if="md.type == MD_TYPE_KEYWORDS">
                 <div class="filter_tag"
+                    v-if="isSelectable"
                     v-for="(kw,idx) in md.selectedKeywords"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
                     @click="$emit('addFilter', FILTERS_KEYWORD,kw)">
                     {{ kw.term }}
                 </div>
+                <div class="filter_tag unselectable"
+                    v-else
+                    v-for="(kw,idx) in md.selectedKeywords"
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
+                    {{ kw.term }}
+                </div>
+                
             </div>
+
             <MetaDatumViewShowBtn
                 v-if="md.type == MD_TYPE_KEYWORDS"
                 :show-all="showAll"
@@ -52,14 +67,41 @@
                 @toggle-show-all="showAll=!showAll"
                 />
 
+            <div class="filter_listo "
+                :id="getFilterListId(md, 'max')"
+                v-if="md.type == MD_TYPE_KEYWORDS && md.selectedKeywords.length >= MIN_TAG_SHOW_COUNT">
+                <div class="filter_tag"
+                    v-for="(kw,idx) in md.selectedKeywords">
+                    {{ kw.term }}
+                </div>
+            </div>
+            <div class="filter_listo "
+                :id="getFilterListId(md, 'min')"
+                v-if="md.type == MD_TYPE_KEYWORDS && md.selectedKeywords.length >= MIN_TAG_SHOW_COUNT">
+                <div class="filter_tag"
+                    v-for="(kw,idx) in md.selectedKeywords"
+                    v-show="idx < MIN_TAG_SHOW_COUNT">
+                    {{ kw.term }}
+                </div>
+            </div>
+
+            <!-- MD PEOPLE -->
             <div class="filter_list"
                 :class="{show_all: showAll}"
+                :style="getContentHeight()"
                 v-if="md.type == MD_TYPE_PEOPLE">
             
                 <div class="filter_tag"
+                    v-if="isSelectable"
                     v-for="(p,idx) in md.selectedPeople"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
                     @click="$emit('addFilter', FILTERS_PEOPLE,p)">
+                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                </div>
+                <div class="filter_tag unselectable"
+                    v-else
+                    v-for="(p,idx) in md.selectedPeople"
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
                     {{ p.first_name }}&nbsp;{{ p.last_name }}
                 </div>
             </div>
@@ -71,13 +113,40 @@
                 @toggle-show-all="showAll=!showAll"
                 />
 
+            <div class="filter_listo"
+                :id="getFilterListId(md, 'max')"
+                v-if="md.type == MD_TYPE_PEOPLE && md.selectedPeople.length >= MIN_TAG_SHOW_COUNT">
+                <div class="filter_tag"
+                    v-for="(p,idx) in md.selectedPeople">
+                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                </div>
+            </div>
+            <div class="filter_listo "
+                :id="getFilterListId(md, 'min')"
+                v-if="md.type == MD_TYPE_PEOPLE && md.selectedPeople.length >= MIN_TAG_SHOW_COUNT">
+                <div class="filter_tag"
+                    v-for="(p,idx) in md.selectedPeople"
+                    v-show="idx < MIN_TAG_SHOW_COUNT">
+                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                </div>
+            </div>
+
+            <!-- MD ROLES -->
             <div class="filter_list"
                 :class="{show_all: showAll}"
+                :style="getContentHeight()"
                 v-if="md.type == MD_TYPE_ROLES">
                 <div class="filter_tag"
+                    v-if="isSelectable"
                     v-for="(rp,idx) in md.selectedRoles"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
                     @click="$emit('addFilter', FILTERS_ROLES,rp)">
+                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                </div>
+                <div class="filter_tag unselectable"
+                    v-else
+                    v-for="(rp,idx) in md.selectedRoles"
+                    v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
                     {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
                 </div>
             </div>
@@ -88,11 +157,29 @@
                 :min="MIN_TAG_SHOW_COUNT"
                 @toggle-show-all="showAll=!showAll"
                 />
+
+            <div class="filter_listo"
+                :id="getFilterListId(md, 'max')"
+                v-if="md.type == MD_TYPE_ROLES && md.selectedRoles.length >= MIN_TAG_SHOW_COUNT">
+                <div class="filter_tag"
+                    v-for="(rp,idx) in md.selectedRoles">
+                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                </div>
+            </div>
+            <div class="filter_listo "
+                :id="getFilterListId(md, 'min')"
+                v-if="md.type == MD_TYPE_ROLES && md.selectedRoles.length >= MIN_TAG_SHOW_COUNT">
+                <div class="filter_tag"
+                    v-for="(rp,idx) in md.selectedRoles"
+                    v-show="idx < MIN_TAG_SHOW_COUNT">
+                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                </div>
+            </div>
+
         </div>
     </div> 
 </template>
 <script setup lang="ts">
-//TODO show more animation ?
 //TODO show more btn
 const {
   MD_TYPE_TEXT,
@@ -110,8 +197,10 @@ const {
 const MIN_TAG_SHOW_COUNT = 4;
 const MIN_TEXT_SHOW_COUNT = 200;
 
+const MIN_FILTER_TAG_LIST_HEIGHT = 52;
+const MIN_TEXT_HEIGHT = 24;
 
-const props = defineProps(['md','title'])
+const props = defineProps(['md','title', 'isSelectable', 'additStringList'])
 const emits = defineEmits(['addFilter'])
 const showAll = ref(false)
 
@@ -122,6 +211,9 @@ const notEmpty = () => {
     // ignore json
     if ( props.md.type == MD_TYPE_JSON ) {
         return false;
+    }
+    if (props.additStringList && props.additStringList.length) {
+        return true
     }
     if ( (props.md.type == MD_TYPE_TEXT
           || props.md.type == MD_TYPE_TEXT_DATE)
@@ -143,63 +235,43 @@ const notEmpty = () => {
         && props.md.selectedRoles.length) {
         return true;
     }
-
 }
 
-const getTextSize = (show_all:boolean):number[] => {
-  // re-use canvas object for better performance
-  //console.log("md: " + JSON.stringify(props.md))
-  //const listos = document.getElementsByClassName('filter_listo')
-  /* for (let i = 0; i < listos.length; i++) {
-    console.log("width: " + listos[i].clientWidth
-        + " height: " + listos[i].clientHeight
-    )
-  } */
-  const type = show_all == true ? 'max' : 'min'
-  const id = getFilterListId(props.md, type)
+const toPxHeight = (height:number):object => {
+    return { 'height': height + 'px' }
+}
+
+const getContentHeight = () => {
+    const type = showAll.value == true ? 'max' : 'min'
+    const id = getFilterListId(props.md, type)
     
   const listo = document.getElementById(id)
-  if (listo && listo.clientWidth) {
-    const rect = listo.getBoundingClientRect()
-    console.log(
-        
-        + " My width: " + listo.clientWidth // rect.width
-        + " My height: " + rect.height
-    )
-    return [listo.clientWidth, rect.height]
+  if (listo && listo.getBoundingClientRect) {
+    const height = listo.getBoundingClientRect().height
+
+    console.log("got height for " + id + " : " + height)
+    return toPxHeight(height)
   }
-  return [100,50]
-/*
-  try {
-    //const canvas = getTextSize.canvas || (getTextSize.canvas = document.createElement("canvas"));
-    const canvas = getTextSize.canvas || (getTextSize.canvas = document.createElement("canvas"));
-    canvas.width = ((window.innerWidth / 2) - 48) + 'px';
-    canvas.display = "block"
-  //const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    context.textAlign = 'left'
-    context.font = font;
-    context.fillStyle = 'black'
-    const metrics = context.measureText(text);
-    const actualWidth = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight
-    const actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
-    
-    
-    console.log(
-        "height" + metrics.height 
-        + " actual hight: " + actualHeight
-        + " width: "+ metrics.width
-        + " actual width: "+ actualWidth
-        
-    )
+  console.error("no height yet")
+  if (props.md.type == MD_TYPE_KEYWORDS
+    || props.md.type == MD_TYPE_PEOPLE
+    || props.md.type == MD_TYPE_ROLES
+  ) {
+    if ((props.md.selectedKeywords && props.md.selectedKeywords.length >= MIN_TAG_SHOW_COUNT)
+        || (props.md.selectedPeople && props.md.selectedPeople.length >= MIN_TAG_SHOW_COUNT)
+        || (props.md.selectedRoles && props.md.selectedRoles.length >= MIN_TAG_SHOW_COUNT)) {
+        return toPxHeight(MIN_FILTER_TAG_LIST_HEIGHT * 2)
+    }
+    return toPxHeight(MIN_FILTER_TAG_LIST_HEIGHT)
+  }
 
-    
+// HH schneidet mehrzeilige Titel ab – wird diese Abfrage gebraucht?
+// Reference: https://cloud.hfg-karlsruhe.de/s/QbS29xigK4fyxSd
+//   if (props.md.type == MD_TYPE_TEXT) {
+//     return toPxHeight(MIN_TEXT_HEIGHT)
+//   }
 
-    return metrics.width;
-  } catch (error) {
-    console.error("getTextWidth: Error: " + error)
-    return 100;
-  }*/
+  
 }
 
 const getFilterListId = (md, type) => {
@@ -216,23 +288,30 @@ const getAbbrevString = (text:string, show_all:boolean):string => {
     if (show_all == false && text.length > MIN_TEXT_SHOW_COUNT) {
         return result.substring(0, MIN_TEXT_SHOW_COUNT) + '...'
     }
+    if (props.additStringList) {
+        let waddit = result
+        props.additStringList.forEach(str => {
+            waddit += ', ' + str
+        })
+        return waddit
+    }
     return result;
 }
 
-const getTextStyle = (text:string, show_all:boolean) => {
-    /*if (show_all) {
-        return { height: '100%'}
-    }*/
-    const [width,height] = getTextSize(show_all) 
-    
-    
-    const style = {
-        
-        height: height + 'px'
-    }
-    return style
+const resetShowAll = () => {
+    showAll.value = true
+    setTimeout(() => {
+        showAll.value = false
+    }, 25)
 }
+onMounted(() => {
+    resetShowAll()
+})
 
+watch(props, () => {
+    //console.log("changed props")
+    resetShowAll()
+})
 </script>
 <style>
 
@@ -249,7 +328,11 @@ align-content: flex-start;
 gap: var(--spacing-between-items-S, 4px);
 align-self: stretch;
 flex-wrap: wrap;
-height: 50px;
+
+/* HH vertikale Abstände vereinheitlichen 
+ * Ref.: https://cloud.hfg-karlsruhe.de/s/NqsnkjWLED5KGA7
+*/
+/* height: 50px; */
 overflow: hidden;
 
 transition: all 300ms ease-out;
@@ -257,40 +340,33 @@ transition: all 300ms ease-out;
 .filter_listo {
     position:fixed;
     top: 1000vh;
-    width: calc(50vw - 48px);
-    display: block;
+    width: calc(50vw - 80px);
+
+    display: flex;
     box-sizing: border-box;
 
-align-items: flex-start;
-align-content: flex-start;
-gap: var(--spacing-between-items-S, 4px);
-align-self: stretch;
-flex-wrap: wrap;
-
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: var(--spacing-between-items-S, 4px);
+    align-self: stretch;
+    flex-wrap: wrap;
 }
+
 .filter_list.show_all {
     height: fit-content;
 }
 .filter_content {
     user-select: text;
-    
+    color: var(--Colors-text-primary, #2C2C2C);
 }
 .filter_content span {
     display: inline-block;
 }
+
 .filter_tag {
-    cursor: pointer;
+    
     user-select: text;
-/*  float: left;
-  display: block;
-  font-size: var(--font__body__fontsize, 20px);
-  line-height: var(--font__body__lineheight, 24px);
-  padding: var(--spacing__betweenitemsM, 12px);
-  border: 1px solid black;
-  border-radius: var(--radius__full, 48px);
-  background-color: var(--Colors-nav-bar-toggle-on);
-  margin: var(--spacing__navbarbetweenitems, 4px) var(--spacing__navbarbetweenitems, 4px);
-*/
+
     display: flex;
     height: var(--dimension-button-height-M, 32px);
     padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px);
@@ -306,8 +382,19 @@ flex-wrap: wrap;
     font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-body-line-height, 24px); /* 120% */
 }
-.filter_tag:hover {
+.filter_tag:not(.unselectable):hover {
+    /* TODO filter tag hover color for dark theme */
     background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
+}
+
+.filter_tag:not(.unselectable) {
+    cursor: pointer;
+    
+}
+
+.filter_tag.unselectable {
+    border: none;
+    padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px) var(--padding-item-vertical-S, 8px) 0;
 }
 
 </style>
