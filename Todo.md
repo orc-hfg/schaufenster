@@ -4,6 +4,11 @@
 
 ## Header navbar Home immer an gleicher Stelle (border fehlt). (About View u.w.)
 
+## "Statische" Seiten mit Designern besprechen > Layout und Styles für Headings etc. OK?
+
+## CSS Variablen checken bzw. `.Spaces_Dimensions {}` in `vars.css` erklären > diese Variablen scheinen nicht anzukommen?
+
+
 # page / view transitions
 
 ## block browser back
