@@ -8,6 +8,8 @@
 
 ## CSS Variablen checken bzw. `.Spaces_Dimensions {}` in `vars.css` erklären > diese Variablen scheinen nicht anzukommen?
 
+## Zitierbarkeit: meta-tags in <header> / bspw. Zotero (mehr Info von Víctor)
+
 
 # page / view transitions
 
