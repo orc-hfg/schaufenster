@@ -159,7 +159,8 @@ AL icon einfügen
 HH positionierung
 
 ## setview: audio nav bar preview fehler mit title des subsets
-AL ? HH ? Knobel Bug
+TBC (AL) -> HH Vorschlag: Container "nav_preview_audio" innerhalb von "nav_preview" absolut positionieren (branch `setview_video-player_progress-bar`).
+
 
 
 
