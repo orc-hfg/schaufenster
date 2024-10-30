@@ -25,29 +25,36 @@ DONE fade out slide image; TODO fade out meta-info
 ## Impressum view: remove "zurück" for nav home/back
 DONE
 ## Impressum view: Feinschliff
-HH
+TBC (to be confirmed, AL)
 ## Impressum view: Text-Inhalte
-TBD
+TBC (AL)
 ## impressum view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
+TBC (AL)
 
 # about view
 ## about view: remove "zurück" for nav home/back
 DONE
 ## about view: feinschliff
-HH
+TBC (AL)
 ## about view: text-inhalte
-TBD
+TBC (AL)
 ## about view: icons
-
+TBC (AL)
 ## about view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
+TBC (AL)
 
 # datenschutz view
 ## datenschutz view: remove "zurück" for nav home/back
 DONE
+## datenschutz view: feinschliff
+TBC (AL)
+## datenschutz view: text-inhalte
+TBC (AL)
 ## datenschutz view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
+TBC (AL)
 
 # Content allgemein: Logos unter assets
-HH
+TBC (AL) -> new subset of components
 
 
 
@@ -106,7 +113,8 @@ HH wenn icon eingefügt
 
 
 ## setview: meta-info: -> finales Layout: bitte Reihenfolge entsprechend anpassen
-HH Reihenfolge
+TBC HH Reihenfolge
+AL Logik
 
 ## setview: meta info: "Quelle" / Link to Madek
 AL Dann HH
@@ -165,12 +173,22 @@ DONE
 
 ## setlist: project counter
 
+### setlist: project counter: pointer-events:none
+DONE
 ### setlist: project counter: width: 35vw
-
+OBSOLETE?
 ### setlist: project counter: opacity am Rand gegen null: Gradient meine ich; beispiel aus figma
-
+OBSOLETE?
 Nur Highlight Zeile hat hintergrund mit blur und opacity und border round. Andere Zeilen besitzen nur opacity.
 Move old pc to branch.
+### setlist: project counter: mask-image-Technik
+DONE
+### setlist: project counter: Anzahl gezeigter Projekte 3 statt 4
+AL
+### setlist: project counter: mask-image verfeinern
+HH
+### setlist: project counter: text-shadow entfernen, bei schwarzem Text mix-blend-mode greyscale verwenden
+AL Logik, dann HH Style
 
 # intro-view
 
