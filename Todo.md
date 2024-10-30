@@ -146,7 +146,10 @@ HH style subsubset-enty in main-slider / nav-slider
 ## navbar highlight color stimmt noch nicht im dark theme (check changed vars)
 
 ## setview: video player: AV progress farben (webkit/firefox)
-HH / AL ?
+TBC (AL) -> branch `setview_video-player_progress-bar`
+1. richtiger component bearbeitet? 
+2. CSS Variables unklar
+3. weitere Tests machen 
 
 ## setview: video player: progress click pos noch nicht korrekt
 AL: 
