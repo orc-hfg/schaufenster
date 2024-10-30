@@ -435,9 +435,9 @@ const avProgressClicked = (ev:PointerEvent) => {
   const entryId = activeEntryId.value
   const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
   const progressEl = document.getElementById('av_progress')
-
+debugger
   const pos =
-      (ev.pageX - progressEl.offsetLeft - progressEl.offsetParent.offsetLeft) /
+      (ev.pageX - progressEl.offsetLeft - progressEl.offsetParent.offsetLeft - progressEl.offsetParent.offsetParent.offsetLeft) /
     progressEl.offsetWidth;
   avel.currentTime = pos * avel.duration;
 }
@@ -1321,21 +1321,41 @@ const handleMouseLeave = () => {
   backdrop-filter: blur(calc(var(--value-pills, 30px) / 2));
 }
 
-.av_progress_cont progress {
+
+/* HH remove border */
+/* TODO preliminary variables -> ich komme mit den globalen Variablen nicht so ganz klar */
+/* --Colors-btm-bar-playerView-background passt nicht ... */
+/* die vorläufigen Werte hier sind direkt aus Figma genommen */
+progress {
   border-radius: 50px;
   appearance: none;
-  width: 100%; height: 24px;
-  
+  width: 100%; 
+  height: 24px;
+  border: none;
+  --Colors-av-progress-background: rgba(255,255,255,.2);
+  --Colors-av-progress-bar: #FFFFFF;
 }
-.av_progress_cont progress::-webkit-progress-bar {
+/* HH add color of background */
+progress::-webkit-progress-bar,
+progress {
   border-radius: 50px;
-  background-color: var(--Colors-btm-bar-playerView-progress, #CAC9C2);
+  background-color: var(--Colors-av-progress-background); 
 }
-.av_progress_cont progress::-webkit-progress-value {
+/* HH add color of (moving) bar */
+/* need to be 2 individual selectors, not combined by comma; otherwise webkit error */
+progress::-moz-progress-bar {
+  background-color: var(--Colors-av-progress-bar);
+}
+progress::-webkit-progress-value { 
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
-  background-color: var(--Colors-btm-bar-playerView-background, rgba(0, 0, 0, 0.10));
+  background-color: var(--Colors-av-progress-bar);
 }
+progress {
+  color: yellow;
+}
+
+
 
 .swiper_nav {
   /* border: 1px solid red; */
@@ -1399,6 +1419,7 @@ const handleMouseLeave = () => {
 
 
 .nav_preview {
+  position: relative;
   margin: 0 0;
   width: 72px;
   height: var(--margin-body-margin,96px);
@@ -1415,6 +1436,9 @@ const handleMouseLeave = () => {
   background-size: 100% auto;
 }
 .nav_preview_audio {
+  position: absolute;
+  top: 0;
+  left: 0;
   background-color: #DAD6CE;
   display: flex;
   width: 72px;
@@ -1432,7 +1456,7 @@ const handleMouseLeave = () => {
   font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-subline-line-height, 24px); /* 171.429% */
   
-  padding-top: 0px;
+  /* padding-top: 0px; */
   transition: all 500ms ease-out;
 }
 .nav_preview_audio_highlight {
@@ -1441,6 +1465,7 @@ const handleMouseLeave = () => {
 }
 
 .nav_preview_col_title {
+  /* border: 1px solid magenta; */
   user-select: none;
   position: relative;
   top: -40px;
