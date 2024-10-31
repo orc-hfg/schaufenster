@@ -91,6 +91,8 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
 # Filter-View
 
+## filter-view: hide empty section during (text) search
+Bei der Suche sollten die Sections, die keine Treffer enthalten, bitte wegfallen, damit kein Leerraum entsteht und man die Treffer weiter unten auch sieht.
 
 ## final layout
 
@@ -104,6 +106,9 @@ HH wenn icon eingefügt
 
 
 # setview / project-view
+
+## setview: meta-info: animate show more/less for keywords/people/roles
+
 ## setview: meta info: show more / less icon einfügen
 HH wenn icon eingefügt
 
@@ -117,6 +122,13 @@ HH wenn icon eingefügt
 ## setview: meta-info: -> finales Layout: bitte Reihenfolge entsprechend anpassen
 TBC HH Reihenfolge
 AL Logik
+DISKUSSION um Kommmentare
+
+## setview: BUG:
+Bug in Safari: wenn man Bottom-Bar ausblendet, Meta-Info öffnet und wieder schließt, blendet sich die Bottom-Bar von alleine wieder ein. Sollte eigentlich ausgeblendet bleiben. In Chrome und Firefox taucht dieser bug nicht auf.
+
+## setview: btm bar: BUG: does not animate down, but left down, dep. on cur. slide position
+Position / Animation von Button Bar sieht noch fehlerhaft aus, beim Schließen und öffnen der Meta-Infos, wenn aktives Thumbnail sich in der Mitte des Screens befindet.
 
 ## setview: meta info: "Quelle" / Link to Madek
 AL Dann HH
@@ -134,6 +146,10 @@ AL Dann HH
 
 Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide navigiert wurde.
 
+# setview: filter: scroll to selected meta-key
+Wenn man in einem Projekt einen Filter klickt, öffnet sich die Filter-Seite. Es kann aber sein, dass der gewählte Filter weiter unten auf der Seite steht und also nicht im Sichtfeld ist.
+
+> Bitte automatisch zu gewähltem Filter scrollen (Sprung zum Anker?)
 
 ## setview: btm bar / nav-slider:
 ## setview: main-slider: subsub-set icon
@@ -248,6 +264,7 @@ DONE: kein Notfall mehr nötig.
 ### setview: intro title: move text up/down with animation
 DONE: setview: intro title: ani: move up/down text
 
+## setview: meta-info: material: alles als text liste (auch die keywords)
 
 
 # setview: video

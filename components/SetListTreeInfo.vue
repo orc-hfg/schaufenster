@@ -66,12 +66,12 @@ const getLineClass = (treeInfoIdx:number, idx:number, ): {} => {
   
   /* border:  1px solid blue; */
   position: fixed;
-  bottom: -32px;
+  bottom: 0px;
   left: -16px;
   
   /* width: 650px; */
   width: calc(100vw + 32px);
-  height: 240px;
+  height: 180px;
 
   padding-left: 48px;
 
@@ -81,7 +81,7 @@ const getLineClass = (treeInfoIdx:number, idx:number, ): {} => {
   transition: all 800ms ease-out;
 
   /*	für das ausblenden oben und unten: */
-  mask-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1), rgba(0,0,0,0));
+  mask-image: linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
   pointer-events: none;
 }
 .project_counter_line {
