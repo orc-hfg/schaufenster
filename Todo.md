@@ -195,6 +195,9 @@ TBC (AL) -> HH Vorschlag: Container "nav_preview_audio" innerhalb von "nav_previ
 ## pointer-events: none: bitte auf super headlines + project-counter anwenden. Dadurch sparen wir das aufwendig scroll imitieren + Projekte werden klickbar obwohl Text darüber liegt
 DONE
 
+## setview: project title for meta info: move up some more, still visible if width < 1280
+
+
 ## setlist: project counter
 
 ### setlist: project counter: pointer-events:none
