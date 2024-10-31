@@ -103,8 +103,6 @@ HH wenn icon eingefügt
 
 
 
-
-
 # setview / project-view
 
 ## setview: meta-info: animate show more/less for keywords/people/roles
@@ -118,6 +116,10 @@ HH wenn icon eingefügt
 
 ## setview: meta info: final layout
 
+## setview: meta info: projekt-titel auskommentieren / projekt unter titel ja / parent (vollständ), wenn im header abgeschnitten
+
+
+## setview: meta-info: if not selectable: show as text (nicht als button)
 
 ## setview: meta-info: -> finales Layout: bitte Reihenfolge entsprechend anpassen
 TBC HH Reihenfolge
@@ -220,6 +222,7 @@ AL Logik, dann HH Style
 # lang parameter by url
 
 
+# i18config als json
 
 
 
