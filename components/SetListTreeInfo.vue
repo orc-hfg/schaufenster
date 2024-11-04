@@ -1,7 +1,9 @@
 <template>
   <div>
+    <!-- <div id="dummy"></div> -->
     <div class="project_counter" 
-      :style="info_tree_style">
+      :class="props.settype">
+    <!-- :style="info_tree_style" -->
       
       <div class="project_counter_line">&nbsp;</div>
       <div class="project_counter_line">&nbsp;</div>
@@ -11,13 +13,14 @@
       
       <div v-for="(treeInfo,idx) in sortedTrees"
         class="project_counter_line"
-        :id="'treeInfo_' + treeInfo.col_id"
-        :style="info_tree_style">
+        :id="'treeInfo_' + treeInfo.col_id">
+        <!-- :style="info_tree_style"> -->
+
         <!-- <div class="back_layer_blur"
           :style="getBlurLineStyle(treeInfoIdx, idx)">
         </div> -->
-        <div class="content"
-          :class="getLineClass(treeInfoIdx, idx)">
+        <div class="content">
+          <!-- :class="getLineClass(treeInfoIdx, idx)"> -->
           <div class="cell">
             {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
           </div>
@@ -40,22 +43,25 @@ const props = defineProps([
     'sortedTrees',
     'treeInfoIdx'])
 
-const {
-    MATCH_DIPLOM
-} = treeHelper()
+// HH deaktiviert, siehe Kommentar Zeile 52
+// const {
+//     MATCH_DIPLOM
+// } = treeHelper()
 
 
-
-const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
+// HH Vorschlag: statt color per JS zu setzen, dem project_counter mit `:class="props.settype"` eine CSS-Klasse zuweisen.
+// Dann können wir per CSS beliebig viele Eigenschaften steueren: Farbe, mix-blend-mode, etc.
+// const color = props.settype == MATCH_DIPLOM ? '#FF4D00' : '#2C2C2C'
   
-const info_tree_style = ref({'color': ''})
-info_tree_style.value['color'] = color
+// const info_tree_style = ref({'color': ''})
+// info_tree_style.value['color'] = color
 
-const getLineClass = (treeInfoIdx:number, idx:number, ): {} => {
-  const diff = (treeInfoIdx - idx)
+// HH deaktiviert, wird ggf. nicht mehr gebraucht, stattdessen Kombination aus Maskierung und mix-blend-mode)
+// const getLineClass = (treeInfoIdx:number, idx:number, ): {} => {
+//   const diff = (treeInfoIdx - idx)
   
-    return { highlight: (diff == 0) };
-}
+//     return { highlight: (diff == 0) };
+// }
 
 </script>
 <style>
@@ -66,35 +72,64 @@ const getLineClass = (treeInfoIdx:number, idx:number, ): {} => {
   
   /* border:  1px solid blue; */
   position: fixed;
-  bottom: 0px;
-  left: -16px;
+  bottom: 0;
+
+  /* HH gibt es einen bestimmten Grund, warum das Element nach links verschoben wird? 
+   * Der Abstand vom Rand könnte doch auch nur über padding geregelt werden, oder?
+  */
+  /* left: -16px; */
+  left: 0;
+  /* padding-left: 48px; */
+  padding-left: 32px;
   
   /* width: 650px; */
   width: calc(100vw + 32px);
   height: 180px;
 
-  padding-left: 48px;
-
   overflow-y: scroll;
-
   z-index: 980;
-  transition: all 800ms ease-out;
-
-  /*	für das ausblenden oben und unten: */
-  mask-image: linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+  /* transition: all 800ms ease-out; */
   pointer-events: none;
-}
-.project_counter_line {
   user-select: none;
-  /* transition: opacity 550ms linear; */
   
-  /* border: 1px solid red; */
+  /*	für das ausblenden oben und unten: */
+  /* mask-image: linear-gradient(rgba(0,0,0,0) 0%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%); */
+}
+
+/* HH Stil über die CSS-Klasse steuern 
+ * inkl. Maske, weil Orange etwas mehr Kontrast braucht.
+ * Maske verfeinert in Richtung der von den Designern vorgeschlagenen Werte 10 / 30 / 100
+ */
+.project_counter.projekt {
+  mix-blend-mode: difference;
+  color: white;
+  mask-image: linear-gradient(0deg, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 25%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0) 100%);
+}
+.project_counter.diplom {
+  color: var(--Primitives-color-identity-Signal-Red);
+  mask-image: linear-gradient(0deg, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 25%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0) 100%);
+}
+
+/* HH Helper zum visualisieren der Maske */
+/* #dummy {
   display: block;
-  
+  content: '';
+  position: absolute;
+  z-index: 100;
+  width: 3em;
+  height: 180px;
+  background: linear-gradient(0deg, red 15%,green 25%, green 40%, yellow 50%, yellow 70%, orange 80%, red 100%);
+  bottom: 0;
+  left: 0;
+} */
+
+.project_counter_line {
+  /* transition: opacity 550ms linear; */
+  /* border: 1px solid red; */
+  /* pointer-events: none; */
+  display: block;  
   width: fit-content;
   height: 48px;
-  pointer-events: none;
-  
 }
 
 .content {
@@ -121,11 +156,11 @@ const getLineClass = (treeInfoIdx:number, idx:number, ): {} => {
 
   font-size: 20px;
   font-weight: 400;
-  
 }
 
-.highlight {
+/* HH wird nicht mehr verwendet, stattdessen mix-blend-mode wenn props.settype = projekt */
+/* .highlight {
   text-shadow: var(--Colors-background-default, #F3F2EF) 0px 0 24px;
-}
+} */
 
 </style>
