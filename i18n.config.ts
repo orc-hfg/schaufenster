@@ -35,6 +35,8 @@ export default defineI18nConfig(() => ({
                 label_filter_project_type: "Projektkategorie",
                 label_filter_project_leader: "Betreuer/in",
                 label_filter_semester: "Semester",
+                label_show_all:"Zeige mehr",
+                label_show_less:"Zeige weniger",
             },
             setlist: {
                 intro_title_project: "Alle",
@@ -135,6 +137,8 @@ export default defineI18nConfig(() => ({
                 label_filter_project_type: "Projekt-Kategorie",
                 label_filter_project_leader: "Betreuer/in",
                 label_filter_semester: "Semester",
+                label_show_all:"Show all",
+                label_show_less:"Show less",
             },
             setview: {
                 btn_title_nav_back: "Back",

@@ -264,6 +264,15 @@ const isHideIfNotSubString = (data:string): boolean => {
   return !isSubString(data)
 }
 
+const getTagCount = (meta_key: string): number => {
+  if (globalMap.value[meta_key]) {
+    return Object.keys(globalMap.value[meta_key]).length
+  }
+  return 10;
+}
+const toggleShowAll = (meta_key:string) => {
+  showAll.value[meta_key] = !showAll.value[meta_key]
+}
 const getFilterTagClass = (type:string, meta_key: string, filterInfo) => {
   getShowAll(type, meta_key, filterInfo.id)
   return {
@@ -330,7 +339,7 @@ onMounted(() => {
       MK_SEMESTER].forEach(meta_key => {
 
         const fc_elem = document.getElementById('filter_cloud_' + meta_key)
-        const height = fc_elem?.getBoundingClientRect().height || 164
+        const height = fc_elem?.getBoundingClientRect().height || 54 //164
         showAllHeight.value[meta_key] = height + 'px';
       })
       console.log("got show heights: " + JSON.stringify(showAllHeight.value))
@@ -371,7 +380,7 @@ const switch2SetView = (tree_col_id: string) => {
 
 const getShowAllStyle = (meta_key) => {
   if (!showAll.value[meta_key]) {
-    return {}
+    return { height: '56px'}
   } 
   return {height: showAllHeight.value[meta_key]}
 }
@@ -407,16 +416,20 @@ const getShowAllStyle = (meta_key) => {
             </svg>
             {{$t('filter.btn_close_label')}}
           </button> -->
-          <input class="filter_text_input"
-            type="text"
-            @input="changedFilterTitle"
-            v-model="newFiltersTitle"/>
-          <div class="filter_text_clear"
-            @click="newFiltersTitle = '';updateFilteredCounts()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M6 6L18 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+
+          <!-- slightly different construction */ -->
+          <div class="input_wrapper">
+            <input class="filter_text_input"
+              type="text"
+              @input="changedFilterTitle"
+              v-model="newFiltersTitle"/>
+            <div class="filter_text_clear"
+              @click="newFiltersTitle = '';updateFilteredCounts()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 6L18 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
           </div>
 
           <button class="btn_close"
@@ -456,8 +469,8 @@ const getShowAllStyle = (meta_key) => {
           </div>
           <button class="btn_show_all"
             @click="showAll[MK_KEYWORDS] = !showAll[MK_KEYWORDS]">
-            <span v-if="!showAll[MK_KEYWORDS]">+ Show all</span>
-            <span v-else>- Show less</span>
+            <span v-if="!showAll[MK_KEYWORDS]">+&nbsp;&nbsp;Show all</span>
+            <span v-else>-&nbsp;&nbsp;Show less</span>
           </button>
           
         </div>
@@ -481,11 +494,15 @@ const getShowAllStyle = (meta_key) => {
               </button>
             </div>
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_AUTHORS)"
+            :show-all="showAll[MK_AUTHORS]"
+            :count="getTagCount(MK_AUTHORS)"/>
+          <!--<button class="btn_show_all"
             @click="showAll[MK_AUTHORS] = !showAll[MK_AUTHORS]">
-            <span v-if="!showAll[MK_AUTHORS]">+ Show all</span>
-            <span v-else>- Show less</span>
-          </button>
+            <span v-if="!showAll[MK_AUTHORS]">+&nbsp;&nbsp;Show all</span>
+            <span v-else>-&nbsp;&nbsp;Show less</span>
+          </button>-->
         </div>
         
 
@@ -506,11 +523,15 @@ const getShowAllStyle = (meta_key) => {
               </button>
             </div>
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_PARTICIPANTS)"
+            :show-all="showAll[MK_PARTICIPANTS]"
+            :count="getTagCount(MK_PARTICIPANTS)"/>
+          <!--<button class="btn_show_all"
             @click="showAll[MK_PARTICIPANTS] = !showAll[MK_PARTICIPANTS]">
-            <span v-if="!showAll[MK_PARTICIPANTS]">+ Show all</span>
-            <span v-else>- Show less</span>
-          </button>
+            <span v-if="!showAll[MK_PARTICIPANTS]">+&nbsp;&nbsp;Show all</span>
+            <span v-else>-&nbsp;&nbsp;Show less</span>
+          </button>-->
         </div>
         
 
@@ -532,11 +553,16 @@ const getShowAllStyle = (meta_key) => {
               </button>
             </div>
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_PROGRAM_OF_STUDY)"
+            :show-all="showAll[MK_PROGRAM_OF_STUDY]"
+            :count="getTagCount(MK_PROGRAM_OF_STUDY)"/>
+            
+          <!-- <button class="btn_show_all"
             @click="showAll[MK_PROGRAM_OF_STUDY] = !showAll[MK_PROGRAM_OF_STUDY]">
-            <span v-if="!showAll[MK_PROGRAM_OF_STUDY]">+ Show all</span>
-            <span v-else>- Show less</span>
-          </button>
+            <span v-if="!showAll[MK_PROGRAM_OF_STUDY]">+&nbsp;&nbsp;Show all</span>
+            <span v-else>-&nbsp;&nbsp;Show less</span>
+          </button> -->
         </div>
         
 
@@ -558,11 +584,15 @@ const getShowAllStyle = (meta_key) => {
               </button>
             </div>
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_PROJECT_TYPE)"
+            :show-all="showAll[MK_PROJECT_TYPE]"
+            :count="getTagCount(MK_PROJECT_TYPE)"/>
+          <!--<button class="btn_show_all"
             @click="showAll[MK_PROJECT_TYPE] = !showAll[MK_PROJECT_TYPE]">
-            <span v-if="!showAll[MK_PROJECT_TYPE]">+ Show all</span>
-            <span v-else>- Show less</span>
-          </button>
+            <span v-if="!showAll[MK_PROJECT_TYPE]">+&nbsp;&nbsp;Show all</span>
+            <span v-else>-&nbsp;&nbsp;Show less</span>
+          </button>-->
           
         </div>
         
@@ -584,11 +614,15 @@ const getShowAllStyle = (meta_key) => {
               </button>
             </div>
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_PROJECT_LEADER)"
+            :show-all="showAll[MK_PROJECT_LEADER]"
+            :count="getTagCount(MK_PROJECT_LEADER)"/>
+          <!--<button class="btn_show_all"
             @click="showAll[MK_PROJECT_LEADER] = !showAll[MK_PROJECT_LEADER]">
-            <span v-if="!showAll[MK_PROJECT_LEADER]">+ Show all</span>
-            <span v-else>- Show less</span>
-          </button>
+            <span v-if="!showAll[MK_PROJECT_LEADER]">+&nbsp;&nbsp;Show all</span>
+            <span v-else>-&nbsp;&nbsp;Show less</span>
+          </button>-->
         </div>
         
 
@@ -611,11 +645,15 @@ const getShowAllStyle = (meta_key) => {
             </div>
             
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_SEMESTER)"
+            :show-all="showAll[MK_SEMESTER]"
+            :count="getTagCount(MK_SEMESTER)"/>
+          <!--<button class="btn_show_all"
             @click="showAll[MK_SEMESTER] = !showAll[MK_SEMESTER]">
-            <span v-if="!showAll[MK_SEMESTER]">+ Show all</span>
-            <span v-else>- Show less</span>
-          </button>
+            <span v-if="!showAll[MK_SEMESTER]">+&nbsp;&nbsp;Show all</span>
+            <span v-else>-&nbsp;&nbsp;Show less</span>
+          </button>-->
           
         </div>
         
@@ -717,36 +755,28 @@ nav {
 .hidden .wrapper_left {
   opacity: 0;
 }
+
+/* HH Vorschlag, Header und seine Elemente homogener aufzubauen 
+ * Ref.: https://cloud.hfg-karlsruhe.de/s/YD9K3e3qE5etBWc
+*/
 .wrapper_mid {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 768px;
+
+  /* width: 768px;
   position: absolute;
   left: calc(50% - 384px);
+   */
+  margin: 0 auto;
   
-  gap: var(--margin-navbar-institution-logo-right, 10px);
+  /* gap: var(--margin-navbar-institution-logo-right, 10px); */
+  gap: var(--spacing-between-menu-items, 20px);
   flex-shrink: 0;
   transition: all 500ms ease-out;
 }
 .hidden .wrapper_mid {
   transform: translateY(-10vh);
-}
-
-.btn_apply {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-navbar-between-items, 4px);
-
-  border: none;
-  color: var(--Colors-text-primary, #2C2C2C);
-
-/* Buttons */
-font-family: "Instrument Sans";
-font-size: var(--font-button-font-size, 20px);
-font-style: normal;
-font-weight: 400; letter-spacing: 0.02rem;
-line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
 .btn_logo {
@@ -764,12 +794,35 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   transform: scale(0.83);
 }
 
-.btn_apply .label {
+/* quasi-helper-class, trying to be more "dry" */
+.btn_apply,
+.btn_close,
+.filter_text_input,
+.filter_headline,
+.btn_show_all,
+.keyword_item {
+  font-family: "Instrument Sans";
+  font-size: var(--font-button-font-size, 20px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-button-line-height, 24px);
+}
+
+.btn_apply {
+  /* display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-navbar-between-items, 4px); */
+  border: none;
+  color: var(--Colors-text-primary, #2C2C2C);
+  padding: var(--padding-item-vertical-M, 12px) 0;
+}
+/* .btn_apply .label {
   display: flex;
   padding-right: var(--margin-navbar-institution-logo-right, 10px);
   align-items: center;
   gap: var(--margin-navbar-institution-logo-right, 10px);
-}
+} */
+
 .btn_close {
   cursor: pointer;
   user-select: none;
@@ -778,32 +831,32 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-navbar-between-items, 4px);
+  /* gap: var(--spacing-navbar-between-items, 4px); */
+  gap: var(--spacing-between-items, 12px);
 
   border-radius: var(--radius-full, 9999px);
   border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
 
   color: var(--Colors-text-primary, #2C2C2C);
-
-/* Buttons */
-  font-family: "Instrument Sans";
-  font-size: var(--font-button-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 .btn_close:hover {
-  
   background: var(--Colors-nav-bar-button-fill-hover, #E7E6E1);
 }
 
-.filter_text_input {
+/* HH Wrapper für Input-Element und "x" */
+.input_wrapper {
+  position: relative;
+}
 
-  display: flex;
+.filter_text_input {
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-L, 16px);
+  /* HH stops entered text before "x" */
+  padding-right: calc(var(--spacing-between-items, 12px) * 3.5);
+  
+  /* display: flex;
   justify-content: space-between;
   align-items: center;
-  flex: 1 0 0;
+  flex: 1 0 0; */
 
   border-radius: var(--radius-full, 9999px);
   border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
@@ -811,22 +864,15 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
 
   color: var(--Colors-filter-searchbar-text-active, #2C2C2C);
 
-/* Buttons */
-font-family: "Instrument Sans";
-font-size: var(--font-button-font-size, 20px);
-font-style: normal;
-font-weight: 400; letter-spacing: 0.02rem;
-line-height: var(--font-button-line-height, 24px); /* 120% */
-
- outline: none;
- box-shadow: none;
+  outline: none;
+  box-shadow: none;
 }
 .filter_text_clear {
   cursor: pointer;
   user-select: none;
-  position: relative;
-  left: -48px;
-  top: 3px;
+  position: absolute;
+  right: var(--spacing-between-items, 12px);
+  top: 25%;
 }
 
 
@@ -923,13 +969,6 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
 
   color: var(--Colors-text-secondary, #CAC9C2);
 
-  font-family: "Instrument Sans";
-  font-size: var(--font-subline-font-size, 20px);
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0.2px;
-  line-height: var(--font-subline-line-height, 24px) /* 120% */;
-
   /* padding-bottom: var(--padding-item-vertical-L); */
   height: 36px;
 }
@@ -966,12 +1005,7 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   color: var(--text-primary, #2C2C2C);
 
   border: none;
-  /* Buttons */
-  font-family: "Instrument Sans";
-  font-size: var(--font-button-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-button-line-height, 24px); /* 120% */
+
 }
 
 .keyword_item {
@@ -991,12 +1025,6 @@ line-height: var(--font-button-line-height, 24px); /* 120% */
   border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 
   color: var(--Colors-filter-chip-text-default, #2C2C2C);
-  
-  font-family: "Instrument Sans";
-  font-size: var(--font-button-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
 .filter_count {
