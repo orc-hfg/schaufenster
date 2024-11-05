@@ -103,8 +103,11 @@
           TODO docs
         </div>
         <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'image'"
-          class="main_preview"
-          :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
+          class="main_preview">
+          <div
+            class="image_slide" 
+            :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
+          </div>
         </div>
       <!-- </div> -->
         
@@ -133,16 +136,27 @@
       @added-filter="addedFilter"
     />
 
+    <!-- class="btn_bottom_nav_hide" -->
+    <Transition name="fade">
+      <div
+        v-if="!showInfo && !animate_view_io"
+        @click="toggleShowBottomNav()"
+        class="btn_bottom_nav_toggle">
+        <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
+      </div>
+    </Transition>
 <!-- TODO broken fade transition?? -->
-    <div class="bottom_nav" :class="{hidden: showInfo}">
-      <Transition name="fade">
+    <div class="bottom_nav" 
+    :class="{hidden: !showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control }"
+      >
+      <!-- <Transition name="fade">
         <div
           v-if="!showInfo && !animate_view_io"
           @click="toggleShowBottomNav()"
           class="btn_bottom_nav_hide">
           <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
         </div>
-      </Transition>
+      </Transition> -->
       <swiper
         :modules="modules"
         class="swiper_nav"
@@ -1150,33 +1164,21 @@ const handleMouseLeave = () => {
   width: 100vw;
   height: 100vh;
   background-color: var(--Colors-background-default, #F3F2EF);  
-  transition: all 300ms ease-out;
-  /* background: var(--background-default, #F3F2EF); */
+  /* transition: all 300ms ease-out; */
+  transition: background-color 300ms ease-out;
 }
-
 
 .swiper_main {
-  /* border: 1px solid red; */
-  position: fixed;
-  
-  left: 0px;
-  width: 100vw;
-  top: 80px;
-  height: calc(100vh - 280px);
+  /* HH to correctly position prev-nex-arrows */
+  --margin-top-swiper: 80px;
 
-  margin: 0px 0px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  margin: 0;
   opacity: 1;
-  
-}
-.swiper_main.nozoom {
-  top: 80px;
-  height: calc(100vh - 280px);
-  transition: all 300ms ease-out;
-}
-.swiper_main.zoom {
-  top: 0px;
-  height: 100vh;
-  transition: all 300ms ease-out;
 }
 
 .swiper-slide.main_slide {
@@ -1186,38 +1188,239 @@ const handleMouseLeave = () => {
 }
 .swiper-slide .swiper-slide-transform {
   /* width: 100%; */
-  height: 100%;
+  /* height: 100%; */
 }
+
 .main_preview {
   /* border: 1px solid green; */
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat; */
+  opacity: 1;
+  transition: all 300ms ease-in;
+}
+
+.image_slide {
   width: 100%;
   height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 1;
-  transition: all 500ms linear;
+  transition: all 400ms ease-out;
 }
+
+/* HH TODO video_slide Höhe begrenzen wenn controls open */
+/* Umschalter der bottom nav hat momentan noch Probleme */
+.video_slide,
+.audio_slide {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: all 400ms ease-out;
+}
+.main_preview_subset {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 80%;
+}
+.main_preview_subset div {
+  
+  display: block;
+  float: left;
+  
+  width: 46%;
+  height: 46%;
+  margin: 2%;
+  background-color: var(--Primitives-color-greys-ORCBlack)
+}
+
+/*
+ * animate preview
+ * HH Das größte Problem ist das gleichzietige Skalieren und Positionieren.
+ * Dieser Ansatz scheint insgesamt am besten zu funktionieren.
+ * Voraussetzung DOM: "image_slide" als div innerhalb von "main_preview", 
+ * damit aber auch konsitent gegenüber "video_slide" und "audio_slide".
+ * Nachteil: die transition wirkt im Safari nicht 100% smooth
+ * Auch versucht: "transform: scale()"" mit css-animation 
+ * liefert zwar flüssige Animation aber unschönen Bewegungsverlauf wegen skalieren/positionieren.
+ */
+.nozoom .image_slide {
+  height: 75%;
+  margin-top: var(--margin-top-swiper);
+}
+.info_active .image_slide,
+.info_active .video_slide,
+.info_active .audio_slide {
+  width: 47%;
+  height: 65%;
+  margin-top: 20vh;
+  margin-left: 2%;
+}
+.nozoom .video_slide {
+  height: calc(100vh - 260px);
+  margin-top: var(--margin-top-swiper);
+}
+
+/* HH Ansatz mit transform: scale() und Animationen hat nicht geklappt:
+ * a) Nur skalieren würde funktionieren, aber in Kombination mit Positionierung unschöne Bewegungsabläufe
+ * b) zu kompliziert mit den unterschiedlichen Bedingunegen: von zoom her, von nozoom her, infos open, infos closed
+ */
+
+/* .nozoom .main_preview {
+  animation: zoom-in 300ms ease-out forwards;
+}
+@keyframes zoom-in {
+  0% {
+    transform: scale(1);
+    top: 0;
+  }
+  100% {
+    transform: scale(var(--scale-preview-nozoom));
+    top: var(--margin-top-preview-nozoom);
+  }
+}
+
+.zoom .main_preview {
+  animation: zoom-out 300ms ease-out forwards;
+}
+@keyframes zoom-out {
+  0% {
+    transform: scale(var(--scale-preview-nozoom));
+    top: var(--margin-top-preview-nozoom);
+  }
+  100% {
+    transform: scale(1);
+    top: 0;
+  }
+}
+
+.info_active .main_preview {
+  animation: zoom-out-info 300ms ease-out forwards;
+}
+@keyframes zoom-out-info {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(.5) translateX(0);
+  }
+  100% {
+    transform: scale(.5) translateX(-50%);
+  }
+} */
+
+
+
+.swiper_main.info_active .main_preview {
+  /* position: absolute;
+  left: 48px;
+  top: 10vh;
+  height: 74vh;
+  width: calc(50vw - 96px);
+  transition: all 500ms linear; */
+  /* width: calc(50vw - 32px); */
+
+  /* height: 50vh;
+  width: 48vw;
+  top: 25%;
+  left: 2vw;
+  transition: all 300ms ease-in; */
+}
+
+/* 
+ * toggle meta data 
+ */
+
+.entry_info {
+  z-index: 10;
+  /* border: 1px solid blue; */
+  background-color: var(--Colors-background-default);
+  transition: all 300ms ease-in;
+  /* transition-delay: 300ms; */
+}
+.entry_info.hidden {
+  transform: translateX(50vw);
+  transition: all 300ms ease-out;
+  /* "Kaugummi"-Effekt verhindern */
+  /* Siehe https://cloud.hfg-karlsruhe.de/index.php/f/1918387 */
+  visibility: hidden;
+}
+
+/* 
+ * toggle bottom nav 
+ */
+
+.bottom_nav {
+  /* border: 1px solid blue; */
+  position: fixed;
+  left: 0px;
+  width: calc(100vw - 192px);
+  /* background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF); */
+  bottom: 24px;
+  height: 144px;
+  z-index: 100;
+  transition: all 300ms ease-in;
+  transition-delay: 150ms;
+}
+.bottom_nav.hidden {
+  /* opacity: 0;
+  width: 0px;
+  visibility: hidden; */
+  bottom: -144px;
+  transition: all 300ms ease-out;
+}
+.btn_bottom_nav_toggle {
+  position: absolute;
+  bottom: 60px;
+  left: 24px;
+  width: var(--dimension-icon-size-L, 32px);
+  height: var(--dimension-icon-size-L, 32px);
+  width: 55px;
+  height: 55px;
+  z-index: 120;
+
+  cursor: pointer;
+  user-select: none;
+  
+  border-radius: 50%;
+  /* TODO color vars */
+  background: var(--color-blurs-project-img-blur, rgba(243, 242, 239, 0.30));
+  backdrop-filter: blur(10px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+ * 
+ */
+
+
 .swiper_main.hidden .main_preview {
   transition: opacity 300ms ease-out;
   opacity: 0;
 }
 .video_slide {
-  position:absolute;
   /* TODO gleiche hoehe wie img slide */
   /* top: 88px; bottom: 128px; */
+  /* position:absolute;
   height: 100%;
   width: 100%;
-  margin: auto;  
+  margin: auto;   */
 }
 .audio_slide {
   /* TODO gleiche hoehe wie img slide */
-  width: 100%;
+  /* width: 100%;
   height: 100%;
-  margin: auto;
+  margin: auto; */
 }
 .audio_player {
 
@@ -1242,73 +1445,7 @@ const handleMouseLeave = () => {
   align-items: center;
   color: var(--Colors-text-primary, #2C2C2C)  
 }
-.main_preview_subset {
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 60%;
-  height: 80%;
-}
-.main_preview_subset div {
-  
-  display: block;
-  float: left;
-  
-  width: 46%;
-  height: 46%;
-  margin: 2%;
-  background-color: var(--Primitives-color-greys-ORCBlack)
-}
 
-.info_active {
-  transition: all 500ms linear;
-}
-
-.swiper_main.info_active,
-.swiper_main.info_active.zoom {
-  /* border: 1px solid green; */
-  transition: all 500ms linear;
-  top: 80px;
-  height: 85vh;
-}
-.swiper_main.info_active .main_preview {
-  /* border: 1px solid red; */
-  position: absolute;
-  left: 48px;
-  top: 10vh;
-  height: 74vh;
-  width: calc(50vw - 96px);
-  transition: all 500ms linear;
-}
-
-.entry_info {
-  z-index: 10;
-  /* border: 1px solid blue; */
-  background-color: var(--Colors-background-default);
-  transition: all 500ms linear;
-}
-.entry_info.hidden {
-  transform: translateX(50vw);
-  transition: all 500ms linear;
-}
-
-
-.bottom_nav {
-  /* border: 1px solid blue; */
-  position: fixed;
-  left: 0px;
-  width: calc(100vw - 192px);
-  /* background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF); */
-  bottom: 24px;
-  height: 144px;
-  z-index: 100;
-  transition: all 500ms linear;
-}
-.bottom_nav.hidden {
-  opacity: 0;
-  width: 0px;
-  visibility: hidden;
-}
 .av_control {
   display: block;
   /* border: 1px solid green; */
@@ -1388,24 +1525,101 @@ progress {
 }
 
 
-
+/* 
+ * HH wird nicht mehr individuell angesteuert.
+ * Animation über den container "bottom_nav"
+ */
 .swiper_nav {
   /* border: 1px solid red; */
   
-  width: 100%;
+  /* width: 100%;
   height: 144px;
   position: absolute;
   top: 0px;
-  left: 96px;
-  transition: all 500ms ease-out;
+  left: 96px; */
+  /* transition: all 300ms ease-out; */
   overflow: visible;
+  margin-left: 96px;
 }
 .swiper_nav.hidden {
-  visibility: hidden;
-  transform: translateY(180px);
+  /* visibility: hidden;
+  transform: translateY(180px); */
   /* top: 180px; */
 }
-.nav_slide {
+
+/* 
+ * TODO larger click area
+ * HH trying different method
+ */
+
+.swiper-main-button-prev,
+.swiper-main-button-next {
+  --btn-prev-next-size: 96px;
+  --btn-prev-next-half-size: calc(var(--btn-prev-next-size) / 2);
+
+  position: fixed;
+  z-index: 10;
+
+  width: var(--btn-prev-next-size);
+  height: var(--btn-prev-next-size);
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  transition: top 300ms ease-in;
+
+  visibility: visible;
+}
+
+/* 
+ * TODO swiper main nav btn position > DONE?
+ * HH trying relative values 
+ */
+ /* horizontal */
+ .swiper-main-button-prev {
+  left: 0;
+}
+.swiper-main-button-next {
+  right: 0;
+}
+.info_active .swiper-main-button-next {
+  right: 50vw;
+}
+/* vertical */
+.nozoom .swiper-main-button-prev,
+.nozoom .swiper-main-button-next { 
+  top: calc(50% - var(--margin-top-swiper));
+  margin-top: calc(var(--btn-prev-next-half-size) * -1);
+}
+.zoom .swiper-main-button-prev,
+.zoom .swiper-main-button-next { 
+  top: 50vh;
+  margin-top: calc(var(--btn-prev-next-half-size) * -1);
+}
+.info_active .swiper-main-button-next,
+.info_active .swiper-main-button-prev {
+  top: 50%;
+  margin-top: calc(var(--btn-prev-next-half-size) * -1);
+}
+
+
+.swiper-button-disabled {
+  visibility: hidden;
+}
+.swiper-main-button-prev:hover,
+.swiper-main-button-next:hover {
+  /* cursor: pointer; */
+  /* opacity: 1; */
+}
+
+/*
+ *
+ */
+
+
+ .nav_slide {
   width: fit-content !important;
   height: 95px;
   margin-top: 24px;
@@ -1650,54 +1864,6 @@ progress {
   opacity: 0;
 }
 
-/* TODO larger click area */
-.swiper-main-button-prev,
-.swiper-main-button-next 
-{
-  position: fixed;
-  top: calc(45vh - 24px);
-
-  display: flex;
-  width: 48px;
-  height: 48px;
-  padding: 5px;
-  justify-content: center;
-  align-items: center;
-  gap: var(--margin-navbar-institution-logo-right, 10px);
-  flex-shrink: 0;
-
-  cursor: pointer;
-  z-index: 10;
-}
-
-/* TODO swiper main nav btn position */
-.swiper-main-button-prev {
-  
-  left: 24px;
-}
-.swiper-main-button-next {
-  right: 24px;
-}
-.swiper_main.info_active .swiper-main-button-prev {
-  position: absolute;
-  top: calc(55% - 24px);
-  left: 62px;
-}
-.swiper_main.info_active .swiper-main-button-next {
-  position: absolute;
-  top: calc(55% - 24px);
-  right: calc(50vw + 62px);
-}
-
-.swiper-button-disabled {
-  visibility: hidden;
-
-}
-.swiper-main-button-prev:hover,
-.swiper-main-button-next:hover {
-  /* cursor: pointer; */
-  /* opacity: 1; */
-}
 
 .entry_info_title {
   user-select: none;
