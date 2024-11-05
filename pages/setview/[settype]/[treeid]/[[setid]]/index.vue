@@ -435,7 +435,6 @@ const avProgressClicked = (ev:PointerEvent) => {
   const entryId = activeEntryId.value
   const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
   const progressEl = document.getElementById('av_progress')
-debugger
   const pos =
       (ev.pageX - progressEl.offsetLeft - progressEl.offsetParent.offsetLeft - progressEl.offsetParent.offsetParent.offsetLeft) /
     progressEl.offsetWidth;
