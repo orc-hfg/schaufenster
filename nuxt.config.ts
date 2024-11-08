@@ -5,7 +5,18 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/i18n", "nuxt-swiper", "@pinia/nuxt"],
   app: {
     baseURL: '/schaufenster',
-
+    head: {
+      "meta": [
+        {
+          "name": "viewport",
+          "content": "width=device-width, initial-scale=1, maximum-scale=2, minimum-scale=1"
+          // interactive-widget 
+        },
+        {
+          "charset": "utf-8"
+        }
+      ],
+    },
     pageTransition: { name: 'page', mode: 'in-out'}
   },
   routeRules: {
@@ -21,7 +32,18 @@ export default defineNuxtConfig({
   },
   $production: {
     app: {
-      baseURL: '/schaufenster'
+      baseURL: '/schaufenster',
+      head: {
+        "meta": [
+          {
+            "name": "viewport",
+            "content": "width=device-width, initial-scale=1, maximum-scale=2, minimum-scale=1"
+          },
+          {
+            "charset": "utf-8"
+          }
+        ],
+      }
       //pageTransition: { name: 'page', mode: 'out-in'}
     },
   },
