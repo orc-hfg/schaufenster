@@ -13,6 +13,7 @@
       
       :titles-map="currentTree.colTitlesMap"
       :theme="data_theme"
+      :path-to-root="path2root"
       @toggle-show-info="toggleShowInfo"
       @parent-clicked="clickedParent"
       @grand-parent-clicked="switch2Set"
@@ -64,8 +65,13 @@
         v-for="(el,index) in entries"
         :key="el.id" :virtualIndex="index">
 
+        <div v-if="el.isSubSet == true"
+          class="main_preview_subset">
+          <div></div><div></div>
+          <div></div><div></div>
+        </div>
         <!-- <div class="swiper-slide-transform"> -->
-        <div v-if="currentTree.previewsAudio[el.id]"
+        <div v-else-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
           <div class="audio_slide"
             @click="toggleStatePlay(!av_state_play)"
@@ -117,7 +123,7 @@
 
 
     <EntryAndSetInfo
-      v-if="currentTree && currentTree.colTitlesMap"
+      v-if="currentTree && currentTree.colTitlesMap &&  !entries[activeEntryIndex].isSubSet"
       :class="{hidden: !showInfo}"
       :active-entry-id="activeEntryId"
       :active-set-id="activeSetId"
@@ -343,16 +349,19 @@ const toggleShowBottomNav = () => {
   
 }
 
-const clickedParent = (col_id) => {
+const clickedParent = (col_id: string) => {
   
   if (col_id == activeSetId.value) {
+    const idx = entries.value.findIndex( (elem) => { return elem.collection_id == col_id})
+    console.log(" for active found idx " + idx)
     // TODO slide to subslide elem
-    swiperMain.value.slideTo(0)
+    swiperMain.value.slideTo(idx)
   }
   else if (col_id == setid.value) {
     swiperMain.value.slideTo(0)
   }
-  else if (col_id == parent_id.value) {
+  else //if (col_id == parent_id.value) 
+  {
     switch2Set(col_id)
   }
 }
@@ -714,9 +723,11 @@ const on_av_time_update = () => {
 }
 
 const data_theme = ref('')
+const activeEntryIndex = ref(0)
 
 const onMainSwiperSlideChanged = () => {
     const activeSlide = swiperMain.value?.activeIndex;
+    activeEntryIndex.value = activeSlide
     /* console.log("swiperMain changed slide: " + activeSlide) */
     const entry = entries.value[activeSlide]
     const colId = entry.collection_id
@@ -854,29 +865,36 @@ const setNavSwiper = (swiper) => {
 //TODO preview audio ?
 const initSubSetPreview = (childId:string, subChildId:string) => {
   const subEntries = currentTree.value.edges[childId][subChildId].entries;
-      
-      const newSubSlide = {
-        type:NavSlideType.Set,
-        entry: undefined as unknown as iMediaEntry,
-        entry_id: "" + currentTree.value.edges[childId][subChildId].coverId,
-        cover_id: "" + currentTree.value.edges[childId][subChildId].coverId,
-        cover_entry_ids: [] as string[],
-        collection_id: subChildId,
-        index: navSlider.value.slides.length,
-        setIdx: 0,
-        mainIdx: 0
-      } as iNavSlide
-
-      let sec = 0;
-      for (const subEntryId in subEntries) {
-        newSubSlide.cover_entry_ids.push(subEntryId)
-        sec++
-        if (sec > 3) {
-          break
-        }
-      
-      }
-      navSlider.value.slides.push(newSubSlide)
+  
+  const dummySlide = {
+    id: "collection_" + subChildId,
+    collection_id: subChildId,
+    isSubSet: true,
+    mainIdx: entries.value.length
+  }
+  entries.value.push(dummySlide);
+  const newSubSlide = {
+    type:NavSlideType.Set,
+    entry: undefined as unknown as iMediaEntry,
+    entry_id: "" + currentTree.value.edges[childId][subChildId].coverId,
+    cover_id: "" + currentTree.value.edges[childId][subChildId].coverId,
+    cover_entry_ids: [] as string[],
+    collection_id: subChildId,
+    index: navSlider.value.slides.length,
+    setIdx: 0,
+    mainIdx: 0
+  } as iNavSlide
+  /* no more real preview */
+  let sec = 0;
+  for (const subEntryId in subEntries) {
+    newSubSlide.cover_entry_ids.push(subEntryId)
+    sec++
+    if (sec > 3) {
+      break
+    }
+  }
+  navSlider.value.slides.push(newSubSlide)
+  navSlider.value.entryId2Idx[dummySlide.id] = newSubSlide.index
 }
 
 // DONE: BUG: after init jumps one position over next slide
@@ -936,7 +954,7 @@ const initSetEntries = (parentId:string, setId:string, els):number => {
         } as iNavSlide;
         setIdx++
         navSlider.value.slides.push(newSlide)
-        navSlider.value.entryId2Idx[eId] = newSlide.index  
+        navSlider.value.entryId2Idx[eId] = newSlide.index
       }
       mx++
       }
@@ -1224,7 +1242,23 @@ const handleMouseLeave = () => {
   align-items: center;
   color: var(--Colors-text-primary, #2C2C2C)  
 }
-
+.main_preview_subset {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 80%;
+}
+.main_preview_subset div {
+  
+  display: block;
+  float: left;
+  
+  width: 46%;
+  height: 46%;
+  margin: 2%;
+  background-color: var(--Primitives-color-greys-ORCBlack)
+}
 
 .info_active {
   transition: all 500ms linear;

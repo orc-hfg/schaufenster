@@ -252,7 +252,7 @@ const getContentHeight = () => {
     console.log("got height for " + id + " : " + height)
     return toPxHeight(height)
   }
-  console.error("no height yet")
+  //console.error("no height yet")
   if (props.md.type == MD_TYPE_KEYWORDS
     || props.md.type == MD_TYPE_PEOPLE
     || props.md.type == MD_TYPE_ROLES

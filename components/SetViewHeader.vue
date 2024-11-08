@@ -28,8 +28,40 @@
           </span>
       </NuxtLink>
       -->
+<!--
+      <NuxtLink class="navbar_set_link parent_link animate_up"
+          
+          :class="{
+            showPath2Root: true,
+            hidden_move_up: hideNav || showInfo || introRunning,
+            }"
+          :style="{width: getTitleWidth(treeid)}"
+          @click="emit('parentClicked', treeid)"
+          >
+          <span
+            :style="{width: getTitleWidth(treeid) }">
+            {{ getColTitle(treeid) }}
+          </span>
+      </NuxtLink>
+-->
+      <div class="link_wrapper"
+        @mouseover="setShowPath2Root(true)"
+        @mouseleave="setShowPath2Root(false)">
+
+        <NuxtLink class="navbar_set_link parent_link animate_up"
+          v-for="path_set_id in pathToRoot"
+          :class="{ hidden_move_up: hideNav || showInfo || introRunning }"
+          :style="getLinkStyle(path_set_id)"
+          @click="emit('parentClicked', path_set_id)"
+          >
+          <span>
+              {{ isShowTitle(path_set_id) ? getColTitle(path_set_id) : '&nbsp;...' }}
+          </span>
+        </NuxtLink>
+      </div>
 
       <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ setid" -->
+      <!--
       <NuxtLink class="navbar_set_link parent_link animate_up"
           v-if="activeSetId !== setid"
           :class="{
@@ -47,8 +79,11 @@
             {{ showPath2Root ? getColTitle(setid) : '&nbsp;...' }}
           </span>
       </NuxtLink>
+      -->
+      
 
       <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId" -->
+      <!--
       <NuxtLink class="navbar_set_link parent_link animate_up"
         v-else-if="activeSetId == setid && parentSetId !== 'root'"
         :class="{
@@ -65,14 +100,16 @@
          {{showPath2Root ? getColTitle(parentSetId) : '&nbsp;...' }}
         </span>
       </NuxtLink>
-              
+      -->
+      
       <NuxtLink class="navbar_set_link animate_up"
         :class="{hidden_move_up: hideNav || showInfo || introRunning}"
-        @click="activeSetId == setid && emit('parentClicked', activeSetId)"
+        v-if="activeSetId !== setid"
+        @click="emit('parentClicked', activeSetId)"
         >
         {{ getColTitle(activeSetId) }}
       </NuxtLink>
-        
+      
           
       <!-- <Transition :css="true" name="fade"> -->
         <NuxtLink
@@ -125,7 +162,8 @@ const props = defineProps([
     'hideNav',
     'titlesMap',
     'theme',
-    'introRunning'
+    'introRunning',
+    'pathToRoot'
 ])
 
 watch(() => props.theme,() => {
@@ -134,9 +172,30 @@ watch(() => props.theme,() => {
 
 })
 
+
 const showPath2Root = ref(false)
 const showPath2Parent = ref(false)
 
+const getLinkStyle = (path_set_id:string) => {
+  const isShowTitle = 
+    (path_set_id == props.treeid)
+    ||
+    (path_set_id == props.activeSetId)
+    ||
+    showPath2Root.value
+  return {width: (isShowTitle ? getTitleWidth(path_set_id) : '24px')}
+}
+
+const isShowTitle = (path_set_id:string) => {
+  const ist = 
+    (path_set_id == props.treeid)
+    ||
+    (path_set_id == props.activeSetId)
+    ||
+    showPath2Root.value
+  
+  return ist
+}
 
 const setShowPath2Root = (value:boolean) => {
   if (value == true) {
@@ -182,6 +241,7 @@ const getTextWidth = (text:string, font:string):number => {
   const context = canvas.getContext("2d");
   context.font = font;
   const metrics = context.measureText(text);
+  console.log("width: " + text + " : " + metrics.width)
   return metrics.width;
   } catch (error) {
     console.error("getTextWidth: Error: " + error)
@@ -193,7 +253,7 @@ const getTextWidth = (text:string, font:string):number => {
 
 const getTitleWidth = (id:string): string => {
   //const result = getColTitle(id).length * 24;
-  const result = getTextWidth(getColTitle(id),"20px Instrument Sans")
+  const result = getTextWidth(getColTitle(id),"500 20px Instrument Sans")
   return (result + 10) + 'px';
 }
 
@@ -202,8 +262,6 @@ onMounted(() => {
   
   infoBtnStyle.value['background-color'] = getSetTypeColor(props.settype, theme)
   
-  //mergeSetTypeBackColor(props.settype, infoBtnStyle.value)
-
 })
 
 </script>
@@ -241,11 +299,19 @@ onMounted(() => {
   font-size: var(--font-button-font-size, 20px);
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-button-line-height, 24px); /* 120% */
-
-  
-  
+  line-height: var(--font-button-line-height, 24px); /* 120% */  
 }
+
+
+.link_wrapper {
+  border: 1px solid green;
+  position: relative;
+  display: contents;
+  height: 50px;
+  width: min-content;
+}
+
+
 .fade_out {
   opacity: 1;
   transition: all 800ms ease-out;
