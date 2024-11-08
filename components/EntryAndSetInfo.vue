@@ -163,13 +163,11 @@
 </template>
 <script setup lang="ts">
 const { 
-  locale,
-  setLocale
+  locale
 } = useI18n()
 
+const runtimeConfig = useRuntimeConfig()
 
-//TODO hide scrollbar
-//TODO show more btns for tags and text
 //TODO animation in vs out
 const {
   MD_TYPE_TEXT,
@@ -202,7 +200,9 @@ const scrolled = (event) => {
   const pos = document.getElementsByClassName('entry_info')[0].scrollTop
   emit('scrollPosChanged',[pos])
 }
-const MAX_SET_TITLE_LENGTH = 50;
+
+
+
 
 const isShowParentSetTitle = ():boolean => {
   const pid = props.parentSetId
@@ -214,7 +214,7 @@ const isShowParentSetTitle = ():boolean => {
       || !props.currentTree.colTitlesMap[pid].length) {
     return false
   }
-  if (props.currentTree.colTitlesMap[pid].length > MAX_SET_TITLE_LENGTH) {
+  if (props.currentTree.colTitlesMap[pid].length > runtimeConfig.public.SET_VIEW_PROJECT_TITLE_MAX_LENGTH) {
     return true
   }
   return false

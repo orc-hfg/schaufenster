@@ -98,13 +98,11 @@
   </header>
 </template>
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig()
 
 const SHOW_PATH2ROOT_DELAY = 500
-const MAX_SET_TITLE_LENGTH = 50;
 
 const {
-  mergeSetTypeColor,
-  mergeSetTypeBackColor,
   getSetTypeColor
 } = DynFonts()
 
@@ -169,8 +167,9 @@ const getColTitle = (id: string): string => {
     if (props.titlesMap) {
         result = props.titlesMap[id]
     }
-    if (result && result.length > MAX_SET_TITLE_LENGTH) {
-      result = result.substring(0,MAX_SET_TITLE_LENGTH) + '...'
+    const max = runtimeConfig.public.SET_VIEW_PROJECT_TITLE_MAX_LENGTH
+    if (result && result.length > max) {
+      result = result.substring(0,max) + '...'
     }
     return result
 }

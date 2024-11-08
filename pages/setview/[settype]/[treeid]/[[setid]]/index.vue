@@ -273,7 +273,7 @@
 </div>
 </template>
 <script setup lang="ts">
-
+const runtimeConfig = useRuntimeConfig()
 const route = useRoute();
 const router = useRouter();
 const {
@@ -441,16 +441,15 @@ const avProgressClicked = (ev:PointerEvent) => {
   avel.currentTime = pos * avel.duration;
 }
 
-const MAX_SET_TITLE_LENGTH = 50
 const getAbbrevColTitle = (setid: string): string => {
     
     if (!currentTree.value || !currentTree.value.colTitlesMap) {
       return ""
     }
     const title = currentTree.value.colTitlesMap[setid]
-         
-    if (title.length > MAX_SET_TITLE_LENGTH) {
-      return title.substring(0,MAX_SET_TITLE_LENGTH) + '...'
+    const max = runtimeConfig.public.SET_VIEW_PROJECT_TITLE_MAX_LENGTH
+    if (title.length > max) {
+      return title.substring(0, max) + '...'
     }
     return title
 }

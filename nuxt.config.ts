@@ -24,6 +24,11 @@ export default defineNuxtConfig({
       baseURL: '/schaufenster'
       //pageTransition: { name: 'page', mode: 'out-in'}
     },
+  },
+  runtimeConfig: {
+    public: {
+      SET_VIEW_PROJECT_TITLE_MAX_LENGTH: 50
+    }
   }
 
   //swiper: {
