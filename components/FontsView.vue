@@ -4,30 +4,38 @@
         data-theme="dark">
         <header>
             <nav class="nav">
-                <NuxtLink @click="doClose()">
+                <NuxtLink @click="doClose()"
+                    :class="{hidden:selector_open}">
                     <IconsNavHome />
                 </NuxtLink>
             </nav>
             <div class="wrapper_mid">
-                <div class="font_selector">
+                <div class="font_selector"
+                    @click="selector_open = !selector_open">
                     <div class="font_label">
-                    Select font
+                    {{ font_list[font_selected].name }}
                     </div>
-                    <select
-                        class="font_input"
-                        v-model="font_selected"
-                        @change="updateFont">
-                        <option 
-                            class="font_option"
-                            v-for="(f,idx) in font_list" :value="idx">
+                    <div class="font_dropper"
+                        >
+                        <IconsChevronUpDown :show-up="selector_open" />
+                    </div>
+                </div>
+                <div class="font_options"
+                    :class="{hidden: !selector_open}">
+                    <div 
+                        class="font_option"
+                        
+                        v-for="(f,idx) in font_list" :value="idx"
+                        @click="font_selected = idx; selector_open = false; updateFont()">
                         <!-- I:{{ idx }} F: {{ f }} -->
                         {{ f.name }}
-                        </option>
-                    </select>
-                    <div class="font_by">by</div>
-                    <a class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
-                    <div class="font_year">{{font_list[font_selected].year}}</div>
+                    </div>
                 </div>
+
+                    <!-- <div class="font_by">by</div>
+                        <a class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
+                    <div class="font_year">{{font_list[font_selected].year}}</div>
+                </div> -->
                 
                 
             </div>
@@ -61,9 +69,14 @@
 
       </div>
       
+      <div class="selector_blur"
+        v-if="selector_open">
+        
+      </div>
     </div>
 </template>
 <script setup lang="ts">
+//TODO merge settype color
 const {
     font_list,
     font_selected,
@@ -71,7 +84,10 @@ const {
 } = DynFonts()
 
 const emit = defineEmits(['onClose'])
+
 const font_style = ref(getPixelSizedStyle(210,240))
+
+const selector_open = ref(false)
 
 const updateFont = () => {
     font_style.value = getPixelSizedStyle(210,240)
@@ -81,26 +97,20 @@ const doClose = () => {
     animate_io.value = true
     setTimeout(() => {
         emit("onClose")
-    }, 250)
+    }, 300)
 }
 onMounted(() => {
     setTimeout(() => {
         animate_io.value = false
     }, 250)
     
+
 })
 
 </script>
 <style scoped>
 header {
-    /*position: fixed;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 72px;*/
     z-index: 1100;
-    /*background-color: var(--Colors-background-about, #2C2C2C);*/
-    /* border: 1px solid red; */
 }
 nav {
     float: left;
@@ -125,19 +135,32 @@ nav a svg {
 
 
 .font_selector {
+
     display: inline-flex;
+    
+    padding: var(--margin-navbar-institution-logo-right, 10px);
+    justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: var(--margin-navbar-institution-logo-right, 10px);
+
+    border-radius: var(--radius-full, 9999px);
+    border: 1px solid var(--Colors-nav-bar-button-outline, #524F4F);
+    background: #2C2C2C;
+
 
     font-family: "Instrument Sans";
     font-size: var(--font-button-font-size, 20px);
     font-style: normal;
     font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-button-line-height, 24px); /* 120% */
+
     color: var(--Colors-text-primary, #FFF);
+
+    cursor: pointer;
 }
 .font_label {
-    color: var(--Colors-text-secondary, #CAC9C2);
+    
+    color: var(--Colors-text-primary, #FFF);
     text-align: center;
 
     /* Buttons */
@@ -148,43 +171,35 @@ nav a svg {
     line-height: var(--font-button-line-height, 24px); /* 120% */
     padding-right: 5px;
 }
-.font_input {
+.font_dropper {
+    height: 24px;
+}
+
+.font_options {
+    position: absolute;
+    top: 64px;
     display: flex;
+    flex-direction: column;
+    gap: 7px;
+    transition: all 300ms ease-out;
+}
+.font_options.hidden {
+    opacity: 0;
+}
+
+.font_option {
+    display: flex;
+
     padding: var(--margin-navbar-institution-logo-right, 10px);
     justify-content: center;
     align-items: center;
     gap: var(--margin-navbar-institution-logo-right, 10px);
-
+    
     border-radius: var(--radius-full, 9999px);
-    border: 1px solid var(--nav-bar-button-outline, #524F4F);
+    border: 1px solid var(--Colors-nav-bar-button-outline, #524F4F);
     background: #2C2C2C;
 
     color: var(--Colors-text-primary, #FFF);
-
-    text-align: center;
-
-    /* font-family: gqom404; */
-
-    font-size: var(--font-button-font-size, 20px);
-    font-style: normal;
-    font-weight: 400; letter-spacing: 0.02rem;
-    line-height: var(--font-button-line-height, 24px); /* 120% */
-
-    margin-right: 5px;
-}
-
-.font_by {
-    margin-left: 5px;
-    
-}
-
-select > option,
-.font_option {
-    border-radius: var(--radius-full, 9999px);
-border: 1px solid var(--nav-bar-button-outline, #524F4F);
-background: #2C2C2C;
-
-    color: var(--text-primary, #FFF);
     text-align: center;
 
     /* Buttons */
@@ -193,10 +208,13 @@ background: #2C2C2C;
     font-style: normal;
     font-weight: 400; letter-spacing: 0.02rem;
     line-height: var(--font-button-line-height, 24px); /* 120% */
+
+    cursor: pointer;
 }
-.font_link {
+
+/* .font_link {
     text-decoration: underline;
-}
+} */
 
 .dialog_menu {
     position: fixed;
@@ -205,15 +223,26 @@ background: #2C2C2C;
     height: 100vh;
     z-index: 1000;
     
-    color: var(--Colors-text-primary-inverted, #fff);
-    background-color: var(--Colors-background-default, #2C2C2C);
-    transition: all 300ms linear;
+    /* color: var(--Colors-text-primary-inverted, #fff);
+     */
+     background-color: var(--Colors-background-default, #2C2C2C);
+     
+     /* "Kaugummi"-Effekt beim Aufziehen des Browserfensters verhindern */
+     /* Siehe https://cloud.hfg-karlsruhe.de/index.php/f/1918388 */
+    /* transition: all 300ms linear; */
+    transition: opacity 200ms ease-out;
     opacity: 1;
 }
 .dialog_menu.hidden {
-    transition: all 300ms linear;
+    transition: all 300ms ease-out;
+    opacity: 0;
+    transition-delay: 150ms;
+}
+.dialog_menu.hidden .menu_panel {
+    transition: all 150ms ease-out;
     opacity: 0;
 }
+
 .menu_panel {
     /* border: 3px solid red; */
     position: absolute;
@@ -223,13 +252,29 @@ background: #2C2C2C;
     height: 100vh;
     overflow-y: auto;
     
-    z-index: 1020;
+    z-index: 1010;
     filter: none;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
+
+    transition: all 150ms ease-out;
+    transition-delay: 150ms;
+    opacity: 1;
 }
+
 .menu_panel::-webkit-scrollbar {
     display: none;
+}
+.selector_blur {
+    
+    position: fixed;
+    top: 0px; left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1020;
+    
+    background: rgba(43, 42, 39, 0.30);
+    backdrop-filter: blur(25px);
 }
 .menu_panel * {
     align-items: center;
@@ -242,6 +287,7 @@ background: #2C2C2C;
 
 .font_test_view {
     padding-bottom: 20vh;
+    user-select: none;
 }
 .font_test {
     line-break: anywhere;
