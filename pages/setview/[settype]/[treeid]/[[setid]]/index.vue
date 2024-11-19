@@ -66,9 +66,30 @@
         :key="el.id" :virtualIndex="index">
 
         <div v-if="el.isSubSet == true"
-          class="main_preview_subset">
-          <div></div><div></div>
-          <div></div><div></div>
+          class="main_preview_subset"
+          @click="switch2Set(el.sub_set_id)">
+          <div class="subset_tiles"></div>
+          <div class="subset_tiles"></div>
+          <div class="subset_tiles"></div>
+          <div class="subset_tiles"></div>
+          
+          <!-- TODO style -->
+          <div class="subset_content">
+            <div class="subset_title">
+              {{getAbbrevColTitle(el.sub_set_id)}}
+            </div>
+            <button class="subset_btn">
+              <span>Open Set</span>
+              <!-- TODO icon -->
+              <span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 5L19 12L12 19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              </span>
+            </button>
+            
+          </div>
         </div>
         <!-- <div class="swiper-slide-transform"> -->
         <div v-else-if="currentTree.previewsAudio[el.id]"
@@ -209,7 +230,8 @@
           <div
             class="nav_preview nav_set"
             v-if="el.type === NavSlideType.Set"
-            @click="switch2Set(el.collection_id)">
+            @click="nav2Element(el)"
+            >
             <!-- :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }" -->
             <div class="nav_preview_subset"
               v-for="ceId in el.cover_entry_ids" :key="ceId">
@@ -246,7 +268,7 @@
           </div>
           <!-- highlight current element -->
           <div class="entry_highlight"
-            v-if="el.entry_id == activeEntryId">
+            v-if="isNavSlideHighlight(el)">
             <IconsEntryHighlight />
           </div>
 
@@ -345,6 +367,11 @@ const entryInfoScrollPosChanged = (pos) => {
   }
 }
 
+const isNavSlideHighlight = (el:iNavSlide) => {
+  const result = (el.entry_id == activeEntryId.value)
+    
+  return result
+}
 const toggleShowBottomNav = () => {
   const entryId = activeEntryId.value
   const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
@@ -679,6 +706,7 @@ interface iNavSlide {
   setIdx: number,
   mainIdx: number,
   collection_id: string,
+  
 }
 interface iNavSlider {
   slides: iNavSlide[]
@@ -747,10 +775,12 @@ const onMainSwiperSlideChanged = () => {
     const colId = entry.collection_id
     activeEntryId.value = entry.id
     activeSetId.value = colId
-    console.log("swiperMain changed slide: " + activeSlide
-      + " entry " + entry.id // JSON.stringify(entry)
-      + " colId " + colId) 
     const navIdx = navSlider.value.entryId2Idx[entry.id];
+    console.error("swiperMain changed slide: " + activeSlide
+      + " entry " + entry.id // JSON.stringify(entry)
+      + " colId " + colId
+      + " navIdx " + navIdx) 
+    
 
 
     
@@ -876,27 +906,31 @@ const setNavSwiper = (swiper) => {
   swiperNav.value = swiper;
 };
 
+const NAV_SUBSUBSET_PREFIX = 'subsubset_'
+
 //TODO preview audio ?
 const initSubSetPreview = (childId:string, subChildId:string) => {
   const subEntries = currentTree.value.edges[childId][subChildId].entries;
-  
+  // main swiper
   const dummySlide = {
-    id: "collection_" + subChildId,
-    collection_id: subChildId,
+    id: NAV_SUBSUBSET_PREFIX + subChildId,
+    collection_id: childId,
+    sub_set_id: subChildId,
     isSubSet: true,
     mainIdx: entries.value.length
   }
   entries.value.push(dummySlide);
+  // nav swiper
   const newSubSlide = {
     type:NavSlideType.Set,
     entry: undefined as unknown as iMediaEntry,
-    entry_id: "" + currentTree.value.edges[childId][subChildId].coverId,
+    entry_id: NAV_SUBSUBSET_PREFIX + subChildId,
     cover_id: "" + currentTree.value.edges[childId][subChildId].coverId,
     cover_entry_ids: [] as string[],
     collection_id: subChildId,
     index: navSlider.value.slides.length,
     setIdx: 0,
-    mainIdx: 0
+    mainIdx: entries.value.length
   } as iNavSlide
   /* no more real preview */
   let sec = 0;
@@ -1445,6 +1479,64 @@ const handleMouseLeave = () => {
   align-items: center;
   color: var(--Colors-text-primary, #2C2C2C)  
 }
+.main_preview_subset {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 80%;
+}
+.main_preview_subset div {
+  
+
+}
+.subset_tiles {
+  display: block;
+  float: left;
+  
+  width: 46%;
+  height: 46%;
+  margin: 2%;
+  background: rgba(0, 0, 0, 0.02);
+}
+.subset_content {
+  position: absolute;
+  top: calc(50% - 50px);
+  left: 0; width: 100%;
+
+  display: inline-flex;
+height: 104px;
+padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
+flex-direction: column;
+align-items: center;
+gap: var(--spacing-item-inner, 8px);
+flex-shrink: 0;
+
+}
+.subset_title {
+  color: var(--text-primary, #2C2C2C);
+
+  /* Buttons */
+  font-family: "Instrument Sans";
+  font-size: var(--font-button-font-size, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-button-line-height, 24px); /* 120% */
+}
+/* TODO hover state ? */
+.subset_btn {
+  user-select: none;
+  cursor: pointer;
+
+  display: flex;
+  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
+  align-items: center;
+  gap: var(--spacing-item-inner, 8px);
+
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
+}
+
 
 .av_control {
   display: block;
@@ -1630,6 +1722,7 @@ progress {
   border-left: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
   border-bottom: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
 
+  cursor: pointer;
 }
 
 .set_highlight {
