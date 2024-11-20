@@ -1264,6 +1264,7 @@ const handleMouseLeave = () => {
   width: 60%;
   height: 80%;
 }
+/*
 .main_preview_subset div {
   
   display: block;
@@ -1274,7 +1275,7 @@ const handleMouseLeave = () => {
   margin: 2%;
   background-color: var(--Primitives-color-greys-ORCBlack)
 }
-
+*/
 /*
  * animate preview
  * HH Das größte Problem ist das gleichzietige Skalieren und Positionieren.
@@ -1534,7 +1535,16 @@ flex-shrink: 0;
   gap: var(--spacing-item-inner, 8px);
 
   border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--nav-bar-button-outline, #CAC9C2);
+  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+
+  color: var(--Colors-text-primary, #2C2C2C);
+
+  /* Buttons */
+  font-family: "Instrument Sans";
+  font-size: var(--font-button-font-size, 20px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--font-button-line-height, 24px); /* 120% */
 }
 
 
