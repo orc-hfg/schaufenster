@@ -87,12 +87,12 @@ export const DynFonts = () => {
             theme == 'dark' ? COLOR_PROJECTS_DARK : COLOR_PROJECTS
         return color
     }
-    const mergeSetTypeColor = (settype: string, obj: object): object =>  {
-        obj['color'] = getSetTypeColor(settype)
+    const mergeSetTypeColor = (settype: string, obj: object, theme: string = ''): object =>  {
+        obj['color'] = getSetTypeColor(settype, theme)
         return obj 
     }
-    const mergeSetTypeBackColor = (settype: string, obj: object): object =>  {
-        obj['background-color'] = getSetTypeColor(settype)
+    const mergeSetTypeBackColor = (settype: string, obj: object, theme: string = ''): object =>  {
+        obj['background-color'] = getSetTypeColor(settype, theme)
         return obj 
     }
     return {

@@ -76,37 +76,52 @@
     </div>
 </template>
 <script setup lang="ts">
+// TODO use global config var
+const ANIMATE_IN_MS = 250;
+const ANIMATE_OUT_MS = 300;
+
 //TODO merge settype color
 const {
     font_list,
     font_selected,
-    getPixelSizedStyle
+    getPixelSizedStyle,
+    mergeSetTypeColor
 } = DynFonts()
 
+//TODO css variable for animation timings
+//TODO global js constants for animation timings
+
+const props = defineProps(['setType'])
 const emit = defineEmits(['onClose'])
 
-const font_style = ref(getPixelSizedStyle(210,240))
+const animate_io = ref(true)
+
+const font_style = ref()
 
 const selector_open = ref(false)
 
 const updateFont = () => {
     font_style.value = getPixelSizedStyle(210,240)
+    mergeSetTypeColor(props.setType, font_style.value, 'dark')
 }
-const animate_io = ref(true)
+
+
 const doClose = () => {
     animate_io.value = true
     setTimeout(() => {
         emit("onClose")
-    }, 300)
+    }, ANIMATE_OUT_MS)
 }
+
+
 onMounted(() => {
     setTimeout(() => {
         animate_io.value = false
-    }, 250)
-    
-
+    }, ANIMATE_IN_MS)
 })
 
+// init before mount
+updateFont();
 </script>
 <style scoped>
 header {

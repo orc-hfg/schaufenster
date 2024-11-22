@@ -58,6 +58,7 @@
     
     <Transition name="fade">
       <FontsView v-if="showFontsView"
+        :set-type="settype"
         @on-close="showFontsView = false"/>
     </Transition>
     <Transition name="fade">
