@@ -95,14 +95,6 @@
 
 const { t, setLocale } = useI18n()
 
-const {
-  font_list, font_selected,
-  getPixelSizedStyle,
-  getViewSizedStyle,
-  mergeSetTypeColor
-} = DynFonts()
-//const intro_info_style = ref(getPixelSizedStyle(240,210))
-//const year_info_style = ref(getPixelSizedStyle(240,210))
 const showFontsView = ref(false)
 const showAboutView = ref(false)
 const showDSAView = ref(false)
@@ -335,6 +327,11 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     trees: tl
   } as iTreeSlide)
     
+  
+  slideList.value.push({
+    year: pdate,
+    trees: []
+  } as iTreeSlide)
   
   console.log(" trees map: " + Object.keys(trees_map).length)
 
