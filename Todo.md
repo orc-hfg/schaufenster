@@ -10,78 +10,42 @@
 
 ## Zitierbarkeit: meta-tags in <header> / bspw. Zotero (mehr Info von Víctor)
 
-
 # page / view transitions
 
 ## block browser back
+
 ## rewrite browser history
 
 ## setview<->setlist page animation
+
 ### blinken/flackern ist das der page-enter-leave-fade-effekt??
+
 ### set list: set-list-view erscheint ebenfalls kurz nach dem ausblenden, vor dem wechsel zur nächsten Seite
+
 ## setview->setlist: animation für slider image fehlt (fade out)
 DONE fade out slide image; TODO fade out meta-info
+
 ## setview <-> filter: animation TBD
 
 # Impressum view
-## Impressum view: remove "zurück" for nav home/back
-DONE
-## Impressum view: Feinschliff
-TBC (to be confirmed, AL)
-## Impressum view: Text-Inhalte
-TBC (AL)
-## impressum view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
-TBC (AL)
 
 # about view
-## about view: remove "zurück" for nav home/back
-DONE
-## about view: feinschliff
-TBC (AL)
-## about view: text-inhalte
-TBC (AL)
-## about view: icons
-TBC (AL)
-## about view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
-TBC (AL)
 
 # datenschutz view
-## datenschutz view: remove "zurück" for nav home/back
-DONE
-## datenschutz view: feinschliff
-TBC (AL)
-## datenschutz view: text-inhalte
-TBC (AL)
-## datenschutz view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
-TBC (AL)
-
-# Content allgemein: Logos unter assets
-TBC (AL) -> new subset of components
-
-
 
 # font-view
-## font-view: new drop down design TBD
+
+## font-view: drop down (responsive) layout
+
+## font-view: fade header text if drop down is open
+
 ## link to font developer (from json)
 TODO: link und author ausfülllen
-## dropdown: finales layout
-## final layout
-## SVG chevrons bitte exportieren (liegen bei)
-
 
 # menu-view
 
 ## Sprachwechsel findet nach schliessen des Menu statt
 TBD kein aufblinken (wechsel) von button; kein btn active
-
-## menu: about etc. after closing go back to menuview
-## menu -> about etc: do fade (to dark more)
-DONE: menu-view -> fonts-view: fade to dark mode
-
-
-## menu: click does not match opened view
-DONE: menu: click does not match opened view
-
 
 ## menu animation io gleich wie set view intro info mit blur layer und opacity
 
@@ -94,32 +58,20 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 ## filter-view: hide empty section during (text) search
 Bei der Suche sollten die Sections, die keine Treffer enthalten, bitte wegfallen, damit kein Leerraum entsteht und man die Treffer weiter unten auch sieht.
 
+
 ## final layout
 
-
-## show more / less icon einfügen
-AL icon einfügen
+## show more / less icon layout
 HH wenn icon eingefügt
-
-
 
 # setview / project-view
 
-## setview: meta-info: animate show more/less for keywords/people/roles
-
-## setview: meta info: show more / less icon einfügen
+## setview: meta info: show more / less icon layout / design
 HH wenn icon eingefügt
 
 ## setview: theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte) on slide audio/video
 
-## setview: meta info: init fehler (text wird nicht bis ... angezeigt)
-
-## setview: meta info: final layout
-
 ## setview: meta info: projekt-titel auskommentieren / projekt unter titel ja / parent (vollständ), wenn im header abgeschnitten
-
-
-## setview: meta-info: if not selectable: show as text (nicht als button)
 
 ## setview: meta-info: -> finales Layout: bitte Reihenfolge entsprechend anpassen
 TBC HH Reihenfolge
@@ -135,14 +87,7 @@ Position / Animation von Button Bar sieht noch fehlerhaft aus, beim Schließen u
 ## setview: meta info: "Quelle" / Link to Madek
 AL Dann HH
 
-## setview: meta info filter_tags: show all/less animation fehlt
-
-
-## setview: meta-info: disable click for un-searchable filter tags
-
-
 ### setview: audio zentrieren ( nicht 100% width / height, sondern wie image slide)
-
 
 ### setview: bug theme setting by audio or image
 
@@ -155,8 +100,7 @@ Wenn man in einem Projekt einen Filter klickt, öffnet sich die Filter-Seite. Es
 
 ## setview: btm bar / nav-slider:
 ## setview: main-slider: subsub-set icon
-TODO create dummy entry
-AL insert subsub set entry / page / icon
+DONE
 HH style subsubset-enty in main-slider / nav-slider
 
 ### setview: btm-bar/nav-slider: position show more / less btns; cursor pointer auf btns
@@ -169,18 +113,12 @@ TBC (AL) -> branch `setview_video-player_progress-bar`
 2. CSS Variables unklar
 3. weitere Tests machen 
 
-## setview: video player: progress click pos noch nicht korrekt
-AL: 
-
 ## setview: video-player: overlay video play btn fehlt, wenn meta info aktiv
 AL icon einfügen
 HH positionierung
 
 ## setview: audio nav bar preview fehler mit title des subsets
 TBC (AL) -> HH Vorschlag: Container "nav_preview_audio" innerhalb von "nav_preview" absolut positionieren (branch `setview_video-player_progress-bar`).
-
-
-
 
 # project setlist
 
@@ -192,30 +130,9 @@ TBC (AL) -> HH Vorschlag: Container "nav_preview_audio" innerhalb von "nav_previ
 
 ## setlist: animate in: von unten auch nur 10vh wie intro view
 
-## pointer-events: none: bitte auf super headlines + project-counter anwenden. Dadurch sparen wir das aufwendig scroll imitieren + Projekte werden klickbar obwohl Text darüber liegt
-DONE
-
 ## setview: project title for meta info: move up some more, still visible if width < 1280
 
-
 ## setlist: project counter
-
-### setlist: project counter: pointer-events:none
-DONE
-### setlist: project counter: width: 35vw
-OBSOLETE?
-### setlist: project counter: opacity am Rand gegen null: Gradient meine ich; beispiel aus figma
-OBSOLETE?
-Nur Highlight Zeile hat hintergrund mit blur und opacity und border round. Andere Zeilen besitzen nur opacity.
-Move old pc to branch.
-### setlist: project counter: mask-image-Technik
-DONE
-### setlist: project counter: Anzahl gezeigter Projekte 3 statt 4
-AL
-### setlist: project counter: mask-image verfeinern
-HH
-### setlist: project counter: text-shadow entfernen, bei schwarzem Text mix-blend-mode greyscale verwenden
-AL Logik, dann HH Style
 
 # intro-view
 
@@ -224,7 +141,6 @@ AL Logik, dann HH Style
 ### mobile: text komprimiert in höhe
 # lang parameter by url
 
-
 # i18config als json
 
 
@@ -232,6 +148,81 @@ AL Logik, dann HH Style
 
 
 # DONE
+
+## about view: feinschliff
+DONE
+## about view: text-inhalte
+DONE
+## about view: icons
+DONE
+## about view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
+DONE
+## datenschutz view: feinschliff
+DONE
+## datenschutz view: text-inhalte
+DONE
+## datenschutz view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
+DONE
+
+## Impressum view: remove "zurück" for nav home/back
+DONE
+## Impressum view: Feinschliff
+DONE
+## Impressum view: Text-Inhalte
+TBC (AL)
+## impressum view: Email-Adressen im Fließtext maskieren (Spam-Schutz)
+DONE
+## about view: remove "zurück" for nav home/back
+DONE
+## setview: meta-info: animate show more/less for keywords/people/roles
+DONE
+## font-view: new drop down design, chevrons
+DONE
+# Content allgemein: Logos unter assets
+DONE
+## datenschutz view: remove "zurück" for nav home/back
+DONE
+
+
+## setview: meta info filter_tags: show all/less animation fehlt
+DONE
+
+## setview: meta-info: disable click for un-searchable filter tags
+DONE
+
+## setview: video player: progress click pos noch nicht korrekt
+DONE
+
+## pointer-events: none: bitte auf super headlines + project-counter anwenden. Dadurch sparen wir das aufwendig scroll imitieren + Projekte werden klickbar obwohl Text darüber liegt
+DONE
+
+
+### setlist: project counter: pointer-events:none
+DONE
+### setlist: project counter: mask-image-Technik
+DONE
+### setlist: project counter: Anzahl gezeigter Projekte 3 statt 4
+DONE
+### setlist: project counter: mask-image verfeinern
+DONE
+### setlist: project counter: text-shadow entfernen, bei schwarzem Text mix-blend-mode greyscale verwenden
+DONE
+
+## menu: about etc. after closing go back to menuview
+## menu -> about etc: do fade (to dark more)
+DONE: menu-view -> fonts-view: fade to dark mode
+
+
+## menu: click does not match opened view
+DONE: menu: click does not match opened view
+
+
+## setview: meta info: init fehler (text wird nicht bis ... angezeigt)
+DONE
+
+## setview: meta info: final layout
+DONE
+
 
 ## filter-view: scroll-content abgeschnitten! bitte 100vh
 DONE: filter-view: scroll-content abgeschnitten: 100vh - 200px (padding before scroll)
@@ -295,6 +286,9 @@ DONE: fix hover/active set states
 
 
 # filter-view
+
+## setview: meta-info: if not selectable: show as text (nicht als button)
+DONE
 
 ## filter navbar mit padding ohne transarenz; graue linie als abschluss
 DONE: filter-view: navbar mit padding ohne transarenz; graue linie als abschluss
