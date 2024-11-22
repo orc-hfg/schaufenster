@@ -9,33 +9,37 @@
                     <IconsNavHome />
                 </NuxtLink>
             </nav>
-            <div class="wrapper_mid">
-                <div class="font_selector"
-                    @click="selector_open = !selector_open">
-                    <div class="font_label">
-                    {{ font_list[font_selected].name }}
-                    </div>
-                    <div class="font_dropper"
-                        >
-                        <IconsChevronUpDown :show-up="selector_open" />
-                    </div>
+            <div class="wrapper_center">
+                <div class="dropdown_label">
+                    Select Font
                 </div>
-                <div class="font_options"
-                    :class="{hidden: !selector_open}">
-                    <div 
-                        class="font_option"
-                        
-                        v-for="(f,idx) in font_list" :value="idx"
-                        @click="font_selected = idx; selector_open = false; updateFont()">
-                        <!-- I:{{ idx }} F: {{ f }} -->
-                        {{ f.name }}
+                <div class="wrapper_dropdown">
+                    <div class="font_selector"
+                        @click="selector_open = !selector_open">
+                        <div class="font_label">
+                        {{ font_list[font_selected].name }}
+                        </div>
+                        <div class="font_dropper"
+                            >
+                            <IconsChevronUpDown :show-up="selector_open" />
+                        </div>
+                    </div>
+                    <div class="font_options"
+                        :class="{hidden: !selector_open}">
+                        <div 
+                            class="font_option"
+                            
+                            v-for="(f,idx) in font_list" :value="idx"
+                            @click="font_selected = idx; selector_open = false; updateFont()">
+                            <!-- I:{{ idx }} F: {{ f }} -->
+                            {{ f.name }}
+                        </div>
                     </div>
                 </div>
 
-                    <!-- <div class="font_by">by</div>
-                        <a class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
-                    <div class="font_year">{{font_list[font_selected].year}}</div>
-                </div> -->
+                <div class="font_by">by</div>
+                <a class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
+                <div class="font_year">{{font_list[font_selected].year}}</div>
                 
                 
             </div>
@@ -126,6 +130,14 @@ updateFont();
 <style scoped>
 header {
     z-index: 1100;
+
+    font-family: "Instrument Sans";
+    font-size: var(--font-button-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-button-line-height, 24px); /* 120% */
+
+    color: var(--Colors-text-primary, #FFF);
 }
 nav {
     float: left;
@@ -134,14 +146,27 @@ nav a {
     width: 48px;
     height: 48px;
     padding: 0px;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: underline;
 }
 nav a svg {
     mix-blend-mode: normal;
 }
 
-.wrapper_mid {
-    float: left;
+.wrapper_center {
+    
     width: calc(100% - 48px);
+    height: 100%;
+    /* border: 1px solid green; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--margin-navbar-institution-logo-right, 10px);
+}
+.wrapper_dropdown {
+    width: fit-content;
+    
     height: 100%;
     /* border: 1px solid green; */
     display: flex;
@@ -227,9 +252,20 @@ nav a svg {
     cursor: pointer;
 }
 
-/* .font_link {
-    text-decoration: underline;
-} */
+.font_link {
+    color: var(--text-secondary, #CAC9C2);
+    font-family: "Instrument Sans";
+    font-size: var(--font-button-font-size, 20px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--font-button-line-height, 24px);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+}
 
 .dialog_menu {
     position: fixed;
