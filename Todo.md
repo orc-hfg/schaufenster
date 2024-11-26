@@ -12,16 +12,6 @@
 
 # page / view transitions
 
-## block browser back
-
-## rewrite browser history
-
-## setview<->setlist page animation
-
-### blinken/flackern ist das der page-enter-leave-fade-effekt??
-
-### set list: set-list-view erscheint ebenfalls kurz nach dem ausblenden, vor dem wechsel zur nächsten Seite
-
 ## setview->setlist: animation für slider image fehlt (fade out)
 DONE fade out slide image; TODO fade out meta-info
 
@@ -35,11 +25,11 @@ DONE fade out slide image; TODO fade out meta-info
 
 # font-view
 
-## font-view: drop down (responsive) layout
+## GH: font-view: drop down (responsive) layout
 
-## font-view: fade header text if drop down is open
+## GH: font-view: fade header text if drop down is open
 
-## link to font developer (from json)
+## GH: link to font developer (from json)
 TODO: link und author ausfülllen
 
 # menu-view
@@ -55,10 +45,6 @@ TODO: backdop kommt noch hart: TODO ani, wenn wir diesen wirklich möchten.
 
 # Filter-View
 
-## filter-view: hide empty section during (text) search
-Bei der Suche sollten die Sections, die keine Treffer enthalten, bitte wegfallen, damit kein Leerraum entsteht und man die Treffer weiter unten auch sieht.
-
-
 ## final layout
 
 ## show more / less icon layout
@@ -69,8 +55,6 @@ HH wenn icon eingefügt
 ## setview: meta info: show more / less icon layout / design
 HH wenn icon eingefügt
 
-## setview: theme switch läuft unterschiedlich lang (animation timing wo kein timing sein sollte) on slide audio/video
-
 ## setview: meta info: projekt-titel auskommentieren / projekt unter titel ja / parent (vollständ), wenn im header abgeschnitten
 
 ## setview: meta-info: -> finales Layout: bitte Reihenfolge entsprechend anpassen
@@ -78,10 +62,10 @@ TBC HH Reihenfolge
 AL Logik
 DISKUSSION um Kommmentare
 
-## setview: BUG:
+## GH: setview: BUG:
 Bug in Safari: wenn man Bottom-Bar ausblendet, Meta-Info öffnet und wieder schließt, blendet sich die Bottom-Bar von alleine wieder ein. Sollte eigentlich ausgeblendet bleiben. In Chrome und Firefox taucht dieser bug nicht auf.
 
-## setview: btm bar: BUG: does not animate down, but left down, dep. on cur. slide position
+## GH: setview: btm bar: BUG: does not animate down, but left down, dep. on cur. slide position
 Position / Animation von Button Bar sieht noch fehlerhaft aus, beim Schließen und öffnen der Meta-Infos, wenn aktives Thumbnail sich in der Mitte des Screens befindet.
 
 ## setview: meta info: "Quelle" / Link to Madek
@@ -89,11 +73,8 @@ AL Dann HH
 
 ### setview: audio zentrieren ( nicht 100% width / height, sondern wie image slide)
 
-### setview: bug theme setting by audio or image
 
-Teilweise wird das Theme nicht auf dark gesetzt, obwohl zu einem audio slide navigiert wurde.
-
-# setview: filter: scroll to selected meta-key
+# GH: setview: filter: scroll to selected meta-key
 Wenn man in einem Projekt einen Filter klickt, öffnet sich die Filter-Seite. Es kann aber sein, dass der gewählte Filter weiter unten auf der Seite steht und also nicht im Sichtfeld ist.
 
 > Bitte automatisch zu gewähltem Filter scrollen (Sprung zum Anker?)
@@ -117,22 +98,17 @@ TBC (AL) -> branch `setview_video-player_progress-bar`
 AL icon einfügen
 HH positionierung
 
-## setview: audio nav bar preview fehler mit title des subsets
-TBC (AL) -> HH Vorschlag: Container "nav_preview_audio" innerhalb von "nav_preview" absolut positionieren (branch `setview_video-player_progress-bar`).
-
 # project setlist
 
-## BUG: responsive column count: 1 col < 1024px; 2 cols < 1280px; 3 cols if projects
+## GH: BUG: responsive column count: 1 col < 1024px; 2 cols < 1280px; 3 cols if projects
 
-## setlist: preview: wenn kein eigene entries im set, dann inhalt aus subset ? TDB: Marcel / Felix
-
-## setlist: preview: kein Bild: Rahmen auch zufällig positionieren und Größen-definieren
 
 ## setlist: animate in: von unten auch nur 10vh wie intro view
 
 ## setview: project title for meta info: move up some more, still visible if width < 1280
 
 ## setlist: project counter
+TODO filter grey;
 
 # intro-view
 
@@ -148,6 +124,14 @@ TBC (AL) -> HH Vorschlag: Container "nav_preview_audio" innerhalb von "nav_previ
 
 
 # DONE
+
+## setview: audio nav bar preview fehler mit title des subsets
+DONE: TBC (AL) -> HH Vorschlag: Container "nav_preview_audio" innerhalb von "nav_preview" absolut positionieren (branch `setview_video-player_progress-bar`).
+## setlist: preview: wenn kein eigene entries im set, dann inhalt aus subset ? TDB: Marcel / Felix
+DONE
+
+## GH: setlist: preview: kein Bild: Rahmen auch zufällig positionieren und Größen-definieren
+DONE: da jetzt eig. immer ein preview vorhande.
 
 ## about view: feinschliff
 DONE
