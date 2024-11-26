@@ -102,6 +102,7 @@ const props = defineProps([
  */
 .project_counter.projekt {
   mix-blend-mode: difference;
+  filter: contrast(0.5);
   color: white;
   mask-image: linear-gradient(0deg, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 25%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0) 100%);
 }
