@@ -19,9 +19,9 @@ const props = defineProps(['isMute'])
     color: var(--Colors-btm-bar-playerView-button, #2C2C2C);
     font-family: "Instrument Sans";
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 0.02rem;
-    
+    cursor: pointer;
 }
 .btn_mute > div {
     width: 100%;

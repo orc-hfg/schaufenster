@@ -19,7 +19,7 @@ const props = defineProps(['isPlay'])
 <style scoped>
 div {
     width: 48px; height: 48px;
-
+    cursor: pointer;
 }
 svg * {
     fill: var(--Colors-btm-bar-playerView-button, #2C2C2C)

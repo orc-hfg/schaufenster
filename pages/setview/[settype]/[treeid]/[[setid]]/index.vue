@@ -1392,14 +1392,22 @@ const handleMouseLeave = () => {
  * toggle bottom nav 
  */
 
+ /* HH neue Variablen gesetzt */
+.setview_page {
+  --bottom-nav-height: 144px;
+  --bottom-nav-padding: 24px;
+  --bottom-nav-toggle-height: 55px;
+}
+
 .bottom_nav {
   /* border: 1px solid blue; */
   position: fixed;
   left: 0px;
+  /* HH Frage: wieso Breite minus 192px? */
   width: calc(100vw - 192px);
   /* background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF); */
-  bottom: 24px;
-  height: 144px;
+  bottom: var(--bottom-nav-padding);
+  height: var(--bottom-nav-height);
   z-index: 100;
   transition: all 300ms ease-in;
   transition-delay: 150ms;
@@ -1408,17 +1416,16 @@ const handleMouseLeave = () => {
   /* opacity: 0;
   width: 0px;
   visibility: hidden; */
-  bottom: -144px;
+  bottom: calc(var(--bottom-nav-height) * -1);
   transition: all 300ms ease-out;
 }
 .btn_bottom_nav_toggle {
   position: absolute;
-  bottom: 60px;
-  left: 24px;
-  width: var(--dimension-icon-size-L, 32px);
-  height: var(--dimension-icon-size-L, 32px);
-  width: 55px;
-  height: 55px;
+  left: var(--bottom-nav-padding);
+  width: var(--bottom-nav-toggle-height);
+  height: var(--bottom-nav-toggle-height);
+  /* HH vertikale Position mittig zur bottom_nav */
+  bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
   z-index: 120;
 
   cursor: pointer;
@@ -1554,9 +1561,8 @@ flex-shrink: 0;
   position: fixed;
   left: 0px;
   width: calc(100vw - 96px);
-  bottom:58px;
+  bottom:60px;
   left: 88px;
-  /* height: 6rem; */
   z-index: 100;
   /* background-color: var(--Colors-btm-bar-playerView-background); */
   color: var(--Colors-btm-bar-playerView-button, #2C2C2C);
@@ -1589,7 +1595,7 @@ flex-shrink: 0;
   
   background: transparent;
   /* Blur */
-  backdrop-filter: blur(calc(var(--value-pills, 30px) / 2));
+  /* backdrop-filter: blur(calc(var(--value-pills, 30px) / 2)); */
 }
 
 
@@ -1605,6 +1611,7 @@ progress {
   border: none;
   --Colors-av-progress-background: rgba(255,255,255,.2);
   --Colors-av-progress-bar: #FFFFFF;
+  cursor: pointer;
 }
 /* HH add color of background */
 progress::-webkit-progress-bar,
