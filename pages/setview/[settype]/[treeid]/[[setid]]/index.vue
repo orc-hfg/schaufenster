@@ -547,7 +547,7 @@ const meta_info_ani = ref(false)
 const toggleShowInfo = () => {
   meta_info_ani.value = true;
   showInfo.value = !showInfo.value
-  if (showInfo.value) {
+  if (showInfo.value && !entry_info_hidden) {
     entry_info_hidden.value = false;
   } else {
 
