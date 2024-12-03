@@ -25,15 +25,7 @@
   cursor: pointer;
   user-select: none
 }
-.close_logo {
-  float: left;
-  padding: 0;
-  height: 48px;
-  transition: transform 300ms ease-out;
-}
-.close_logo:hover {
-  transform: scale(0.83);
-}
+
 .close_content {
   position: relative;
   float: left;
@@ -156,4 +148,14 @@ a:hover {
 .logos .sihl-logo {
   width: 140px;
   height: auto;
+}
+
+/* HH helper class to unify transition timings */
+.fades {
+  transition: opacity 150ms ease-out;
+}
+
+/* HH add for fad in/out */
+.dialog.hidden {
+  opacity: 0;
 }

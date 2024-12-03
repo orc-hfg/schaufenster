@@ -1,17 +1,17 @@
 <template>
 
-    <div class="dialog" data-theme="dark">
+    <div class="dialog fades" data-theme="dark"
+        :class="{hidden:animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink @click="$emit('onClose')" class="nav_close">
-                    <IconsNavHome class="close_logo"/>
-                    <div class="close_content"></div>
+                <NuxtLink @click="doClose()" class="nav_close">
+                    <IconsNavHome/>
                 </NuxtLink>
             </nav>
         </header>
 
-        <div class="page_content"
-            @click="$emit('onClose')">
+        <div class="page_content">
+            <!-- @click="$emit('onClose')"> -->
             <h1>Datenschutzerklärung</h1>
             <p>
                 Verantwortlich im Sinne der Datenschutz-Grundverordnung und anderer nationaler Datenschutzgesetze der Mitgliedsstaaten sowie sonstiger datenschutzrechtlicher Bestimmungen ist die:
@@ -75,6 +75,26 @@
 </template>
 <script setup lang="ts">
 const emit = defineEmits(['onClose'])
+
+const animate_io = ref(true)
+
+// TODO use global config var
+const ANIMATE_IN_MS = 150;
+const ANIMATE_OUT_MS = 300;
+
+const doClose = () => {
+    animate_io.value = true
+    setTimeout(() => {
+        emit("onClose")
+    }, ANIMATE_OUT_MS)
+}
+
+onMounted(() => {
+    setTimeout(() => {
+        animate_io.value = false
+    }, ANIMATE_IN_MS)
+})
+
 </script>
 
 <style scoped>

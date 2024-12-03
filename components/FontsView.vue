@@ -1,16 +1,15 @@
 <template>
-    <div class="dialog_menu" 
-        :class="{hidden:animate_io}"
+    <div class="dialog_menu fades" 
+        :class="{hidden:animate_io, action:selector_open}"
         data-theme="dark">
         <header>
-            <nav class="nav">
-                <NuxtLink @click="doClose()"
-                    :class="{hidden:selector_open}">
-                    <IconsNavHome />
+            <nav class="nav back_button fades">
+                <NuxtLink @click="doClose()">
+                    <IconsNavHome/>
                 </NuxtLink>
             </nav>
             <div class="wrapper_center">
-                <div class="dropdown_label">
+                <div class="dropdown_label fades">
                     Select Font
                 </div>
                 <div class="wrapper_dropdown">
@@ -24,8 +23,7 @@
                             <IconsChevronUpDown :show-up="selector_open" />
                         </div>
                     </div>
-                    <div class="font_options"
-                        :class="{hidden: !selector_open}">
+                    <div class="font_options fades">
                         <div 
                             class="font_option"
                             
@@ -37,14 +35,15 @@
                     </div>
                 </div>
 
-                <div class="font_by">by</div>
-                <a class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
-                <div class="font_year">{{font_list[font_selected].year}}</div>
-                
+                <div class="font_info fades">
+                    <div class="font_by">by</div>
+                    <a class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
+                    <div class="font_year">{{font_list[font_selected].year}}</div>
+                </div>
                 
             </div>
         </header>
-      <div class="menu_panel">
+      <div class="menu_panel fades">
         
 
         <div class="font_test_view">
@@ -73,15 +72,16 @@
 
       </div>
       
-      <div class="selector_blur"
+      <div class="selector_blur fades"></div>
+      <!-- <div class="selector_blur"
         v-if="selector_open">
         
-      </div>
+      </div> -->
     </div>
 </template>
 <script setup lang="ts">
 // TODO use global config var
-const ANIMATE_IN_MS = 250;
+const ANIMATE_IN_MS = 150;
 const ANIMATE_OUT_MS = 300;
 
 //TODO merge settype color
@@ -139,9 +139,12 @@ header {
 
     color: var(--Colors-text-primary, #FFF);
 }
-nav {
+
+/* HH unused? */
+/* nav {
     float: left;
-}
+} */
+
 nav a {
     width: 48px;
     height: 48px;
@@ -155,8 +158,8 @@ nav a svg {
 }
 
 .wrapper_center {
-    
-    width: calc(100% - 48px);
+    /* width: calc(100% - 48px); */
+    width: 100%;
     height: 100%;
     /* border: 1px solid green; */
     display: flex;
@@ -166,7 +169,6 @@ nav a svg {
 }
 .wrapper_dropdown {
     width: fit-content;
-    
     height: 100%;
     /* border: 1px solid green; */
     display: flex;
@@ -221,11 +223,14 @@ nav a svg {
     display: flex;
     flex-direction: column;
     gap: 7px;
-    transition: all 300ms ease-out;
-}
-.font_options.hidden {
+
     opacity: 0;
+    /* prevent klick while invisible */
+    pointer-events: none;
 }
+/* .font_options.hidden {
+    opacity: 0;
+} */
 
 .font_option {
     display: flex;
@@ -252,6 +257,12 @@ nav a svg {
     cursor: pointer;
 }
 
+/* HH add wrapper */
+.font_info {
+    display: flex;
+    gap: .25em
+}
+
 .font_link {
     color: var(--text-secondary, #CAC9C2);
     font-family: "Instrument Sans";
@@ -276,21 +287,21 @@ nav a svg {
     
     /* color: var(--Colors-text-primary-inverted, #fff);
      */
-     background-color: var(--Colors-background-default, #2C2C2C);
-     
-     /* "Kaugummi"-Effekt beim Aufziehen des Browserfensters verhindern */
-     /* Siehe https://cloud.hfg-karlsruhe.de/index.php/f/1918388 */
-    /* transition: all 300ms linear; */
-    transition: opacity 200ms ease-out;
+    background-color: var(--Colors-background-default, #2C2C2C);
+
+    /* HH use helper class below for unified values */
+    /* transition: opacity 200ms ease-out; */
     opacity: 1;
 }
 .dialog_menu.hidden {
-    transition: all 300ms ease-out;
+    /* HH use helper class below for unified values */
+    /* transition: opacity 300ms ease-out; */
     opacity: 0;
     transition-delay: 150ms;
 }
 .dialog_menu.hidden .menu_panel {
-    transition: all 150ms ease-out;
+    /* HH use helper class below for unified values */
+    /* transition: opacity 150ms ease-out; */
     opacity: 0;
 }
 
@@ -308,7 +319,8 @@ nav a svg {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 
-    transition: all 150ms ease-out;
+    /* HH use helper class below for unified values */
+    /* transition: opacity 150ms ease-out; */
     transition-delay: 150ms;
     opacity: 1;
 }
@@ -316,6 +328,7 @@ nav a svg {
 .menu_panel::-webkit-scrollbar {
     display: none;
 }
+
 .selector_blur {
     
     position: fixed;
@@ -323,9 +336,13 @@ nav a svg {
     width: 100vw;
     height: 100vh;
     z-index: 1020;
-    
+
     background: rgba(43, 42, 39, 0.30);
     backdrop-filter: blur(25px);
+
+    /* HH initial state: invisible */
+    opacity: 0;
+    pointer-events: none;
 }
 .menu_panel * {
     align-items: center;
@@ -343,5 +360,26 @@ nav a svg {
 .font_test {
     line-break: anywhere;
     margin-block: 0px;
+}
+
+
+/* HH helper class to unify transition timings */
+.fades {
+    transition: opacity 150ms ease-out;
+}
+
+/* HH manage transitions */
+.action .dropdown_label,
+.action .font_info,
+.action .back_button
+{
+    opacity: 0;
+}
+
+.action .selector_blur,
+.action .font_options 
+{
+    opacity: 1;
+    pointer-events: auto;
 }
 </style>
