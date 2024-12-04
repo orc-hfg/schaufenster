@@ -81,13 +81,14 @@ export default defineI18nConfig(() => ({
                 label_media_authors: "Datei erstellt von",
                 label_project_leader: "Betreuung",
                 label_project_material: "Projekteigenschaften",
+                label_license: "Lizenzinformation",
+                license_fallback: "Alle Rechte vorbehalten",
 
                 error_no_data: "Warte auf Meta-Daten...",
 
                 btn_show_more_label: "Zeige mehr",
                 btn_show_less_label: "Zeige weniger",
                 // label_title_en: "Titel [EN]",
-                // label_license: "Lizenzinformation",
                 // label_project_title: "Projekttitel",
                 // label_project_title_en: "Projekttitel [EN]",
                 // label_project_subtitle_en: "Untertitel [EN]",
@@ -171,13 +172,14 @@ export default defineI18nConfig(() => ({
                 label_media_authors: "File created by",
                 label_project_leader: "Supervision",
                 label_project_material: "Project Characteristics",
+                label_license: "License information",
+                license_fallback: "All rights reserved",
                 
                 error_no_data: "Waiting for Meta-Data...",
 
                 btn_show_more_label: "Show all",
                 btn_show_less_label: "Show less",
                 // label_title_en: "Title [EN]",
-                // label_license: "License information",
                 // label_project_title: "Project title",
                 // label_project_title_en: "Project title [EN]",
                 // label_project_subtitle_en: "Project Sub title [EN]",

@@ -61,6 +61,8 @@
           :title="$t('meta_info.label_media_title')"
           :md="currentTree.entries_meta_data[activeEntryId]['madek_core:title']"/>
   
+        <!-- HH wird nicht mehr benötigt, Lizenz wird individuell ausgegeben -->
+        <!--
         <div class="meta_info" >
           <div class="meta_title">
             {{$t('meta_info.label_copyright')}}
@@ -68,8 +70,12 @@
           <div class="filter_content">
             <span v-for="(term,idx) in getMDLicenceList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
           </div>
-        </div>
+        </div> -->
         
+        <MetaDatumView
+          :title="$t('meta_info.label_copyright')"
+          :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"/>
+
         <MetaDatumView
           :title="$t('meta_info.label_project_program_of_study')"
           :md="currentTree.cols_meta_data[activeSetId]['institution:program_of_study']"
@@ -115,6 +121,21 @@
           </div>
           <div class="filter_content">
             <span v-for="(term,idx) in getMDMediaCreatorsList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
+          </div>
+        </div>
+
+        <!-- HH Lizenz mit Fallback -->
+        <div class="meta_info">
+          <div class="meta_title">
+            {{$t('meta_info.label_license')}}
+          </div>
+          <div class="filter_content">
+            <span v-if="getMDLicence()">
+              {{ getMDLicence() }}
+            </span>
+            <span v-else>
+              {{ $t('meta_info.license_fallback') }}
+            </span>
           </div>
         </div>
 
@@ -232,18 +253,28 @@ const getMDMaterialList = (mdMap:object) => {
   return list;
 }
 
-const getMDLicenceList = () => {
+// HH Eintrag Lizenz vorhanden?
+const getMDLicence = () => {
   const mdMap = props.currentTree.entries_meta_data[props.activeEntryId]
-  let list = []
-  if (mdMap['madek_core:copyright_notice']) {
-    list.push(mdMap['madek_core:copyright_notice'].string)
-  }
+  let md = false
   if (mdMap['rights:licence']) {
-    list.push(mdMap['rights:licence'].selectedKeywords[0].term)
+    md = mdMap['rights:licence'].selectedKeywords[0].term
   }
-  console.log("getMDLicenceList: " + list)
-  return list
+  return md
 }
+
+// const getMDLicenceList = () => {
+//   const mdMap = props.currentTree.entries_meta_data[props.activeEntryId]
+//   let list = []
+//   if (mdMap['madek_core:copyright_notice']) {
+//     list.push(mdMap['madek_core:copyright_notice'].string)
+//   }
+//   if (mdMap['rights:licence']) {
+//     list.push(mdMap['rights:licence'].selectedKeywords[0].term)
+//   }
+//   console.log("getMDLicenceList: " + list)
+//   return list
+// }
 
 // HH Personen von Medieneinträgen dürfen keine Buttons sein: sie können nicht gefiltert werden. 
 const getMDMediaCreatorsList = () => {
