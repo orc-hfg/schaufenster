@@ -198,7 +198,7 @@ const onMainSwiperSlideChanged = () => {
     }
     else {
       show_av_control.value = false
-      document.documentElement.setAttribute("data-theme", "");
+      document.documentElement.setAttribute("data-theme", "light");
       //data_theme.value=""
     }
     /* 

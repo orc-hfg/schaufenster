@@ -454,7 +454,7 @@ updateSetType();
 
 onMounted(() => {
   updateSetType();
-  document.documentElement.setAttribute("data-theme", "");
+  document.documentElement.setAttribute("data-theme", "light");
 
   watch(
     () => route.path,

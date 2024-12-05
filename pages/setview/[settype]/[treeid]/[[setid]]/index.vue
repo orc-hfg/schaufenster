@@ -320,17 +320,11 @@ const route = useRoute();
 const router = useRouter();
 const {
     RID,
-    MATCH_DIPLOM,
     MATCH_PROJECTS,
-    treeMapper,
-    treeList,
+    FILTERS_ROLES,
     filteredTreeList,
-    getParent,
-    getPath2Root,
-    
     newFiltersMap,
     filtersMap
-
 } = treeHelper()
 
 const { apiConfig } = apiHelper()
@@ -339,13 +333,6 @@ const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
 const useTree = useState("tree");
 
 //TODO watch resolution change
-
-const {
-  font_list, font_selected,
-  getPixelSizedStyle,
-  getViewSizedStyle,
-  mergeSetTypeColor
-} = DynFonts()
 
 const settype = ref((route.params.settype || MATCH_PROJECTS) as string)
 const treeid = ref(route.params.treeid as string)
@@ -406,21 +393,31 @@ const clickedParent = (col_id: string) => {
     switch2Set(col_id)
   }
 }
+
 const showFilterView = ref(false)
 const addedFilter = (type, data) => {
   showFilterView.value = true;
   newFiltersMap.value = {}
   newFiltersMap.value[type] = {}
-  newFiltersMap.value[type][data.id] = {
-    id: data.id,
-    name: data.term,
-    meta_key: data.meta_key_id
+  if (type == FILTERS_ROLES) {
+    //TODO dont use person.id it is not really correct
+    newFiltersMap.value[type][data.person.id] = {
+      id: data.person.id,
+      treeId: treeid.value,
+      name: data.person.first_name + ' ' + data.person.last_name,
+      //TODO roles is missing meta_key_id
+      //meta_key: data.meta_key_id
+      //TODO this is a fake fix, but we have only one role meta-data
+      meta_key: 'creative_work:other_creative_participants'
+    }
+  } else {
+    newFiltersMap.value[type][data.id] = {
+      id: data.id,
+      name: data.term,
+      meta_key: data.meta_key_id
+    }
   }
-  /* setTimeout(() => {
-    newFiltersMap.value[type][data.id] = data
-    //TODO update filter counts
-  }, 100) */
-  
+  //console.error("new filters map: " + JSON.stringify(newFiltersMap.value))
 }
 const onFilterViewApplied = () => {
   console.log("onFilterViewApplied")
@@ -801,75 +798,80 @@ const onMainSwiperSlideChanged = () => {
 
     av_state_play.value = false
 
-    //const ael = document.getElementById('slide-audio-'+ entry.id)
-    const vel = document.getElementById('slide-video-'+ entry.id)
-    const ael = document.getElementById('slide-audio-'+ entry.id)
-    const avel = document.getElementById('slide-audio-'+ entry.id) || document.getElementById('slide-video-'+ entry.id)
-    const progressEl = document.getElementById('av_progress')
-    //const progressBarEl = document.getElementById('progress_bar')
-    //console.error(" avel " + avel + " pEL: " + progressEl)
-    if (avel && progressEl) {
-      
-      progressEl.setAttribute('max', avel.duration)
-      progressEl.setAttribute('value', 0)
-      avel.addEventListener('timeupdate', on_av_time_update)
-      //showBottomNav.value = false
-      if (!showInfo.value) {
-        // auto play video
-        if (vel) {
-          if (activeSlide !== 0) {
-            toggleStatePlay(true)
-          }
-          av_state_show_mute.value = true
-          av_state_mute.value = true
-          toggleStateMute(true)
-          
-        }
-        if (ael) {
-          av_state_play.value = false
-          av_state_show_mute.value = false
-          av_state_mute.value = true
-        }
-        show_av_control.value = true
+    setTimeout(() => {
+
+      const vel = document.getElementById('slide-video-'+ entry.id)
+      const ael = document.getElementById('slide-audio-'+ entry.id)
+      const avel = document.getElementById('slide-audio-'+ entry.id) || document.getElementById('slide-video-'+ entry.id)
+      const progressEl = document.getElementById('av_progress')
+      //const progressBarEl = document.getElementById('progress_bar')
+      console.error(" avel " + avel + " pEL: " + progressEl)
+      if (avel && progressEl) {
+        
+        progressEl.setAttribute('max', avel.duration)
+        progressEl.setAttribute('value', 0)
+        avel.addEventListener('timeupdate', on_av_time_update)
         //showBottomNav.value = false
+        if (!showInfo.value) {
+          // auto play video
+          if (vel) {
+            if (activeSlide !== 0) {
+              toggleStatePlay(true)
+            }
+            av_state_show_mute.value = true
+            av_state_mute.value = true
+            toggleStateMute(true)
+            
+          }
+          if (ael) {
+            av_state_play.value = false
+            av_state_show_mute.value = false
+            av_state_mute.value = true
+          }
+          show_av_control.value = true
+          //showBottomNav.value = false
+        }
+        console.error("is an av element for entry: " + entry.id)
+        document.documentElement.setAttribute("data-theme", "dark");
+        data_theme.value="dark"
       }
-      document.documentElement.setAttribute("data-theme", "dark");
-      data_theme.value="dark"
-    }
-    else {
-      show_av_control.value = false
-      document.documentElement.setAttribute("data-theme", "");
-      data_theme.value=""
-    }
-    
-    if (lastActiveEntryId) {
-      const lavel = document.getElementById('slide-audio-'+ lastActiveEntryId) 
-        || document.getElementById('slide-video-'+ lastActiveEntryId)
-      if (lavel && !avel && !showInfo.value) {
-
-          console.error("last elem was audio or video, but current is not; info is not shown: show btm nav and hide av_control")
-          show_av_control.value = false
-          //showBottomNav.value = true
+      else {
+        console.error("not an av element for entry: " + entry.id)
+        show_av_control.value = false
+        document.documentElement.setAttribute("data-theme", "light");
+        data_theme.value=""
       }
-    }
+      
+      if (lastActiveEntryId) {
+        const lavel = document.getElementById('slide-audio-'+ lastActiveEntryId) 
+          || document.getElementById('slide-video-'+ lastActiveEntryId)
+        if (lavel && !avel && !showInfo.value) {
 
-    // console.log("swiperMain changed slide: " + activeSlide
-    //  // + " entry " + JSON.stringify(entry)
-    //   + " colId " + colId
-    //   + " nav Idx: " + navIdx )
-    // reset all other showcounts, show all for active set
-    if (lastActiveSetId.localeCompare(activeSetId.value) !== 0 ) {
-
-      console.log(" changed active set id " + lastActiveSetId + ':' + activeSetId.value)
-      for(const cid in showCount.value) {  
-        showCount.value[cid] = Math.min( MIN_SHOW_COUNT, maxCount.value[cid])
+            console.error("last elem was audio or video, but current is not; info is not shown: show btm nav and hide av_control")
+            show_av_control.value = false
+            //showBottomNav.value = true
+        }
       }
-      showCount.value[colId] = maxCount.value[colId]
-      initData()
 
-    }
-    lastActiveEntryId = activeEntryId.value
-    lastActiveSetId = activeSetId.value
+      // console.log("swiperMain changed slide: " + activeSlide
+      //  // + " entry " + JSON.stringify(entry)
+      //   + " colId " + colId
+      //   + " nav Idx: " + navIdx )
+      // reset all other showcounts, show all for active set
+      if (lastActiveSetId.localeCompare(activeSetId.value) !== 0 ) {
+
+        console.log(" changed active set id " + lastActiveSetId + ':' + activeSetId.value)
+        for(const cid in showCount.value) {  
+          showCount.value[cid] = Math.min( MIN_SHOW_COUNT, maxCount.value[cid])
+        }
+        showCount.value[colId] = maxCount.value[colId]
+        initData()
+
+      }
+      lastActiveEntryId = activeEntryId.value
+      lastActiveSetId = activeSetId.value
+
+    },50)
 
     setTimeout(() => {
       swiperNav.value.update()
@@ -1134,7 +1136,7 @@ const initData = () => {
 const showSetTitle = ref(false)
 
 onMounted(() => {
-  document.documentElement.setAttribute("data-theme", "");
+  document.documentElement.setAttribute("data-theme", "light");
   initData();
 
 

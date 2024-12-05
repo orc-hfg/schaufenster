@@ -7,5 +7,6 @@
 <style scoped>
 svg {
     vertical-align: bottom;
+    stroke: var(--Colors-text-primary, #2C2C2C);
 }
 </style>

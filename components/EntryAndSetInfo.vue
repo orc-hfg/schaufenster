@@ -185,10 +185,10 @@ const props = defineProps([
 const emit = defineEmits(['scrollPosChanged','addedFilter'])
 
 const addFilter = (type:string, md:object) => {
-  console.log("addFilter: "
-    + "type: " + type
-    + "data: " + JSON.stringify(md)
-  )
+  /* console.log("addFilter:"
+    + " type: " + type
+    + " data: " + JSON.stringify(md)
+  ) */
   emit("addedFilter", type, md)
 }
 //const entry_info_hidden = ref(false)

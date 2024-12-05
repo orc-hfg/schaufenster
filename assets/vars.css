@@ -49,7 +49,8 @@
 }
 
 /* colors light */
-:root {
+/* :root { */
+[data-theme="light"] {
 --Colors-background-filter: var(--Primitives-color-greys-Black);  
 --Colors-background-menu: var(--Primitives-color-greys-Black);  
 --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
@@ -72,6 +73,7 @@
 --Colors-btm-bar-set-button: var(--Primitives-color-greys-LightGrey);
 --Colors-btm-bar-thumbnail-active: var(--Primitives-color-greys-White);
 --Colors-divider-universal: var(--Primitives-color-greys-MediumGrey);
+--Colors-filter-text-primary: var(--Primitives-color-greys-ORCBlack);
 --Colors-filter-chip-fill-active: var(--Primitives-color-greys-ORCBlack);
 --Colors-filter-chip-fill-default: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-filter-chip-fill-hover: var(--Primitives-color-greys-LightGrey);
@@ -141,7 +143,7 @@
 --Colors-divider-universal: var(--Primitives-color-greys-DarkGrey);
 --Colors-filter-chip-fill-active: var(--Primitives-color-greys-ORCBlack);
 --Colors-filter-chip-fill-default: var(--Primitives-color-greys-UltraLightGrey);
---Colors-filter-chip-fill-hover: var(--Primitives-color-greys-LightGrey);
+--Colors-filter-chip-fill-hover: var(--Primitives-color-greys-DarkGrey);
 --Colors-filter-chip-fill-outline: var(--Primitives-color-greys-MediumGrey);
 --Colors-filter-chip-text-active: var(--Primitives-color-greys-White);
 --Colors-filter-chip-text-default: var(--Primitives-color-greys-ORCBlack);

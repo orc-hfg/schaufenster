@@ -145,7 +145,7 @@ watch(() => route.fullPath, () => {
 initApp();
 
 onMounted(() => {
-  document.documentElement.setAttribute("data-theme", "");
+  document.documentElement.setAttribute("data-theme", "light");
 })
 
 </script>

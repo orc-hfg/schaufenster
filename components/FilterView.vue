@@ -365,6 +365,7 @@ onMounted(() => {
     animate_intro.value = false;
     updateShowAll()
   }, SHOW_ANIMATE_IO_DELAY)
+  
 })
 
 
@@ -388,6 +389,7 @@ const getShowAllStyle = (meta_key) => {
 </script>
 <template>
   <div class="filter_view"
+    data-theme="light"
     :class="{hidden: animate_intro}">
     <header class="header">
       <nav class="nav">
@@ -449,13 +451,16 @@ const getShowAllStyle = (meta_key) => {
     
       <div class="wrapper_filter">
 
+        <!-- HH Können statt den filter-translations die meta_info-translations verwendet werden? Redundanz vermeiden. -->
+
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_keywords') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_keywords') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_KEYWORDS "
             :style="getShowAllStyle(MK_KEYWORDS)"
             :class="{hide_all:!showAll[MK_KEYWORDS]}">
+            <!-- HH genügt es, auf countMap statt auf globalMap zu iterieren, um die leeren Tags nicht auszugeben? -->
             <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
               <button class="keyword_item"
                 @click="clickedKeyword(kws)"
@@ -467,18 +472,22 @@ const getShowAllStyle = (meta_key) => {
               </button>
             </div>
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
+            :show-all="showAll[MK_KEYWORDS]"
+            :count="getTagCount(MK_KEYWORDS)"/>
+          <!-- <button class="btn_show_all"
             @click="showAll[MK_KEYWORDS] = !showAll[MK_KEYWORDS]">
             <span v-if="!showAll[MK_KEYWORDS]">+&nbsp;&nbsp;Show all</span>
             <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button>
+          </button> -->
           
         </div>
         
 
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">{{ $t('filter.label_filter_authors') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_authors') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_AUTHORS "
             :style="getShowAllStyle(MK_AUTHORS)"
@@ -508,7 +517,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">{{ $t('filter.label_filter_participants') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_participants') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PARTICIPANTS "
             :style="getShowAllStyle(MK_PARTICIPANTS)"
@@ -537,7 +546,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PROGRAM_OF_STUDY -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_progofstudy') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_program_of_study') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
             :style="getShowAllStyle(MK_PROGRAM_OF_STUDY)"
@@ -568,7 +577,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PROJECT_CATEGORY -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_project_type') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_category') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
             :style="getShowAllStyle(MK_PROJECT_TYPE)"
@@ -598,7 +607,7 @@ const getShowAllStyle = (meta_key) => {
         
         <!-- MK_PROJECT_LEADER -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_project_leader') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_leader') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
             :style="getShowAllStyle(MK_PROJECT_LEADER)"
@@ -628,7 +637,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_SEMESTER -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_semester') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_semester') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_SEMESTER "
             :style="getShowAllStyle(MK_SEMESTER)"
@@ -813,7 +822,7 @@ nav {
   align-items: center;
   gap: var(--spacing-navbar-between-items, 4px); */
   border: none;
-  color: var(--Colors-text-primary, #2C2C2C);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
   padding: var(--padding-item-vertical-M, 12px) 0;
 }
 /* .btn_apply .label {
@@ -835,12 +844,12 @@ nav {
   gap: var(--spacing-between-items, 12px);
 
   border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 
-  color: var(--Colors-text-primary, #2C2C2C);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
 }
 .btn_close:hover {
-  background: var(--Colors-nav-bar-button-fill-hover, #E7E6E1);
+  background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
 }
 
 /* HH Wrapper für Input-Element und "x" */
@@ -1002,7 +1011,7 @@ nav {
   align-items: center;
   gap: var(--spacing-item-inner, 8px);
 
-  color: var(--text-primary, #2C2C2C);
+  color: var(--Colors-filter-text-primary, #2C2C2C);
 
   border: none;
 
@@ -1034,7 +1043,7 @@ nav {
   font-weight: 700;
   line-height: var(--font-number-L-line-height, 18px); /* 112.5% */
 
-  color: var(--Colors-text-primary, #2C2C2C);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
 
   display: flex;
   width: 24px; /* var(--dimension-button-height-S, 32px); */
@@ -1129,7 +1138,7 @@ letter-spacing: 0.72px;
  align-items: flex-start;
  gap: 12px;
  align-self: stretch;
- color: var(--text-primary, #2C2C2C);
+ color: var(--Colors-filter-text-primary, #2C2C2C);
  font-family: Instrument Sans, sans-serif;
  font-size: var(--font-h4-font-size, 32px);
  font-style: normal;
@@ -1142,6 +1151,8 @@ letter-spacing: 0.72px;
   align-items: flex-start;
   gap: var(--spacing-between-items-L, 16px);
   align-self: stretch;
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
+  
 }
 /*.tree_fachbereich {
   display: flex;
