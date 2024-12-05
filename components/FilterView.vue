@@ -467,11 +467,15 @@ const getShowAllStyle = (meta_key) => {
               </button>
             </div>
           </div>
-          <button class="btn_show_all"
+          <FilterViewShowBtn
+            @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
+            :show-all="showAll[MK_KEYWORDS]"
+            :count="getTagCount(MK_KEYWORDS)"/>
+          <!-- <button class="btn_show_all"
             @click="showAll[MK_KEYWORDS] = !showAll[MK_KEYWORDS]">
             <span v-if="!showAll[MK_KEYWORDS]">+&nbsp;&nbsp;Show all</span>
             <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button>
+          </button> -->
           
         </div>
         
