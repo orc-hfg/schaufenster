@@ -449,9 +449,11 @@ const getShowAllStyle = (meta_key) => {
     
       <div class="wrapper_filter">
 
+        <!-- HH Können statt den filter-translations die meta_info-translations verwendet werden? Redundanz vermeiden. -->
+
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_keywords') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_keywords') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_KEYWORDS "
             :style="getShowAllStyle(MK_KEYWORDS)"
@@ -482,7 +484,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">{{ $t('filter.label_filter_authors') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_authors') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_AUTHORS "
             :style="getShowAllStyle(MK_AUTHORS)"
@@ -512,7 +514,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">{{ $t('filter.label_filter_participants') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_participants') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PARTICIPANTS "
             :style="getShowAllStyle(MK_PARTICIPANTS)"
@@ -541,7 +543,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PROGRAM_OF_STUDY -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_progofstudy') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_program_of_study') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
             :style="getShowAllStyle(MK_PROGRAM_OF_STUDY)"
@@ -572,7 +574,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PROJECT_CATEGORY -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_project_type') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_category') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
             :style="getShowAllStyle(MK_PROJECT_TYPE)"
@@ -602,7 +604,7 @@ const getShowAllStyle = (meta_key) => {
         
         <!-- MK_PROJECT_LEADER -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_project_leader') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_leader') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
             :style="getShowAllStyle(MK_PROJECT_LEADER)"
@@ -632,7 +634,7 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_SEMESTER -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('filter.label_filter_semester') }}</div>
+          <div class="filter_headline">{{ $t('meta_info.label_project_semester') }}</div>
           <div class="filter_cloud"
             :id=" 'filter_cloud_' + MK_SEMESTER "
             :style="getShowAllStyle(MK_SEMESTER)"
