@@ -72,6 +72,7 @@
 --Colors-btm-bar-set-button: var(--Primitives-color-greys-LightGrey);
 --Colors-btm-bar-thumbnail-active: var(--Primitives-color-greys-White);
 --Colors-divider-universal: var(--Primitives-color-greys-MediumGrey);
+--Colors-filter-text-primary: var(--Primitives-color-greys-ORCBlack);
 --Colors-filter-chip-fill-active: var(--Primitives-color-greys-ORCBlack);
 --Colors-filter-chip-fill-default: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-filter-chip-fill-hover: var(--Primitives-color-greys-LightGrey);

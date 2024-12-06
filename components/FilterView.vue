@@ -365,6 +365,7 @@ onMounted(() => {
     animate_intro.value = false;
     updateShowAll()
   }, SHOW_ANIMATE_IO_DELAY)
+  
 })
 
 
@@ -820,7 +821,7 @@ nav {
   align-items: center;
   gap: var(--spacing-navbar-between-items, 4px); */
   border: none;
-  color: var(--Colors-text-primary, #2C2C2C);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
   padding: var(--padding-item-vertical-M, 12px) 0;
 }
 /* .btn_apply .label {
@@ -842,12 +843,12 @@ nav {
   gap: var(--spacing-between-items, 12px);
 
   border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 
-  color: var(--Colors-text-primary, #2C2C2C);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
 }
 .btn_close:hover {
-  background: var(--Colors-nav-bar-button-fill-hover, #E7E6E1);
+  background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
 }
 
 /* HH Wrapper für Input-Element und "x" */
@@ -1009,7 +1010,7 @@ nav {
   align-items: center;
   gap: var(--spacing-item-inner, 8px);
 
-  color: var(--text-primary, #2C2C2C);
+  color: var(--Colors-filter-text-primary, #2C2C2C);
 
   border: none;
 
@@ -1041,7 +1042,7 @@ nav {
   font-weight: 700;
   line-height: var(--font-number-L-line-height, 18px); /* 112.5% */
 
-  color: var(--Colors-text-primary, #2C2C2C);
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
 
   display: flex;
   width: 24px; /* var(--dimension-button-height-S, 32px); */
@@ -1136,7 +1137,7 @@ letter-spacing: 0.72px;
  align-items: flex-start;
  gap: 12px;
  align-self: stretch;
- color: var(--text-primary, #2C2C2C);
+ color: var(--Colors-filter-text-primary, #2C2C2C);
  font-family: Instrument Sans, sans-serif;
  font-size: var(--font-h4-font-size, 32px);
  font-style: normal;
@@ -1149,6 +1150,8 @@ letter-spacing: 0.72px;
   align-items: flex-start;
   gap: var(--spacing-between-items-L, 16px);
   align-self: stretch;
+  color: var(--Colors-filter-chip-text-default, #2C2C2C);
+  
 }
 /*.tree_fachbereich {
   display: flex;
