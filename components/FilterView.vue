@@ -458,7 +458,8 @@ const getShowAllStyle = (meta_key) => {
             :id=" 'filter_cloud_' + MK_KEYWORDS "
             :style="getShowAllStyle(MK_KEYWORDS)"
             :class="{hide_all:!showAll[MK_KEYWORDS]}">
-            <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
+            <!-- HH genügt es, auf countMap statt auf globalMap zu iterieren, um die leeren Tags nicht auszugeben? -->
+            <div v-for="kws in countMap[MK_KEYWORDS]" :key="kws">
               <button class="keyword_item"
                 @click="clickedKeyword(kws)"
                 v-if="!isHideIfNotSubString(kws[0].name)"
@@ -489,7 +490,7 @@ const getShowAllStyle = (meta_key) => {
             :id=" 'filter_cloud_' + MK_AUTHORS "
             :style="getShowAllStyle(MK_AUTHORS)"
             :class="{hide_all:!showAll[MK_AUTHORS]}">
-            <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
+            <div v-for="person in countMap[MK_AUTHORS]" :key="person">
               <button class="keyword_item"
                 @click="clickedPeople(person)"
                 v-if="!isHideIfNotSubString(person[0].name)"
@@ -519,7 +520,7 @@ const getShowAllStyle = (meta_key) => {
             :id=" 'filter_cloud_' + MK_PARTICIPANTS "
             :style="getShowAllStyle(MK_PARTICIPANTS)"
             :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
-            <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
+            <div v-for="person in countMap[MK_PARTICIPANTS]" :key="person">
               <button class="keyword_item"
                 @click="clickedRole(person)"
                 v-if="!isHideIfNotSubString(person[0].name)"
@@ -548,7 +549,7 @@ const getShowAllStyle = (meta_key) => {
             :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
             :style="getShowAllStyle(MK_PROGRAM_OF_STUDY)"
             :class="{hide_all:!showAll[MK_PROGRAM_OF_STUDY]}">
-            <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
+            <div v-for="item in countMap[MK_PROGRAM_OF_STUDY]" :key="item">
               <button class="keyword_item"
                 @click="clickedKeyword(item)"
                 v-if="!isHideIfNotSubString(item[0].name)"
@@ -579,7 +580,7 @@ const getShowAllStyle = (meta_key) => {
             :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
             :style="getShowAllStyle(MK_PROJECT_TYPE)"
             :class="{hide_all:!showAll[MK_PROJECT_TYPE]}">
-            <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
+            <div v-for="item in countMap[MK_PROJECT_TYPE]" :key="item">
               <button class="keyword_item"
                 @click="clickedKeyword(item)"
                 v-if="!isHideIfNotSubString(item[0].name)"
@@ -609,7 +610,7 @@ const getShowAllStyle = (meta_key) => {
             :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
             :style="getShowAllStyle(MK_PROJECT_LEADER)"
             :class="{hide_all:!showAll[MK_PROJECT_LEADER]}">
-            <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
+            <div v-for="item in countMap[MK_PROJECT_LEADER]" :key="item">
               <button class="keyword_item"
                 @click="clickedPeople(item)"
                 v-if="!isHideIfNotSubString(item[0].name)"
@@ -639,7 +640,7 @@ const getShowAllStyle = (meta_key) => {
             :id=" 'filter_cloud_' + MK_SEMESTER "
             :style="getShowAllStyle(MK_SEMESTER)"
             :class="{hide_all:!showAll[MK_SEMESTER]}">
-            <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
+            <div v-for="item in countMap[MK_SEMESTER]" :key="item">
               <button class="keyword_item"
                 @click="clickedFilter(FILTERS_KEYWORD, item)"
                 v-if="!isHideIfNotSubString(item[0].name)"
