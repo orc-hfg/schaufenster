@@ -5,6 +5,7 @@
           <IconsNavIconORC />
         </NuxtLink>
 
+<!-- TODO mobile theme btn paddings, toggle size -->
         <!-- <Transition name="move-u50">
         v-if="!hideNavBtns"
              -->
@@ -109,13 +110,17 @@ const props = defineProps([
     'showFilterView'
 ])
 
-const SET_TYPE_TOGGLE_FONT="20px Instrument Sans"
+
 const getTextWidth = (text:string):number => {
   // re-use canvas object for better performance
   try {
     const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
 
     const context = canvas.getContext("2d");
+    const isMobile = document.documentElement.getAttribute('data-layout') == 'mobile'
+    const fontSize = (isMobile ? '16' : '20')
+  
+    const SET_TYPE_TOGGLE_FONT= fontSize + 'px Instrument Sans'
     context.font = SET_TYPE_TOGGLE_FONT;
     const metrics = context.measureText(text);
     return metrics.width;
@@ -191,6 +196,8 @@ header nav a {
 .header_nav_logo {
   padding: 0px;
   border: 1px solid var(--Primitives-color-greys-ORCBlack, #2C2C2C);
+  width: var(--dimension-button-height-M, 48px);
+  height: var(--dimension-button-height-M, 48px);
 }
 
 .navbar_link {
@@ -226,6 +233,11 @@ header nav a {
 
   background: var(--Colors-nav-bar-button-fill, #F3F2EF);
 }
+[data-layout="mobile"] {
+  .navbar_link.afilter {
+    height: var(--font-button-line-height, 18px)
+  }
+}
 
 .navbar_link.areset {
   display: flex;
@@ -239,7 +251,8 @@ header nav a {
 .navbar_link.aarchive {
   cursor: pointer;
   display: flex;
-  padding: var(--padding-item-vertical-M, 8px) var(--padding-item-horizontal-M, 8px);
+  /* padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px); */
+  padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-S, 8px);
   align-items: center;
   gap: 12px;
   
@@ -266,8 +279,8 @@ header nav a {
   display: flex;
   align-items: flex-start;
   
-  height: var(--dimension-button-height-M, 48px);
-  height: 50px;
+  height: calc(var(--dimension-button-height-M, 48px) + 2px);
+  /* height: 50px; */
 }
 .settype_toggle.projects {
   background: linear-gradient(90deg, 
@@ -300,7 +313,9 @@ header nav a {
   line-height: var(--font-button-line-height, 24px); /* 120% */
 
   
-  height: 24px;
+  height: calc((var(--dimension-button-height-M, 48px) / 2));
+  /* height: 24px; */
+  
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   justify-content: center;
@@ -310,6 +325,13 @@ header nav a {
   
   border-radius: var(--radius-none, 0px);
   border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+}
+
+[data-layout="mobile"] {
+  .navbar_link.navbar_link_projects,
+  .navbar_link.navbar_link_diplom {
+    height: calc((var(--dimension-button-height-M, 48px) / 2) - 3px);
+  }
 }
 
 .navbar_link.navbar_link_projects {

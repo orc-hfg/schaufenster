@@ -1,5 +1,6 @@
 <template>
   <div class="intro_page" data-theme="dark" @click.prevent.once="switchPage()">
+  <!-- TODO mobile theme: dynamic fonts font sizes -->
     <header>
       <nav class="wrap_left">
         <NuxtLink to="/" class="home_link">

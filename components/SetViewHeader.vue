@@ -1,14 +1,12 @@
 <template>
   <header>
     <nav class="nav">
-
+<!-- TODO mobile theme btn paddings -->
       <NuxtLink 
         class="header_nav_logo fade_out"
         :class="{hidden_fade_out: hideNav || showInfo}"
         @click="$emit('clickedBack')">
-        <!-- :to="'/setlist/' + settype" > -->
           <IconsNavHome/>
-          <!-- <div class="content">Zurück</div> -->
       </NuxtLink>
       <!--        
       <NuxtLink class="navbar_set_link parent_link animate_up"
@@ -183,6 +181,7 @@ const getLinkStyle = (path_set_id:string) => {
     (path_set_id == props.activeSetId)
     ||
     showPath2Root.value
+  // TODO mobile value if title is hidden
   return {width: (isShowTitle ? getTitleWidth(path_set_id) : '24px')}
 }
 
@@ -253,8 +252,11 @@ const getTextWidth = (text:string, font:string):number => {
 
 const getTitleWidth = (id:string): string => {
   //const result = getColTitle(id).length * 24;
-  const result = getTextWidth(getColTitle(id),"500 20px Instrument Sans")
-  return (result + 10) + 'px';
+  const isMobile = document.documentElement.getAttribute('data-layout') == 'mobile'
+  const fontSize = (isMobile ? '500 16' : '500 20')
+  const result = getTextWidth(getColTitle(id),fontSize + 'px Instrument Sans')
+  //return (result + 10) + 'px';
+  return (result + (isMobile ? 15 : 10)) + 'px';
 }
 
 onMounted(() => {
@@ -307,7 +309,7 @@ onMounted(() => {
   border: 1px solid green;
   position: relative;
   display: contents;
-  height: 50px;
+  /* height: 50px; */
   width: min-content;
 }
 
@@ -345,24 +347,24 @@ onMounted(() => {
   /* transition: width 500ms; */
   transition: all 500ms ease-out;
   overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  max-width: calc(100vw - 96px - 48px - 12px); /* space for nav home and nav info */
 }
 
 .navbar_set_link.parent_link span {
   display: inline-block;
-  height: 24px;
+  /* height: 24px; */
   overflow: hidden;
 }
 
 .navbar_set_link.parent_link:hover {
-  width: 20rem;
+  width: 20rem; /* dummy number, real num is computed */
 }
-/* .navbar_set_link.grow_width {
-  width: auto;
-  transition: all 1s linear;
-} */
+
 
 nav {
-  width: calc(100vw - var(--dimension__icon__sizeM, 24px));
+  width: calc(100vw - 2 * var(--dimension---margin-header-margin, 12px));
 }
 
 .navbar_set_link.info {
@@ -374,8 +376,8 @@ nav {
   display: flex;
   /* width: var(--dimension-button-height-M, 48px);
   height: var(--dimension-button-height-M, 48px); */
-  width: var(--dimension-button-height-M, 24px);
-  height: var(--dimension-button-height-M, 24px);
+  width: var(--dimension-icon-size-M, 24px);
+  height: var(--dimension-icon-size-M, 24px);
   justify-content: center;
   align-items: center;
   gap: 20px;

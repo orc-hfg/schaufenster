@@ -1,6 +1,7 @@
 <template>
 
     <NuxtPage
+    
       class="page"
        :class="{
       'page-in': !isNoClip && isShowPageIn,
@@ -44,6 +45,9 @@ const useAppSettings = useState('appSettings')
 
 const showMenu = ref(false)
 
+const isMobile = ref(true);
+
+
 const {
     locale,
     defaultLocale
@@ -53,7 +57,6 @@ const initMadek = () => {
   console.log("initMadek")
 
   const madek_store = useMadekStore()
-
   madek_store.initPublic().then(() => {
       console.log("initMadek: madek appsettings loaded")
       useAppSettings.value = {
@@ -109,9 +112,7 @@ router.beforeEach((to, from, next) => {
 
 const isShowPageIn = ref(false)
 const isNoClip = ref(false)
-watch(() => route.fullPath, () => {
-
-  
+watch(() => route.fullPath, () => {  
   // dont confuse running animation
   setTimeout(() => {
     console.error(" switch anim mode " + isShowPageIn.value)
@@ -119,33 +120,42 @@ watch(() => route.fullPath, () => {
   },3000)
 
   console.log("APP: changed route: " + JSON.stringify(route.fullPath));
-  
-/*
-  if (newVal?.name?.indexOf("diploma") >= 0) {
-    showNavDiplom.value = true;
-    showFilterView.value = false;
-    
-  } else {
-    showNavDiplom.value = false;
-    
-  }
-  if (newVal?.name?.indexOf("projects") >= 0) {
-    showNavProjects.value = true;
-    showFilterView.value = false;
-  } else {
-    showNavProjects.value = false;
-  }
-  */
-  /* setTimeout(() => {
-    showHomeHover.value = false;
-  }, 1000); */
+
 });
 
 
 initApp();
 
+const onkeyupEv = (ev:KeyboardEvent) => {
+  console.log(" onkeyup " + ev.code)
+  if ((ev.altKey || ev.ctrlKey) && ev.code == 'KeyL') {
+    
+    isMobile.value = !isMobile.value
+    document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
+    console.log('switched to mobile: ' + isMobile.value)
+  }
+}
+
+const updateMobileStateByWinWidth = () => {
+  if (window.innerWidth < 1024) {
+    isMobile.value = true
+  } else {
+    isMobile.value = false
+  }
+  console.log("updateMobileStateByWinWidth: " + window.innerWidth + ":" + isMobile.value)
+}
+
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "light");
+  updateMobileStateByWinWidth()
+  window.addEventListener("resize", (ev) => {
+    updateMobileStateByWinWidth()
+  })
+  document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
+  document.addEventListener('keyup', onkeyupEv, true)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('keyup', onkeyupEv,true)
 })
 
 </script>
@@ -161,7 +171,8 @@ onMounted(() => {
   transition: all 0ms;
 }
 .page-out.page-leave-active {
-  clip-path: circle(calc(max(100vw, 100vh)) at 50vw 50vh) !important;
+  /*max(100vw, 100vh) */
+  clip-path: circle(calc(sqrt( pow(100vw) + pow(100vh))) at 50vw 50vh) !important;
   transition: clip-path 800ms ease-out;
   z-index: 10;
 }

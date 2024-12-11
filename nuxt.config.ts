@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/i18n", "nuxt-swiper", "@pinia/nuxt"],
   app: {
-    baseURL: '/schaufenster',
+    baseURL: process.env.NUXT_APP_BASE_URL || '/schaufenster',
     head: {
       "meta": [
         {
@@ -32,7 +32,7 @@ export default defineNuxtConfig({
   },
   $production: {
     app: {
-      baseURL: '/schaufenster',
+      baseURL: process.env.NUXT_APP_BASE_URL || '/schaufenster',
       head: {
         "meta": [
           {
@@ -51,6 +51,9 @@ export default defineNuxtConfig({
     public: {
       SET_VIEW_PROJECT_TITLE_MAX_LENGTH: 50
     }
+  },
+  vite: {
+    base: process.env.NUXT_APP_BASE_URL || '/schaufenster'
   }
 
   //swiper: {

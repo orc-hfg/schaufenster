@@ -5,7 +5,8 @@ import { useFetch } from 'nuxt/app'
 export const apiHelper = (baseUrl?: string) => {
 
     const apiConfig = {
-        baseUrl: baseUrl || 'https://dev.madek.hfg-karlsruhe.de'
+        baseUrl: baseUrl || 'https://staging.madek.hfg-karlsruhe.de'
+        //baseUrl: baseUrl || 'https://dev.madek.hfg-karlsruhe.de'
         //baseUrl: baseUrl || 'http://localhost:8080'
         //baseUrl: baseUrl || 'http://localhost:3104'
         ,

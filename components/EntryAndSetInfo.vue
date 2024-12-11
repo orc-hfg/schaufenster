@@ -13,8 +13,7 @@
       v-else>
   
       <div class="section_entry">
-        <div class="meta_info"
-          style=" height: 15vh">
+        <div class="meta_info top_gap">
           <br/>  
           <br/>
         </div>
@@ -292,6 +291,7 @@ const getMDMediaCreatorsList = () => {
 <style>
 
 
+
 .entry_info {
   /* border: 1px solid blue; */
   position: fixed;
@@ -301,36 +301,45 @@ const getMDMediaCreatorsList = () => {
   left: calc(50vw + 24px);
   width: calc(50vw + 48px);
   height: 100vh;
+
   overflow-y: auto;
 
   scrollbar-width: 0px;
   scrollbar-color: transparent;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+
+  z-index: 10;
+  
+  background-color: var(--Colors-background-default);
+  justify-content: center;
 }
 
 .entry_info::-webkit-scrollbar {
   visibility: hidden;
 }
 
-.entry-info-slide-enter-active {
-  transition: all 0.5s linear;
+/* 
+ * toggle meta data 
+ */
+
+.entry_info {
+  transition: all 300ms ease-in;
+  /* transition-delay: 300ms; */
+}
+.entry_info.hidden {
   transform: translateX(50vw);
-}
-.entry-info-slide-leave-active {
-  transition: all 0.5s linear;
-}
-.entry-info-slide-enter-to {
-  transform: translateX(0);
-  
-}
-.entry-info-slide-leave-to {
-  transform: translateX(50vw);
+  transition: all 300ms ease-out;
+  /* "Kaugummi"-Effekt verhindern */
+  /* Siehe https://cloud.hfg-karlsruhe.de/index.php/f/1918387 */
+  visibility: hidden;
 }
 
 .entry_info_panel {
-  width: calc(50vw - 80px);
-  padding: var(--spacing-betweenitemsM, 12px) var(--spacing-betweenitemsM,12px);
+  /* border: 1px solid red; */
+  width: calc(100% - 80px);
+  margin:auto;
+  padding: var(--spacing-between-items-M, 12px) var(--spacing-between-items-M,12px);
 
     display: flex;
     /* width: 100%; */
@@ -339,6 +348,10 @@ const getMDMediaCreatorsList = () => {
     gap: var(--spacing-meta-info-between-sections, 80px);
     flex-shrink: 0;
     margin-bottom: 5rem;
+}
+
+[data-layout="mobile"] {
+
 }
 
 .section_entry {
@@ -362,6 +375,14 @@ const getMDMediaCreatorsList = () => {
     align-items: flex-start;
     gap: var(--spacing-meta-info-between-rows, 6px);
     align-self: stretch;
+}
+.meta_info.top_gap {
+  height: 15vh;
+}
+[data-layout="mobile"] {
+  .meta_info.top_gap {
+    height: 48px;
+  }
 }
 .meta_title {
     user-select: none;

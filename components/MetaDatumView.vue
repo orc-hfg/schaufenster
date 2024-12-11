@@ -368,7 +368,8 @@ transition: all 300ms ease-out;
     user-select: text;
 
     display: flex;
-    height: var(--dimension-button-height-M, 32px);
+    /* height: var(--dimension-button-height-M, 48px); */
+    height: var(--dimension-button-height-S, 32px);
     padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px);
     align-items: center;
     gap: var(--spacing-item-inner, 8px);

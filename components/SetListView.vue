@@ -152,10 +152,26 @@ const {
 } = treeHelper();
 
 //const RID = 'root'
-const intro_info_style = ref(mergeSetTypeColor(props.settype,getPixelSizedStyle(240,210)))
+/* 
+desktop:
+--font-h1-font-size:240px;
+--font-h1-line-height:210px;
+mobile:
+--font-h1-font-size:60px;
+--font-h1-line-height:60px;
+*/
+const updateStyles = () => {
+  const is_mobile = document.documentElement.getAttribute('data-layout') == "mobile"
+  const h1_pixel_sized = (is_mobile ? getPixelSizedStyle(60,60) : getPixelSizedStyle(240,210))
+  intro_info_style.value = mergeSetTypeColor(props.settype, h1_pixel_sized)
+  year_info_style.value = mergeSetTypeColor(props.settype, h1_pixel_sized)
+}
+const intro_info_style = ref(mergeSetTypeColor(props.settype, getPixelSizedStyle(240,210)))
 const year_info_style = ref(mergeSetTypeColor(props.settype, getPixelSizedStyle(240,210)))
 
-
+onMounted(() => {
+  updateStyles()
+})
 const swiperMain = ref({} as typeof Swiper);
 const swiperMoving = ref(false)
 

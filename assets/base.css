@@ -228,12 +228,13 @@
     }
 
     header nav a {
-      height: 24px;
+      /* height: 24px; */
       padding: 12px;
       float: left
     }
     .header_nav_logo {
-      width: 48px; height: 48px;
+      width: var(--dimension-button-height-M, 48px);
+      height: var(--dimension-button-height-M, 48px);
       padding: 0;
     }
     .nav-logo-orc path {

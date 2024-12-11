@@ -35,6 +35,7 @@ const {
 const filteredTreeList = ref()
 const filterFor = ref('')
 
+const mobile_show_projects = ref(false)
 const emit = defineEmits(['closed', 'applied'])
 const props = defineProps(['trees_map', 'tree_type', 'useCurrentFilters', 'useCleanFilters'])
 
@@ -391,6 +392,7 @@ const getShowAllStyle = (meta_key) => {
   <div class="filter_view"
     data-theme="light"
     :class="{hidden: animate_intro}">
+    <!-- TODO mobile theme: complete different layout; show more/less sizes; btn paddings -->
     <header class="header">
       <nav class="nav">
         <div class="wrapper_left">
@@ -448,8 +450,23 @@ const getShowAllStyle = (meta_key) => {
     </header>
 
     <div class="filter_content">
-    
-      <div class="wrapper_filter">
+      <div class="content_toggle">
+        <button 
+          class="content_toggle_filter"
+          @click="mobile_show_projects = !mobile_show_projects"
+          :class="{active: !mobile_show_projects}">
+          Filter
+        </button>
+        
+        <button
+          class="content_toggle_projects"
+          @click="mobile_show_projects = !mobile_show_projects"
+          :class="{active: mobile_show_projects}">
+          Projekte
+        </button>
+      </div>
+      <div class="wrapper_filter"
+        :class="{mobile_hidden:mobile_show_projects}">
 
         <!-- HH Können statt den filter-translations die meta_info-translations verwendet werden? Redundanz vermeiden. -->
 
@@ -670,7 +687,8 @@ const getShowAllStyle = (meta_key) => {
 
       </div>
 
-      <div class="wrapper_projects">
+      <div class="wrapper_projects"
+        :class="{mobile_hidden:!mobile_show_projects}">
         <div class="filter_headline">{{ $t('filter.label_projects') }}</div>
         
 
@@ -936,6 +954,7 @@ nav {
 .wrapper_projects {
   /* border: 1px solid blue; */
   position: absolute;
+  top: 0px;
   left: calc(50vw + 24px);
   width: calc(40vw - 24px);
   height: calc(100vh - 200px);
@@ -956,6 +975,49 @@ nav {
 
 .wrapper_projects::-webkit-scrollbar {
   display: none;
+}
+
+.content_toggle {
+  display: none;
+}
+[data-layout="mobile"] {
+  .content_toggle {
+    display: block;
+    border: 1px solid var(--Colors-filter-chip-fill-outline);
+    position: absolute;
+    bottom: 32px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    background-color: var(--Colors-background-default);
+    z-index: 20;
+    
+    
+  }
+  .content_toggle > * {
+    padding: 12px;
+    height: 56px;
+    width: 148px;
+  }
+
+  .content_toggle .active {
+    color: var(--Colors-filter-chip-text-active);
+    background-color: var(--Colors-filter-chip-fill-active);
+  }
+  .wrapper_filter,
+  .wrapper_projects {
+    padding-top: 48px;
+    top: 160px;
+    left: calc(0vw + 24px);
+    width: calc(100vw - 48px);
+    height: calc(100vh - 248px);
+  }
+
+  .wrapper_filter.mobile_hidden,
+  .wrapper_projects.mobile_hidden {
+    transform: translateY(100vh);
+  }
+
 }
 
 .meta_key_filter,

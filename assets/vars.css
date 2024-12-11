@@ -174,77 +174,176 @@
 --Colors-text-secondary: var(--Primitives-color-greys-MediumGrey)
 }
 
+/* .Spaces_Dimensions {*/
+/* [data-layout="desktop"] { */
 
-.Spaces_Dimensions {
+:root {
+  --dimension-btmbar-img-height:64px; /* used + 32px */
+  --dimension-btmbar-img-width:48px; /* used + 24px */
+  --dimension-btmbar-plusicon:48px; /* unused */
 
-  /* :root { */
-    --spacing-between-items-S:4;
-    --padding-item-horizontal-M:12;
-    --padding-item-vertical-M:12;
-    --spacing-item-inner:8;
-    --spacing-navbar-between-items:4;
-    --dimension-icon-size-M:24;
-    --dimension-button-height-M:48;
-    --dimension-button-height-S:32;
-    --radius-full:9999;
-    --radius-none:0;
-    
-    --padding-item-horizontal-L:16;
-    --dimension-icon-size-L:32;
-    --dimension-btmbar-img-height:64;
-    --dimension-btmbar-img-width:48;
-    --padding-item-vertical-S:8;
-    --spacing-between-items-M:12;
-    --padding-item-horizontal-S:8;
-    --spacing-meta-info-between-sections:80;
-    --spacing-meta-info-between-sub-sections:24px;
-    --font-h1-font-size:240;
-    --font-h1-line-height:210;
-    --font-h2-font-size:120;
-    --font-h2-line-height:146;
-    --font-h3-font-size:48px;
-    /* HH in index.vue war derselbe Wert wie font-size vergeben */
-    --font-h3-line-height:48px;
-    /* --font-h3-line-height:60; */
-    --font-h4-font-size:32;
-    --font-h4-line-height:40;
-    --font-body-font-size:20;
-    --font-body-line-height:24;
-    --font-button-font-size:20;
-    --font-button-line-height:24;
-    --font-subline-font-size:20;
-    --font-subline-line-height:24;
-    --font-number-L-fonts-ize:16;
-    --font-number-L-line-height:18;
-    --font-number-M-font-size:14;
-    --font-number-M-line-height:18;
-    --font-number-S-font-size:12;
-    --font-number-S-line-height:14;
-    --spacing-betweenitems-L:16;
-    --spacing-meta-info-betweenrows:6;
-    --margin-headermargin:12;
-    --margin-body-margin:96;
-    --spacing-metainfo-betweensliderlist:20;
-    --padding-filterheadbtm_:24;
-    --dimension-btmbar-plusicon:48;
-    --margin-navbar-leftrighttopbtm:12;
-    --margin-navbar-institution-logo-right:10;
-    --spacing-between-menu-items:20;
-    --margin-btmbar-mainbutton:20;
-    --margin-btmbar-set-right:46;
-    --margin-btmbar-betweensets:4;
-    --margin-btmbar-endofsets:40;
-    
-    --padding-item-horizontal-XS:0;
-    --padding-item-vertical-L:16;
-    --padding-item-vertical-XS:0;
+  --dimension-button-height-M:48px;
+  --dimension-button-height-S:32px;
 
-    --padding-container-bottom-XL:112;
-    --padding-container-bottom-M:32;
-    --padding-container-vertical-M:32;
-    --padding-container-bottom-L:48;
+  --dimension-icon-size-M:24px;
+  --dimension-icon-size-L:32px;
 
-    --margin-entry-info-title-top: 40px;
+  --font-h1-font-size:240px;
+  --font-h1-line-height:210px;
+  --font-h2-font-size:120px;
+  --font-h2-line-height:146px;
+  --font-h3-font-size:48px;
+  /* HH in index.vue war derselbe Wert wie font-size vergeben */
+  --font-h3-line-height:48px;
+  /* --font-h3-line-height:60; */
+  --font-h4-font-size:32px;
+  --font-h4-line-height:40px;
+
+  --font-body-font-size:20px;
+  --font-body-line-height:24px;
+
+  --font-button-font-size:20px;
+  --font-button-line-height:24px;
+
+  --font-subline-font-size:20px;
+  --font-subline-line-height:24px;
+
+  --font-number-L-fonts-ize:16px;
+  --font-number-L-line-height:18px;
+  --font-number-M-font-size:14px;
+  --font-number-M-line-height:18px;
+  --font-number-S-font-size:12px;
+  --font-number-S-line-height:14px;
+  
+  --margin-body-margin:96px;
+
+  --margin-btmbar-mainbutton:20px; /*TODO*/
+  --margin-btmbar-set-right:46px;
+  --margin-btmbar-betweensets:4px;
+  --margin-btmbar-endofsets:40px;/*TODO*/
+  
+  --margin-headermargin:12px;/*TODO*/
+  --margin-entry-info-title-top: 40px;
+
+  --margin-navbar-leftrighttopbtm:12px;
+  --margin-navbar-institution-logo-right:10px;
+
+  --padding-container-bottom-XL:112px;
+  --padding-container-bottom-M:32px;
+  --padding-container-vertical-M:32px;
+  --padding-container-bottom-L:48px;
+
+  --padding-filterheadbtm_:24px;
+
+  --padding-item-horizontal-L:16px;
+  --padding-item-horizontal-M:12px;
+  --padding-item-horizontal-S:8px;
+  --padding-item-horizontal-XS:0px;
+
+  --padding-item-vertical-M:12px;
+  --padding-item-vertical-L:16px;
+  --padding-item-vertical-S:8px;
+  --padding-item-vertical-XS:0px;
+
+  --radius-full:9999px;
+  --radius-none:0px;
+
+  --spacing-between-items-L:16px;
+  --spacing-between-items-M:12px;
+  --spacing-between-items-S:4px;
+  --spacing-between-menu-items:20px;
+
+  --spacing-item-inner:8px;
+  --spacing-navbar-between-items:4px;
+
+  --spacing-meta-info-between-sections:80px;
+  --spacing-metainfo-between-sliderlist:20px;
+  --spacing-meta-info-between-sub-sections:24px;
+  --spacing-meta-info-betweenrows:6px;
+}
+
+[data-layout="mobile"] {
+  --dimension-btmbar-img-height:64px; /* used + 32px */
+  --dimension-btmbar-img-width:48px; /* used + 24px */
+  --dimension-btmbar-plusicon:48px; /* unused */
+
+  --dimension-button-height-M:42px;
+  --dimension-button-height-S:32px;
+      
+  --dimension-icon-size-M:18px;
+  --dimension-icon-size-L:24px;
+  
+  --font-h1-font-size:60px;
+  --font-h1-line-height:60px;
+  --font-h2-font-size:60px;
+  --font-h2-line-height:60px;
+  --font-h3-font-size:32px;
+  --font-h3-line-height:36px;
+  --font-h4-font-size:32px;
+  --font-h4-line-height:40px;
+
+  --font-body-font-size:16px;
+  --font-body-line-height:18px;
+
+  --font-button-font-size:16px;
+  --font-button-line-height:18px;
+
+  --font-subline-font-size:16px;
+  --font-subline-line-height:18px;
+
+  --font-number-L-fonts-ize:16px;
+  --font-number-L-line-height:18px;
+  --font-number-M-font-size:14px;
+  --font-number-M-line-height:18px;
+  --font-number-S-font-size:12px;
+  --font-number-S-line-height:14px;
+  
+  --margin-body-margin:20px;
+
+  --margin-btmbar-main-button:20px;
+  --margin-btmbar-set-right:46px;
+  --margin-btmbar-between-sets:4px;
+  --margin-btmbar-end-of-sets:40px;
+
+  --margin-header-margin:12px;
+  --margin-entry-info-title-top: 40px; /*TODO look in figma*/
+  
+  --margin-navbar-leftrighttopbtm:12px;
+  --margin-navbar-institution-logo-right:10px;
+
+  --padding-container-bottom-XL:64px;
+  --padding-container-bottom-L:32px;
+  --padding-container-bottom-M:24px;
+  --padding-container-vertical-M:24px;
+
+  --padding-filterheadbtm_:24px;
+
+  --padding-item-horizontal-L:16px;
+  --padding-item-horizontal-M:12px;
+  --padding-item-horizontal-S:8px;
+  --padding-item-horizontal-XS:0px;
+
+  --padding-item-vertical-L:16px;
+  --padding-item-vertical-M:12px;
+  --padding-item-vertical-S:8px;
+  --padding-item-vertical-XS:0px;
+
+  --radius-full:9999px;
+  --radius-none:0px;
+
+  --spacing-between-items-L:16px;
+  --spacing-between-items-M:12px;
+  --spacing-between-items-S:4px;
+  --spacing-between-menu-items:20px;
+
+  --spacing-item-inner:8px;
+  --spacing-navbar-between-items:4px;
+
+  --spacing-meta-info-between-sections:40px;
+  /* in figma 80 !*/
+  --spacing-metainfo-betweensliderlist:20px;
+  --spacing-meta-info-between-sub-sections:24px;
+  --spacing-meta-info-betweenrows:6px;
   }
 
   .Blurs {

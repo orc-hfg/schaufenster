@@ -1,5 +1,6 @@
 <template>
   <div class="setview_page">
+  <!-- TODO mobile theme: different layout meta-data (animations); -->
     <SetViewHeader 
       :settype="settype"
       :treeid="treeid"
@@ -145,7 +146,7 @@
       </div>
     </swiper>
 
-
+<!-- TODO mobile theme: layout and animation meta-data -->
     <EntryAndSetInfo
       v-if="currentTree && currentTree.colTitlesMap &&  !entries[activeEntryIndex].isSubSet"
       :class="{hidden: !showInfo}"
@@ -178,6 +179,7 @@
           <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
         </div>
       </Transition> -->
+      <!-- TODO mobile theme: bottom bar slider -->
       <swiper
         :modules="modules"
         class="swiper_nav"
@@ -1208,12 +1210,12 @@ const handleMouseLeave = () => {
   /* HH to correctly position prev-nex-arrows */
   --margin-top-swiper: 80px;
 
-  position: absolute;
-  left: 0;
+  position: relative;
+  left: 0px;
   width: 100%;
   height: 100%;
-  top: 0;
-  margin: 0;
+  top: 0px;
+  margin: 0px;
   opacity: 1;
 }
 
@@ -1355,41 +1357,6 @@ const handleMouseLeave = () => {
 
 
 
-.swiper_main.info_active .main_preview {
-  /* position: absolute;
-  left: 48px;
-  top: 10vh;
-  height: 74vh;
-  width: calc(50vw - 96px);
-  transition: all 500ms linear; */
-  /* width: calc(50vw - 32px); */
-
-  /* height: 50vh;
-  width: 48vw;
-  top: 25%;
-  left: 2vw;
-  transition: all 300ms ease-in; */
-}
-
-/* 
- * toggle meta data 
- */
-
-.entry_info {
-  z-index: 10;
-  /* border: 1px solid blue; */
-  background-color: var(--Colors-background-default);
-  transition: all 300ms ease-in;
-  /* transition-delay: 300ms; */
-}
-.entry_info.hidden {
-  transform: translateX(50vw);
-  transition: all 300ms ease-out;
-  /* "Kaugummi"-Effekt verhindern */
-  /* Siehe https://cloud.hfg-karlsruhe.de/index.php/f/1918387 */
-  visibility: hidden;
-}
-
 /* 
  * toggle bottom nav 
  */
@@ -1443,9 +1410,6 @@ const handleMouseLeave = () => {
   align-items: center;
 }
 
-/* 
- * 
- */
 
 
 .swiper_main.hidden .main_preview {
@@ -1781,6 +1745,8 @@ progress {
   margin: 0 0;
   width: 72px;
   height: var(--margin-body-margin,96px);
+  width: calc(var(--dimension-btmbar-img-width, 48px) + 24px);
+  height: calc(var(--dimension-btmbar-img-height, 64px) + 32px);
   /* border: 1px solid black; */
   
   /* background-color: var(--Primitives-color-greys-UltraLightGrey, #F3F2EF); */
@@ -1985,6 +1951,7 @@ progress {
   top: var(--margin-entry-info-title-top, 40px);
   left: 10vw;
   width: 80vw;
+  height: fit-content;
   text-align: center;
   align-content: center;
   /* HH use defined variables */
@@ -1997,13 +1964,14 @@ progress {
   transition: opacity 300ms ease-in, transform 300ms ease-in;
   /* transition: all 500ms ease-in; */
 }
+
 .entry_info_title.fade_hidden {
   transition: opacity 200ms linear;
   opacity: 0;
 }
 .entry_info_title.move_up_hidden {
   transition: transform 300ms ease-out;
-  transform: translateY(-3em);
+  transform: translateY(-6em);
 }
 
 .unblur-enter-active {
@@ -2023,5 +1991,66 @@ progress {
   backdrop-filter: blur(0px);
 }
 
-</style>
+[data-layout="mobile"] {
+  .setview_page {
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* TODO scrollbar hide */
+    scrollbar-width: 0px;
+  }
+  .setview_page::-webkit-scrollbar {
+    visibility: hidden;
+  }
 
+  .entry_info_title {
+    position: relative;
+    /* border: 1px solid red; */
+  }
+  .swiper_main {
+    position: relative;
+    /* top: 0px; */
+    /* top: var(--margin-entry-info-title-top, 40px); */
+    height: calc(95vh - 80px);
+    /* border: 1px solid blue; */
+  }
+  .swiper_main.info_active {
+    /* top: var(--margin-entry-info-title-top, 40px); */
+    transition: all 300ms ease-out;
+  }
+  .image_slide {
+    /* border: 1px solid black; */
+  }
+  .nozoom .image_slide {
+    margin-top: var(--margin-entry-info-title-top, 40px);
+  }
+  .info_active .image_slide,
+  .info_active .video_slide,
+  .info_active .audio_slide {
+    width: 100%;
+    height: 50vh;
+    margin-top: 0px;
+    margin-top: var(--margin-entry-info-title-top, 40px);
+    margin-left: 0%;    
+  }
+
+  
+  .entry_info {
+    z-index: 20;
+    /* border: 1px solid green; */
+    position: relative;
+    top: var(--margin-entry-info-title-top, 40px);
+    top: calc(-50vh + 154px);
+    left: 24px;
+    width: calc(100vw - 48px);
+    height: fit-content;
+  }
+  .entry_info.hidden {
+    transform: translateY(50vh);
+    height: 0px;
+    
+    transition: all 600ms ease-in-out;
+  }
+
+}
+
+</style>

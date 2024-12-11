@@ -26,7 +26,17 @@ const {
 const props = defineProps(['setType','setTitle'])
 const emits = defineEmits(['onClose'])
 const animate_io = ref(true)
-const showSetTitleStyle = ref(mergeSetTypeColor(props.setType, getPixelSizedStyle(120,146)))
+/* 
+desktop:
+--font-h2-font-size:120px;
+--font-h2-line-height:146px;
+mobile:
+--font-h2-font-size:60px;
+--font-h2-line-height:60px;
+*/
+const is_mobile = document.documentElement.getAttribute('data-layout') == "mobile"
+const h2_pixel_sized = (is_mobile ? getPixelSizedStyle(60,60) : getPixelSizedStyle(120,146))
+const showSetTitleStyle = ref(mergeSetTypeColor(props.setType, h2_pixel_sized))
 
 const doClose = () => {
     animate_io.value = true
