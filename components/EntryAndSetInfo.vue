@@ -2,7 +2,7 @@
   <div class="entry_info"
     @scroll="scrolled"
     @wheel="scrolled">
-        
+        <!-- TODO mobile theme: different layout meta-data; show more/less sizes; btn paddings -->
     <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
       No meta data yet.
     </div>
@@ -144,15 +144,13 @@
           :md="currentTree.cols_meta_data[activeSetId]['institution:project_leader']"
           :is-selectable="true"
           @add-filter="addFilter"/>
+          
+          <MetaDatumViewMaterial
+          :title="$t('meta_info.label_project_material')"
+          :mdSource="currentTree.cols_meta_data[activeSetId]"
+          />
 
-        <div class="meta_info" v-if="getMDMaterialList(currentTree.cols_meta_data[activeSetId]).length">
-          <div class="meta_title">
-            {{$t('meta_info.label_project_material')}}
-          </div>
-          <div class="filter_content">
-            <span v-for="(term,idx) in getMDMaterialList(currentTree.cols_meta_data[activeSetId])">{{ (idx !== 0 ? ', ' : '') + term }}</span>
-          </div>
-        </div>
+
 
       </div>
     </div>
@@ -233,25 +231,26 @@ const isShowLocale = (md:object) :boolean => {
   return false
 }
 
-const getMDMaterialList = (mdMap:object) => {
-  const list = [];
-  if (mdMap['creative_work:material']) {
-    mdMap['creative_work:material'].selectedKeywords.forEach(kw => {
-      list.push(kw.term)
-    })
-  }
-  if (mdMap['creative_work:dimension']) {
-    list.push(mdMap['creative_work:dimension'].string)
-  }
-  if (mdMap['creative_work:duration']) {
-    list.push(mdMap['creative_work:duration'].string)
-  }
-  if (mdMap['creative_work:format']) {
-    list.push(mdMap['creative_work:format'].string)
-  }
-  //console.log("getMDMaterialList: " + list)
-  return list;
-}
+
+// const getMDMaterialList = (mdMap:object) => {
+//   const list = [];
+//   if (mdMap['creative_work:material']) {
+//     mdMap['creative_work:material'].selectedKeywords.forEach(kw => {
+//       list.push(kw.term)
+//     })
+//   }
+//   if (mdMap['creative_work:dimension']) {
+//     list.push(mdMap['creative_work:dimension'].string)
+//   }
+//   if (mdMap['creative_work:duration']) {
+//     list.push(mdMap['creative_work:duration'].string)
+//   }
+//   if (mdMap['creative_work:format']) {
+//     list.push(mdMap['creative_work:format'].string)
+//   }
+//   //console.log("getMDMaterialList: " + list)
+//   return list;
+// }
 
 // HH Eintrag Lizenz vorhanden?
 const getMDLicence = () => {
