@@ -284,7 +284,7 @@ const getFilterListId = (md, type) => {
 }
 
 const getAbbrevString = (text:string, show_all:boolean):string => {
-    const result = text.replace('\n','<br>')
+    const result = text.replace(/\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')
     if (show_all == false && text.length > MIN_TEXT_SHOW_COUNT) {
         return result.substring(0, MIN_TEXT_SHOW_COUNT) + '...'
     }
