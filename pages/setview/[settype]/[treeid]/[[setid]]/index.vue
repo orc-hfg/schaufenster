@@ -1289,7 +1289,7 @@ const handleMouseLeave = () => {
  * liefert zwar flüssige Animation aber unschönen Bewegungsverlauf wegen skalieren/positionieren.
  */
 .nozoom .image_slide {
-  height: 75%;
+  height: calc(100vh - 260px);
   margin-top: var(--margin-top-swiper);
 }
 .info_active .image_slide,
