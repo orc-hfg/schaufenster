@@ -202,8 +202,10 @@
     --font-h1-line-height:210;
     --font-h2-font-size:120;
     --font-h2-line-height:146;
-    --font-h3-font-size:48;
-    --font-h3-line-height:60;
+    --font-h3-font-size:48px;
+    /* HH in index.vue war derselbe Wert wie font-size vergeben */
+    --font-h3-line-height:48px;
+    /* --font-h3-line-height:60; */
     --font-h4-font-size:32;
     --font-h4-line-height:40;
     --font-body-font-size:20;
@@ -241,6 +243,8 @@
     --padding-container-bottom-M:32;
     --padding-container-vertical-M:32;
     --padding-container-bottom-L:48;
+
+    --margin-entry-info-title-top: 40px;
   }
 
   .Blurs {

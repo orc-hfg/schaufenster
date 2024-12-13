@@ -1982,29 +1982,28 @@ progress {
 
   z-index: 20;
   position: fixed;
-  top: 2.5rem;
+  top: var(--margin-entry-info-title-top, 40px);
   left: 10vw;
   width: 80vw;
   text-align: center;
   align-content: center;
-  font-size: 3rem;
-  line-height: 3rem;
+  /* HH use defined variables */
+  font-size: var(--font-h3-font-size, 48px);
+  line-height: var(--font-h3-line-height, 48px);
 
   color: var(--Colors-text-primary, #fff);
   opacity: 1;
   
-  
-  transition: transform 300ms ease-in;
-  transition: opacity 500ms ease-in;
-  transition: all 500ms ease-in;
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+  /* transition: all 500ms ease-in; */
 }
 .entry_info_title.fade_hidden {
   transition: opacity 200ms linear;
   opacity: 0;
 }
 .entry_info_title.move_up_hidden {
-  transition: transform 300ms ease-in;
-  transform: translateY(-128px);
+  transition: transform 300ms ease-out;
+  transform: translateY(-3em);
 }
 
 .unblur-enter-active {
