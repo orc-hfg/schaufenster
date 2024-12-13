@@ -4,7 +4,7 @@
 
       <NuxtLink 
         class="header_nav_logo fade_out"
-        :class="{hidden_fade_out: hideNav || showInfo}"
+        :class="{hidden_fade_out: hideNav}"
         @click="$emit('clickedBack')">
         <!-- :to="'/setlist/' + settype" > -->
           <IconsNavHome/>
