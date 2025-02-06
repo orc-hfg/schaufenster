@@ -21,7 +21,7 @@
               @click="toggleBtnSetType != MATCH_PROJECTS && $emit('switch2settype', [MATCH_PROJECTS])"
               >
               <!-- Alle Projekte -->
-              {{ $t('setlist.btn_title_toggle_project') }}
+              {{ projects_label }}
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
@@ -29,7 +29,7 @@
               @click="toggleBtnSetType != MATCH_DIPLOM && $emit('switch2settype' , [MATCH_DIPLOM])"
               >
               <!-- Abschlussarbeiten -->
-              {{ $t('setlist.btn_title_toggle_diplom') }}
+              {{ diploms_label }}
             </NuxtLink>
           </div>
         <!-- </Transition> -->
@@ -42,7 +42,11 @@
               active:showFilterView}"
             @click="$emit('showFilter')">
             <!-- Filter -->
-            {{ $t('setlist.btn_title_filter') }}
+            <!-- <IconWrap class="filter_icon" v-if="isMobile"> -->
+            <IconsFilterSearch class="filter_icon" v-if="isMobile"/>
+            <!-- </IconWrap> -->
+            <span v-else>{{ $t('setlist.btn_title_filter') }}</span>
+            
             <span v-if="filterCount">({{filterCount}})</span>
           </NuxtLink>
         <!-- </Transition> -->
@@ -109,7 +113,7 @@ const props = defineProps([
     'hideNavBtns',
     'showFilterView'
 ])
-
+const isMobile = ref(false)
 
 const getTextWidth = (text:string):number => {
   // re-use canvas object for better performance
@@ -117,8 +121,7 @@ const getTextWidth = (text:string):number => {
     const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
 
     const context = canvas.getContext("2d");
-    const isMobile = document.documentElement.getAttribute('data-layout') == 'mobile'
-    const fontSize = (isMobile ? '16' : '20')
+    const fontSize = (isMobile.value ? '16' : '20')
   
     const SET_TYPE_TOGGLE_FONT= fontSize + 'px Instrument Sans'
     context.font = SET_TYPE_TOGGLE_FONT;
@@ -133,13 +136,19 @@ const getTextWidth = (text:string):number => {
 
 const toggle_project_width = ref("146px")
 const toggle_diplom_width = ref("202px")
+const projects_label = ref('Projects')
+const diploms_label = ref('Diploma')
 
 const updateStyle = () => {
-  const project_width = 29 + getTextWidth( t('setlist.btn_title_toggle_project') )
-  const diplom_width = 30 + getTextWidth( t('setlist.btn_title_toggle_diplom') )
+  isMobile.value = document.documentElement.getAttribute('data-layout') == 'mobile'
+  projects_label.value = isMobile.value ? t('setlist.btn_title_toggle_project_mobile') : t('setlist.btn_title_toggle_project')
+  diploms_label.value = isMobile.value ?  t('setlist.btn_title_toggle_diplom_mobile') : t('setlist.btn_title_toggle_diplom')
+  const project_width = 27 + getTextWidth( projects_label.value ) // + 29
+  const diplom_width = 28 + getTextWidth(diploms_label.value ) // + 30
   console.log(
-    t('setlist.btn_title_toggle_project')
-    + t('setlist.btn_title_toggle_diplom')
+    projects_label.value
+    + " : "
+    + diploms_label.value
     + " pw: " + project_width 
     + " dw: " + diplom_width)
   toggle_diplom_width.value = diplom_width + 'px'
@@ -236,8 +245,14 @@ header nav a {
 [data-layout="mobile"] {
   .navbar_link.afilter {
     height: var(--font-button-line-height, 18px)
+    
+  }
+  .filter_icon {
+    width: 18px;
+    height: 18px;
   }
 }
+
 
 .navbar_link.areset {
   display: flex;
