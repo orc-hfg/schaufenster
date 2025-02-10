@@ -57,6 +57,7 @@ ul {
     margin: 0;
     padding: 0;
     padding-left: 1em;
+    color: var(--Colors-text-primary);
 }
 /* li::marker {
     color: var(--Colors-text-secondary, #CAC9C2)
