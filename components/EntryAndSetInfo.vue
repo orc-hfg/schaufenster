@@ -299,7 +299,9 @@ const getMDMediaCreatorsList = () => {
   top: 0px;
 
   left: calc(50vw + 24px);
-  width: calc(50vw + 48px);
+  /* Breite wird in .entry_info_panel korrekt gesetzt*/
+  /* width: calc(50vw + 48px); */
+  width: 50vw;
   height: 100vh;
 
   overflow-y: auto;
