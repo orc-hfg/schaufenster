@@ -933,7 +933,8 @@ export const treeHelper = () => {
     //console.dir(state.treeMapper)
   };
 
-  const COL_ID_SCHAUFENSTER = '1b464cd5-6e86-47ea-b111-578ba7501cd2'
+  //const COL_ID_SCHAUFENSTER = '1b464cd5-6e86-47ea-b111-578ba7501cd2'
+  const COL_ID_SCHAUFENSTER = '75a2d948-fefa-405f-b8c4-40d7de7c0ddf'
   const CHILD_IDS_SCHAUFENSTER = {} as {[key:string]: string};
 
   const initTree = async () => {
