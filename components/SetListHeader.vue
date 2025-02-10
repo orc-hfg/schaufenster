@@ -143,8 +143,10 @@ const updateStyle = () => {
   isMobile.value = document.documentElement.getAttribute('data-layout') == 'mobile'
   projects_label.value = isMobile.value ? t('setlist.btn_title_toggle_project_mobile') : t('setlist.btn_title_toggle_project')
   diploms_label.value = isMobile.value ?  t('setlist.btn_title_toggle_diplom_mobile') : t('setlist.btn_title_toggle_diplom')
-  const project_width = 27 + getTextWidth( projects_label.value ) // + 29
-  const diplom_width = 28 + getTextWidth(diploms_label.value ) // + 30
+  const project_width = getTextWidth( projects_label.value ) + 
+    (isMobile ? 29 : 27)
+  const diplom_width = getTextWidth(diploms_label.value ) +
+    (isMobile ? 30 : 28) 
   console.log(
     projects_label.value
     + " : "
