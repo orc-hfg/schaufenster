@@ -32,7 +32,7 @@
                 Über diese Website                 
             </h2>
             <p>
-                Diese Website wurde 2024 vom Open Resource Center (ORC) der HfG, gefördert von der Stiftung Innovation in der Hochschullehre, gemeinsam mit den Designern Marcel Strauß und Felix Plachtzik entwickelt. 
+                Schaufenster wurde 2024/2025 vom Team des HfG Open Resource Center mit Unterstützung durch die Stiftung Innovation in der Hochschullehre und in Zusammenarbeit mit den Designern Marcel Strauß und Felix Plachtzik entwickelt.
                 <!-- Der Quellcode kann auf GitHub eingesehen und weiter genutzt werden. -->
             </p>
             <h2>
