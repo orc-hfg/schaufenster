@@ -49,7 +49,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      SET_VIEW_PROJECT_TITLE_MAX_LENGTH: 50
+      SET_VIEW_PROJECT_TITLE_MAX_LENGTH: 50,
+      ROOT_SET: process.env.NUXT_APP_ROOT_SET || '75a2d948-fefa-405f-b8c4-40d7de7c0ddf'
     }
   },
   vite: {
