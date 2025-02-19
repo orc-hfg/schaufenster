@@ -977,12 +977,18 @@ const initSetBtns = (treeId:string, setIdx: number) => {
 
 const MIN_SHOW_COUNT = 4
 // TODO BUG: dont show reset btn if entry count is MIN_SHOW_COUNT
-const initSetEntries = (parentId:string, setId:string, els):number => {
+const initSetEntries = (parentId:string, setId:string, els, arcs):number => {
     let setIdx = 0
     let mx = 0;
     const toShow = showCount.value[setId] || MIN_SHOW_COUNT;
     // set elements
-    for (const eId in els) {
+    // collections order by arcs
+    arcs.forEach(arc => {
+      const eId = arc.media_entry_id
+      if (!els[eId]) {
+        console.error("invalid me " + eId)
+      } else
+      //TODO is this still needed: remove this
       if (eId == '1162575d-557e-46ca-ad5b-007d0bca144d' || eId == 'e03bfb27-baa3-4d05-aa80-83f8b93f8efe') {
         console.error("ignore entry" + eId)
       } else {
@@ -1010,7 +1016,7 @@ const initSetEntries = (parentId:string, setId:string, els):number => {
       }
       mx++
       }
-    }
+    });
     maxCount.value[setId] = mx
     return setIdx
 }
@@ -1021,7 +1027,8 @@ const initSubTree = (rootId:string, treeId: string) => {
 
   // get root entries
   const rels = currentTree.value.edges[rootId][treeId].entries;
-  const rels_count = initSetEntries(rootId, treeId, rels)
+  const arcs = currentTree.value.edges[rootId][treeId].arcs;
+  const rels_count = initSetEntries(rootId, treeId, rels, arcs)
   
   // button
   if (Object.keys(rels).length ) {
@@ -1035,10 +1042,8 @@ const initSubTree = (rootId:string, treeId: string) => {
   // get child set entries
   for (const childId in currentTree.value.edges[treeId]) {
     const els = currentTree.value.edges[treeId][childId].entries;
-    const els_count = initSetEntries(treeId, childId, els)
-
-    // testing: the set itself
-    //initSubSetPreview(treeId, childId)
+    const arcs = currentTree.value.edges[treeId][childId].arcs;
+    const els_count = initSetEntries(treeId, childId, els, arcs)
 
     // set subset
     for (const subChildId in currentTree.value.edges[childId]) {

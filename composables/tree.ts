@@ -552,11 +552,27 @@ export const treeHelper = () => {
   };
 
   const buildSubTreeEntries = async (tree: iTree, treeNode: iTreeNode) => {
+
+    const col = treeNode.collection
+    const sorting = treeNode.collection.sorting || "desc"
+    // collection sorting to api sorting order mapping
+    //"created_at DESC" "desc"
+    //"created_at ASC" "asc"
+    //"last_change"
+    //"title ASC" "title_asc"
+    //"title DESC" "title_desc"
+    //"manual ASC" "manual_asc"
+    //"manual DESC" "manual_desc"
+    const sorting_order = sorting.replace('created_at ','').replace(' ','_').toLowerCase()
+    console.log("buildSubTreeEntries: "
+      + " col.id "+ treeNode.collection.id 
+      + " sorting: " + sorting + " query-order: " + sorting_order)
+      
     const entry_query = {
       public_get_metadata_and_previews: true,
       collection_id: treeNode.collection.id,
       full_data: true,
-      order: "manual_asc",
+      order: sorting_order,
       related_meta_data: true,
       //related_previews: true,
       //related_files: true,
@@ -874,7 +890,7 @@ export const treeHelper = () => {
 
   const fetch_cols_all = async () => {
     const cols_query = {
-      full_data: false,
+      full_data: true,
       public_get_metadata_and_previews: true,
       page: 0,
       size: 10000,
@@ -933,7 +949,6 @@ export const treeHelper = () => {
     //console.dir(state.treeMapper)
   };
 
-  //const COL_ID_SCHAUFENSTER = '1b464cd5-6e86-47ea-b111-578ba7501cd2'
   const COL_ID_SCHAUFENSTER = '75a2d948-fefa-405f-b8c4-40d7de7c0ddf'
   const CHILD_IDS_SCHAUFENSTER = {} as {[key:string]: string};
 
