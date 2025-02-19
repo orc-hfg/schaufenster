@@ -317,17 +317,18 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     }
   
   })
+  /*
   slideList.value.push({
     year: pdate,
     trees: tl
   } as iTreeSlide)
-    
-  
+*/
+/*
   slideList.value.push({
     year: pdate,
     trees: []
   } as iTreeSlide)
-  
+  */
   console.log(" trees map: " + Object.keys(trees_map).length)
 
   console.log(" slide list: " + slideList.value.length)

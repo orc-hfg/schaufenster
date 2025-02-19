@@ -378,7 +378,7 @@ const setMainSwiper = (swiper: Swiper) => {
   top: 112px;
   left: 0px;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 112px - 240px);
   overflow-y: visible;
   background-color: var(--Colors-background-default);
 }
