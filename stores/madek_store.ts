@@ -52,11 +52,20 @@ export const useMadekStore = defineStore('madek', {
             try{
   
                 this.appSettings = (await api.api.appSettingsList()).data
-                
+            } catch(ex) {
+                console.error("Could not load madek app settings." + JSON.stringify(ex))
+                throw ex
+            }
+            try {    
                 const contexts = (await api.api.contextsList()).data
                 contexts?.map((c: ContextsDetailData) => {
                     this.contextsMap.set(c.id, c)
                 })
+            } catch(ex) {
+                console.error("Could not load madek contexts." + JSON.stringify(ex))
+                throw ex
+            }
+            try {
                 
                 const contextKeys = (await api.api.contextKeysList()).data
                 contextKeys?.map((c: ContextKeysDetailData) => {
@@ -66,7 +75,11 @@ export const useMadekStore = defineStore('madek', {
 
                     this.contextKeysMap_context_id_meta_key_id.get(c.context_id)?.set(c.meta_key_id, c)
                 })
-
+            } catch(ex) {
+                console.error("Could not load madek context keys." + JSON.stringify(ex))
+                throw ex
+            }
+            try {
                 const pubMKeys = (await api.api.metaKeysList()).data['meta-keys']
                 pubMKeys?.map((m: MetaKeysDetailData) => {
                     this.publicMetaKeysMap.set(m.id, m)
@@ -74,7 +87,7 @@ export const useMadekStore = defineStore('madek', {
 
                 this.loaded = true
             } catch(ex) {
-                console.error("Could not load madek app settings." + JSON.stringify(ex))
+                console.error("Could not load madek meta keys." + JSON.stringify(ex))
                 throw ex
             }
         },
