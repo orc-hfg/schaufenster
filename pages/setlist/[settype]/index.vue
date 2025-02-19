@@ -145,20 +145,15 @@ const showMenuView = ref(false)
 
 const toggleBtnSetType = ref(route.params.settype)
 
-//const SWITCH_TYPE_PAGE_DELAY = 50;
-
 const switch2settype = (type:string) => {
   route.params.settype = type
   settype.value = type;
   updateSetType()
   toggleBtnSetType.value = type
-  //setTimeout(() => {
-    //router.push('/setlist/' + type)
-    //route.params.settype = type
-    //settype.value = type;
-    //updateSetType()
-    //router.replace('/setlist/' + type)
-  //},SWITCH_TYPE_PAGE_DELAY)
+  const path = '/setlist/' + type
+  router.replace(path)
+  history.pushState({}, "", path)
+  
 }
 const animateSwitch2Set = ref(true)
 const switch2setview = (setid: string) => {
