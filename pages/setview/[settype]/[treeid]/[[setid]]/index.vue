@@ -899,6 +899,7 @@ const onMainSwiperSlideChanged = () => {
 const nav2Element = (el: iNavSlide) => {
   swiperMain.value.slideTo(el.mainIdx - 1)
   swiperNav.value.slideTo(el.index)
+  onMainSwiperSlideChanged()
 }
 
 const setMainSwiper = (swiper) => {
