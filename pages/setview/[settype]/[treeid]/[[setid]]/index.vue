@@ -135,11 +135,13 @@
         
       </swiper-slide>
       <div class="swiper-main-button-prev"
+        v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani}"
         @click.once="swiperMain.slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
+        v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani}"
         @click.once="swiperMain.slideNext()">
         <IconsSliderArrowRight/>
@@ -331,6 +333,9 @@ const {
 
 const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
+
+
+const isMobile = ref(document.documentElement.getAttribute('data-layout') == "mobile")
 
 const useTree = useState("tree");
 
