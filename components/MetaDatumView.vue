@@ -44,6 +44,7 @@
                 :style="getContentHeight()"
                 v-if="md.type == MD_TYPE_KEYWORDS">
                 <div class="filter_tag"
+                    role="button"
                     v-if="isSelectable"
                     v-for="(kw,idx) in md.selectedKeywords"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
@@ -92,6 +93,7 @@
                 v-if="md.type == MD_TYPE_PEOPLE">
             
                 <div class="filter_tag"
+                    role="button"
                     v-if="isSelectable"
                     v-for="(p,idx) in md.selectedPeople"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
@@ -137,6 +139,7 @@
                 :style="getContentHeight()"
                 v-if="md.type == MD_TYPE_ROLES">
                 <div class="filter_tag"
+                    role="button"
                     v-if="isSelectable"
                     v-for="(rp,idx) in md.selectedRoles"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
@@ -180,7 +183,7 @@
     </div> 
 </template>
 <script setup lang="ts">
-//TODO show more btn
+
 const {
   MD_TYPE_TEXT,
   MD_TYPE_TEXT_DATE,
