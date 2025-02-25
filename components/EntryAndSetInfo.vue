@@ -149,13 +149,26 @@
           :mdSource="currentTree.cols_meta_data[activeSetId]"
           />
 
-
+        <!-- link to entry in madek -->
+        <div class="meta_info">
+          <div class="meta_title">
+            {{$t('meta_info.label_madek_source')}}
+          </div>
+          <div class="filter_content">
+            <a class="btn_round"
+              :href="useRuntimeConfig().public.apiBaseUrl + '/entries/' + activeEntryId">
+              {{$t('meta_info.label_madek_source_link')}}
+              <IconsLink/>
+            </a>
+          </div>
+        </div>
 
       </div>
     </div>
   </div>  
 </template>
 <script setup lang="ts">
+
 const { 
   locale
 } = useI18n()
@@ -163,14 +176,6 @@ const {
 const runtimeConfig = useRuntimeConfig()
 
 //TODO animation in vs out
-const {
-  MD_TYPE_TEXT,
-  MD_TYPE_TEXT_DATE,
-  MD_TYPE_JSON,
-  MD_TYPE_KEYWORDS,
-  MD_TYPE_PEOPLE,
-  MD_TYPE_ROLES
-} = madekHelper()
 
 const props = defineProps([
     'activeEntryId',
@@ -231,53 +236,20 @@ const isShowLocale = (md:object) :boolean => {
 }
 
 
-// const getMDMaterialList = (mdMap:object) => {
-//   const list = [];
-//   if (mdMap['creative_work:material']) {
-//     mdMap['creative_work:material'].selectedKeywords.forEach(kw => {
-//       list.push(kw.term)
-//     })
-//   }
-//   if (mdMap['creative_work:dimension']) {
-//     list.push(mdMap['creative_work:dimension'].string)
-//   }
-//   if (mdMap['creative_work:duration']) {
-//     list.push(mdMap['creative_work:duration'].string)
-//   }
-//   if (mdMap['creative_work:format']) {
-//     list.push(mdMap['creative_work:format'].string)
-//   }
-//   //console.log("getMDMaterialList: " + list)
-//   return list;
-// }
-
 // HH Eintrag Lizenz vorhanden?
-const getMDLicence = () => {
+const getMDLicence = ():string => {
   const mdMap = props.currentTree.entries_meta_data[props.activeEntryId]
-  let md = false
+  let resultText = ''
   if (mdMap['rights:licence']) {
-    md = mdMap['rights:licence'].selectedKeywords[0].term
+    resultText = mdMap['rights:licence'].selectedKeywords[0].term
   }
-  return md
+  return resultText
 }
 
-// const getMDLicenceList = () => {
-//   const mdMap = props.currentTree.entries_meta_data[props.activeEntryId]
-//   let list = []
-//   if (mdMap['madek_core:copyright_notice']) {
-//     list.push(mdMap['madek_core:copyright_notice'].string)
-//   }
-//   if (mdMap['rights:licence']) {
-//     list.push(mdMap['rights:licence'].selectedKeywords[0].term)
-//   }
-//   console.log("getMDLicenceList: " + list)
-//   return list
-// }
-
 // HH Personen von Medieneinträgen dürfen keine Buttons sein: sie können nicht gefiltert werden. 
-const getMDMediaCreatorsList = () => {
+const getMDMediaCreatorsList = ():string[] => {
   const mdMap = props.currentTree.entries_meta_data[props.activeEntryId]
-  let list = []
+  let list = [] as string[]
   if (mdMap['media_object:creator_of_media_object']) {
     mdMap['media_object:creator_of_media_object'].selectedPeople.forEach(kw => {
       list.push(kw.searchable)
@@ -290,17 +262,10 @@ const getMDMediaCreatorsList = () => {
 </script>
 <style>
 
-
-
 .entry_info {
-  /* border: 1px solid blue; */
   position: fixed;
-  
   top: 0px;
-
-  left: calc(50vw + 24px);
-  /* Breite wird in .entry_info_panel korrekt gesetzt*/
-  /* width: calc(50vw + 48px); */
+  left: 50vw;
   width: 50vw;
   height: 100vh;
 
@@ -344,7 +309,6 @@ const getMDMediaCreatorsList = () => {
   padding: var(--spacing-between-items-M, 12px) var(--spacing-between-items-M,12px);
 
     display: flex;
-    /* width: 100%; */
     flex-direction: column;
     align-items: flex-start;
     gap: var(--spacing-meta-info-between-sections, 80px);
@@ -435,6 +399,33 @@ const getMDMediaCreatorsList = () => {
 
 .filter_content {
 
+}
+
+.btn_round {
+  user-select: none;
+
+  display: flex;
+  /* height: var(--dimension-button-height-M, 48px); */
+  height: var(--dimension-button-height-S, 32px);
+  padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px);
+  align-items: center;
+  gap: var(--spacing-item-inner, 8px);
+
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
+
+  color: var(--Colors-text-primary, #2C2C2C);
+  text-decoration: none;
+    
+  font-family: "Instrument Sans";
+  font-size: var(--font-body-font-size, 20px);
+  font-style: normal;
+  font-weight: 400; letter-spacing: 0.02rem;
+  line-height: var(--font-body-line-height, 24px); /* 120% */
+}
+
+.btn_round:hover {
+    background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
 }
 
 </style>

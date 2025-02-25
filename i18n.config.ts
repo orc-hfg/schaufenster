@@ -86,6 +86,9 @@ export default defineI18nConfig(() => ({
                 label_license: "Lizenzinformation",
                 license_fallback: "Alle Rechte vorbehalten",
 
+                label_madek_source: "Quelle",
+                label_madek_source_link: "Madek Archiv",
+
                 error_no_data: "Warte auf Meta-Daten...",
 
                 btn_show_more_label: "Zeige mehr",
@@ -179,6 +182,9 @@ export default defineI18nConfig(() => ({
                 label_license: "License information",
                 license_fallback: "All rights reserved",
                 
+                label_madek_source: "Source",
+                label_madek_source_link: "Madek archive",
+
                 error_no_data: "Waiting for Meta-Data...",
 
                 btn_show_more_label: "Show all",
