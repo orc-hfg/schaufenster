@@ -496,9 +496,11 @@ const setMainSwiper = (swiper: Swiper) => {
 
 .intro_info {
   position: fixed;
-  top: calc(50vh - 240px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: -.25em;
   font-size: 10vh;
-  left: 0vw;
   width: 100vw;
   text-align: center;
   z-index: 1010;
@@ -507,14 +509,15 @@ const setMainSwiper = (swiper: Swiper) => {
 
 .year_info {
   position: fixed;
-  top: calc(50vh - 120px);
-  font-size: 10vh;
-  left: 10vw;
-  right: 10vw;
-  text-align: center;
-  align-items: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: -.25em;
   z-index: 1010;
   user-select: none;
+  font-size: 10vh;
+  text-align: center;
+  align-items: center;
   pointer-events: none;
 }
 

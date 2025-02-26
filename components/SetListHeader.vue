@@ -179,7 +179,7 @@ watch(locale, () => {
 header {
   display: flex;
   
-  padding: var(--margin-navbar-left-right-top-btm, 12px);
+  padding: var(--padding-navbar-left-right-top-btm);
   justify-content: space-between;
   align-items: center;
 }
@@ -263,6 +263,12 @@ header nav a {
   gap: 12px;
   
   background: var(--Colors-nav-bar-button-fill, #F3F2EF);
+}
+
+[data-layout="mobile"] {
+  .navbar_link.areset {
+    display: none;
+  }
 }
 
 .navbar_link.aarchive {

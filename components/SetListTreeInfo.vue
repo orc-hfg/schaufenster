@@ -24,10 +24,19 @@
           <div class="cell">
             {{ treeInfo.colTitlesMap[treeInfo.col_id] }}
           </div>
+          
+          <!-- HH Bitte prüfen! -->
           <div class="cell"
+            v-for="(author, authorIdx) in (treeInfo.cols_authors?.[treeInfo.col_id] || []).slice(0, 3)">
+            {{ author }}
+          </div>
+          <div class="cell" v-if="treeInfo.cols_authors?.[treeInfo.col_id]?.length > 3">
+            ...
+          </div>
+          <!-- <div class="cell"
             v-for="author in treeInfo.cols_authors[treeInfo.col_id]">
             {{ author }}  
-          </div>
+          </div> -->
         </div>
         
       </div>
@@ -131,6 +140,20 @@ const props = defineProps([
   display: block;  
   width: fit-content;
   height: 48px;
+}
+
+[data-layout="mobile"] {
+  .project_counter {
+    padding-left: 0;
+    border: 1px solid;
+    width: 100%;
+    .content {
+      padding: 0;
+    }
+    .cell:last-of-type {
+      display: none;
+    }
+  }
 }
 
 .content {

@@ -382,7 +382,7 @@ const switch2SetView = (tree_col_id: string) => {
 
 const getShowAllStyle = (meta_key) => {
   if (!showAll.value[meta_key]) {
-    return { height: '56px'}
+    return { height: 'var(--dimension-filter-cloud-height)'}
   } 
   return {height: showAllHeight.value[meta_key]}
 }
@@ -410,7 +410,10 @@ const getShowAllStyle = (meta_key) => {
         <div class="wrapper_mid">
           <button class="btn_apply"
             @click.once="applyFilter()">
-            <div class="label">{{ $t('filter.btn_apply_label') }}&nbsp;({{ selectedFilterCount }})</div>
+            <div class="label">
+              {{ $t('filter.btn_apply_label') }} 
+              <div class="label_filter_count">({{ selectedFilterCount }})</div>
+            </div>
           </button>
           <!-- <button class="btn_close"
             @click="closeFilter()">
@@ -442,7 +445,9 @@ const getShowAllStyle = (meta_key) => {
               <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            {{$t('filter.btn_reset_label')}}
+            <div class="btn_close_label">
+              {{$t('filter.btn_reset_label')}}
+            </div>
           </button>
           
         </div>
@@ -450,7 +455,8 @@ const getShowAllStyle = (meta_key) => {
     </header>
 
     <div class="filter_content">
-      <div class="content_toggle">
+      <div class="content_toggle"
+        :class="{'projects-active': mobile_show_projects}">
         <button 
           class="content_toggle_filter"
           @click="mobile_show_projects = !mobile_show_projects"
@@ -767,7 +773,6 @@ header {
 
 
 nav {
-  
   /* border: 1px solid green; */
   width: 100%;
   display: flex;
@@ -799,11 +804,34 @@ nav {
   
   /* gap: var(--margin-navbar-institution-logo-right, 10px); */
   gap: var(--spacing-between-menu-items, 20px);
-  flex-shrink: 0;
+
+  /* HH wegen flex-shrink fließt .wrapper_mid in mobile über nav hinaus */
+  /* flex-shrink: 0; */
   transition: all 500ms ease-out;
 }
 .hidden .wrapper_mid {
-  transform: translateY(-10vh);
+  transform: translateY(-20vh);
+}
+
+[data-layout="mobile"] {
+  .wrapper_mid {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .input_wrapper {
+    order: 3;
+    width: calc(100% + var(--dimension-button-height-M));
+    margin-left: calc(-1 * var(--dimension-button-height-M));
+    .filter_text_input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+  .btn_close_label {
+    display: none;
+  }
 }
 
 .btn_logo {
@@ -836,19 +864,19 @@ nav {
 }
 
 .btn_apply {
-  /* display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-navbar-between-items, 4px); */
   border: none;
   color: var(--Colors-filter-chip-text-default, #2C2C2C);
   padding: var(--padding-item-vertical-M, 12px) 0;
 }
-/* .btn_apply .label {
+/* HH vermeiden, dass der header "springt", wenn sich die Zahl in filter_count verändert */
+.btn_apply .label {
   display: flex;
-  padding-right: var(--margin-navbar-institution-logo-right, 10px);
-  align-items: center;
-  gap: var(--margin-navbar-institution-logo-right, 10px);
-} */
+  gap: var(--padding-item-horizontal-S);
+}
+.btn_apply .label_filter_count {
+  width: 3em;
+  text-align: left;
+}
 
 .btn_close {
   cursor: pointer;
@@ -927,97 +955,115 @@ nav {
   top: 20vh;
 }
 
+
+.wrapper_filter,
+.wrapper_projects {
+  /* border: 1px solid red/blue */
+  position: absolute;
+  top: 0px;
+  width: calc(40vw - 24px);
+  height: calc(100vh - 180px);
+  padding-top: 180px;
+  overflow-y: scroll;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 .wrapper_filter {
   /* border: 1px solid red; */
-  position: absolute;
-  top: 0px;
   left: 10vw;
-  width: calc(40vw - 24px);
-  
-
-  display: flex;
-  
-  height: calc(100vh - 200px);
-  overflow-y: scroll;
-  padding-top: 200px;
-
-  flex-direction: column;
-  align-items: flex-start;
   gap: 40px;
+  & > div:last-of-type {
+    margin-bottom: 4em;
+  }
+}
 
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-.wrapper_filter::-webkit-scrollbar {
-  display: none;
-}
 .wrapper_projects {
   /* border: 1px solid blue; */
-  position: absolute;
-  top: 0px;
   left: calc(50vw + 24px);
-  width: calc(40vw - 24px);
-  height: calc(100vh - 200px);
-  
-
-  display: flex;
-  
-  
-  overflow-y: scroll;
-  padding-top: 200px;
-  flex-direction: column;
-  align-items: flex-start;
   gap: 16px;
-
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  & > div:last-of-type {
+    margin-bottom: 5em;
+  }
 }
 
+.wrapper_filter::-webkit-scrollbar,
 .wrapper_projects::-webkit-scrollbar {
   display: none;
 }
 
-.content_toggle {
-  display: none;
-}
-[data-layout="mobile"] {
-  .content_toggle {
-    display: block;
-    border: 1px solid var(--Colors-filter-chip-fill-outline);
-    position: absolute;
-    bottom: 32px;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    background-color: var(--Colors-background-default);
-    z-index: 20;
-    
-    
-  }
-  .content_toggle > * {
-    padding: 12px;
-    height: 56px;
-    width: 148px;
-  }
 
-  .content_toggle .active {
-    color: var(--Colors-filter-chip-text-active);
+/* HH für die besser Übersicht wird das Element unabhängig von data-layout konstruiert */
+.content_toggle {
+  /* HH für desktop ausblenden */
+  display: none;
+
+  border: 1px solid var(--Colors-filter-chip-fill-outline);
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: center;
+  cursor: pointer;
+  background-color: var(--Colors-background-default);
+  z-index: 20;
+  box-shadow: 0px 0px 34px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
     background-color: var(--Colors-filter-chip-fill-active);
+    transition: transform 200ms ease-out;
+    z-index: -1;
   }
+  
+  &.projects-active::before {
+    transform: translateX(100%);
+  }
+}
+.content_toggle > * {
+  padding: 12px;
+  height: 56px;
+  width: 148px;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+.content_toggle .active {
+  color: var(--Colors-filter-chip-text-active);
+  background-color: transparent;
+}
+
+/* HH Steuerung für mobile */
+[data-layout="mobile"] {
+  /* HH Umschalter einblenden */
+  .content_toggle {
+    display: flex;
+  }
+  /* HH Content positionieren und beim Umschalten animieren */
   .wrapper_filter,
   .wrapper_projects {
-    padding-top: 48px;
-    top: 160px;
     left: calc(0vw + 24px);
     width: calc(100vw - 48px);
-    height: calc(100vh - 248px);
+    gap: 0;
+    transition: transform 200ms ease-out;
   }
-
-  .wrapper_filter.mobile_hidden,
+  .wrapper_filter.mobile_hidden {
+    transform: translateX(-100vw);
+  }
   .wrapper_projects.mobile_hidden {
-    transform: translateY(100vh);
+    transform: translateX(100vw);
   }
-
 }
 
 .meta_key_filter,

@@ -188,6 +188,8 @@
   --dimension-icon-size-M:24px;
   --dimension-icon-size-L:32px;
 
+  --dimension-filter-cloud-height:112px;
+
   --font-h1-font-size:240px;
   --font-h1-line-height:210px;
   --font-h2-font-size:120px;
@@ -225,7 +227,6 @@
   --margin-headermargin:12px;/*TODO*/
   --margin-entry-info-title-top: 40px;
 
-  --margin-navbar-leftrighttopbtm:12px;
   --margin-navbar-institution-logo-right:10px;
 
   --padding-container-bottom-XL:112px;
@@ -244,6 +245,8 @@
   --padding-item-vertical-L:16px;
   --padding-item-vertical-S:8px;
   --padding-item-vertical-XS:0px;
+
+  --padding-navbar-left-right-top-btm:12px;
 
   --radius-full:9999px;
   --radius-none:0px;
@@ -272,6 +275,8 @@
       
   --dimension-icon-size-M:18px;
   --dimension-icon-size-L:24px;
+
+  --dimension-filter-cloud-height:96px;
   
   --font-h1-font-size:60px;
   --font-h1-line-height:60px;
@@ -308,7 +313,6 @@
   --margin-header-margin:12px;
   --margin-entry-info-title-top: 40px; /*TODO look in figma*/
   
-  --margin-navbar-leftrighttopbtm:12px;
   --margin-navbar-institution-logo-right:10px;
 
   --padding-container-bottom-XL:64px;
@@ -328,13 +332,15 @@
   --padding-item-vertical-S:8px;
   --padding-item-vertical-XS:0px;
 
+  --padding-navbar-left-right-top-btm:12px;
+
   --radius-full:9999px;
   --radius-none:0px;
 
   --spacing-between-items-L:16px;
   --spacing-between-items-M:12px;
   --spacing-between-items-S:4px;
-  --spacing-between-menu-items:20px;
+  --spacing-between-menu-items:0;
 
   --spacing-item-inner:8px;
   --spacing-navbar-between-items:4px;

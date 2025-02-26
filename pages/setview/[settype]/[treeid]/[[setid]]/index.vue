@@ -1688,9 +1688,15 @@ progress {
   /* opacity: 1; */
 }
 
-/*
- *
- */
+/* HH Sollte überarbeitet werden: Buttons besser über isMobile steuern 
+ * und mobile gar nicht erst in die Swiper-Komponente einbinden, anstatt
+ * sie nachträglich wieder per CSS zu entfernen. */
+[data-layout="mobile"] {
+  .swiper-main-button-prev,
+  .swiper-main-button-next {
+    display: none;
+  }
+}
 
 
  .nav_slide {

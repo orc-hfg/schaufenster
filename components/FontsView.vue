@@ -104,6 +104,7 @@ const font_style = ref()
 
 const selector_open = ref(false)
 
+// HH: @broggn, bitte font-size und line-height an desktop/mobile anpassen
 const updateFont = () => {
     font_style.value = getPixelSizedStyle(210,240)
     mergeSetTypeColor(props.setType, font_style.value, 'dark')
@@ -138,6 +139,7 @@ header {
     line-height: var(--font-button-line-height, 24px); /* 120% */
 
     color: var(--Colors-text-primary, #FFF);
+    align-items: flex-start;
 }
 
 /* HH unused? */
@@ -167,6 +169,17 @@ nav a svg {
     justify-content: center;
     gap: var(--margin-navbar-institution-logo-right, 10px);
 }
+[data-layout="mobile"] {
+    .dropdown_label {
+        display: none
+    }
+    .wrapper_center {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
 .wrapper_dropdown {
     width: fit-content;
     height: 100%;
@@ -324,6 +337,13 @@ nav a svg {
     transition-delay: 150ms;
     opacity: 1;
 }
+[data-layout="mobile"] {
+    .menu_panel {
+        left: 0;
+        width: calc(100% - var(--padding-navbar-left-right-top-btm) * 2);
+        padding: var(--padding-navbar-left-right-top-btm);
+    }
+}
 
 .menu_panel::-webkit-scrollbar {
     display: none;
@@ -354,7 +374,6 @@ nav a svg {
 }
 
 .font_test_view {
-    padding-bottom: 20vh;
     user-select: none;
 }
 .font_test {

@@ -169,7 +169,7 @@ svg {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: var(--spacing-between-menu-items, 20px);
+    gap: var(--spacing-between-menu-items);
     flex-shrink: 0;
     opacity: 1;
     transition: all 300ms ease-out;
@@ -219,8 +219,33 @@ svg {
     font-stretch: 0.2px;
     /* line-height: var(--font-h1-line-height, 210px);  */
 }
-/* no hover in menu */
-/* .menu_panel .btn:hover {} */
+
+
+[data-layout="mobile"] {
+    .dialog_menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .menu_panel {
+        position: relative;
+        justify-content: space-between;
+        height: auto;
+        gap: 0;
+    }
+    @media (orientation: portrait) {
+        .menu_panel .btn {
+            font-size: 14vw;
+            line-height: 1.3em;
+        }
+    }
+    @media (orientation: landscape) {
+        .menu_panel .btn {
+            font-size: 13vh;
+            line-height: 1.3em;
+        }
+    }
+}
 
 
 </style>

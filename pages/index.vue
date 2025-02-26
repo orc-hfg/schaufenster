@@ -104,7 +104,7 @@ onBeforeRouteLeave(() => {
   header {
     display: flex;
     
-    padding: var(--margin-navbar-left-right-top-btm, 12px);
+    padding: var(--padding-navbar-left-right-top-btm);
     justify-content: space-between;
     align-items: center;
   }

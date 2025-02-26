@@ -4,7 +4,7 @@
 <!-- TODO mobile theme btn paddings -->
       <NuxtLink 
         class="header_nav_logo fade_out"
-        :class="{hidden_fade_out: hideNav || showInfo}"
+        :class="{hidden_fade_out: hideNav}"
         @click="$emit('clickedBack')">
           <IconsNavHome/>
       </NuxtLink>
