@@ -15,6 +15,7 @@
               diplom: toggleBtnSetType == MATCH_DIPLOM,
               projects: toggleBtnSetType == MATCH_PROJECTS}"
               >
+            <div class="toggle_slider"></div>
             <NuxtLink class="navbar_link navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
               
@@ -298,93 +299,63 @@ header nav a {
 }
 
 .settype_toggle {
-  float:left;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  transition: all 200ms ease-out;
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  
-  height: calc(var(--dimension-button-height-M, 48px) + 2px);
-  /* height: 50px; */
+  align-items: center;
+  background: var(--Colors-nav-bar-toggle-off, #F3F2EF);
+  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  height: var(--dimension-button-height-M, 48px);
+  transition: transform 300ms ease-out;
 }
-.settype_toggle.projects {
-  background: linear-gradient(90deg, 
-    var(--Colors-nav-bar-toogle-project, #2C2C2C) 0%,
-    var(--Colors-nav-bar-toogle-project, #2C2C2C) v-bind(toggle_project_width),
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) v-bind(toggle_project_width));
+
+.toggle_slider {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: var(--Colors-nav-bar-toogle-project, #2C2C2C);
+  transition: transform 200ms ease-out, background-color 200ms ease-out;
+  transform: translateX(0);
 }
-.settype_toggle.diplom {
-  background: linear-gradient(90deg, 
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
-    var(--Colors-nav-bar-toogle-diplom, #FF4D00) 0px,
-    var(--Colors-nav-bar-toogle-diplom, #FF4D00) v-bind(toggle_diplom_width),
-    var(--Colors-nav-bar-toggle-off, #F3F2EF) v-bind(toggle_diplom_width)
-    );
-  background-position: v-bind(toggle_project_width) 0;
+
+.settype_toggle.diplom .toggle_slider {
+  transform: translateX(100%);
+  background: var(--Colors-nav-bar-toogle-diplom, #FF4D00);
 }
 
 .navbar_link.navbar_link_projects,
 .navbar_link.navbar_link_diplom {
-  float: left;
-  
-  color: var(--Colors-text-primary, #2C2C2C);
-
-  /* Buttons */
-  font-family: "Instrument Sans";
-  font-size: var(--font-button-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-button-line-height, 24px); /* 120% */
-
-  
-  height: calc((var(--dimension-button-height-M, 48px) / 2));
-  /* height: 24px; */
-  
+  position: relative;
+  z-index: 1;
+  flex: 1;
   display: flex;
-  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   justify-content: center;
   align-items: center;
-  gap: 12px;
+  padding: 0 2em;
+  min-width: 0;
+  font-size: var(--font-button-font-size, 20px);
+  color: var(--Colors-text-primary, #2C2C2C);
+  border: none;
+  transition: color 200ms ease-out;
+  text-align: center;
+  line-height: 1;
+  gap: 0;
+}
 
-  
-  border-radius: var(--radius-none, 0px);
-  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+.navbar_link.navbar_link_projects.active,
+.navbar_link.navbar_link_diplom.active {
+  color: var(--Colors-text-primary-inverted, #FFF);
 }
 
 [data-layout="mobile"] {
   .navbar_link.navbar_link_projects,
   .navbar_link.navbar_link_diplom {
-    height: calc((var(--dimension-button-height-M, 48px) / 2) - 3px);
+    font-size: var(--font-button-font-size, 16px);
+    padding: 0 1.5em;
+    overflow: hidden;
   }
 }
 
-.navbar_link.navbar_link_projects {
-  border-right: none;
-  /* width: 146px; */
-}
-
-.navbar_link.navbar_link_projects.active {
-  color: var(--Colors-text-primary-inverted, #FFF);
-  border-color: var(--Colors-nav-bar-toogle-project, #2C2C2C); 
-
-}
-.navbar_link.navbar_link_projects.active:hover {
-  background-color: transparent;
-}
-.navbar_link.navbar_link_diplom {
-  border-left: none;
-}
-.navbar_link.navbar_link_diplom.active {
-  border-color: var(--Colors-nav-bar-toogle-highlight, #FF4D00);
-  color: #fff;
-}
-.navbar_link.navbar_link_diplom.active:hover {
-  background-color: transparent;
-}
-.navbar_set_link.active {
-  background-color: var(--Colors-nav-bar-toggle-off);
-  font-weight: 400;
+.settype_toggle.hidden {
+  transform: translateY(-100px);
 }
 </style>
