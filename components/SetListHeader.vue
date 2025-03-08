@@ -116,27 +116,26 @@ const props = defineProps([
 ])
 const isMobile = ref(false)
 
-const getTextWidth = (text:string):number => {
-  // re-use canvas object for better performance
-  try {
-    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+// HH für CSS-Variante wahrscheinlich nicht mehr benötigt
+// const getTextWidth = (text:string):number => {
+//   // re-use canvas object for better performance
+//   try {
+//     const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+//     const context = canvas.getContext("2d");
+//     const fontSize = (isMobile.value ? '16' : '20')
+//     const SET_TYPE_TOGGLE_FONT= fontSize + 'px Instrument Sans'
+//     context.font = SET_TYPE_TOGGLE_FONT;
+//     const metrics = context.measureText(text);
+//     return metrics.width;
+//   } catch (error) {
+//     console.error("getTextWidth: Error: " + error)
+//     return 146;
+//   }
+// }
 
-    const context = canvas.getContext("2d");
-    const fontSize = (isMobile.value ? '16' : '20')
-  
-    const SET_TYPE_TOGGLE_FONT= fontSize + 'px Instrument Sans'
-    context.font = SET_TYPE_TOGGLE_FONT;
-    const metrics = context.measureText(text);
-    return metrics.width;
-  } catch (error) {
-    console.error("getTextWidth: Error: " + error)
-    return 146;
-  }
-}
-
-
-const toggle_project_width = ref("146px")
-const toggle_diplom_width = ref("202px")
+// HH für CSS-Variante wahrscheinlich nicht mehr benötigt
+// const toggle_project_width = ref("146px")
+// const toggle_diplom_width = ref("202px")
 const projects_label = ref('Projects')
 const diploms_label = ref('Diploma')
 
@@ -144,18 +143,19 @@ const updateStyle = () => {
   isMobile.value = document.documentElement.getAttribute('data-layout') == 'mobile'
   projects_label.value = isMobile.value ? t('setlist.btn_title_toggle_project_mobile') : t('setlist.btn_title_toggle_project')
   diploms_label.value = isMobile.value ?  t('setlist.btn_title_toggle_diplom_mobile') : t('setlist.btn_title_toggle_diplom')
-  const project_width = getTextWidth( projects_label.value ) + 
-    (isMobile ? 29 : 27)
-  const diplom_width = getTextWidth(diploms_label.value ) +
-    (isMobile ? 30 : 28) 
-  console.log(
-    projects_label.value
-    + " : "
-    + diploms_label.value
-    + " pw: " + project_width 
-    + " dw: " + diplom_width)
-  toggle_diplom_width.value = diplom_width + 'px'
-  toggle_project_width.value = project_width + 'px'
+  // HH für CSS-Variante wahrscheinlich nicht mehr benötigt
+//   const project_width = getTextWidth( projects_label.value ) + 
+//     (isMobile ? 29 : 27)
+//   const diplom_width = getTextWidth(diploms_label.value ) +
+//     (isMobile ? 30 : 28) 
+//   console.log(
+//     projects_label.value
+//     + " : "
+//     + diploms_label.value
+//     + " pw: " + project_width 
+//     + " dw: " + diplom_width)
+//   toggle_diplom_width.value = diplom_width + 'px'
+//   toggle_project_width.value = project_width + 'px'
 }
 onMounted(() => {
   updateStyle()
@@ -307,6 +307,25 @@ header nav a {
   height: var(--dimension-button-height-M, 48px);
   transition: transform 300ms ease-out;
 }
+
+/* HH für CSS-Variante wahrscheinlich nicht mehr benötigt
+.settype_toggle.projects {
+  background: linear-gradient(90deg, 
+    var(--Colors-nav-bar-toogle-project, #2C2C2C) 0%,
+    var(--Colors-nav-bar-toogle-project, #2C2C2C) v-bind(toggle_project_width),
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) v-bind(toggle_project_width));
+}
+
+.settype_toggle.diplom {
+  background: linear-gradient(90deg, 
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) 0,
+    var(--Colors-nav-bar-toogle-diplom, #FF4D00) 0px,
+    var(--Colors-nav-bar-toogle-diplom, #FF4D00) v-bind(toggle_diplom_width),
+    var(--Colors-nav-bar-toggle-off, #F3F2EF) v-bind(toggle_diplom_width));
+  background-position: v-bind(toggle_project_width) 0;
+}
+*/
 
 .toggle_slider {
   position: absolute;
