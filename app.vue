@@ -20,28 +20,23 @@ const {
 } = DynFonts()
 
 import '~/assets/dynfonts.css'
+//import type { AppSettingsListData } from './generated/data-contracts';
 
-const { error_msg, ok_msg, reset_error } = errorHelper();
-
+//const { error_msg, ok_msg, reset_error } = errorHelper();
 
 const {
-  MATCH_DIPLOM,
+  //apiH,
   MATCH_PROJECTS,
-  loading,
-  treeMapper,
-  treeList,
-  filterCount,
-  filtersMap,
-  filteredTreeList,
-  
-  updateFilters,
-  initTree
+  MATCH_DIPLOM,
+  initApi,
+  initTree,
+  initForest,
 } = treeHelper();
 
 const route = useRoute();
 const router = useRouter();
 const useTree = useState('tree');
-const useAppSettings = useState('appSettings')
+//const useAppSettings = useState('appSettings')
 
 const showMenu = ref(false)
 
@@ -53,78 +48,135 @@ const {
     defaultLocale
 } = useI18n()
 
-const initMadek = () => {
-  console.log("initMadek")
+const APP_DEFAULT_LOCAL = 'de'
 
-  const madek_store = useMadekStore()
+
+
+const initMadek = async () => {
+  console.log("initMadek")
+  const config = useRuntimeConfig()
+  /*const url = config.public.apiBaseUrl + config.public.apiPath + 'app-settings'
+  const onOk = (appSettings: Ref<AppSettingsListData>) => {
+    console.log("initMadek: fetch: onOk: madek appsettings loaded: ")
+    useAppSettings.value = {
+      locale: appSettings.value.default_locale,
+      locales: appSettings.value.available_locales
+    }
+       
+    locale.value = appSettings.value.default_locale || APP_DEFAULT_LOCAL
+    console.error(" detected locale: " + locale.value);
+  }
+
+  useFetch(url).then(resp => onOk(resp.data))
+  */
+
+  /*
+  const madek_store = useMadekStore()  
+  madek_store.initApi(config.public.apiBaseUrl)
   madek_store.initPublic().then(() => {
       console.log("initMadek: madek appsettings loaded")
+      
       useAppSettings.value = {
         locale: madek_store.appSettings.default_locale,
         locales: madek_store.appSettings.available_locales
       }
        
-      locale.value = madek_store.appSettings.default_locale || 'de'
-      //useState('appSettings', () => { return madek_store.appSettings })
-      console.log(" detected locale: " + locale.value);
-  }).catch(error => {
+      locale.value = madek_store.appSettings.default_locale || APP_DEFAULT_LOCAL
+      console.log("initMadek: detected locale: " + locale.value);
+  })
+  .catch(error => {
     console.error("initMadek: Could not get madek appsettings.", error)
-  })    
+  })*/
+
+  
+  
 }
 
 if (import.meta.server) { 
   console.log("import meta server")
+  initMadek() 
+  const config = useRuntimeConfig()
+  initApi(config.public.apiBaseUrl)
+  if (config.public.kioskSetId) {
+    console.log("init kiosk set")
+    const treesData = await initTree(MATCH_PROJECTS, config.public.kioskSetId)
+    //useTree.value = treesData
+  } else {
+    console.log("init root set")
+    const treesData = await initForest(config.public.rootSetId)
+    useTree.value = treesData
+  }
+  
 }
 
-if (process.server) {
-  console.log("process server: initTree")
-  const treesData = await initTree()
-  useTree.value = treesData
-  initMadek()
-}
-
-if (process.client) {
+if (import.meta.client) {
   console.log(" is client ")
     selectRandomFont()
 }
 
 
-const initApp = async() => {
-
-  //initPageFonts();
-  //initMadek();
-  //console.log("init server")
-};
-
-
 router.beforeEach((to, from, next) => {
   const ts = to.name?.toString() || ''
   const fs = from.name?.toString() || ''
-  console.log("beforeEach: " + fs + " : ->" + ts)
-  
-  if (ts.indexOf('setview') > -1 || fs.indexOf('setview') > -1) {
-    isNoClip.value = true;
-  } else {
-    isNoClip.value = false;
+  console.log("router beforeEach: from " + fs + " -> to:" + ts)
+  const config = useRuntimeConfig()
+  if (!config.public.kioskSetId) {
+    if (ts.indexOf('setview') > -1 || fs.indexOf('setview') > -1) {
+      isNoClip.value = true;
+    } else {
+      isNoClip.value = false;
+    }
+    next()
   }
-  next()
+  else {
+    const kioskId = config.public.kioskSetId
+    const path = '/setview/projekt/' 
+      + kioskId
+      + '/' 
+    if (to.fullPath.startsWith(path) ) {
+      next()
+    }
+    else {
+      console.error("not a kiosk path: ignore route change")
+      next(false)
+      /*next({
+        path: path + kioskId + '/' ,
+        replace: true
+      })*/
+      
+    }
+  }
+  
 })
 
 const isShowPageIn = ref(false)
 const isNoClip = ref(false)
-watch(() => route.fullPath, () => {  
+watch(() => route.fullPath, () => {
+  const config = useRuntimeConfig()
+  if (config.public.kioskSetId) {
+    const kioskId = config.public.kioskSetId
+    const path = '/setview/projekt/' 
+      + kioskId
+      + '/' 
+      //+ kioskId
+    if (! route.fullPath.startsWith(path)) {
+      console.error("invalid kiosk path: "  + route.fullPath)
+
+      setTimeout(() => {
+        router.push(path)
+      }, 2000)
+    }
+  }
   // dont confuse running animation
   setTimeout(() => {
     console.error(" switch anim mode " + isShowPageIn.value)
     isShowPageIn.value = !isShowPageIn.value
   },3000)
 
-  console.log("APP: changed route: " + JSON.stringify(route.fullPath));
+  //console.log("APP: changed route: " + JSON.stringify(route.fullPath));
 
 });
 
-
-initApp();
 
 const onkeyupEv = (ev:KeyboardEvent) => {
   console.log(" onkeyup " + ev.code)
@@ -132,7 +184,7 @@ const onkeyupEv = (ev:KeyboardEvent) => {
     
     isMobile.value = !isMobile.value
     document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
-    console.log('switched to mobile: ' + isMobile.value)
+    //console.log('switched to mobile: ' + isMobile.value)
   }
 }
 

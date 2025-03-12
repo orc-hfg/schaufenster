@@ -1,26 +1,30 @@
-import { Api } from '../generated/API_fetch_xeio'
-import { defineNuxtModule } from 'nuxt/kit'
-import { useFetch } from 'nuxt/app'
+import { 
+    type KeywordsDetailData,
+    type PeopleDetailData,
+    type MetaDataRoleDetailData,
+} from '../generated/data-contracts';
 
-export const apiHelper = (baseUrl?: string) => {
+export const RKEY_ENTRY = 'media_entry_id'
+export const RKEY_COLLECTION = 'collection_id'
 
-    const apiConfig = {
-        baseUrl: baseUrl || 'https://staging.madek.hfg-karlsruhe.de'
-        //baseUrl: baseUrl || 'https://dev.madek.hfg-karlsruhe.de'
-        //baseUrl: baseUrl || 'http://localhost:8080'
-        //baseUrl: baseUrl || 'http://localhost:3104'
-        ,
-        //customFetch: useFetch
-        //customFetch: (...fetchParams: Parameters<typeof fetch>) => $fetch(...fetchParams)
-    }
+export const MKEY_TITLE = 'madek_core:title'
+export const MKEY_AUTHORS = 'madek_core:authors'
 
-    const api = new Api(apiConfig)
+export const MD_TYPE_KEYWORDS = 'MetaDatum::Keywords'
+export const MD_TYPE_PEOPLE = 'MetaDatum::People'
+export const MD_TYPE_ROLES = 'MetaDatum::Roles'
+export const MD_TYPE_TEXT = 'MetaDatum::Text'
+export const MD_TYPE_TEXT_DATE = 'MetaDatum::TextDate'
+export const MD_TYPE_JSON = 'MetaDatum::JSON'
 
-    return {
-        apiConfig,
-        api     
-    }
-}
+
+export const MD_KEYWORDS = 'keywords'
+export const MD_PEOPLE = 'people'
+export const MD_ROLES = 'roles'
+
+export const MD_KEYWORDS_DATA = 'md_keywords'
+export const MD_PEOPLE_DATA = 'md_people'
+export const MD_ROLES_DATA = 'md_roles'
 
 
 export interface iAppSettings {
@@ -321,3 +325,45 @@ export interface iPagingState {
   page: number
   count: number
 }
+
+
+export enum MLType {
+    labels = 'labels',
+    descriptions = 'descriptions',
+    hints = 'hints'
+}
+
+
+export interface iFileMap {
+    [key: string]: iMediaFile,
+}
+export interface iPreviewMap {
+    [key: string]: iPreview,
+}
+export interface iResourcePreviewMap {
+    [key: string]: iPreviewMap,
+}
+
+
+
+export interface iGenMetaDatum {
+    meta_key_id: string,
+    type: string,
+    "string": string,
+    "json": string,
+    selectedKeywords: Array<KeywordsDetailData>,
+    selectedPeople: Array<PeopleDetailData>,
+    selectedRoles: Array<MetaDataRoleDetailData>,
+}
+
+export interface iGenMetaData {
+    [key: string]: iGenMetaDatum,
+}
+
+export interface iMetaDataMap {
+    [key: string]: iGenMetaData,
+}
+export interface iResourceMetaDataMap {
+    [key: string]: iMetaDataMap,
+}
+

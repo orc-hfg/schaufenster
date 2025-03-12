@@ -8,7 +8,7 @@ export const errorHelper = () => {
     
 
     const handle_error = (msg:string, error:any) => {
-        const mmsg = 'ERROR: ' + msg + ' error: ' + JSON.stringify(error)
+        const mmsg = 'ERROR: ' + msg + ' error: ' + error //JSON.stringify(error)
         console.error(mmsg)
         error_msg.value = mmsg
     }

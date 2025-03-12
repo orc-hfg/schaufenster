@@ -1,97 +1,59 @@
 import { 
-    type AppSettingsListData,
-    type KeywordsDetailData,
-    type ContextKeysDetailData,
-    type ContextsDetailData,
-    type MetaKeysDetailData,
-    type VocabulariesDetailData } from '../generated/data-contracts';
+    type AppSettingsListData
+} from '../generated/data-contracts';
 
-import { apiHelper } from '../utils/apiHelper';
+import { apiHelper } from '../composables/apiHelper';
 import { defineStore } from 'pinia'
+import { Api } from '~/generated/API_fetch_xeio';
 
-const { api } = apiHelper()
-
+const { getNewApi, getNewConfig } = apiHelper()
 
 export const useMadekStore = defineStore('madek', {
 
     state: () => ({
         loaded: false as boolean,
         appSettings: {} as AppSettingsListData,
-        contextsMap: new Map<string, ContextsDetailData>(),
+        api: {} as Api<unknown>,
+        //apiH: apiHelper
 
-        contextKeysMap_context_id_meta_key_id: new Map<string, Map<string, ContextKeysDetailData>>(),
-
-        publicMetaKeysMap: new Map<string, MetaKeysDetailData>(),
-        publicVocabularies: new Map<string, VocabulariesDetailData>(),
-
-        keywords: new Array<KeywordsDetailData>(),
-        keywordsMap: new Map<string, KeywordsDetailData>(),
-        //keywordsByMetaKeyMap: new Map<string, Array<KeywordsDetailData>>(),
-    
     }),
     getters: {
 
     },
     actions: {
-
+        /*getApi() {
+            return this.api
+        },*/
         reset() {
             this.loaded = false
             this.appSettings = {} as AppSettingsListData
-            this.contextsMap.clear()
-            this.contextKeysMap_context_id_meta_key_id.clear()
-            
-            this.publicMetaKeysMap.clear()
-            this.publicVocabularies.clear()
-
-            this.keywords.length = 0
-            this.keywordsMap.clear()
-            //this.keywordsByMetaKeyMap.clear()
+        },
+        initApi(apiBaseUrl:string) {
+            this.api = getNewApi(getNewConfig(apiBaseUrl))
         },
         async initPublic() {
-            this.reset()
+            const api = this.api
+
             try{
-  
-                this.appSettings = (await api.api.appSettingsList()).data
-            } catch(ex) {
-                console.error("Could not load madek app settings." + JSON.stringify(ex))
-                throw ex
-            }
-            try {    
-                const contexts = (await api.api.contextsList()).data
-                contexts?.map((c: ContextsDetailData) => {
-                    this.contextsMap.set(c.id, c)
-                })
-            } catch(ex) {
-                console.error("Could not load madek contexts." + JSON.stringify(ex))
-                throw ex
-            }
-            try {
+                //console.error(" get app settings " 
+                //    + api + ":" + api.api);
+                const resp = (await api.api.appSettingsList())
+                //console.error(" got app settings: resp: ")
                 
-                const contextKeys = (await api.api.contextKeysList()).data
-                contextKeys?.map((c: ContextKeysDetailData) => {
-                    if (!this.contextKeysMap_context_id_meta_key_id.has(c.context_id)) {
-                        this.contextKeysMap_context_id_meta_key_id.set(c.context_id, new Map<string,ContextKeysDetailData>())
-                    }
-
-                    this.contextKeysMap_context_id_meta_key_id.get(c.context_id)?.set(c.meta_key_id, c)
-                })
+                //console.dir(resp)
+                //const data = (resp.data)
+                this.appSettings = resp.data // (await api.api.appSettingsList()).data
+                //console.error("got app settings response data " + this.appSettings)
             } catch(ex) {
-                console.error("Could not load madek context keys." + JSON.stringify(ex))
+                console.error("Could not load madek app settings." + ex)
                 throw ex
             }
-            try {
-                const pubMKeys = (await api.api.metaKeysList()).data['meta-keys']
-                pubMKeys?.map((m: MetaKeysDetailData) => {
-                    this.publicMetaKeysMap.set(m.id, m)
-                })
 
-                this.loaded = true
-            } catch(ex) {
-                console.error("Could not load madek meta keys." + JSON.stringify(ex))
-                throw ex
-            }
         },
       
+        async metaDataDetail(id:string) {
+            return this.api.api.metaDataDetail(id)
+        }
 
 
     }

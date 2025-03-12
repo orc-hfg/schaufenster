@@ -1,22 +1,14 @@
-//import { ref, reactive, toRefs } from "vue";
+import { Api } from '~/generated/API_fetch_xeio';
 
 import {
   type CollectionDetailData,
-  type CollectionMediaEntryArcsDetailData,
   type CollectionMediaEntryArcDetailData,
-  type CollectionMetaDataRelatedDetailData,
   type CollectionsListData,
   type MediaEntryDetailData,
   type CollectionCollectionArcDetailData,
-  type KeywordsDetailData,
 } from "../generated/data-contracts";
 
-import { type iCollection, type iPreview } from "../utils/apiHelper";
-import { type iGenMetaData, madekHelper } from "../utils/madekHelper";
-
-const {
-  RKEY_ENTRY,
-  RKEY_COLLECTION,
+import { 
   MD_TYPE_KEYWORDS,
   MD_TYPE_PEOPLE,
   MD_TYPE_ROLES,
@@ -24,8 +16,12 @@ const {
   MD_KEYWORDS,
   MD_PEOPLE,
 
-  api,
-} = madekHelper();
+  type iGenMetaData,
+  type iCollection,
+  type iPreview
+} from "../utils/madekTypes"
+
+const { getNewApi, getNewConfig } = apiHelper()
 
 export interface iTreeNode {
   col_id: string;
@@ -149,6 +145,7 @@ export interface iTreeMap {
 
 export interface iTreeState {
   loading: number;
+  //apiH: Api<unknown>;
   treeMapper: {
     [key: string]: iTreeMap;
   };
@@ -179,6 +176,7 @@ export interface iTreeState {
 
 const state = reactive<iTreeState>({
   loading: 0,
+  //apiH: {} as Api<unknown>,
   treeMapper: {},
 
   treeList: {},
@@ -198,7 +196,9 @@ export const treeHelper = () => {
   const RID: string = "root";
   const MATCH_DIPLOM = "diplom";
   const MATCH_PROJECTS = "projekt";
-  const MATCH_MAGISTER = "Magisterarbeit";
+  const MATCH_VAL_MAGISTER = "Magisterarbeit";
+  const MATCH_VAL_DIPLOM = "Diplomarbeit";
+  const MATCH_VAL_PROJECT = "projekt";
   const FILTERS_KEYWORD = "keywords";
   const FILTERS_PEOPLE = "people";
   const FILTERS_ROLES = "roles";
@@ -227,6 +227,7 @@ export const treeHelper = () => {
   
   const MK_DEPARTMENTS = 'institution:​field_of_study'
 
+  let apiH = {} as Api<unknown>
   const useTree = useState("tree");
 
   const getOrCreateTree = (treeType: string, treeId: string): iTree => {
@@ -294,7 +295,7 @@ export const treeHelper = () => {
     const filteredTreeList = {} as iTreeMap;
     
     state.filterCount = getFilterCount(filtersTitle, filtersMap)
-    console.log("updateFilters: filtersMap: " + JSON.stringify(filtersMap));
+    //console.log("updateFilters: filtersMap: " + JSON.stringify(filtersMap));
     
 
 
@@ -357,7 +358,7 @@ export const treeHelper = () => {
       
 
       for (const id in filtersMap[FILTERS_KEYWORD]) {
-        console.log(" check kw " + JSON.stringify(filtersMap[FILTERS_KEYWORD][id]));
+        //console.log(" check kw " + JSON.stringify(filtersMap[FILTERS_KEYWORD][id]));
         
         // if found meta_key
         const mtKey = filtersMap[FILTERS_KEYWORD][id].meta_key
@@ -431,15 +432,15 @@ export const treeHelper = () => {
         result[md_key].selectedKeywords = mdMap[MD_KEYWORDS];
       } else if (md.type == MD_TYPE_ROLES) {
         result[md_key].selectedRoles = [];
-        const md_role_data = (await api.api.metaDataDetail(md.id)).data
+        const md_role_data = (await apiH.api.metaDataDetail(md.id)).data
         const md_role_ids = md_role_data.value
         //console.log("got roles data: " + md_role_data + " ids: "+ md_role_ids)
         for await (const role_item of md_role_ids) {
             const md_role_id = role_item.id
             //console.log(" got md role id " + md_role_id)
-            const roleData = (await api.api.metaDataRoleDetail(md_role_id)).data
+            const roleData = (await apiH.api.metaDataRoleDetail(md_role_id)).data
             //console.log("got md role data: " + JSON.stringify(roleData))
-            const pData = (await api.api.peopleDetail(roleData.person_id)).data
+            const pData = (await apiH.api.peopleDetail(roleData.person_id)).data
             //console.log("got md role person data: " + JSON.stringify(pData))
             roleData.person = pData
             result[md_key].selectedRoles.push(roleData)  
@@ -466,7 +467,7 @@ export const treeHelper = () => {
     return authors
   }
   
-  const getMDRolesNameList = (mdMap: iGenMetaData, mkey:String):string[] => {
+  const getMDRolesNameList = (mdMap: iGenMetaData, mkey:string):string[] => {
     const authors = [] as string[];
     if (
       mdMap[mkey] &&
@@ -488,7 +489,7 @@ export const treeHelper = () => {
     //console.log("buildEntryMetaData: " + entryId)
 
     try {
-      const resp_previews = (await api.api.mediaEntryPreviewDetail(entryId))
+      const resp_previews = (await apiH.api.mediaEntryPreviewDetail(entryId))
         .data;
       // get latest video preview image
       resp_previews
@@ -530,7 +531,7 @@ export const treeHelper = () => {
     }
 
     try {
-      const resp = (await api.api.mediaEntryMetaDataRelatedDetail(entryId, {}))
+      const resp = (await apiH.api.mediaEntryMetaDataRelatedDetail(entryId, {}))
         .data;
     //console.log("buildEntryMetaData: " +  entryId + " got meta data. "
     //+ " md" + JSON.stringify(resp)
@@ -564,9 +565,9 @@ export const treeHelper = () => {
     //"manual ASC" "manual_asc"
     //"manual DESC" "manual_desc"
     const sorting_order = sorting.replace('created_at ','').replace(' ','_').toLowerCase()
-    console.log("buildSubTreeEntries: "
-      + " col.id "+ treeNode.collection.id 
-      + " sorting: " + sorting + " query-order: " + sorting_order)
+    //console.log("buildSubTreeEntries: "
+    //  + " col.id "+ treeNode.collection.id 
+    //  + " sorting: " + sorting + " query-order: " + sorting_order)
       
     const entry_query = {
       public_get_metadata_and_previews: true,
@@ -578,8 +579,8 @@ export const treeHelper = () => {
       //related_files: true,
     };
     state.loading++;
-    const entries_resp = (await api.api.mediaEntriesList(entry_query)).data;
-    //const entries_resp =  (await api.api.mediaEntriesRelatedDataList(entry_query)).data;
+    const entries_resp = (await apiH.api.mediaEntriesList(entry_query)).data;
+    //const entries_resp =  (await apiH.api.mediaEntriesRelatedDataList(entry_query)).data;
     state.loading--;
     const arcs = entries_resp.col_arcs;
     const entries = entries_resp.media_entries;
@@ -617,10 +618,16 @@ export const treeHelper = () => {
         await buildEntryMetaData(tree, treeNode, entry.id);
 
         if (entry.get_full_size == true) {
-          //const mf = (await api.api.mediaEntryMediaFileDetail(entry.id)).data
-          //if (mf.media_type == 'document') {
-          //console.error("got document download allowed");
-          //}
+          try {
+            const mf = (await apiH.api.mediaEntryMediaFileDetail(entry.id)).data
+            if (mf.media_type == 'document') {
+              //console.error("got doc and download allowed");
+              treeNode.entries[entry.id].media_type_doc = true
+            }
+          } catch(error) {
+            console.error("could not get me file data", error)
+          }
+          
         }
       } else {
         console.error(
@@ -654,7 +661,7 @@ export const treeHelper = () => {
 
     //state.loading++;
     const ccas_resp_data = await (
-      await api.api.collectionCollectionArcsList({ parent_id: parent_id })
+      await apiH.api.collectionCollectionArcsList({ parent_id: parent_id })
     ).data;
     //state.loading--;
     const ccas = ccas_resp_data["collection-collection-arcs"];
@@ -674,11 +681,11 @@ export const treeHelper = () => {
       const childCol = collectionsAll.get(cid);
 
       if (!childCol || !childCol.id) {
-        const msg =
+        /*const msg =
           "buildSubTree: invisible or invalid collection for child_id: " +
           cid +
           " collecction: " +
-          JSON.stringify(childCol);
+          JSON.stringify(childCol);*/
         //console.log(msg)
       } else {
         state.treeMapper[treeType][treeId].up[cid] = pid;
@@ -749,7 +756,7 @@ export const treeHelper = () => {
     }
 
     const resp_data = await (
-      await api.api.collectionMetaDataRelatedDetail(clientId, {})
+      await apiH.api.collectionMetaDataRelatedDetail(clientId, {})
     ).data;
     const mdMap = (await buildMDRelatedMap(resp_data));
     
@@ -895,7 +902,7 @@ export const treeHelper = () => {
       page: 0,
       size: 10000,
     };
-    const cols_data = (await api.api.collectionsList(cols_query))
+    const cols_data = (await apiH.api.collectionsList(cols_query))
       .data as CollectionsListData;
 
     cols_data.collections.forEach((colEl: CollectionDetailData) => {
@@ -910,8 +917,18 @@ export const treeHelper = () => {
     );
   };
 
+  const initTree = async (treeType:string, colId:string) => {
+    if (!collectionsAll.size) {
+      await fetch_cols_all()
+    }
+    await buildTree(treeType, colId);
+    await buildTreeMetaData(treeType, colId);
+    useTree.value = state.treeMapper;
+    //return state.treeMapper;
+
+  }
   const initTrees = async (keyword_match: string, treeType:string) => {
-    const filterBy = JSON.stringify({
+    /*const filterBy = JSON.stringify({
       meta_data: [{ key: "any", match: keyword_match }],
     });
     const cols_query_match = {
@@ -919,45 +936,46 @@ export const treeHelper = () => {
       public_get_metadata_and_previews: true,
       page: 0,
       size: 10000,
-      filter_by: filterBy, // '{"meta_data": [{ "key": "any", "match": "Diplom" }]}'
+      filter_by: filterBy,
     };
-    const cols_data = (await api.api.collectionsList(cols_query_match))
+    const cols_data = (await apiH.api.collectionsList(cols_query_match))
       .data as CollectionsListData;
 
     console.log("got cols for keyword: " + keyword_match + ":" + treeType)
+    
     //console.dir(cols_data)
 
     for await (const colEl of cols_data.collections) {
-      if (keyword_match !== MATCH_PROJECTS && 
-        !CHILD_IDS_SCHAUFENSTER[colEl.id]) {
-        //console.log("not in schaufenster set ids: " + colEl.id)
-        
-      } else {
+      if (CHILD_IDS_SCHAUFENSTER[colEl.id]
+        //|| keyword_match !== MATCH_PROJECTS
+        ) {
         //console.log("found col id in schaufenster set ids: " + colEl.id)
-        await buildTree(treeType, colEl.id);
-        await buildTreeMetaData(treeType, colEl.id);
-        useTree.value = state.treeMapper;
-        console.log("finished build tree and meta_data " + colEl.id);
+        initTree(treeType, colEl.id)
+        //console.log("finished build tree and meta_data " + colEl.id);
+      } else {
+        console.log("set not in schaufenster set ids: " + colEl.id)
       }
     }
   
 
     //useState('tree-' + keyword_match, () => { return state.treeMapper[keyword_match] })
+    */
+    for (const colId in CHILD_IDS_SCHAUFENSTER) {
+      await initTree(treeType, colId)
+      console.log("finished build tree and meta_data " + colId + " as " + treeType);
+    }
     console.log("finished build tree all " + keyword_match);
     useTree.value = state.treeMapper;
-    //useState('tree', () => { return state.treeMapper })
     //console.dir(state.treeMapper)
   };
 
-  const COL_ID_SCHAUFENSTER = '75a2d948-fefa-405f-b8c4-40d7de7c0ddf'
+  //const COL_ID_SCHAUFENSTER = '75a2d948-fefa-405f-b8c4-40d7de7c0ddf'
+  const DATA_COL_COL_ARC = "collection-collection-arcs"
   const CHILD_IDS_SCHAUFENSTER = {} as {[key:string]: string};
 
-  const initTree = async () => {
-    console.log("initTree: ");
-
-    await fetch_cols_all();
+  const buildRootChildList = async (root_set_id:string) => {
     const ccas_resp_data = await (
-      await api.api.collectionCollectionArcsList({ parent_id: COL_ID_SCHAUFENSTER })
+      await apiH.api.collectionCollectionArcsList({ parent_id: root_set_id })
     ).data;
     
     const ccas = ccas_resp_data["collection-collection-arcs"];
@@ -968,19 +986,68 @@ export const treeHelper = () => {
     for await (const cca of ccass) {
       CHILD_IDS_SCHAUFENSTER[cca.child_id] = cca.child_id
     }   
+    console.log("buildRootChildList: schaufenster col count:" 
+      + ccas.length
+    + Object.keys(CHILD_IDS_SCHAUFENSTER).length)
+  }
+  const initApi = (apiBaseUrl:string) => {
+    apiH = getNewApi(getNewConfig(apiBaseUrl))
+  }
+  const initForest = async (root_set_id:string) => {
+    console.log("initForest: ");
 
-    await initTrees('Diplomarbeit', MATCH_DIPLOM);
-    await initTrees(MATCH_MAGISTER, MATCH_DIPLOM);
-    await initTrees(MATCH_PROJECTS, MATCH_PROJECTS);
+    await fetch_cols_all();
+    await buildRootChildList(root_set_id)
+    
+
+    await initTrees(MATCH_VAL_PROJECT, MATCH_PROJECTS);
+
+
+    //TODO just copy the trees
+    for (const treeId in state.treeMapper[MATCH_PROJECTS]) {
+      console.log("scan tree for kw " + treeId)
+      const tree = state.treeMapper[MATCH_PROJECTS][treeId]
+      //console.dir(tree)
+      let found = false
+      for (const metaKey in tree.colKeywordMap) {
+        //console.log("scan tree for kw " + treeId + ":" + metaKey)
+        for (const kwId in tree.colKeywordMap[metaKey]) {
+          
+          const data = tree.colKeywordMap[metaKey][kwId]
+          //console.log("scan tree for kw " + treeId + ":" + metaKey + ":" + kwId + ":" + data.name)
+
+          if (data.name.indexOf(MATCH_VAL_DIPLOM) > -1
+            || data.name.indexOf(MATCH_VAL_MAGISTER) > -1) {
+              found = true
+              /*console.error("found magister or diplom in projekt md: " 
+                + " treeId:" + treeId
+                + " MK:" + metaKey
+                + " kwId:" + kwId
+                + " data: " + JSON.stringify(data))*/
+          }
+        }
+      }
+      if (found) {
+        console.error("found magister or diplom in projekt md: " 
+          + " treeId:" + treeId)
+        getOrCreateTree(MATCH_DIPLOM, treeId)
+        state.treeMapper[MATCH_DIPLOM][treeId] = tree
+        useTree.value = state.treeMapper;
+      }
+      
+    }
+
+    //await initTrees(MATCH_VAL_DIPLOM, MATCH_DIPLOM);
+    //await initTrees(MATCH_VAL_MAGISTER, MATCH_DIPLOM);
 
     console.log(
       " built collections map " +
         " All: " +
         collectionsAll.size +
-        " Diplom: " +
-        Object.keys(state.treeMapper[MATCH_DIPLOM]).length 
-        + " Project: " +
+        " Project: " +
         Object.keys(state.treeMapper[MATCH_PROJECTS]).length
+        + " Diplom: " +
+        Object.keys(state.treeMapper[MATCH_DIPLOM]).length 
     );
 
     return state.treeMapper;
@@ -1009,7 +1076,9 @@ export const treeHelper = () => {
 
     buildTree,
     buildSubTree,
+    initApi,
     initTree,
+    initForest,
     buildCollectionMetaData,
     buildTreeMetaData,
 

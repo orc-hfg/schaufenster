@@ -42,6 +42,7 @@
 </template>
 <script setup lang="ts">
 const props = defineProps(['currentTree', 'entry'])
+//TODO runtime config
 const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
 

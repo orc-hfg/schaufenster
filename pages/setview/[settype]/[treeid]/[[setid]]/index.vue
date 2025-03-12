@@ -331,11 +331,12 @@ const {
     filtersMap
 } = treeHelper()
 
+//TODO runtime conf
 const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
 
 
-const isMobile = ref(document.documentElement.getAttribute('data-layout') == "mobile")
+const isMobile = ref(false)
 
 const useTree = useState("tree");
 
@@ -437,8 +438,8 @@ const onFilterViewApplied = () => {
     }
   }
 
-  console.error("onFilterViewApplied: filter map: new: " + JSON.stringify(newFiltersMap.value))
-  console.error("onFilterViewApplied: filter map: old: " + JSON.stringify(filtersMap.value))
+  //console.error("onFilterViewApplied: filter map: new: " + JSON.stringify(newFiltersMap.value))
+  //console.error("onFilterViewApplied: filter map: old: " + JSON.stringify(filtersMap.value))
   
 
   switch2setlist()
@@ -624,7 +625,7 @@ const previewVideoUrls = (eId: string): string[] => {
 }
 
 const getMediaType = (eId: string): string => {
-  if (currentTree.previewsVideo[eId]) {
+  if (currentTree.value.previewsVideo[eId]) {
 
   }
   return currentTree.value.previewsLarge[eId].media_type || ''
@@ -644,12 +645,25 @@ const switch2Set = (setId: string) => {
 const animate_view_io = ref(true)
 
 const switch2setlist = () => {
-  animate_view_io.value = true
-  setTimeout(() => {
-    const url = '/setlist/' + settype.value
-    console.log("switch2setlist: " + settype.value + ":" + url)
-    router.push(url)
-  },200)
+  if (useRuntimeConfig().public.kioskSetId) {
+    // TODO show menu
+    const url = '/setview/' 
+    + settype.value
+    + '/'
+    + treeid.value
+    + '/'
+    + treeid.value
+  console.log("switch 2 kiosk set: " + treeid.value + ":" + url)
+  router.push(url)
+  } else {
+    animate_view_io.value = true
+    setTimeout(() => {
+      const url = '/setlist/' + settype.value
+      console.log("switch2setlist: " + settype.value + ":" + url)
+      router.push(url)
+    },200)
+  }
+  
   
 }
 
@@ -882,22 +896,8 @@ const onMainSwiperSlideChanged = () => {
 
     setTimeout(() => {
       swiperNav.value.update()
-      //swiperNav.value.updateSize()
       swiperNav.value?.slideTo(navIdx)
     },300)
-
-    /*
-    const sidx = navSlider.value.slides[navIdx].setIdx
-    const sc = showCount.value[colId]
-    const msc = maxCount.value[colId]
-    if (sidx  >= (sc - 3)) {
-      showCount.value[colId] = Math.min(sidx + 5,msc + 2)
-    } else if (sidx < (sc-5)) {
-      showCount.value[colId] = Math.max(sidx +5, 5)
-    }
-    */
-    //swiperNav.value.update();
-    //swiperNav.value?.slideTo(navIdx)
     
   }
 
@@ -918,7 +918,6 @@ const setNavSwiper = (swiper) => {
 
 const NAV_SUBSUBSET_PREFIX = 'subsubset_'
 
-//TODO preview audio ?
 const initSubSetPreview = (childId:string, subChildId:string) => {
   const subEntries = currentTree.value.edges[childId][subChildId].entries;
   // main swiper
@@ -954,8 +953,6 @@ const initSubSetPreview = (childId:string, subChildId:string) => {
   navSlider.value.slides.push(newSubSlide)
   navSlider.value.entryId2Idx[dummySlide.id] = newSubSlide.index
 }
-
-// DONE: BUG: after init jumps one position over next slide
 
 const initSetBtns = (treeId:string, setIdx: number) => {
   const btn_id = 'btns_' + treeId;
@@ -1038,12 +1035,8 @@ const initSubTree = (rootId:string, treeId: string) => {
   
   // button
   if (Object.keys(rels).length ) {
-    // testing: the set itself
-    //initSubSetPreview(rootId, treeId)
     initSetBtns(treeId, rels_count)
-
   }
-
 
   // get child set entries
   for (const childId in currentTree.value.edges[treeId]) {
@@ -1060,10 +1053,6 @@ const initSubTree = (rootId:string, treeId: string) => {
       initSetBtns(childId, els_count)
     }
 
-    
-    
-
-
     console.log(
       "initSubTree: " +
         " Rid: " + 
@@ -1077,13 +1066,8 @@ const initSubTree = (rootId:string, treeId: string) => {
     );
     //console.dir(navSlider.value);
   }
-  /* nav_grow_width.value = true
-  setTimeout(() => {
-    nav_grow_width.value = false
-  },1000) */
-};
 
-//const nav_grow_width = ref(true);
+};
 
 const initData = () => {
 
@@ -1150,10 +1134,11 @@ const showSetTitle = ref(false)
 
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "light");
+  isMobile.value = (document.documentElement.getAttribute('data-layout') == "mobile")
   initData();
 
 
-  // intro show title
+  // intro show title animation
   showSetTitle.value = true;
 
   // intro animation
@@ -1172,16 +1157,19 @@ onMounted(() => {
 
   // switch to first slide, init all vars
   setTimeout(() => {
-    //activeSetId.value = setid.value
     activeEntryId.value = entries.value[0].id
     activeSetId.value = setid.value
     clickedNavShowMore(activeSetId.value)
     swiperMain.value.slideTo(0)
     swiperNav.value.slideTo(0)
     onMainSwiperSlideChanged()
-
   }, maxIdx * 10)
   
+})
+
+onBeforeUnmount(() => {
+  console.log("setView: onBeforeUnmount: ")
+
 })
 
 const swiperNavBtnHoverRight = ref(false)

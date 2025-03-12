@@ -48,7 +48,18 @@ const showContent = ref(false)
 const font_style = ref({})
 
 const switchPage = () => {
-  router.push('/setlist/' + MATCH_DIPLOM)
+  const config = useRuntimeConfig()
+  if (config.public.kioskSetId) {
+    const kioskId = config.public.kioskSetId
+    const path = '/setview/projekt/' 
+      + kioskId
+      + '/' 
+      + kioskId
+    router.push(path)
+  } else {
+    router.push('/setlist/' + MATCH_DIPLOM)
+  }
+  
 }
 const getFontStyle = (idx) => {
   let vw = 18

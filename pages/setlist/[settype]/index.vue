@@ -150,7 +150,9 @@ const switch2settype = (type:string) => {
   settype.value = type;
   updateSetType()
   toggleBtnSetType.value = type
-  const path = '/setlist/' + type
+  
+  const path = //useRuntimeConfig().app.baseURL + 
+  '/setlist/' + type
   router.replace(path)
   history.pushState({}, "", path)
   
@@ -158,12 +160,9 @@ const switch2settype = (type:string) => {
 const animateSwitch2Set = ref(true)
 const switch2setview = (setid: string) => {
   animateSwitch2Set.value = true
-  /* setTimeout(() => { */
-    console.log("switch2set: " + setid)
     const url = "/setview/" + settype.value + "/" + setid + '/' + setid;
+    //console.log("switch2set: " + setid + " : " + url)
     router.push(url);
-  /* },100) */
-    
 }
 
 const DELAY_SWITCH_LOCALE = 500
@@ -188,8 +187,8 @@ const onFilterViewApplied = () => {
     }
   }
 
-  console.error("cloned back filter map: new: " + JSON.stringify(newFiltersMap.value))
-  console.error("cloned back filter map: old: " + JSON.stringify(filtersMap.value))
+  //console.error("cloned back filter map: new: " + JSON.stringify(newFiltersMap.value))
+  //console.error("cloned back filter map: old: " + JSON.stringify(filtersMap.value))
   
   
 
@@ -202,8 +201,8 @@ const onFilterViewClosed = () => {
   showFilterView.value = false
   newFiltersMap.value = {}
   newFiltersTitle.value = ''
-  console.error("ignore new filter map: " + JSON.stringify(newFiltersMap.value))
-  console.error("use old filter map: " + JSON.stringify(filtersMap.value))
+  //console.error("ignore new filter map: " + JSON.stringify(newFiltersMap.value))
+  //console.error("use old filter map: " + JSON.stringify(filtersMap.value))
   
   filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   filterCount.value = getFilterCount(filtersTitle.value, filtersMap.value)
@@ -529,8 +528,8 @@ onMounted(() => {
 }
 .clipout-leave-active {
   z-index: 10;
-  clip-path: circle(calc(max(100vw, 100vh)) at 50vw 50vh) !important;
-  transition: clip-path 800ms ease-out;
+  clip-path: circle(calc(max(50vw, 50vh)) at 50vw 50vh) !important;
+  transition: clip-path 400ms ease-out;
   /* overflow: hidden; */
 }
 .clipout-leave-to {
@@ -545,12 +544,12 @@ onMounted(() => {
 }
 .clipin-leave-active {
   z-index: 5;
-  transition: all 0ms;
+  transition: all 800ms;
 }
 .clipin-leave-to {
 }
 .clipin-enter-to {
-  clip-path: circle(150vw at 50vw 50vh) !important;
+  clip-path: circle(max(50vw, 50vh) at 50vw 50vh) !important;
 }
 
 

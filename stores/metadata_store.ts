@@ -1,18 +1,7 @@
 
-
-import { apiHelper,
-    //type iCollection, 
-    type iMediaFile,
-    //type iMetaData,
-    type iPreview
- } from '../utils/apiHelper';
 import { defineStore } from 'pinia'
-import { madekHelper, type iGenMetaData } from '../utils/madekHelper';
-import { errorHelper } from '../utils/errorHelper';
-
-
-const { api } = apiHelper()
-const {
+import { errorHelper } from '../composables/errorHelper';
+import { 
     RKEY_ENTRY, RKEY_COLLECTION,
     MD_TYPE_KEYWORDS,
     MD_TYPE_PEOPLE,
@@ -21,44 +10,36 @@ const {
     MD_KEYWORDS,
     MD_PEOPLE,
     MD_ROLES,
-    isMetaKeyObjectType,
-} = madekHelper()
+
+    type iFileMap,
+    type iResourcePreviewMap,
+    type iGenMetaData,
+    type iResourceMetaDataMap
+} from '~/utils/madekTypes';
+
+import { Api } from '~/generated/API_fetch_xeio';
+const { getNewApi, getNewConfig } = apiHelper()
 const { handle_error } = errorHelper()
-
-export interface iMetaDataMap {
-    [key: string]: iGenMetaData,
-}
-export interface iResourceMetaDataMap {
-    [key: string]: iMetaDataMap,
-}
-export interface iFileMap {
-    [key: string]: iMediaFile,
-}
-export interface iPreviewMap {
-    [key: string]: iPreview,
-}
-export interface iResourcePreviewMap {
-    [key: string]: iPreviewMap,
-}
-
 
 export const useMetadataStore = defineStore('metadata', {
 
     state: () => ({
+        api: {} as Api<unknown>,
         metaDataMap: {} as iResourceMetaDataMap,
         metaDataRMap: {} as iResourceMetaDataMap,
         
         fileMap: {} as iFileMap,
         previewMap: {} as iResourcePreviewMap,
-
-
+        
     }),
     getters: {},
     actions: {
         reset() {
 
         },
-      
+        init(apiBaseUrl:string) {
+            const api = this.api = getNewApi(getNewConfig(apiBaseUrl))
+        },
        
         checkResourceId(resId: string) {
             if (!resId) {

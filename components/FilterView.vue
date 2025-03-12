@@ -147,8 +147,8 @@ const initTreeType = () => {
 
 
 const updateFilteredCounts = () => {
-  console.log("updateFilteredCounts: filters new: " + JSON.stringify(newFiltersMap.value))
-  console.log("updateFilteredCounts: filters old: " + JSON.stringify(filtersMap.value))
+  //console.log("updateFilteredCounts: filters new: " + JSON.stringify(newFiltersMap.value))
+  //console.log("updateFilteredCounts: filters old: " + JSON.stringify(filtersMap.value))
   
   filteredTreeList.value = updateFilters(props.trees_map, newFiltersTitle.value, newFiltersMap.value)
   console.log("updateFilteredCounts: filtered tree count " + getMapCount(filteredTreeList.value));
@@ -201,17 +201,17 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
 }
 
 const clickedKeyword = (kwInfo) => {
-  console.log("clickedKeyword: " + JSON.stringify(kwInfo))
+  //console.log("clickedKeyword: " + JSON.stringify(kwInfo))
   clickedFilter(FILTERS_KEYWORD, kwInfo)
 }
 
 const clickedPeople = (kwInfo) => {
-  console.log("clickedPeople: " + JSON.stringify(kwInfo))
+  //console.log("clickedPeople: " + JSON.stringify(kwInfo))
   clickedFilter(FILTERS_PEOPLE, kwInfo)
 }
 
 const clickedRole = (kwInfo) => {
-  console.log("clickedRole: " + JSON.stringify(kwInfo))
+  //console.log("clickedRole: " + JSON.stringify(kwInfo))
   clickedFilter(FILTERS_ROLES, kwInfo)
 }
 
@@ -314,8 +314,8 @@ onMounted(() => {
   })
   
 
-  console.error("filter map current: " + JSON.stringify(filtersMap.value))
-  console.error("filter map new: " + JSON.stringify(newFiltersMap.value))
+  //console.error("filter map current: " + JSON.stringify(filtersMap.value))
+  //console.error("filter map new: " + JSON.stringify(newFiltersMap.value))
 
   initTreeType();
 

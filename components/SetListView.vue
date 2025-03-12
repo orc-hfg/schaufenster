@@ -142,7 +142,7 @@ const props = defineProps([
 'introInfo2',
 ])
 const emits = defineEmits(['switch2setview'])
-
+//TODO runtime conf
 const { apiConfig } = apiHelper();
 const apiBaseUrl = apiConfig.baseUrl + "/api-v2/";
 const {

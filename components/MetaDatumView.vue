@@ -184,14 +184,13 @@
 </template>
 <script setup lang="ts">
 
-const {
-  MD_TYPE_TEXT,
-  MD_TYPE_TEXT_DATE,
-  MD_TYPE_JSON,
+
+import { 
   MD_TYPE_KEYWORDS,
   MD_TYPE_PEOPLE,
-  MD_TYPE_ROLES
-} = madekHelper()
+  MD_TYPE_ROLES,
+} from "../utils/madekTypes"
+
 const {
     FILTERS_KEYWORD,
     FILTERS_PEOPLE,
