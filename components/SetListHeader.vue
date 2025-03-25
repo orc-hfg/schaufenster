@@ -289,14 +289,13 @@ header nav a {
 
 
 .navbar_link:hover {
-  /* background-color: var(--Colors-nav-bar-toggle-off); */
+  background-color: var(--Colors-nav-bar-toggle-on,#CAC9C2);
 }
-.navbar_link_diplom:hover,
-.navbar_link_projects:hover,
-.afilter:hover,
-.areset:hover {
-   background-color: var(--Colors-nav-bar-toggle-on,#CAC9C2);
+/* HH keine Hintergrundfarbe für aktive Buttons */
+.navbar_link.active:hover {
+  background-color: transparent;
 }
+
 
 .settype_toggle {
   position: relative;
@@ -351,9 +350,11 @@ header nav a {
   align-items: center;
   padding: 0 2em;
   min-width: 0;
+  height: 100%;
   font-size: var(--font-button-font-size, 20px);
   color: var(--Colors-text-primary, #2C2C2C);
   border: none;
+  border-radius: 0;
   transition: color 200ms ease-out;
   text-align: center;
   line-height: 1;
