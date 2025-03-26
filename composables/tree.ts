@@ -961,9 +961,11 @@ export const treeHelper = () => {
     ).data;
     
     const ccas = ccas_resp_data["collection-collection-arcs"];
+    
+    const ccass =  ccas.slice(0, useRuntimeConfig().public.MAX_PROJECT_COUNT);
 
-    console.log("initTree: schaufenster col count:" + ccas.length)
-    for await (const cca of ccas) {
+    console.log("initTree: schaufenster col count:" + ccass.length)
+    for await (const cca of ccass) {
       CHILD_IDS_SCHAUFENSTER[cca.child_id] = cca.child_id
     }   
 
@@ -977,8 +979,8 @@ export const treeHelper = () => {
         collectionsAll.size +
         " Diplom: " +
         Object.keys(state.treeMapper[MATCH_DIPLOM]).length 
-        //+ " Project: " +
-        //Object.keys(state.treeMapper[MATCH_PROJECTS]).length
+        + " Project: " +
+        Object.keys(state.treeMapper[MATCH_PROJECTS]).length
     );
 
     return state.treeMapper;
