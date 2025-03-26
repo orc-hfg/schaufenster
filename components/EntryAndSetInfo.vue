@@ -156,6 +156,7 @@
           </div>
           <div class="filter_content">
             <a class="btn_round"
+              target="_blank" rel="noopener noreferrer"
               :href="useRuntimeConfig().public.apiBaseUrl + '/entries/' + activeEntryId">
               {{$t('meta_info.label_madek_source_link')}}
               <IconsLink/>
