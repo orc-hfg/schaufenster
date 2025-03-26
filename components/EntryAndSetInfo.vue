@@ -292,12 +292,12 @@ const getMDMediaCreatorsList = ():string[] => {
  */
 
 .entry_info {
-  transition: all 300ms ease-in;
+  transition: all 300ms linear;
   /* transition-delay: 300ms; */
 }
 .entry_info.hidden {
   transform: translateX(50vw);
-  transition: all 300ms ease-out;
+  transition: all 300ms linear;
   /* "Kaugummi"-Effekt verhindern */
   /* Siehe https://cloud.hfg-karlsruhe.de/index.php/f/1918387 */
   visibility: hidden;

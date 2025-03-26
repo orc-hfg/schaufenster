@@ -1266,7 +1266,7 @@ const handleMouseLeave = () => {
   background-position: center;
   background-repeat: no-repeat; */
   opacity: 1;
-  transition: all 300ms ease-in;
+  /* transition: all 300ms ease-in; */
 }
 
 .image_slide {
@@ -1275,7 +1275,7 @@ const handleMouseLeave = () => {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  transition: all 400ms ease-out;
+  transition: all 300ms linear;
 }
 
 /* HH TODO video_slide Höhe begrenzen wenn controls open */
@@ -1285,7 +1285,7 @@ const handleMouseLeave = () => {
   width: 100%;
   height: 100%;
   position: relative;
-  transition: all 400ms ease-out;
+  transition: all 300ms linear;
 }
 .main_preview_subset {
   position: absolute;
