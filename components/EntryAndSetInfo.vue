@@ -28,27 +28,37 @@
           :md="currentTree.cols_meta_data[parentSetId]['madek_core:title']"/>
 
         <MetaDatumView
-          v-if="isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:project_subtitle_en'])"
+          v-if="isShowLocale(currentTree.cols_meta_data[parentSetId]['creative_work:project_subtitle_en'])"
           :title="$t('meta_info.label_project_subtitle')"
-          :md="currentTree.cols_meta_data[activeSetId]['creative_work:project_subtitle_en']"/>
+          :md="currentTree.cols_meta_data[parentSetId]['creative_work:project_subtitle_en']"/>
         <MetaDatumView
           v-else
           :title="$t('meta_info.label_project_subtitle')"
-          :md="currentTree.cols_meta_data[activeSetId]['madek_core:subtitle']"/>
+          :md="currentTree.cols_meta_data[parentSetId]['madek_core:subtitle']"/>
 
         <MetaDatumView
           :title="$t('meta_info.label_project_authors')"
           :is-selectable="true"
-          :md="currentTree.cols_meta_data[activeSetId]['madek_core:authors']"
+          :md="currentTree.cols_meta_data[parentSetId]['madek_core:authors']"
           @add-filter="addFilter"/>
   
         <MetaDatumView
-          v-if="isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:description_en'])"
+          v-if="isShowLocale(currentTree.cols_meta_data[parentSetId]['creative_work:description_en'])"
           :title="$t('meta_info.label_project_description')"
+          :md="currentTree.cols_meta_data[parentSetId]['creative_work:description_en']"/>
+        <MetaDatumView
+          v-else:
+          :title="$t('meta_info.label_project_description')"
+          :md="currentTree.cols_meta_data[parentSetId]['madek_core:description']"/>
+
+        <!-- HH Beschreibung des current Sets unter Bedingungen zusätzlich anzeigen -->
+        <MetaDatumView
+          v-if="isShowCurrentSetDescription() && isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:description_en'])"
+          :title="getCurrentSetDescriptionTitle('en')"
           :md="currentTree.cols_meta_data[activeSetId]['creative_work:description_en']"/>
         <MetaDatumView
-          v-else
-          :title="$t('meta_info.label_project_description')"
+          v-else-if="isShowCurrentSetDescription()"
+          :title="getCurrentSetDescriptionTitle()"
           :md="currentTree.cols_meta_data[activeSetId]['madek_core:description']"/>
   
         <MetaDatumView
@@ -77,31 +87,31 @@
 
         <MetaDatumView
           :title="$t('meta_info.label_project_program_of_study')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:program_of_study']"
+          :md="currentTree.cols_meta_data[parentSetId]['institution:program_of_study']"
           :is-selectable="true"
           @add-filter="addFilter"/>
 
         <MetaDatumView
           :title="$t('meta_info.label_project_semester')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:semester']"
+          :md="currentTree.cols_meta_data[parentSetId]['institution:semester']"
           :is-selectable="true"
           @add-filter="addFilter"/>
 
         <MetaDatumView
           :title="$t('meta_info.label_project_category')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:project_category']"
+          :md="currentTree.cols_meta_data[parentSetId]['institution:project_category']"
           :is-selectable="true"
           @add-filter="addFilter"/>
 
         <MetaDatumView
           :title="$t('meta_info.label_project_keywords')"
-          :md="currentTree.cols_meta_data[activeSetId]['madek_core:keywords']"
+          :md="currentTree.cols_meta_data[parentSetId]['madek_core:keywords']"
           :is-selectable="true"
           @add-filter="addFilter"/>
 
         <MetaDatumView
           :title="$t('meta_info.label_project_participants')"
-          :md="currentTree.cols_meta_data[activeSetId]['creative_work:other_creative_participants']"
+          :md="currentTree.cols_meta_data[parentSetId]['creative_work:other_creative_participants']"
           :is-selectable="true"
           @add-filter="addFilter"/>
 
@@ -258,6 +268,48 @@ const getMDMediaCreatorsList = ():string[] => {
   }
   console.log("getMDMediaCreatorsList: " + list)
   return list
+}
+
+// HH prüfen, ob man sich in einem Sub-Set befindet
+const isInSubset = ():boolean => {
+  return props.parentSetId !== props.activeSetId;
+}
+
+// HH Beschreibung des Subsets nur anzeigen, wenn:
+// a) in Sub-Set, b) sie existiert und c) nicht gleich des Parent Sets
+const isShowCurrentSetDescription = ():boolean => {
+  if (!isInSubset()) {
+    return false;
+  }
+
+  const currentMeta = props.currentTree.cols_meta_data[props.activeSetId]['madek_core:description'];
+  const parentMeta = props.currentTree.cols_meta_data[props.parentSetId]['madek_core:description'];
+
+  if (!currentMeta || !currentMeta.string) {
+    return false;
+  }
+
+  return currentMeta.string !== parentMeta.string;
+}
+
+// HH Titel des aktuellen Sets aus Metadaten holen und auf 6 Wörter begrenzen
+const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
+  const currentMeta = props.currentTree.cols_meta_data[props.activeSetId];
+  let title = '';
+  
+  // Englischen Titel verwenden wenn Sprache 'en'
+  if (lang === 'en' && currentMeta['madek_core:title_en'].string) {
+    title = currentMeta['madek_core:title_en'].string;
+  } else {
+    title = currentMeta['madek_core:title'].string;
+  }
+
+  // Auf 6 Wörter begrenzen
+  const words = title.split(' ');
+  if (words.length <= 6) {
+    return title;
+  }
+  return words.slice(0, 6).join(' ') + ' ...';
 }
 
 </script>
