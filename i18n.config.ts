@@ -87,7 +87,7 @@ export default defineI18nConfig(() => ({
                 license_fallback: "Alle Rechte vorbehalten",
 
                 label_madek_source: "Quelle",
-                label_madek_source_link: "Madek Archiv",
+                label_madek_source_link: "HfG Projektarchiv",
 
                 error_no_data: "Warte auf Meta-Daten...",
 
@@ -183,7 +183,7 @@ export default defineI18nConfig(() => ({
                 license_fallback: "All rights reserved",
                 
                 label_madek_source: "Source",
-                label_madek_source_link: "Madek archive",
+                label_madek_source_link: "HfG Project Archive",
 
                 error_no_data: "Waiting for Meta-Data...",
 
