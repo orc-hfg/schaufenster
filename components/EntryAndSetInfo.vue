@@ -480,5 +480,12 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
 .btn_round:hover {
     background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
 }
-
+.btn_round svg {
+  stroke-width: 1.5px;
+}
+[data-theme="dark"] {
+  .btn_round svg {
+    stroke: var(--Colors-text-primary, #2C2C2C);
+  }
+}
 </style>
