@@ -55,10 +55,6 @@
             <p>
                 Absatz V. Newsletter / Versand von Presseinformationen ist nicht gültig: Diese Website stellt keinen Newsletterservice bereit.
             </p>
-            <h3>Webanalyse</h3>
-            <p>
-                Absatz VI. Webanalyse durch AWStats ist nicht gültig: Diese Website erhebt keine Besucherstatistiken.
-            </p>
             <h3>Dienste Dritter</h3>
             <p>
                 In Abweichung zu Absatz VII. Dienste Dritter werden auf dieser Website keine Social Media Dienste oder Videoplattformen eingebunden. Es ist jedoch möglich, dass Links auf entsprechende Dienste von Drittanbietern verweisen. Beim Aufrufen dieser Links (Klick) werden personenbezogene Daten (IP-Adresse und ggf. weitere) durch den jeweiligen Dienstleister erhoben und ggf. gespeichert. Wir haben keinen Einfluss darauf, ob und wie Drittanbieter personenbezogene Daten speichern und nutzen.
