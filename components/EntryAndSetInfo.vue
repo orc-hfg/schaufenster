@@ -361,16 +361,20 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
   margin:auto;
   padding: var(--spacing-between-items-M, 12px) var(--spacing-between-items-M,12px);
 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing-meta-info-between-sections, 80px);
-    flex-shrink: 0;
-    margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-meta-info-between-sections, 80px);
+  flex-shrink: 0;
+  margin-bottom: 5rem;
 }
 
 [data-layout="mobile"] {
-
+  .entry_info_panel {
+    width: 100%;
+    margin:0;
+    padding: 0;
+  }
 }
 
 .section_entry {
