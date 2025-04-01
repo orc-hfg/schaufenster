@@ -1,0 +1,119 @@
+name: Bug Report
+description: Use this user-friendly form to report bugs to us
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out this report form to help us help you easier. Thanks!
+  # First let's ask the user about the bug
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: |
+        Please be holistic in your description: Even seemingly trivial things
+        may contain the important clue to fix the bug. If applicable, also tell
+        us what you expect to happen instead.
+      placeholder: Describe your bug and the expected behaviour here.
+    validations:
+      required: true
+  # Also ask them to describe reproducing the bug
+  - type: textarea
+    id: reproducing
+    attributes:
+      label: Reproducing
+      description: |
+        What steps do you need to take in order to make the bug happen? We need
+        this information to be able to find the bug. We can only fix what we can
+        see on our side. The more contextual information you include the better.
+      placeholder: How can we make this issue occur?
+    validations:
+      required: true
+  # Now the version
+  - type: input
+    id: version
+    attributes:
+      label: Zettlr version
+      description: |
+        What version of Zettlr are you running? Specify the exact version. It
+        can be found in the About-dialog.
+      placeholder: e.g. 1.8.9 or 1.8.9+nightly-20210628
+    validations:
+      required: true
+  # Since Zettlr is being distributed via many different channels, sometimes
+  # bugs are not necessarily the cause of the codebase, but rather how it's
+  # packaged. For example, we have received many bug reports in Q2 of 2022 that
+  # were caused by the Flathub package
+  - type: dropdown
+    id: package-manager
+    attributes:
+      label: Installation Method
+      description: "Please indicate how you installed the app"
+      options:
+        - From the Website or GitHub
+        - Chocolatey
+        - Homebrew
+        - Mac Ports
+        - AUR (Arch Repository)
+        - Flathub
+        - Other (please specify below)
+    validations:
+      required: true
+  # Other:
+  - type: input
+    id: package-manager-other
+    attributes:
+      label: Installation Method (Other)
+      description: |
+        If you specified "Other" in the Installation Method dropdown, specify
+        the exact setup method you used here.
+      placeholder: e.g. Big Sur 11.4, Linux Mate, pop!_OS, Windows 10
+    validations:
+      required: false
+  # Also, we need to know the operating system(s) where this happens
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Your Platform
+      description: |
+        Please tell us what platform you're on. If you were able to check other
+        operating systems and they have the same bug, please check all operating
+        systems that apply!
+      options:
+        - label: Windows
+        - label: macOS
+        - label: Linux
+  # The architecture might come in handy
+  - type: checkboxes
+    id: arch
+    attributes:
+      label: Architecture
+      description: On which architecture(s) does this bug appear?
+      options:
+        - label: Intel 64bit
+        - label: ARM 64bit (includes Apple Silicon)
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating System Version
+      description: |
+        Which operating system(s) are you running? Include all on which you
+        experience this bug.
+      placeholder: e.g. Big Sur 11.4, Linux Mate, pop!_OS, Windows 10
+    validations:
+      required: true
+  - type: textarea
+    id: more-info
+    attributes:
+      label: Additional Information
+      description: |
+        If applicable, feel free to include more info, such as log outputs or
+        error messages you are seeing.
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this bug report. We'll get
+        back to you as soon as possible. Please check your notifications
+        regularly and respond quickly to any additional questions we have. This
+        ensures that we can timely address the issue.
