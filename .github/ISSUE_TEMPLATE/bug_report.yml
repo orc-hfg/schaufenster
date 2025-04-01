@@ -1,4 +1,3 @@
-# Adapted from Zettlr https://github.com/Zettlr/Zettlr/blob/develop/.github/ISSUE_TEMPLATE/bug_report.yml
 name: Bug Report
 description: Use this user-friendly form to report bugs to us
 labels: [bug]
