@@ -7,7 +7,7 @@ body:
       value: |
         Please fill out this report form to help us help you easier. Thanks!
   # First let's ask the user about the bug
-- type: input
+  - type: input
     id: bug-link
     attributes:
       label: Link of bug-page
