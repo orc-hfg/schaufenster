@@ -2044,7 +2044,9 @@ progress {
     position: relative;
     /* top: 0px; */
     /* top: var(--margin-entry-info-title-top); */
-    /* height: calc(95vh - 80px); */
+    /* height: calc(100vh - 68px); */
+    height: auto;
+
     /* border: 1px solid blue; */
   }
   .swiper_main.info_active {
@@ -2074,8 +2076,8 @@ progress {
     z-index: 20;
     /* border: 1px solid green; */
     position: relative;
-    /* top: var(--margin-entry-info-title-top); */
-    margin-top: calc(-50vh + 15vh);
+    /* HH hier top statt margin-top, ansonsten Kollision mit entry_info.hidden */
+    top: calc(var(--margin-entry-info-title-top) * 3);
     margin-bottom: calc(var(--margin-entry-info-title-top) * 2);
     left: 24px;
     width: calc(100vw - 48px);
@@ -2085,7 +2087,6 @@ progress {
   .entry_info.hidden {
     transform: translateY(50vh);
     height: 0px;
-    
     transition: all 600ms ease-in-out;
   }
 
