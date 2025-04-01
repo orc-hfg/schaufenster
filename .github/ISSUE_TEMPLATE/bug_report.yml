@@ -7,7 +7,7 @@ body:
       value: |
         Please fill out this report form to help us help you easier. Thanks!
   # First let's ask the user about the bug
-- type: input
+  - type: input
     id: bug-link
     attributes:
       label: Link of bug-page
@@ -66,10 +66,19 @@ body:
   - type: input
     id: Browser
     attributes:
-      label: Broser
+      label: Browser
       description: |
         Which [Browser](https://www.whatsmybrowser.org/) are you using?
       placeholder: Which Browser are you using?
+    validations:
+      required: false
+  - type: input
+    id: Device
+    attributes:
+      label: Device
+      description: |
+        Information about the device, version etc.
+      placeholder: Which device are you using?
     validations:
       required: false
   - type: textarea
