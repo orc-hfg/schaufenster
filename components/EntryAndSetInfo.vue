@@ -128,8 +128,10 @@
           <div class="meta_title">
             {{$t('meta_info.label_media_authors')}}
           </div>
-          <div class="filter_content">
-            <span v-for="(term,idx) in getMDMediaCreatorsList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
+          <div class="meta_content">
+            <div class="filter_content">
+              <span v-for="(term,idx) in getMDMediaCreatorsList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
+            </div>
           </div>
         </div>
 
@@ -138,13 +140,15 @@
           <div class="meta_title">
             {{$t('meta_info.label_license')}}
           </div>
-          <div class="filter_content">
-            <span v-if="getMDLicence()">
-              {{ getMDLicence() }}
-            </span>
-            <span v-else>
-              {{ $t('meta_info.license_fallback') }}
-            </span>
+          <div class="meta_content">
+            <div class="filter_content">
+              <span v-if="getMDLicence()">
+                {{ getMDLicence() }}
+              </span>
+              <span v-else>
+                {{ $t('meta_info.license_fallback') }}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -154,23 +158,24 @@
           :is-selectable="true"
           @add-filter="addFilter"/>
           
-          <MetaDatumViewMaterial
+        <MetaDatumViewMaterial
           :title="$t('meta_info.label_project_material')"
-          :mdSource="currentTree.cols_meta_data[activeSetId]"
-          />
+          :mdSource="currentTree.cols_meta_data[activeSetId]" />
 
         <!-- link to entry in madek -->
         <div class="meta_info">
           <div class="meta_title">
             {{$t('meta_info.label_madek_source')}}
           </div>
-          <div class="filter_content">
-            <a class="btn_round"
-              target="_blank" rel="noopener noreferrer"
+          <div class="meta_content"> 
+            <div class="filter_content">
+              <a class="btn_round"
+                target="_blank" rel="noopener noreferrer"
               :href="useRuntimeConfig().public.apiBaseUrl + '/entries/' + activeEntryId">
               {{$t('meta_info.label_madek_source_link')}}
               <IconsLink/>
             </a>
+          </div>
           </div>
         </div>
 
@@ -487,6 +492,8 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
 }
 .btn_round svg {
   stroke-width: 1.5px;
+  width: 1.25em;
+  height: 1.25em;
 }
 [data-theme="dark"] {
   .btn_round svg {

@@ -4,22 +4,25 @@
             v-if="notEmpty(mdSource)">
             {{ title }}
         </div>        
-        <ul v-if="notEmpty(mdSource)">
-            <li v-if="getMDMaterial(mdSource).length">
-                <span v-for="(term,idx) in getMDMaterial(mdSource)">
-                    {{ (idx !== 0 ? ', ' : '') + term }}
-                </span>
-            </li>
-            <li v-if="mdSource['creative_work:dimension']">
-                {{ mdSource['creative_work:dimension'].string }}
-            </li>
-            <li v-if="mdSource['creative_work:duration']">
-                {{ mdSource['creative_work:duration'].string }}
-            </li>
-            <li v-if="mdSource['creative_work:format']">
-                {{ mdSource['creative_work:format'].string }}
-            </li>         
-        </ul>
+        <div class="meta_content"
+            v-if="notEmpty(mdSource)">
+            <ul>
+                <li v-if="getMDMaterial(mdSource).length">
+                    <span v-for="(term,idx) in getMDMaterial(mdSource)">
+                        {{ (idx !== 0 ? ', ' : '') + term }}
+                    </span>
+                </li>
+                <li v-if="mdSource['creative_work:dimension']">
+                    {{ mdSource['creative_work:dimension'].string }}
+                </li>
+                <li v-if="mdSource['creative_work:duration']">
+                    {{ mdSource['creative_work:duration'].string }}
+                </li>
+                <li v-if="mdSource['creative_work:format']">
+                    {{ mdSource['creative_work:format'].string }}
+                </li>         
+            </ul>
+        </div>
     </div> 
 </template>
 <script setup lang="ts">
