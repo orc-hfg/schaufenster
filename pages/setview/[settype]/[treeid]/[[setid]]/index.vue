@@ -2075,10 +2075,12 @@ progress {
     /* border: 1px solid green; */
     position: relative;
     /* top: var(--margin-entry-info-title-top); */
-    top: calc(-50vh + 96px);
+    margin-top: calc(-50vh + 15vh);
+    margin-bottom: calc(var(--margin-entry-info-title-top) * 2);
     left: 24px;
     width: calc(100vw - 48px);
     height: fit-content;
+    background: transparent;
   }
   .entry_info.hidden {
     transform: translateY(50vh);
