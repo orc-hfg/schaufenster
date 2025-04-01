@@ -400,7 +400,8 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
 }
 [data-layout="mobile"] {
   .meta_info.top_gap {
-    height: 48px;
+    /* height: 48px; */
+    display: none
   }
 }
 .meta_title {
