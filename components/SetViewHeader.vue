@@ -352,10 +352,17 @@ onMounted(() => {
   max-width: calc(100vw - 96px - 48px - 12px); /* space for nav home and nav info */
 }
 
-.navbar_set_link.parent_link span {
-  display: inline-block;
+.navbar_set_link span {
   /* height: 24px; */
+  /* 
+  * overflow: hidden verhindert, dass Text der länger als die Breite des Elements ist
+  * über die Grenzen hinaus angezeigt wird. Zusammen mit white-space: nowrap und
+  * text-overflow: ellipsis wird der Text mit "..." abgeschnitten
+  */
+  display: inline-block;
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .navbar_set_link.parent_link:hover {
