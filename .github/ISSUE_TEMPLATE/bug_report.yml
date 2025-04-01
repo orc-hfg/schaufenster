@@ -1,6 +1,6 @@
 name: "Bug Report"
 description: "Use this user-friendly form to report bugs to us"
-labels: [bug]
+labels: [Triage]
 body:
   - type: markdown
     attributes:
