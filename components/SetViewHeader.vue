@@ -105,7 +105,9 @@
         v-if="activeSetId !== setid"
         @click="emit('parentClicked', activeSetId)"
         >
-        {{ getColTitle(activeSetId) }}
+        <span>
+          {{ getColTitle(activeSetId) }}
+        </span>
       </NuxtLink>
       
           
@@ -351,6 +353,7 @@ onMounted(() => {
   align-items: center;
   max-width: calc(100vw - 96px - 48px - 12px); /* space for nav home and nav info */
 }
+
 
 .navbar_set_link span {
   /* height: 24px; */
