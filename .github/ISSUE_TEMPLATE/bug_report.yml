@@ -1,3 +1,4 @@
+# Adapted from Zettlr https://github.com/Zettlr/Zettlr/blob/develop/.github/ISSUE_TEMPLATE/bug_report.yml
 name: Bug Report
 description: Use this user-friendly form to report bugs to us
 labels: [bug]
@@ -7,6 +8,24 @@ body:
       value: |
         Please fill out this report form to help us help you easier. Thanks!
   # First let's ask the user about the bug
+- type: input
+    id: bug-link
+    attributes:
+      label: Link of bug-page
+      description: |
+        Copy-paste the link from your browser.
+      placeholder:
+    validations:
+      required: false
+  - type: input
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: |
+        Could you add a screenshot?.
+      placeholder: Paste the Screenshot
+    validations:
+      required: false
   - type: textarea
     id: description
     attributes:
@@ -30,47 +49,6 @@ body:
       placeholder: How can we make this issue occur?
     validations:
       required: true
-  # Now the version
-  - type: input
-    id: version
-    attributes:
-      label: Zettlr version
-      description: |
-        What version of Zettlr are you running? Specify the exact version. It
-        can be found in the About-dialog.
-      placeholder: e.g. 1.8.9 or 1.8.9+nightly-20210628
-    validations:
-      required: true
-  # Since Zettlr is being distributed via many different channels, sometimes
-  # bugs are not necessarily the cause of the codebase, but rather how it's
-  # packaged. For example, we have received many bug reports in Q2 of 2022 that
-  # were caused by the Flathub package
-  - type: dropdown
-    id: package-manager
-    attributes:
-      label: Installation Method
-      description: "Please indicate how you installed the app"
-      options:
-        - From the Website or GitHub
-        - Chocolatey
-        - Homebrew
-        - Mac Ports
-        - AUR (Arch Repository)
-        - Flathub
-        - Other (please specify below)
-    validations:
-      required: true
-  # Other:
-  - type: input
-    id: package-manager-other
-    attributes:
-      label: Installation Method (Other)
-      description: |
-        If you specified "Other" in the Installation Method dropdown, specify
-        the exact setup method you used here.
-      placeholder: e.g. Big Sur 11.4, Linux Mate, pop!_OS, Windows 10
-    validations:
-      required: false
   # Also, we need to know the operating system(s) where this happens
   - type: checkboxes
     id: scope
@@ -84,25 +62,17 @@ body:
         - label: Windows
         - label: macOS
         - label: Linux
-  # The architecture might come in handy
-  - type: checkboxes
-    id: arch
-    attributes:
-      label: Architecture
-      description: On which architecture(s) does this bug appear?
-      options:
-        - label: Intel 64bit
-        - label: ARM 64bit (includes Apple Silicon)
+        - label: Android
+        - label: iOS
   - type: input
-    id: os-version
+    id: Browser
     attributes:
-      label: Operating System Version
+      label: Broser
       description: |
-        Which operating system(s) are you running? Include all on which you
-        experience this bug.
-      placeholder: e.g. Big Sur 11.4, Linux Mate, pop!_OS, Windows 10
+        Which [Browser](https://www.whatsmybrowser.org/) are you using?
+      placeholder: Which Browser are you using?
     validations:
-      required: true
+      required: false
   - type: textarea
     id: more-info
     attributes:
