@@ -229,13 +229,19 @@
 
     header nav a {
       /* height: 24px; */
-      padding: 12px;
-      float: left
+      /* padding: 12px; */
+      /* float: left */
+    }
+    header nav {
+      display: flex;
+      gap: var(--spacing-navbar-between-items);
     }
     .header_nav_logo {
       width: var(--dimension-button-height-M, 48px);
       height: var(--dimension-button-height-M, 48px);
       padding: 0;
+      flex-shrink: 0;
+      flex-grow: 0;
     }
     .nav-logo-orc path {
       stroke: none;

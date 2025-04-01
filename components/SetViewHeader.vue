@@ -282,7 +282,11 @@ onMounted(() => {
   /* border: 1px solid black; */
   /* border-radius: var(--radius__full, 48px); */
   /* background-color: var(--Colors-nav-bar-toggle-on); */
-  margin: 0 var(--spacing-navbar-between-items, 4px);
+
+  /* HH statt margin über gap des parent containers */
+  /* margin: 0 var(--spacing-navbar-between-items, 4px); */
+  overflow: hidden;
+  min-width: var(--dimension-icon-size-M);
 
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
@@ -308,7 +312,7 @@ onMounted(() => {
 
 
 .link_wrapper {
-  border: 1px solid green;
+  /* border: 1px solid green; */
   position: relative;
   display: contents;
   /* height: 50px; */
@@ -345,13 +349,16 @@ onMounted(() => {
 }
 
 .navbar_set_link.parent_link {
-  width: 24px;
   /* transition: width 500ms; */
   transition: all 500ms ease-out;
+  
+  /* HH wird vermutlich nicht mehr begraucht */
+  /* space for nav home and nav info */
+  /* max-width: calc(100vw - 96px - 48px - 12px); 
+  width: 24px;
   overflow: hidden;
   justify-content: center;
-  align-items: center;
-  max-width: calc(100vw - 96px - 48px - 12px); /* space for nav home and nav info */
+  align-items: center; */
 }
 
 
@@ -374,11 +381,13 @@ onMounted(() => {
 
 
 nav {
-  width: calc(100vw - 2 * var(--dimension---margin-header-margin, 12px));
+  /* width: calc(100vw - 2 * var(--dimension---margin-header-margin, 12px)); */
+  /* HH volle Breite minus Info-Button */
+  width: calc(100% - 60px);
 }
 
 .navbar_set_link.info {
-  float: right;
+  /* float: right; */
   position: absolute;
   right: var(--margin-navbar-institution-logo-right, 10px);
 
@@ -390,7 +399,7 @@ nav {
   height: var(--dimension-icon-size-M, 24px);
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  /* gap: 20px; */
   flex-shrink: 0;
 
   border-radius: var(--radius-full, 9999px);
