@@ -10,19 +10,19 @@ body:
   - type: input
     id: bug-link
     attributes:
-      label: Link of bug-page
+      label: Schaufensterpage's link
       description: |
-        Copy-paste the link from your browser.
+        Copy-paste the link of the Schaufesnter where you did find the error.
       placeholder:
     validations:
       required: false
-  - type: input
+  - type: textarea
     id: screenshot
     attributes:
       label: Screenshot
       description: |
-        Could you add a screenshot?.
-      placeholder: Paste the Screenshot
+        Could you add a screenshot? 
+      placeholder: Paste or drop the Screenshot.
     validations:
       required: false
   - type: textarea
@@ -33,7 +33,7 @@ body:
         Please be holistic in your description: Even seemingly trivial things
         may contain the important clue to fix the bug. If applicable, also tell
         us what you expect to happen instead.
-      placeholder: Describe your bug and the expected behaviour here.
+      placeholder: I clicked the button on the top left, thinking it was a menu, but nothing happend.
     validations:
       required: true
   # Also ask them to describe reproducing the bug
@@ -42,10 +42,10 @@ body:
     attributes:
       label: Reproducing
       description: |
-        What steps do you need to take in order to make the bug happen? We need
-        this information to be able to find the bug. We can only fix what we can
-        see on our side. The more contextual information you include the better.
-      placeholder: How can we make this issue occur?
+        Anything we may need to do to reproduce the same error.
+      placeholder: |
+      1. Go to the link
+      ...
     validations:
       required: true
   # Also, we need to know the operating system(s) where this happens
@@ -53,10 +53,7 @@ body:
     id: scope
     attributes:
       label: Your Platform
-      description: |
-        Please tell us what platform you're on. If you were able to check other
-        operating systems and they have the same bug, please check all operating
-        systems that apply!
+      description:
       options:
         - label: Windows
         - label: macOS
@@ -68,7 +65,7 @@ body:
     attributes:
       label: Browser
       description: |
-        Which [Browser](https://www.whatsmybrowser.org/) are you using?
+        Which [Browser](https://www.whatsmybrowser.org/) are you using and which Version?
       placeholder: Which Browser are you using?
     validations:
       required: false
@@ -77,8 +74,8 @@ body:
     attributes:
       label: Device
       description: |
-        Information about the device, version etc.
-      placeholder: Which device are you using?
+        Which device are you using (including version, year, etc.?
+      placeholder: Fairphone 3
     validations:
       required: false
   - type: textarea
@@ -86,12 +83,8 @@ body:
     attributes:
       label: Additional Information
       description: |
-        If applicable, feel free to include more info, such as log outputs or
-        error messages you are seeing.
+        If applicable, feel free to include more info.
   - type: markdown
     attributes:
       value: |
-        Thank you for taking the time to fill out this bug report. We'll get
-        back to you as soon as possible. Please check your notifications
-        regularly and respond quickly to any additional questions we have. This
-        ensures that we can timely address the issue.
+        Thank you !
