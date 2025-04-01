@@ -44,8 +44,9 @@ body:
       description: |
         Anything we may need to do to reproduce the same error.
       placeholder: |
-      1. Go to the link
-      ...
+        1. Go to the link
+        2. ...
+  
     validations:
       required: true
   # Also, we need to know the operating system(s) where this happens
