@@ -295,6 +295,15 @@ const updateShowAll = () => {
   }
 }
 
+const hasFilterResults = (meta_key: string): boolean => {
+  for (const item in globalMap.value[meta_key]) {
+    if (!isHideIfNotSubString(globalMap.value[meta_key][item][0].name)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 onMounted(() => {
 
   [FILTERS_KEYWORD, FILTERS_PEOPLE, FILTERS_ROLES].forEach(type => {
@@ -479,214 +488,208 @@ const getShowAllStyle = (meta_key) => {
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('meta_info.label_project_keywords') }}</div>
-          <div class="filter_cloud"
-            :id=" 'filter_cloud_' + MK_KEYWORDS "
-            :style="getShowAllStyle(MK_KEYWORDS)"
-            :class="{hide_all:!showAll[MK_KEYWORDS]}">
-            <!-- HH genügt es, auf countMap statt auf globalMap zu iterieren, um die leeren Tags nicht auszugeben? -->
-            <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
-              <button class="keyword_item"
-                @click="clickedKeyword(kws)"
-                v-if="!isHideIfNotSubString(kws[0].name)"
-                :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
-                >
-                {{ kws[0].name }}
-                <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, kws[0].id) }}</span>
-              </button>
+          <template v-if="hasFilterResults(MK_KEYWORDS)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_KEYWORDS "
+              :style="getShowAllStyle(MK_KEYWORDS)"
+              :class="{hide_all:!showAll[MK_KEYWORDS]}">
+              <div v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
+                <button class="keyword_item"
+                  @click="clickedKeyword(kws)"
+                  v-if="!isHideIfNotSubString(kws[0].name)"
+                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
+                  >
+                  {{ kws[0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, kws[0].id) }}</span>
+                </button>
+              </div>
             </div>
+            <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
+              :show-all="showAll[MK_KEYWORDS]"
+              :count="getTagCount(MK_KEYWORDS)"/>
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
           </div>
-          <FilterViewShowBtn
-            @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
-            :show-all="showAll[MK_KEYWORDS]"
-            :count="getTagCount(MK_KEYWORDS)"/>
-          <!-- <button class="btn_show_all"
-            @click="showAll[MK_KEYWORDS] = !showAll[MK_KEYWORDS]">
-            <span v-if="!showAll[MK_KEYWORDS]">+&nbsp;&nbsp;Show all</span>
-            <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button> -->
-          
         </div>
         
 
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
           <div class="filter_headline">{{ $t('meta_info.label_project_authors') }}</div>
-          <div class="filter_cloud"
-            :id=" 'filter_cloud_' + MK_AUTHORS "
-            :style="getShowAllStyle(MK_AUTHORS)"
-            :class="{hide_all:!showAll[MK_AUTHORS]}">
-            <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
-              <button class="keyword_item"
-                @click="clickedPeople(person)"
-                v-if="!isHideIfNotSubString(person[0].name)"
-                :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, person[0])"
-                >
-                {{ person[0].name }}
-                <span class="filter_count">{{ getFilteredCount(MK_AUTHORS, person[0].id) }}</span>
-              </button>
+          <template v-if="hasFilterResults(MK_AUTHORS)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_AUTHORS "
+              :style="getShowAllStyle(MK_AUTHORS)"
+              :class="{hide_all:!showAll[MK_AUTHORS]}">
+              <div v-for="person in globalMap[MK_AUTHORS]" :key="person">
+                <button class="keyword_item"
+                  @click="clickedPeople(person)"
+                  v-if="!isHideIfNotSubString(person[0].name)"
+                  :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, person[0])"
+                  >
+                  {{ person[0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_AUTHORS, person[0].id) }}</span>
+                </button>
+              </div>
             </div>
+            <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_AUTHORS)"
+              :show-all="showAll[MK_AUTHORS]"
+              :count="getTagCount(MK_AUTHORS)"/>
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
           </div>
-          <FilterViewShowBtn
-            @toggle-show-all="toggleShowAll(MK_AUTHORS)"
-            :show-all="showAll[MK_AUTHORS]"
-            :count="getTagCount(MK_AUTHORS)"/>
-          <!--<button class="btn_show_all"
-            @click="showAll[MK_AUTHORS] = !showAll[MK_AUTHORS]">
-            <span v-if="!showAll[MK_AUTHORS]">+&nbsp;&nbsp;Show all</span>
-            <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button>-->
         </div>
         
 
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
           <div class="filter_headline">{{ $t('meta_info.label_project_participants') }}</div>
-          <div class="filter_cloud"
-            :id=" 'filter_cloud_' + MK_PARTICIPANTS "
-            :style="getShowAllStyle(MK_PARTICIPANTS)"
-            :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
-            <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
-              <button class="keyword_item"
-                @click="clickedRole(person)"
-                v-if="!isHideIfNotSubString(person[0].name)"
-                :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
-                {{ person[0].name }}
-                <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, person[0].id) }}</span>
-              </button>
+          <template v-if="hasFilterResults(MK_PARTICIPANTS)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_PARTICIPANTS "
+              :style="getShowAllStyle(MK_PARTICIPANTS)"
+              :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
+              <div v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
+                <button class="keyword_item"
+                  @click="clickedRole(person)"
+                  v-if="!isHideIfNotSubString(person[0].name)"
+                  :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
+                  {{ person[0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, person[0].id) }}</span>
+                </button>
+              </div>
             </div>
+            <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_PARTICIPANTS)"
+              :show-all="showAll[MK_PARTICIPANTS]"
+              :count="getTagCount(MK_PARTICIPANTS)"/>
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
           </div>
-          <FilterViewShowBtn
-            @toggle-show-all="toggleShowAll(MK_PARTICIPANTS)"
-            :show-all="showAll[MK_PARTICIPANTS]"
-            :count="getTagCount(MK_PARTICIPANTS)"/>
-          <!--<button class="btn_show_all"
-            @click="showAll[MK_PARTICIPANTS] = !showAll[MK_PARTICIPANTS]">
-            <span v-if="!showAll[MK_PARTICIPANTS]">+&nbsp;&nbsp;Show all</span>
-            <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button>-->
         </div>
         
 
         <!-- MK_PROGRAM_OF_STUDY -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('meta_info.label_project_program_of_study') }}</div>
-          <div class="filter_cloud"
-            :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
-            :style="getShowAllStyle(MK_PROGRAM_OF_STUDY)"
-            :class="{hide_all:!showAll[MK_PROGRAM_OF_STUDY]}">
-            <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
-              <button class="keyword_item"
-                @click="clickedKeyword(item)"
-                v-if="!isHideIfNotSubString(item[0].name)"
-                :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, item[0])"
-                  >
-                {{ item[0].name }}
-                <span class="filter_count">{{ getFilteredCount(MK_PROGRAM_OF_STUDY, item[0].id) }}</span>
-              </button>
+          <template v-if="hasFilterResults(MK_PROGRAM_OF_STUDY)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
+              :style="getShowAllStyle(MK_PROGRAM_OF_STUDY)"
+              :class="{hide_all:!showAll[MK_PROGRAM_OF_STUDY]}">
+              <div v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
+                <button class="keyword_item"
+                  @click="clickedKeyword(item)"
+                  v-if="!isHideIfNotSubString(item[0].name)"
+                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, item[0])"
+                    >
+                  {{ item[0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_PROGRAM_OF_STUDY, item[0].id) }}</span>
+                </button>
+              </div>
             </div>
+            <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_PROGRAM_OF_STUDY)"
+              :show-all="showAll[MK_PROGRAM_OF_STUDY]"
+              :count="getTagCount(MK_PROGRAM_OF_STUDY)"/>
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
           </div>
-          <FilterViewShowBtn
-            @toggle-show-all="toggleShowAll(MK_PROGRAM_OF_STUDY)"
-            :show-all="showAll[MK_PROGRAM_OF_STUDY]"
-            :count="getTagCount(MK_PROGRAM_OF_STUDY)"/>
-            
-          <!-- <button class="btn_show_all"
-            @click="showAll[MK_PROGRAM_OF_STUDY] = !showAll[MK_PROGRAM_OF_STUDY]">
-            <span v-if="!showAll[MK_PROGRAM_OF_STUDY]">+&nbsp;&nbsp;Show all</span>
-            <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button> -->
         </div>
         
 
         <!-- MK_PROJECT_CATEGORY -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('meta_info.label_project_category') }}</div>
-          <div class="filter_cloud"
-            :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
-            :style="getShowAllStyle(MK_PROJECT_TYPE)"
-            :class="{hide_all:!showAll[MK_PROJECT_TYPE]}">
-            <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
-              <button class="keyword_item"
-                @click="clickedKeyword(item)"
-                v-if="!isHideIfNotSubString(item[0].name)"
-                :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, item[0])"
-                  >
-                {{ item[0].name }}
-                <span class="filter_count">{{ getFilteredCount(MK_PROJECT_TYPE,item[0].id) }}</span>
-              </button>
+          <template v-if="hasFilterResults(MK_PROJECT_TYPE)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
+              :style="getShowAllStyle(MK_PROJECT_TYPE)"
+              :class="{hide_all:!showAll[MK_PROJECT_TYPE]}">
+              <div v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
+                <button class="keyword_item"
+                  @click="clickedKeyword(item)"
+                  v-if="!isHideIfNotSubString(item[0].name)"
+                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, item[0])"
+                    >
+                  {{ item[0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_PROJECT_TYPE,item[0].id) }}</span>
+                </button>
+              </div>
             </div>
+            <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_PROJECT_TYPE)"
+              :show-all="showAll[MK_PROJECT_TYPE]"
+              :count="getTagCount(MK_PROJECT_TYPE)"/>
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
           </div>
-          <FilterViewShowBtn
-            @toggle-show-all="toggleShowAll(MK_PROJECT_TYPE)"
-            :show-all="showAll[MK_PROJECT_TYPE]"
-            :count="getTagCount(MK_PROJECT_TYPE)"/>
-          <!--<button class="btn_show_all"
-            @click="showAll[MK_PROJECT_TYPE] = !showAll[MK_PROJECT_TYPE]">
-            <span v-if="!showAll[MK_PROJECT_TYPE]">+&nbsp;&nbsp;Show all</span>
-            <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button>-->
-          
         </div>
         
         <!-- MK_PROJECT_LEADER -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('meta_info.label_project_leader') }}</div>
-          <div class="filter_cloud"
-            :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
-            :style="getShowAllStyle(MK_PROJECT_LEADER)"
-            :class="{hide_all:!showAll[MK_PROJECT_LEADER]}">
-            <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
-              <button class="keyword_item"
-                @click="clickedPeople(item)"
-                v-if="!isHideIfNotSubString(item[0].name)"
-                :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, item[0])"
-                  >
-                {{ item[0].name }}
-                <span class="filter_count">{{ getFilteredCount(MK_PROJECT_LEADER, item[0].id) }}</span>
-              </button>
+          <template v-if="hasFilterResults(MK_PROJECT_LEADER)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
+              :style="getShowAllStyle(MK_PROJECT_LEADER)"
+              :class="{hide_all:!showAll[MK_PROJECT_LEADER]}">
+              <div v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
+                <button class="keyword_item"
+                  @click="clickedPeople(item)"
+                  v-if="!isHideIfNotSubString(item[0].name)"
+                  :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, item[0])"
+                    >
+                  {{ item[0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_PROJECT_LEADER, item[0].id) }}</span>
+                </button>
+              </div>
             </div>
+            <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_PROJECT_LEADER)"
+              :show-all="showAll[MK_PROJECT_LEADER]"
+              :count="getTagCount(MK_PROJECT_LEADER)"/>
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
           </div>
-          <FilterViewShowBtn
-            @toggle-show-all="toggleShowAll(MK_PROJECT_LEADER)"
-            :show-all="showAll[MK_PROJECT_LEADER]"
-            :count="getTagCount(MK_PROJECT_LEADER)"/>
-          <!--<button class="btn_show_all"
-            @click="showAll[MK_PROJECT_LEADER] = !showAll[MK_PROJECT_LEADER]">
-            <span v-if="!showAll[MK_PROJECT_LEADER]">+&nbsp;&nbsp;Show all</span>
-            <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button>-->
         </div>
         
 
         <!-- MK_SEMESTER -->
         <div class="meta_key_filter">
           <div class="filter_headline">{{ $t('meta_info.label_project_semester') }}</div>
-          <div class="filter_cloud"
-            :id=" 'filter_cloud_' + MK_SEMESTER "
-            :style="getShowAllStyle(MK_SEMESTER)"
-            :class="{hide_all:!showAll[MK_SEMESTER]}">
-            <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
-              <button class="keyword_item"
-                @click="clickedFilter(FILTERS_KEYWORD, item)"
-                v-if="!isHideIfNotSubString(item[0].name)"
-                :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, item[0])"
-                  >
-                {{ item[0].name }}
-                <span class="filter_count">{{ getFilteredCount(MK_SEMESTER, item[0].id) }}</span>
-              </button>
+          <template v-if="hasFilterResults(MK_SEMESTER)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_SEMESTER "
+              :style="getShowAllStyle(MK_SEMESTER)"
+              :class="{hide_all:!showAll[MK_SEMESTER]}">
+              <div v-for="item in globalMap[MK_SEMESTER]" :key="item">
+                <button class="keyword_item"
+                  @click="clickedFilter(FILTERS_KEYWORD, item)"
+                  v-if="!isHideIfNotSubString(item[0].name)"
+                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, item[0])"
+                    >
+                  {{ item[0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_SEMESTER, item[0].id) }}</span>
+                </button>
+              </div>
             </div>
-            
+            <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_SEMESTER)"
+              :show-all="showAll[MK_SEMESTER]"
+              :count="getTagCount(MK_SEMESTER)"/>
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
           </div>
-          <FilterViewShowBtn
-            @toggle-show-all="toggleShowAll(MK_SEMESTER)"
-            :show-all="showAll[MK_SEMESTER]"
-            :count="getTagCount(MK_SEMESTER)"/>
-          <!--<button class="btn_show_all"
-            @click="showAll[MK_SEMESTER] = !showAll[MK_SEMESTER]">
-            <span v-if="!showAll[MK_SEMESTER]">+&nbsp;&nbsp;Show all</span>
-            <span v-else>-&nbsp;&nbsp;Show less</span>
-          </button>-->
-          
         </div>
         
 
@@ -1110,6 +1113,10 @@ nav {
   height: 164px;
   
   transition: all 300ms ease-out;
+}
+
+.filter_cloud_no_results {
+  padding: var(--padding-item-vertical-M) 0;
 }
 
 .btn_show_all {

@@ -37,6 +37,7 @@ export default defineI18nConfig(() => ({
                 // label_filter_semester: "Semester",
                 label_show_all:"Zeige mehr",
                 label_show_less:"Zeige weniger",
+                no_results: "Keine Ergebnisse gefunden.",
             },
             setlist: {
                 intro_title_project: "Alle",
@@ -148,6 +149,7 @@ export default defineI18nConfig(() => ({
                 // label_filter_semester: "Semester",
                 label_show_all:"Show all",
                 label_show_less:"Show less",
+                no_results: "No results found.",
             },
             setview: {
                 btn_title_nav_back: "Back",
