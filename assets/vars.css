@@ -110,7 +110,9 @@
 --Colors-text-headlines: var(--Primitives-color-highlight-dark-tone);
 --Colors-text-primary-inverted: var(--Primitives-color-greys-White);
 --Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
---Colors-text-secondary: var(--Primitives-color-greys-MediumGrey)
+--Colors-text-secondary: var(--Primitives-color-greys-MediumGrey);
+
+--Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
 }
 
 
@@ -171,7 +173,9 @@
 --Colors-text-headlines: var(--Primitives-color-highlight-bright-tone);
 --Colors-text-primary-inverted: var(--Primitives-color-greys-Black);
 --Colors-text-primary: var(--Primitives-color-greys-White);
---Colors-text-secondary: var(--Primitives-color-greys-MediumGrey)
+--Colors-text-secondary: var(--Primitives-color-greys-MediumGrey);
+
+--Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
 }
 
 /* .Spaces_Dimensions {*/

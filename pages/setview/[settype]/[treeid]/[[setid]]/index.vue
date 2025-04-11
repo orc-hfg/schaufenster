@@ -131,6 +131,16 @@
             :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
           </div>
         </div>
+        
+        <!-- HH: könnte auch mit der neuen Funktion !hasPreview(el.entry_id) abgefragt werden 
+         die wir für die bottom bar brauchen (denke ich). -->
+        <div v-else
+          class="unknown_filetype_slide">
+          <div class="slide_icon">
+            <IconsFileIcon />
+          </div>
+          
+        </div>
       <!-- </div> -->
         
       </swiper-slide>
@@ -228,6 +238,15 @@
               class="nav_preview_col_title"
               :style="{width: ((getShowCount(el.collection_id)) * 72) + 'px'}">
               {{getColTitle(el.collection_id)}}
+            </div>
+
+            <!-- HH: Hier brauchen wir eine neue Funktion (denke ich), 
+             die abfragt, ob ein Eintrag überhaupt ein Preview hat. -->
+            <div v-if="!hasPreview(el.entry_id)"
+              class="unknown_filetype_bottom_bar">
+              <div class="bottom_bar_icon">
+                <IconsFileIcon />
+              </div>
             </div>
           </div>
           <!-- :title="'E: ' + JSON.stringify(el)" -->
@@ -597,6 +616,16 @@ const resetHoverSetId = () => {
 const setHoverSetId = (val:string) => {
   if (resetHoverSetIdTimeout) clearTimeout(resetHoverSetIdTimeout)
   hoverSetId.value = val
+}
+
+// HH: Prüft, ob überhaupt ein Preview für einen Eintrag vorhanden ist.
+const hasPreview = (entryId: string): boolean => {
+  if (!currentTree.value) return false;
+  
+  return entryId in currentTree.value.previews ||
+         entryId in currentTree.value.previewsLarge ||
+         entryId in currentTree.value.previewsAudio ||
+         entryId in currentTree.value.previewsVideo;
 }
 
 const previewUrl = (eId: string): string => {
@@ -1382,6 +1411,31 @@ const handleMouseLeave = () => {
 } */
 
 
+.unknown_filetype_slide {
+  width: 100%;
+  height: calc(100% - 100px);
+}
+.info_active .unknown_filetype_slide {
+  width: 50%;
+  height: 100%;
+}
+.slide_icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide_icon svg {
+  width: 50%;
+  height: 50%;
+}
+/* HH transitions */
+.unknown_filetype_slide,
+.slide_icon svg {
+  transition: all 300ms linear;
+}
+
 
 /* 
  * toggle bottom nav 
@@ -1479,6 +1533,20 @@ const handleMouseLeave = () => {
   align-items: center;
   color: var(--Colors-text-primary, #2C2C2C)  
 }
+
+.unknown_filetype_bottom_bar,
+.bottom_bar_icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bottom_bar_icon svg {
+  width: 100%;
+  height: 100%;
+}
+
 .main_preview_subset {
   position: absolute;
   top: 10%;
@@ -1486,10 +1554,7 @@ const handleMouseLeave = () => {
   width: 60%;
   height: 80%;
 }
-.main_preview_subset div {
-  
 
-}
 .subset_tiles {
   display: block;
   float: left;

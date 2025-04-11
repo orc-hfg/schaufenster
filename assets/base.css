@@ -201,6 +201,14 @@
     svg {
       stroke: var(--Colors-text-primary); 
     }
+
+    /* HH: Icon wird in pages/setview/[settype]/[treeid]/[[setid]]/index.vue als vue-Komponente verwendet. 
+    * Die Styles dort sind gescoped, deshalb hier eine globale CSS-Klasse. 
+    * Nicht sicher, ob das die beste Lösung ist. */ 
+    .slide_icon svg path,
+    .bottom_bar_icon svg path {
+      stroke: var(--Colors-slider-unknown-filetype-icon);
+    }
     
     .btn, .btn * {
       user-select: none;
