@@ -158,6 +158,9 @@ const updateStyle = () => {
 }
 onMounted(() => {
   updateStyle()
+  window.addEventListener("resize", (ev) => {
+    updateStyle()
+  })
 })
 
 watch(locale, () => {

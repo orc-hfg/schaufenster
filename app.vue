@@ -202,6 +202,7 @@ onMounted(() => {
   updateMobileStateByWinWidth()
   window.addEventListener("resize", (ev) => {
     updateMobileStateByWinWidth()
+    document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
   })
   document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
   document.addEventListener('keyup', onkeyupEv, true)

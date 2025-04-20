@@ -171,6 +171,9 @@ const year_info_style = ref(mergeSetTypeColor(props.settype, getPixelSizedStyle(
 
 onMounted(() => {
   updateStyles()
+  window.addEventListener("resize", (ev) => {
+    updateStyles()
+  })
 })
 const swiperMain = ref({} as typeof Swiper);
 const swiperMoving = ref(false)
