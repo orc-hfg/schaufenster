@@ -984,6 +984,33 @@ const initSetEntries = (parentId:string, setId:string, els, arcs):number => {
     let setIdx = 0
     let mx = 0;
     const toShow = showCount.value[setId] || MIN_SHOW_COUNT;
+
+    // cover entry first
+    const cover_id = currentTree.value.edges[parentId][setId].coverId;
+    if (!cover_id || !els[cover_id]) {
+      console.error("initSetEntries: no cover_id for set: " + setId)
+    } else {
+      els[cover_id].collection_id = setId;
+      // main swiper elems
+      entries.value.push(els[cover_id]);
+
+      const newSlide = {
+        type:NavSlideType.Entry,
+        entry: els[cover_id],
+        entry_id: cover_id,
+        cover_id: currentTree.value.edges[parentId][setId].coverId,
+        collection_id: setId,
+        index: navSlider.value.slides.length,
+        setIdx: setIdx,
+        mainIdx: entries.value.length
+      } as iNavSlide;
+      setIdx++
+      navSlider.value.slides.push(newSlide)
+      navSlider.value.entryId2Idx[cover_id] = newSlide.index
+      mx++
+    }
+
+
     // set elements
     // collections order by arcs
     arcs.forEach(arc => {
