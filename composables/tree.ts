@@ -987,8 +987,8 @@ export const treeHelper = () => {
       CHILD_IDS_SCHAUFENSTER[cca.child_id] = cca.child_id
     }   
     console.log("buildRootChildList: schaufenster col count:" 
-      + ccas.length
-    + Object.keys(CHILD_IDS_SCHAUFENSTER).length)
+     + Object.keys(CHILD_IDS_SCHAUFENSTER).length)
+     + " all : " + ccas.length
   }
   const initApi = (apiBaseUrl:string) => {
     apiH = getNewApi(getNewConfig(apiBaseUrl))
@@ -1028,7 +1028,7 @@ export const treeHelper = () => {
         }
       }
       if (found) {
-        console.error("found magister or diplom in projekt md: " 
+        console.log("found magister or diplom in projekt md: " 
           + " treeId:" + treeId)
         getOrCreateTree(MATCH_DIPLOM, treeId)
         state.treeMapper[MATCH_DIPLOM][treeId] = tree

@@ -151,10 +151,10 @@ const switch2settype = (type:string) => {
   updateSetType()
   toggleBtnSetType.value = type
   
-  const path = //useRuntimeConfig().app.baseURL + 
-  '/setlist/' + type
-  router.replace(path)
-  history.pushState({}, "", path)
+  const rpath = '/setlist/' + type
+  router.replace(rpath)
+  const hpath = useRuntimeConfig().app.baseURL + rpath
+  history.pushState({}, "", hpath)
   
 }
 const animateSwitch2Set = ref(true)
@@ -316,31 +316,16 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     }
   
   })
-  /*
-  slideList.value.push({
-    year: pdate,
-    trees: tl
-  } as iTreeSlide)
-*/
-/*
-  slideList.value.push({
-    year: pdate,
-    trees: []
-  } as iTreeSlide)
-  */
-  console.log(" trees map: " + Object.keys(trees_map).length)
-
-  console.log(" slide list: " + slideList.value.length)
-  console.dir(nextYearList.value)
-  //console.dir(slideList.value);
-
+  
+  //console.log(" trees map: " + Object.keys(trees_map).length)
+  //console.log(" slide list: " + slideList.value.length)
 }
 
 
 
 const updateSetType = () => {
   settype.value = route.params.settype || MATCH_PROJECTS;
-  console.log("updateSetType: " + route.params.settype + " : " + settype.value);
+  //console.log("updateSetType: " + route.params.settype + " : " + settype.value);
 
   colCount.value = settype.value == MATCH_DIPLOM ? COL_COUNT_DIPLOM : COL_COUNT_INDEX;
   
@@ -371,25 +356,13 @@ const updateSetType = () => {
 
   treeList.value = useTree.value[settype.value];
   
-/*
-  // set new filters, clean old ones
-  for (const type in newFiltersMap.value) {
-    filtersMap.value[type] = {}
-    for (const fid in newFiltersMap.value[type]) {
-      filtersMap.value[type][fid] = newFiltersMap.value[type][fid]
-    }
-  }
-*/
   filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   filterCount.value = getFilterCount(filtersTitle.value, filtersMap.value)
-  console.log("updateSetType: filtered list: " + getMapCount(filteredTreeList.value) )
+  //console.log("updateSetType: filtered list: " + getMapCount(filteredTreeList.value) )
   
 
   updateFilteredTrees2Slides(filteredTreeList.value)
   
-  //filterCount.value = 0;
-  //filtersMap.value = {};
-
   //setTimeout(() => {
     if (settype.value == MATCH_DIPLOM) {
       intro_info.value = t('setlist.intro_title_diplom')
@@ -440,8 +413,8 @@ const resetFilter = () => {
   
   filteredTreeList.value = updateFilters(treeList.value, filtersTitle.value, filtersMap.value)
   filterCount.value = getFilterCount(filtersTitle.value, filtersMap.value)
-  console.log(" after reset ")
-  console.dir(filteredTreeList.value)
+  //console.log(" after reset ")
+  //console.dir(filteredTreeList.value)
   updateFilteredTrees2Slides(filteredTreeList.value)
 };
 
