@@ -1050,6 +1050,8 @@ const initSetEntries = (parentId:string, setId:string, els, arcs):number => {
       //TODO is this still needed: remove this
       if (eId == '1162575d-557e-46ca-ad5b-007d0bca144d' || eId == 'e03bfb27-baa3-4d05-aa80-83f8b93f8efe') {
         console.error("ignore entry" + eId)
+      } else if (eId == cover_id) {
+        console.error("ignore entry as used as cover: " + eId)
       } else {
 
       
