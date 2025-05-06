@@ -2085,8 +2085,9 @@ progress {
   opacity: 0;
 }
 .entry_info_title.move_up_hidden {
-  transition: transform 300ms ease-out;
+  transition: transform 300ms ease-out, opacity 300ms ease-out;
   transform: translateY(-6em);
+  opacity: 0;
 }
 
 .unblur-enter-active {
