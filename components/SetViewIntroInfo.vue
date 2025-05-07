@@ -72,9 +72,7 @@ onMounted(() => {
   right: 6.5vw;
   top: 0;
   height: 100vh;
-  
-  
-  overflow: hidden;
+  /* overflow: hidden; */
 
   display: flex;
   flex-direction: column;
@@ -96,8 +94,16 @@ onMounted(() => {
   transform: translateY(10vh);
   transition: all 800ms ease-out;
 }
+/* HH "word-break: break-word;", um zu lange Worte umzubrechen. 
+ * Hinweis: hyphens: auto; hätte den Effekt, dass Worte auch dann umbrechen, 
+ * wenn sie eigentlich in eine Zeile passen würden. Der Browser präferiert dann also 
+ * generell Wort-Umbruch gegenüber Zeilenumbruch.
+ * Gerade bei Projekt-Titeln wollen wir aber Umbrücke in Worten vermeiden.
+ * "word-break" ist zwar nicht so schön, aber dennoch die besser Lösung, 
+ * weil das Problem nur selten auftritt: mobil und langes Wort. */
 .blend_content {
   /* border: 1px solid blue; */
-  display: inline-flex;
+  /* display: inline-flex;   */
+  word-break: break-word;
 }
 </style>
