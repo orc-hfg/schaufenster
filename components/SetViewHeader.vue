@@ -5,6 +5,7 @@
       <NuxtLink 
         class="header_nav_logo fade_out"
         :class="{hidden_fade_out: hideNav}"
+        tabindex="0"
         @click="$emit('clickedBack')">
           <IconsNavHome/>
       </NuxtLink>
@@ -104,6 +105,7 @@
       <NuxtLink class="navbar_set_link animate_up"
         :class="{hidden_move_up: hideNav || showInfo || introRunning}"
         v-if="activeSetId !== setid"
+        tabindex="0"
         @click="emit('parentClicked', activeSetId)"
         >
         <span>
