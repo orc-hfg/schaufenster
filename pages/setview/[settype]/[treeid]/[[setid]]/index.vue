@@ -260,6 +260,7 @@
           <div
             class="nav_preview nav_set"
             v-if="el.type === NavSlideType.Set"
+            tabindex="0"
             @click="nav2Element(el)"
             >
             <!-- :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }" -->
