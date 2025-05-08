@@ -13,6 +13,7 @@
 
         <div class="menu_panel"
             tabindex="0"
+            tabindex="0"
             @click="closeMenu()"
 
             :style="font_style">
