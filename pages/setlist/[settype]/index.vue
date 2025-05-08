@@ -59,19 +59,19 @@
     <Transition name="fade">
       <FontsView v-if="showFontsView"
         :set-type="settype"
-        @on-close="showFontsView = false"/>
+        @on-close="showMenuView = true; showFontsView = false;"/>
     </Transition>
     <Transition name="fade">
       <AboutView v-if="showAboutView"
-        @on-close="showAboutView = false"/>
+        @on-close="showAboutView = false; showMenuView = true"/>
     </Transition>
     <Transition name="fade">
       <ImpressumView v-if="showImpressumView"
-        @on-close="showImpressumView = false"/>
+        @on-close="showImpressumView = false; showMenuView = true"/>
     </Transition>
     <Transition name="fade">
       <DatenschutzView v-if="showDSAView"
-        @on-close="showDSAView = false"/>
+        @on-close="showDSAView = false; showMenuView = true"/>
     </Transition>
 
     <!-- <Transition name="fade"> -->
