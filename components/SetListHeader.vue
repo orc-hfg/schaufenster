@@ -1,7 +1,7 @@
 <template>
     <header >
       <nav class="wrapper_left">
-        <NuxtLink @click="$emit('showMenu')" class="header_nav_logo">
+        <NuxtLink @click="$emit('showMenu')" class="header_nav_logo" tabindex=0>
           <IconsNavIconORC />
         </NuxtLink>
 
@@ -17,7 +17,7 @@
               >
             <NuxtLink class="navbar_link navbar_link_projects" id="navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
-              
+              tabindex=0
               @click="toggleBtnSetType != MATCH_PROJECTS && $emit('switch2settype', [MATCH_PROJECTS])"
               >
               <!-- Alle Projekte -->
@@ -25,7 +25,7 @@
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom" id="navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
-              
+              tabindex=0
               @click="toggleBtnSetType != MATCH_DIPLOM && $emit('switch2settype' , [MATCH_DIPLOM])"
               >
               <!-- Abschlussarbeiten -->
@@ -40,6 +40,7 @@
           <NuxtLink class="navbar_link afilter"
             :class="{hidden: hideNavBtns,
               active:showFilterView}"
+              tabindex=0
             @click="$emit('showFilter')">
             <!-- Filter -->
             <!-- <IconWrap class="filter_icon" v-if="isMobile"> -->
