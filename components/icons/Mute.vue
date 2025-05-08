@@ -1,5 +1,5 @@
 <template>
-    <div class="btn_mute">
+    <div class="btn_mute" tabindex="0">
         <!-- {{ isMute ? "unmute" : "mute" }} -->
         <div v-if="!isMute">
             mute
