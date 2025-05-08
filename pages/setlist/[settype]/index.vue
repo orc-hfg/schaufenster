@@ -502,7 +502,7 @@ onMounted(() => {
 .clipout-leave-active {
   z-index: 10;
   clip-path: circle(calc(max(50vw, 50vh)) at 50vw 50vh) !important;
-  transition: clip-path 400ms ease-out;
+  transition: clip-path 600ms ease-out;
   /* overflow: hidden; */
 }
 .clipout-leave-to {
@@ -512,12 +512,12 @@ onMounted(() => {
 .clipin-enter-active {
   z-index: 10;
   clip-path: circle(0vw at 50vw 50vh) !important;
-  transition: clip-path 800ms ease-out;
+  transition: clip-path 400ms ease-out;
   /* overflow: hidden; */
 }
 .clipin-leave-active {
   z-index: 5;
-  transition: all 800ms;
+  transition: all 400ms;
 }
 .clipin-leave-to {
 }
