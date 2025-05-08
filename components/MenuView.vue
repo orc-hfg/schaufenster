@@ -4,14 +4,14 @@
         :class="{hidden: animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink @click="closeMenu()" class="logo">
+                <NuxtLink tabindex="0" @click="closeMenu()" class="logo">
                     <IconsNavHome/>
                 </NuxtLink>
             </nav>
         </header>
 
         <div class="menu_panel"
-            
+            tabindex="0"
             @click="closeMenu()"
 
             :style="font_style">
@@ -25,6 +25,7 @@
                 </span>
                 
                 <span class="btn"
+                    tabindex="0"
                     @click="switchLocale('en')"
                     :class="{disabled: locale.indexOf('en') < 0}"
                     >
@@ -32,18 +33,22 @@
                 </span>
             </div>
             <div class="btn"
+                tabindex="0"
                 @click="$emit('onShowAbout')">
                 {{ $t('menu.about')}}
             </div>
             <div class="btn"
+                tabindex="0"
                 @click="$emit('onShowFonts')">
                 {{ $t('menu.fonts')}}
             </div>
             <div class="btn"
+                tabindex="0"
                 @click="$emit('onShowDSA')">
                 {{ $t('menu.dsa')}}
             </div>
             <div class="btn"
+                tabindex="0"
                 @click="$emit('onShowImpressum')">
                 {{ $t('menu.impressum')}}
             </div>

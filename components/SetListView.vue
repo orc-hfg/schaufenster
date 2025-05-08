@@ -6,10 +6,12 @@
     <div v-if="settype==MATCH_DIPLOM && !showMenuView"
         class="year_stepper">
     <IconsYearSelectorUp
+        tabindex="0"
         @click="clickedYearBack()"
         :class="{disabled: !isEnabledYearBack}"
         />
     <IconsYearSelectorDown
+        tabindex="0"
         @click="clickedYearForward()"
         :class="{disabled: !isEnabledYearForward}"
         />
@@ -55,6 +57,7 @@
           <div class="set_preview"
             :class="[el.previewDirection, el.previewPlacement]"
             :style="el.previewstyle"
+            tabindex="0"
             @click="switch2set(el.col_id)">
             <div class="img"
               v-if="hasPreview(el.col_id)"

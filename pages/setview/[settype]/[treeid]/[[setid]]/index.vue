@@ -68,6 +68,7 @@
 
         <div v-if="el.isSubSet == true"
           class="main_preview_subset"
+          tabindex="0"
           @click="switch2Set(el.sub_set_id)">
           <div class="subset_tiles"></div>
           <div class="subset_tiles"></div>
@@ -96,6 +97,7 @@
         <div v-else-if="currentTree.previewsAudio[el.id]"
           class="main_preview">
           <div class="audio_slide"
+            tabindex="0"
             @click="toggleStatePlay(!av_state_play)"
             >
             <audio :id="'slide-audio-'+ el.id"
@@ -116,6 +118,7 @@
           <video :id="'slide-video-'+ el.id"
             class="video_slide video_player"
             style=""
+            tabindex="0"
             @click="toggleStatePlay(!av_state_play)"
             >
             <source v-for="url in previewVideoUrls(el.id)" :src="url">
@@ -147,12 +150,14 @@
       <div class="swiper-main-button-prev"
         v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
+        tabindex="0"
         @click.once="swiperMain.slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
         v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
+        tabindex="0"
         @click.once="swiperMain.slideNext()">
         <IconsSliderArrowRight/>
       </div>
@@ -174,6 +179,7 @@
     <Transition name="fade">
       <div
         v-if="!showInfo && !animate_view_io"
+        tabindex="0"
         @click="toggleShowBottomNav()"
         class="btn_bottom_nav_toggle">
         <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
@@ -224,6 +230,7 @@
           <div
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
+            tabindex="0"
             @click="nav2Element(el)"
             :class="getNavPreviewClass(el)"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
@@ -253,6 +260,7 @@
           <div
             class="nav_preview nav_set"
             v-if="el.type === NavSlideType.Set"
+            tabindex="0"
             @click="nav2Element(el)"
             >
             <!-- :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }" -->
@@ -302,6 +310,7 @@
   <div class="av_control" 
     :class="{hidden: !show_av_control || showInfo || showSetTitle}">
     <div class="av_control_playpause"
+      tabindex="0"
       @click="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
       />
@@ -312,7 +321,7 @@
       <IconsMute :isMute="av_state_mute"
       />
     </div>
-    <div class="av_progress_cont">
+    <div class="av_progress_cont" tabindex="0">
       <progress id="av_progress" value="0" min="0" @click="avProgressClicked">
           <!-- <span id="av_progress_bar"></span> -->
       </progress>

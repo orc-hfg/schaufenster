@@ -5,6 +5,7 @@
       <NuxtLink 
         class="header_nav_logo fade_out"
         :class="{hidden_fade_out: hideNav}"
+        tabindex="0"
         @click="$emit('clickedBack')">
           <IconsNavHome/>
       </NuxtLink>
@@ -50,6 +51,7 @@
           v-for="path_set_id in pathToRoot"
           :class="{ hidden_move_up: hideNav || showInfo || introRunning }"
           :style="getLinkStyle(path_set_id)"
+          tabdindex=0
           @click="emit('parentClicked', path_set_id)"
           >
           <span>
@@ -103,6 +105,7 @@
       <NuxtLink class="navbar_set_link animate_up"
         :class="{hidden_move_up: hideNav || showInfo || introRunning}"
         v-if="activeSetId !== setid"
+        tabindex="0"
         @click="emit('parentClicked', activeSetId)"
         >
         <span>
@@ -114,6 +117,7 @@
       <!-- <Transition :css="true" name="fade"> -->
         <NuxtLink
           v-if="!showInfo"
+          tabindex="0"
           @click="$emit('toggleShowInfo')"
           class="navbar_set_link info animate_up"
           :class="{hidden_move_up: hideNav || introRunning}"
@@ -123,6 +127,7 @@
 
         <NuxtLink
           v-else
+          tabindex="0"
           @click="$emit('toggleShowInfo')"
           class="navbar_set_link info animate_up"
           :class="{hidden_move_up: hideNav || introRunning}"

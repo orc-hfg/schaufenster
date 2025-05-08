@@ -1,7 +1,11 @@
 <template>
     <header >
       <nav class="wrapper_left">
-        <NuxtLink @click="$emit('showMenu')" class="header_nav_logo">
+        <NuxtLink
+          @click="$emit('showMenu')" 
+          @keyup.enter="$emit('showMenu')"
+          class="header_nav_logo"
+          tabindex="0">
           <IconsNavIconORC />
         </NuxtLink>
 
@@ -17,16 +21,18 @@
               >
             <NuxtLink class="navbar_link navbar_link_projects" id="navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
-              
-              @click="toggleBtnSetType != MATCH_PROJECTS && $emit('switch2settype', [MATCH_PROJECTS])"
+              tabindex="0"
+              @click="switch2SetType(MATCH_PROJECTS)"
+              @keyup.enter="switch2SetType(MATCH_PROJECTS)"
               >
               <!-- Alle Projekte -->
               {{ projects_label }}
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom" id="navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
-              
-              @click="toggleBtnSetType != MATCH_DIPLOM && $emit('switch2settype' , [MATCH_DIPLOM])"
+              tabindex="0"
+              @click="switch2SetType(MATCH_DIPLOM)"
+              @keyup.enter="switch2SetType(MATCH_DIPLOM)"
               >
               <!-- Abschlussarbeiten -->
               {{ diploms_label }}
@@ -40,7 +46,9 @@
           <NuxtLink class="navbar_link afilter"
             :class="{hidden: hideNavBtns,
               active:showFilterView}"
-            @click="$emit('showFilter')">
+              tabindex="0"
+            @click="$emit('showFilter')"
+            @keyup.enter="$emit('showFilter')">
             <!-- Filter -->
             <!-- <IconWrap class="filter_icon" v-if="isMobile"> -->
             <IconsFilterSearch class="filter_icon" v-if="isMobile"/>
@@ -185,6 +193,15 @@ watch(locale, () => {
   console.log("locale changed: update style")
   updateStyle()
 })
+
+const switch2SetType = (type:string) => {
+   if (props.toggleBtnSetType == type) {
+    return
+   }
+   else {
+    emit('switch2settype', [type])
+   } 
+}
 // const showArchive = ref(false)
 // const setShowArchiveLink = (val:boolean) => {
 //   if (val == true) {

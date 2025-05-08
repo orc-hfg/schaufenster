@@ -406,6 +406,7 @@ const getShowAllStyle = (meta_key) => {
       <nav class="nav">
         <div class="wrapper_left">
           <button class="btn_logo"
+            tabindex="0"
             @click.once="closeFilter()">
             <!-- <IconsNavHome class="logo"/> -->
             <!-- TODO padding -->
@@ -418,6 +419,7 @@ const getShowAllStyle = (meta_key) => {
         
         <div class="wrapper_mid">
           <button class="btn_apply"
+            tabindex="0"
             @click.once="applyFilter()">
             <div class="label">
               {{ $t('filter.btn_apply_label') }} 
@@ -440,6 +442,7 @@ const getShowAllStyle = (meta_key) => {
               @input="changedFilterTitle"
               v-model="newFiltersTitle"/>
             <div class="filter_text_clear"
+              tabindex="0"
               @click="newFiltersTitle = '';updateFilteredCounts()">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -449,6 +452,7 @@ const getShowAllStyle = (meta_key) => {
           </div>
 
           <button class="btn_close"
+            tabindex="0"
             @click="resetFilter()">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -468,6 +472,7 @@ const getShowAllStyle = (meta_key) => {
         :class="{'projects-active': mobile_show_projects}">
         <button 
           class="content_toggle_filter"
+          tabindex="0"
           @click="mobile_show_projects = !mobile_show_projects"
           :class="{active: !mobile_show_projects}">
           Filter
@@ -475,6 +480,7 @@ const getShowAllStyle = (meta_key) => {
         
         <button
           class="content_toggle_projects"
+          tabindex="0"
           @click="mobile_show_projects = !mobile_show_projects"
           :class="{active: mobile_show_projects}">
           Projekte
@@ -496,7 +502,8 @@ const getShowAllStyle = (meta_key) => {
               <div class="filter_cloud_item"
                 v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
                 <button class="keyword_item"
-                  @click="clickedKeyword(kws)"
+                tabindex="0"  
+                @click="clickedKeyword(kws)"
                   v-if="!isHideIfNotSubString(kws[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
                   >
@@ -527,6 +534,7 @@ const getShowAllStyle = (meta_key) => {
               <div class="filter_cloud_item"
                 v-for="person in globalMap[MK_AUTHORS]" :key="person">
                 <button class="keyword_item"
+                  tabindex="0"
                   @click="clickedPeople(person)"
                   v-if="!isHideIfNotSubString(person[0].name)"
                   :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, person[0])"
@@ -558,6 +566,7 @@ const getShowAllStyle = (meta_key) => {
               <div class="filter_cloud_item"
                 v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
                 <button class="keyword_item"
+                  tabindex="0"
                   @click="clickedRole(person)"
                   v-if="!isHideIfNotSubString(person[0].name)"
                   :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
@@ -588,6 +597,7 @@ const getShowAllStyle = (meta_key) => {
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
                 <button class="keyword_item"
+                  tabindex="0"
                   @click="clickedKeyword(item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, item[0])"
@@ -619,6 +629,7 @@ const getShowAllStyle = (meta_key) => {
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
                 <button class="keyword_item"
+                  tabindex="0"
                   @click="clickedKeyword(item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, item[0])"
@@ -649,6 +660,7 @@ const getShowAllStyle = (meta_key) => {
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
                 <button class="keyword_item"
+                  tabindex="0"
                   @click="clickedPeople(item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, item[0])"
@@ -680,6 +692,7 @@ const getShowAllStyle = (meta_key) => {
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_SEMESTER]" :key="item">
                 <button class="keyword_item"
+                  tabindex="0"
                   @click="clickedFilter(FILTERS_KEYWORD, item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, item[0])"
@@ -717,6 +730,7 @@ const getShowAllStyle = (meta_key) => {
           </div>
           <div class="tree_list_item"
             v-for="tree in filteredTreeList"
+            tabindex="0"
             @click="switch2SetView(tree.col_id)"
             :key="tree.col_id">
             <div class="tree_title">

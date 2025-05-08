@@ -48,6 +48,7 @@
                     v-if="isSelectable"
                     v-for="(kw,idx) in md.selectedKeywords"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
+                    tabindex="0"
                     @click="$emit('addFilter', FILTERS_KEYWORD,kw)">
                     {{ kw.term }}
                 </div>
