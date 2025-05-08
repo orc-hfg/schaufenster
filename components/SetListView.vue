@@ -109,6 +109,7 @@
 </div>
 </template>
 <script setup lang="ts">
+const { locale } = useI18n();
 const router = useRouter();
 const swiper_modules = ref([
   SwiperKeyboard,
@@ -256,7 +257,6 @@ const clickedYearBack = () => {
   let last = 0
   last = props.nextYearList.findLastIndex((el) => { 
     return el < activeSlide})
-  console.log("clickedYearBack1: " + activeSlide + ":" + last)
 
   for(let i = 0; i < props.nextYearList.length; i++) {
     if (props.nextYearList[i] < activeSlide) {
@@ -264,22 +264,16 @@ const clickedYearBack = () => {
     }
   }
   
-  console.log("clickedYearBack2: " + activeSlide + ":" + last)
   swiperMain.value.slideTo(last)
-  /*if (activeSlide > 0) {
-    swiperMain.value.slideTo(activeSlide-1)
-  }*/
 }
 
 const upateEnabledYearForward = () => {
   const activeSlide = swiperMain.value?.activeIndex
   
-  
   let next = 0
   next = props.nextYearList.findIndex(el => {
     return el > activeSlide
   })
-  console.log("active Slide: " + activeSlide + " has next: " + next)
   isEnabledYearForward.value = (next != -1)
 }
 
@@ -290,22 +284,17 @@ const clickedYearForward = () => {
   next = props.nextYearList.findIndex(el => {
     return el > activeSlide
   })
-  console.log("clickedYearForward1: " + activeSlide + ":" + next)
   
   for(let i = 0; i < props.nextYearList.length; i++) {
     next = props.nextYearList[i]
     if (next > activeSlide) {
-      
       break;
     }
   }
   
-  console.log("clickedYearForward2: " + activeSlide + ":" + next)
   swiperMain.value.slideTo(next)
-  /*if (activeSlide < maxSlides) {
-    swiperMain.value.slideTo(activeSlide+1)
-  }*/
 }
+
 const currentYear = ref('')
 let currentTimeout = undefined
 
@@ -313,21 +302,15 @@ const SHOW_YEAR_DURATION = 2000;
 
 const showYear = (activeSlide:number) => {
   let yearVal = props.slideList[activeSlide].year
-  /*if (yearVal && (typeof yearVal == 'string' || yearVal.split)) {
-    const sl = yearVal.split(' ')
-    yearVal = sl[0] + ' ' + sl[1].slice(0,1) + 'S'
-    
-  }*/
+  // dirty fix i18n for semester keywords
+  if (locale.value == 'en') {
+    yearVal = (yearVal && yearVal.replace("SoSe","SuSe")) || ''
+  }
   
   currentYear.value = yearVal
-  /* console.log("swiperMain changed slide: " + activeSlide 
-    + ":" + props.slideList[activeSlide].year
-    + ":" + currentYear.value) */
-  
   if (currentTimeout) {
     clearTimeout(currentTimeout)
   }
-
 
   currentTimeout = setTimeout(() => {
     currentYear.value = ''

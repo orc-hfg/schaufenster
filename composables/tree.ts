@@ -108,6 +108,9 @@ export interface iTree {
   cols_semesters: {
     [key: string]: {};
   };
+  cols_semesters_en: {
+    [key: string]: {};
+  };
   cols_departments: {
     [key: string]: string[];
   }
@@ -251,6 +254,7 @@ export const treeHelper = () => {
         cols_authors: {},
         cols_participants: {},
         cols_semesters: {},
+        cols_semesters_en: {},
         cols_departments: {},
         entries_authors: {},
 
@@ -784,6 +788,12 @@ export const treeHelper = () => {
           .replace('Wintersemester','WiSe')
         const year = sy.split(' ')[1]
         tree.cols_semesters[clientId] = year + ' ' + sem
+        // i18 for semester keywords
+        //const sem_en = sy.split(' ')[0]
+        //  .replace('Sommersemester','SuSe')
+        //  .replace('Wintersemester','WiSe')
+        //tree.cols_semesters_en[clientId] = year + ' ' + sem_en
+        
         //tree.cols_semesters[clientId] = md.selectedKeywords[0].term
       /* } else if (metaKey == MK_PROGRAM_OF_STUDY) {
         
