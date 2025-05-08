@@ -4,7 +4,10 @@
         data-theme="dark">
         <header>
             <nav class="nav back_button fades">
-                <NuxtLink tabindex="0" @click="doClose()">
+                <NuxtLink 
+                    tabindex="0"
+                    @keyup.enter="doClose()"
+                    @click="doClose()">
                     <IconsNavHome/>
                 </NuxtLink>
             </nav>
@@ -15,7 +18,9 @@
                 <div class="wrapper_dropdown">
                     <div class="font_selector"
                         tabindex="0"
-                        @click="selector_open = !selector_open">
+                        @click="selector_open = !selector_open"
+                        @keyup.enter="selector_open = !selector_open"
+                        >
                         <div class="font_label">
                         {{ font_list[font_selected].name }}
                         </div>
@@ -30,7 +35,8 @@
                             
                             v-for="(f,idx) in font_list" :value="idx"
                             tabindex="0"
-                            @click="font_selected = idx; selector_open = false; updateFont()">
+                            @click="font_selected = idx; selector_open = false; updateFont()"
+                            @keyup.enter="font_selected = idx; selector_open = false; updateFont()">
                             <!-- I:{{ idx }} F: {{ f }} -->
                             {{ f.name }}
                         </div>
@@ -39,6 +45,7 @@
 
                 <div class="font_info fades">
                     <div class="font_by">by</div>
+                    <!-- TODO: Add the link to Author's website-->
                     <a tabindex="0" class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
                     <div class="font_year">{{font_list[font_selected].year}}</div>
                 </div>

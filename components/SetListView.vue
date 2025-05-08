@@ -7,11 +7,15 @@
         class="year_stepper">
     <IconsYearSelectorUp
         tabindex="0"
+        role="link"
         @click="clickedYearBack()"
+        @keyup.enter="clickedYearBack()"
         :class="{disabled: !isEnabledYearBack}"
         />
     <IconsYearSelectorDown
         tabindex="0"
+        role="link"
+        @keyup.enter="clickedYearForward()"
         @click="clickedYearForward()"
         :class="{disabled: !isEnabledYearForward}"
         />
@@ -22,6 +26,8 @@
     <swiper
       v-if="slideList && slideList.length"
       :modules="swiper_modules"
+      tabindex="-1"
+      alt=""
       class="swiper_main"
       :class="{
         filter_blured: showMenuView,
@@ -32,9 +38,7 @@
       :keyboard="true"      
       :slidesPerView="'auto'"
       :spaceBetween="20"
-      
       :direction="'vertical'"
-      
       :freeMode="{
         momentum:true,
         momentumBounce: true,
@@ -48,18 +52,27 @@
     <swiper-slide
         class="main_slide"
         v-for="slide in slideList"
+        tabindex="-1"
         >
         
         <div class="sub_slide"
           v-for="el in slide.trees"
+          tabindex="-1"
           :onMouseover="() => setTreeInfo(el)"
           :style="{'width': 'calc(' + ((100 / colCount)) + 'vw - ' + (colCount * 20) + 'px)'}">
+          
           <div class="set_preview"
             :class="[el.previewDirection, el.previewPlacement]"
             :style="el.previewstyle"
             tabindex="0"
-            @click="switch2set(el.col_id)">
-            <div class="img"
+            role="link"
+            :aria-label="getColTitle(el.col_id)"
+            @click="switch2set(el.col_id)"
+            @keyup.enter="switch2set(el.col_id)">
+            <div
+              role="img"
+              class="img"
+              :aria-label="getColTitle(el.col_id)"
               v-if="hasPreview(el.col_id)"
               :class="{swiper_moving: swiperMoving}"
               :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.col_id) + '\')' }">

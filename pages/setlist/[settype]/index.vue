@@ -1,4 +1,5 @@
 <template>
+  <!-- <title>{{ $t('page_metadata.page_title')}}</title> -->
   <div class="setlist_page">
     <SetListHeader
       :settype="settype"
@@ -93,7 +94,7 @@
 </template>
 <script setup lang="ts">
 
-const { t, setLocale } = useI18n()
+const { t, setLocale, locale } = useI18n()
 
 const showFontsView = ref(false)
 const showAboutView = ref(false)
@@ -431,8 +432,18 @@ const resetFilter = () => {
 updateSetType();
 
 onMounted(() => {
+  
   updateSetType();
   document.documentElement.setAttribute("data-theme", "light");
+  document.documentElement.setAttribute("lang", locale.value );
+
+  /* Metadata & SEO */
+  useSeoMeta({
+    title: t('page_metadata.page_title'),
+    description: t('page_metadata.page_description'),
+    ogTitle: t('page_metadata.page_title'),
+    ogDescription: t('page_metadata.page_description'),
+  })
 
   watch(
     () => route.path,
@@ -454,6 +465,8 @@ onMounted(() => {
     animateSwitch2Set.value = false
   },300)
 });
+
+
 </script>
 <style scoped>
 .setlist_page {

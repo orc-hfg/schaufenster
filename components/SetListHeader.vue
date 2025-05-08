@@ -21,7 +21,7 @@
               >
             <NuxtLink class="navbar_link navbar_link_projects" id="navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
-              tabindex="0"
+              :tabindex="(hideNavBtns? '-1': '0')"
               @click="switch2SetType(MATCH_PROJECTS)"
               @keyup.enter="switch2SetType(MATCH_PROJECTS)"
               >
@@ -76,9 +76,10 @@
         <!-- <Transition name="move-u50">
         v-if="!hideNavBtns" -->
           <NuxtLink class="navbar_link aarchive"
+            :aria-label="$t('setlist.btn_title_institution')" 
             :class="{hidden: hideNavBtns}"
             to="https://hfg-karlsruhe.de"
-            target="_blank" rel="noopener noreferer"          
+            target="_blank" rel="noopener noreferer"       
             >
             <IconsNavIconHfG/>
           </NuxtLink>

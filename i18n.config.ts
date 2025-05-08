@@ -12,6 +12,7 @@ export default defineI18nConfig(() => ({
                 title: "Projektarchiv der Hochschule für Gestaltung Karlsruhe"
             },
             menu: {
+                back: "Zurück",
                 about: "Info",
                 label_de: "DE",
                 label_en: "EN",
@@ -24,6 +25,8 @@ export default defineI18nConfig(() => ({
                 label_font_by: "von",
             },
             filter: {
+                input_label: "Suchen",
+                input_clear: "Suche löschen",
                 btn_apply_label: "Anwenden",
                 btn_close_label: "Filter zurücksetzen",
                 btn_reset_label: "Filter zurücksetzen",
@@ -52,22 +55,34 @@ export default defineI18nConfig(() => ({
                 btn_title_toggle_diplom_mobile: "Diplome",
                 btn_title_filter: "Filter",
                 btn_title_filter_reset: "Reset",
+                // Check
+                btn_title_institution: "HfG Karlsruhe",
+                
+                btn_title_year_selector_up: "Zum vorherigen Semester",
+                btn_title_year_selector_down: "Zum nächsten Semester",
+                // Till here
             },
             setview: {
                 
                 btn_title_nav_back: "Zurück",
                 btn_title_nav_parent_set: "Über-Set",
                 btn_title_nav_current_set: "Aktuelles Set",
-                btn_title_nav_info: "Medien-Informationen",
-                btn_title_btm_bar_hide: "Navigation ausblenden",
-                btn_title_btm_bar_show: "Navigation einblenden",
-                btn_title_btm_bar_set_show_all: "Alle Set-Elemente anzeigen",
-                btn_title_btm_bar_set_show_less: "Weniger Set-Elemente anzeigen",
+                btn_title_nav_info_show: "Medien-Informationen einblenden",
+                btn_title_nav_info_hide: "Medien-Informationen ausblenden",
+                /* Löschen? VFC btn_title_btm_bar_hide: "Navigation ausblenden",
+                btn_title_btm_bar_show: "Navigation einblenden",*/
+                btn_title_btm_bar_toggle: "Navigation ein- und ausblenden",
+                /* Löschen VFC btn_title_btm_bar_set_show_all: "Alle Set-Elemente anzeigen",
+                btn_title_btm_bar_set_show_less: "Weniger Set-Elemente anzeigen", */
+                btn_title_btm_bar_set_show: "Mehr Set-Elemente umschalten",
+                btn_title_btm_pointer: "Zeiger",
                 btn_title_audio_video_play: "Abspielen",
                 btn_title_audio_video_pause: "Pausieren",
                 btn_title_audio_video_mute: "Leise",
                 btn_title_audio_video_unmute: "Laut",
                 btn_title_audio_video_progress: "Fortschritt",
+                btn_title_arrow_right: "Nächstes Medium",
+                btn_title_arrow_left: "Vorheriges Medium",
             },
             meta_info: {
                 label_project_parent_title: "Vollständiger Projekttitel",
@@ -99,7 +114,41 @@ export default defineI18nConfig(() => ({
                 // label_project_title_en: "Projekttitel [EN]",
                 // label_project_subtitle_en: "Untertitel [EN]",
                 // label_project_description_en: "Projektbeschreibung [EN]",
+            },
+            page_metadata: {
+                page_title: "Schaufenster der HfG",
+                page_description: "Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.",
+                page_lang: "de",
+            },
+            // static pages: about, impressum, Datenschutz
+            static_pages: {
+                about: {
+                    title1: "Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.",
+                    p1_1: "Alle Projekte können auch im Projektarchiv der HfG unter ",
+                    p1_2: "eingesehen und detaillierter recherchiert werden. Alle Hochschulangehörigen können Projekte, für die Veröffentlichung auf Schaufenster vorschlagen – vorausgesetzt, sie haben die jeweiligen Projekte zuvor in der Projektarchiv-Datenbank angelegt. Einreichungen werden formell überprüft, um sicherzustellen, dass die notwendigen Metadaten eingetragen sind. Bei Abschlussarbeiten wird vor der langfristigen Archivierung abgefragt, ob eine Veröffentlichung auf Schaufenster gewünscht ist.",
+                    contact: "Kontakt für Einreichungen: ",
+                    more_info: "Mehr Informationen zum Studium an der HfG: ",
+                    title2: "Das Typo-Feature",
+                    p2_1: "Schriftgestaltung hat an der HfG eine lange Tradition. Mit dem Typo Feature – den großen Titelschriften, deren Font zufällig wechselt, – geben wir Studierenden die Möglichkeit, ihre Kreationen auf Schaufenster zu präsentieren. Neue Einreichungen sind willkommen!",
+                    title3: "Über diese Website",
+                    p3_1: "Schaufenster wurde 2024/2025 vom Team des HfG Open Resource Center mit Unterstützung durch die Stiftung Innovation in der Hochschullehre und in Zusammenarbeit mit den Designern Marcel Strauß und Felix Plachtzik entwickelt.",
+                    title4: "Das Open Resource Center der HfG",
+                    role1: "Projektleiterin",
+                    role2: "Koordinatorin",
+                    role3: "Digital Archivists",
+                    role4: "Archival Curators",
+                    role5: "Softwareentwicker",
+                    contact2: "Kontakt",
+                },
+                impressum: {
+
+                },
+                datenschutz: {
+
+                },
             }
+
+
         },
         en: {
             intro: {
@@ -110,6 +159,7 @@ export default defineI18nConfig(() => ({
                 title5: "of Arts and Design",
             },
             menu: {
+                back: "Back",
                 about: "Info",
                 label_de: "DE",
                 label_en: "EN",
@@ -130,12 +180,20 @@ export default defineI18nConfig(() => ({
                 btn_title_toggle_diplom_mobile: "Diplomas",
                 btn_title_filter: "Filter",
                 btn_title_filter_reset: "Reset",
+                // Check
+                btn_title_institution: "HfG Karlsruhe",
+                
+                btn_title_year_selector_up: "To previous Semester",
+                btn_title_year_selector_down: "To next Semester",
+                // Till here
             },
             font_select: {
                 select_font_label: "Select Font",
                 label_font_by: "by",
             },
             filter: {
+                input_label: "Search",
+                input_clear: "Delete search",
                 btn_apply_label: "Apply",
                 btn_close_label: "Reset Filter",
                 btn_reset_label: "Reset Filter",
@@ -155,16 +213,22 @@ export default defineI18nConfig(() => ({
                 btn_title_nav_back: "Back",
                 btn_title_nav_parent_set: "Parent Project",
                 btn_title_nav_current_set: "Current Project",
-                btn_title_nav_info: "Media Information",
-                btn_title_btm_bar_hide: "Hide Navigation",
-                btn_title_btm_bar_show: "Show Navigation",
-                btn_title_btm_bar_set_show_all: "Show all elements",
-                btn_title_btm_bar_set_show_less: "Show less elements",
+                btn_title_nav_info_show: "Show Media Information",
+                btn_title_nav_info_hide: "Hide Media Information",
+                /* Loschen VFC btn_title_btm_bar_hide: "Hide Navigation",
+                btn_title_btm_bar_show: "Show Navigation",*/
+                btn_title_btm_bar_toggle: "Toggle Navigation",
+                /* Loschen VFC btn_title_btm_bar_set_show_all: "Show all elements",
+                btn_title_btm_bar_set_show_less: "Show less elements",*/
+                btn_title_btm_bar_set_show: "Toogle elements",
+                btn_title_btm_pointer: "Pointer",
                 btn_title_audio_video_play: "Play",
                 btn_title_audio_video_pause: "Pause",
                 btn_title_audio_video_mute: "Mute",
                 btn_title_audio_video_unmute: "Unmute",
                 btn_title_audio_video_progress: "Progress",
+                btn_title_arrow_right: "Next Media",
+                btn_title_arrow_left: "Previous Media",
             },
             meta_info: {
                 label_project_parent_title: "Complete Project Title",
@@ -196,7 +260,42 @@ export default defineI18nConfig(() => ({
                 // label_project_title_en: "Project title [EN]",
                 // label_project_subtitle_en: "Project Sub title [EN]",
                 // label_project_description_en: "Project Description [EN]",
+            },
+            // SEO and Metadata
+            page_metadata: {
+                page_title: "Schaufenster der HfG",
+                page_description: "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
+                page_lang: "en",
+            },
+
+            // static pages: about, impressum, Datenschutz
+            static_pages: {
+                                about: {
+                    title1: "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
+                    p1_1: "Additionally, all projects can  be found and researched in more detail in the HfG project archive database at ",
+                    p1_2: "Any member of the university is invited to propose any project for publication on Schaufenster, provided that the project has been submitted to the project archive database beforehand. Submissions are formally checked to ensure that the necessary metadata have been provided. In the case of graduation projects, graduates can decide whether they wish to publish their pojects on Schaufenster before they get archived for the long-term.",
+                    contact: "Contact for submissions: ",
+                    more_info: "More information about studying at the HfG: ",
+                    title2: "The Typo-Feature",
+                    p2_1: "Typeface design has a long tradition at the HfG. With the Typo Feature, i.e. the large title fonts whose typeface changes randomly, we give students the opportunity to feature their creations on Schaufenster. New submissions are welcome!",
+                    title3: "About this website",
+                    p3_1: "This website was developed in 2024 by HfG’s Open Resource Center (ORC), funded by “Stiftung Innovation in der Hochschullehre”, together with the designers Marcel Strauß and Felix Plachtzik.",
+                    title4: "The Open Resource Center of the HfG",
+                    role1: "Head of Project",
+                    role2: "Project Coordinator",
+                    role3: "Digital Archivists",
+                    role4: "Archival Curators",
+                    role5: "Software Developer",
+                    contact2: "Contact: ",
+                },
+                impressum: {
+                    
+                },
+                datenschutz: {
+
+                },
             }
+
             
         }
     }

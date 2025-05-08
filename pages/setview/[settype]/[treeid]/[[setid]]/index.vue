@@ -149,16 +149,20 @@
       </swiper-slide>
       <div class="swiper-main-button-prev"
         v-if="!isMobile"
+        role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
-        @click.once="swiperMain.slidePrev()">
+        @click.once="swiperMain.slidePrev()"
+        @keyup.enter="swiperMain.slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
         v-if="!isMobile"
+        role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
-        @click.once="swiperMain.slideNext()">
+        @click.once="swiperMain.slideNext()"
+        @keyup.enter="swiperMain.slideNext()">
         <IconsSliderArrowRight/>
       </div>
     </swiper>
@@ -178,9 +182,11 @@
     <!-- class="btn_bottom_nav_hide" -->
     <Transition name="fade">
       <div
+        role="link"
         v-if="!showInfo && !animate_view_io"
         tabindex="0"
         @click="toggleShowBottomNav()"
+        @keyup.enter="toggleShowBottomNav()"
         class="btn_bottom_nav_toggle">
         <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
       </div>
@@ -231,7 +237,9 @@
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
             tabindex="0"
+            role="link"
             @click="nav2Element(el)"
+            @keyup.enter="nav2Element(el)"
             :class="getNavPreviewClass(el)"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
             
@@ -262,6 +270,7 @@
             v-if="el.type === NavSlideType.Set"
             tabindex="0"
             @click="nav2Element(el)"
+            @keyup.enter="nav2Element(el)"
             >
             <!-- :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }" -->
             <div class="nav_preview_subset"
@@ -278,13 +287,17 @@
             
             <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
+              tabindex="0"
               @click="clickedNavShowMore(el.collection_id)"
+              @keyup.enter="clickedNavShowMore(el.collection_id)"
               >
               <IconsChevronRight/>
             </IconWrap>
             <IconWrap :large="true"
               v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
+              tabindex="0"
               @click="clickedNavShowLess(el.collection_id)"
+              @keyup.enter="clickedNavShowLess(el.collection_id)"
               >
               <IconsChevronLeft/>
             </IconWrap>
@@ -311,13 +324,15 @@
     :class="{hidden: !show_av_control || showInfo || showSetTitle}">
     <div class="av_control_playpause"
       tabindex="0"
-      @click="toggleStatePlay(!av_state_play)">
+      @click="toggleStatePlay(!av_state_play)"
+      @keyup.enter="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
       />
     </div>
     <div class="av_control_mute"
       v-if="av_state_show_mute"
-      @click="toggleStateMute(!av_state_mute)">
+      @click="toggleStateMute(!av_state_mute)"
+      @keyup.enter="toggleStateMute(!av_state_mute)">
       <IconsMute :isMute="av_state_mute"
       />
     </div>
@@ -348,6 +363,7 @@
 </div>
 </template>
 <script setup lang="ts">
+const { t, setLocale, locale } = useI18n()
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute();
 const router = useRouter();
@@ -1208,9 +1224,17 @@ const showSetTitle = ref(false)
 
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "light");
+  document.documentElement.setAttribute("lang", locale.value );
   isMobile.value = (document.documentElement.getAttribute('data-layout') == "mobile")
   initData();
-
+  
+  /* SEO and Metadata */
+  useSeoMeta({
+    title: currentTree.value.colTitlesMap[setid.value],
+    ogTitle: currentTree.value.colTitlesMap[setid.value],
+    description: currentTree.value.cols_meta_data[setid.value]['madek_core:description'].string,
+    ogDescription: currentTree.value.cols_meta_data[setid.value]['madek_core:description'].string,
+  })
 
   // intro show title animation
   showSetTitle.value = true;

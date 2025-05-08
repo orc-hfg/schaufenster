@@ -4,20 +4,32 @@
         :class="{hidden: animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink tabindex="0" @click="closeMenu()" class="logo">
-                    <IconsNavHome/>
+                <NuxtLink 
+                tabindex="0"
+                role="link" 
+                @click="closeMenu()" 
+                @keyup.enter="closeMenu()" 
+                class="logo" 
+                :aria-label="$t('menu.back')">
+                    <IconsNavHome />
                 </NuxtLink>
             </nav>
         </header>
 
         <div class="menu_panel"
             tabindex="0"
-            @click="closeMenu()"
+            role="link"
+            @click="doClose()"
+            @keyup.enter="doClose()"
 
             :style="font_style">
            
             <div class="lang_switch">
                 <span class="btn"
+                    tabindex="0"
+                    role="link"
+                    :aria-label="$t('menu.label_de')"
+                    @keyup.enter="switchLocale('de')"
                     @click="switchLocale('de')"
                     :class="{disabled: locale.indexOf('de') < 0}"
                     >
@@ -26,33 +38,48 @@
                 
                 <span class="btn"
                     tabindex="0"
+                    role="link"
+                    :aria-label="$t('menu.label_en')"
                     @click="switchLocale('en')"
+                    @keyup.enter="switchLocale('en')"
                     :class="{disabled: locale.indexOf('en') < 0}"
                     >
                     {{ $t('menu.label_en')}}
                 </span>
             </div>
             <div class="btn"
+                role="link"
                 tabindex="0"
-                @click="$emit('onShowAbout')">
+                :aria-label="$t('menu.about')"
+                @click="$emit('onShowAbout')"
+                @keyup.enter="$emit('onShowAbout')">
                 {{ $t('menu.about')}}
             </div>
             <div class="btn"
+                role="link"
                 tabindex="0"
-                @click="$emit('onShowFonts')">
+                :aria-label="$t('menu.fonts')"
+                @click="$emit('onShowFonts')"
+                @keyup.enter="$emit('onShowFonts')">
                 {{ $t('menu.fonts')}}
             </div>
             <div class="btn"
+                role="link"
                 tabindex="0"
-                @click="$emit('onShowDSA')">
+                :aria-label="$t('menu.dsa')"
+                @click="$emit('onShowDSA')"
+                @keyup.enter="$emit('onShowDSA')">
                 {{ $t('menu.dsa')}}
             </div>
             <div class="btn"
                 tabindex="0"
-                @click="$emit('onShowImpressum')">
+                role="link"
+                :aria-label="$t('menu.impressum')"
+                @click="$emit('onShowImpressum')"
+                @keyup.enter="$emit('onShowImpressum')">
                 {{ $t('menu.impressum')}}
             </div>
-            
+               
         </div>
     
   </div>
@@ -96,6 +123,7 @@ const animate_io = ref(true)
 const switchLocale = (loc: string) => {
     emit('onSwitchLang', loc)
     console.log("switchLocale: " + loc + ":" + locale.value)
+    document.documentElement.setAttribute("lang", loc )
 }
 const closeMenu = () => {
     animate_io.value = true
