@@ -150,12 +150,14 @@
       <div class="swiper-main-button-prev"
         v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
+        tabindex="0"
         @click.once="swiperMain.slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
         v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
+        tabindex="0"
         @click.once="swiperMain.slideNext()">
         <IconsSliderArrowRight/>
       </div>
@@ -228,6 +230,7 @@
           <div
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
+            tabindex="0"
             @click="nav2Element(el)"
             :class="getNavPreviewClass(el)"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">

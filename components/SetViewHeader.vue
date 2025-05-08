@@ -127,6 +127,7 @@
 
         <NuxtLink
           v-else
+          tabindex="0"
           @click="$emit('toggleShowInfo')"
           class="navbar_set_link info animate_up"
           :class="{hidden_move_up: hideNav || introRunning}"
