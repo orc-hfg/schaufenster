@@ -1351,11 +1351,22 @@ letter-spacing: 0.72px;
 
 }
 .tree_authors {
-  display: flex;
+  /* display: flex;
   align-items: flex-start;
   gap: var(--spacing-between-items-L, 16px);
-  align-self: stretch;
+  align-self: stretch; */
   color: var(--Colors-filter-chip-text-default, #2C2C2C);
+}
+.tree_authors_item {
+  display: inline-block;
+}
+.tree_authors_item::after {
+  content: "/";
+  padding: 0 var(--spacing-between-items-S);
+  color: var(--Colors-text-secondary);
+}
+.tree_authors_item:last-child::after {
+  content: "";
 }
 /*.tree_fachbereich {
   display: flex;
