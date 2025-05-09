@@ -1050,9 +1050,9 @@ nav {
   padding-top: 180px;
   overflow-y: scroll;
   
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-start; */
 
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
@@ -1061,7 +1061,7 @@ nav {
 .wrapper_filter {
   /* border: 1px solid red; */
   left: 10vw;
-  gap: 40px;
+  /* gap: 40px; */
   & > div:last-of-type {
     margin-bottom: 4em;
   }
@@ -1156,7 +1156,7 @@ nav {
   width: 100%;
   float: left;
   padding-bottom: var(--padding-item-vertical-S);
-  margin-bottom: var(--padding-container-bottom-M);
+  margin-bottom: calc(var(--padding-container-bottom-L) + var(--padding-container-bottom-M));
   border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 }
 
