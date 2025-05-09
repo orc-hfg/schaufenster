@@ -728,7 +728,9 @@ const getShowAllStyle = (meta_key) => {
                 {{ fb }}
               </div>
             </div> -->
-            <div class="tree_divider"></div>
+
+            <!-- HH stattdessen Abstand und Border direkt an .tree_list_item -->
+            <!-- <div class="tree_divider"></div> -->
             
           </div>
         </div>
@@ -1081,7 +1083,9 @@ nav {
   position:relative;
   width: 100%;
   float: left;
-  padding-bottom: 40px;
+  padding-bottom: var(--padding-item-vertical-S);
+  margin-bottom: var(--padding-container-bottom-M);
+  border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 }
 
 
@@ -1254,7 +1258,9 @@ letter-spacing: 0.72px;
   width: 100%;
 }
 .tree_list_item {
-  /* border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2); */
+  padding-bottom: var(--padding-item-vertical-L);
+  margin-bottom: var(--padding-item-vertical-L);
+  border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 }
 
 .tree_title {
@@ -1278,21 +1284,21 @@ letter-spacing: 0.72px;
   gap: var(--spacing-between-items-L, 16px);
   align-self: stretch;
   color: var(--Colors-filter-chip-text-default, #2C2C2C);
-  
 }
 /*.tree_fachbereich {
   display: flex;
   align-items: center;
   gap: var(--spacing-between-items-L, 16px);
 }*/
-.tree_divider {
+
+/* HH stattdessen Abstand und Border direkt an .tree_list_item */
+/* .tree_divider {
   padding-top: 16px;
   
   flex-direction: column;
   align-items: flex-start;
-  /* gap: 10px; */
   margin-bottom: 16px;
   align-self: stretch;
   border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
-}
+} */
 </style>
