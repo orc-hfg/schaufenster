@@ -316,9 +316,18 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     }
   
   })
+  if (tl.length) {
+    
+    slideList.value.push({
+        year: tl[0].year,
+        trees: tl
+      } as iTreeSlide)
+    
+  }
   
-  //console.log(" trees map: " + Object.keys(trees_map).length)
-  //console.log(" slide list: " + slideList.value.length)
+  console.log(" trees map: " + Object.keys(trees_map).length)
+  console.log(" slide list: " + slideList.value.length)
+  console.dir(slideList)
 }
 
 
