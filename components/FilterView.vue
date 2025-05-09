@@ -710,7 +710,7 @@ const getShowAllStyle = (meta_key) => {
 
         <div class="tree_list">
           <div class="tree_list_item"
-            v-if="Object.keys(filteredTreeList).length == 0">
+            v-if="Object.keys(filteredTreeList || {}).length == 0">
             <div class="tree_authors">
               {{ $t('filter.no_results') }}
             </div>
