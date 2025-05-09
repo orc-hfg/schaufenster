@@ -6,7 +6,8 @@
             class="set_info_blend"
             :style="showSetTitleStyle"
             @click="doClose()">
-            <div class="blend_content">
+            <div class="blend_content"
+            :class="props.setType">
             {{ setTitle }}
             </div>
         </div>
@@ -83,6 +84,8 @@ onMounted(() => {
 
   opacity: 1;
   transition: all 300ms ease-out;
+  /* HH kleines delay, weil sonst die Textfarbe im dark mode (Videos) blitzt */
+  transition-delay: 150ms;
 }
 .hidden .set_info_blur {
   opacity: 0;
@@ -93,7 +96,7 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(10vh);
   transition: all 800ms ease-out;
-}
+ }
 /* HH "word-break: break-word;", um zu lange Worte umzubrechen. 
  * Hinweis: hyphens: auto; hätte den Effekt, dass Worte auch dann umbrechen, 
  * wenn sie eigentlich in eine Zeile passen würden. Der Browser präferiert dann also 
@@ -105,5 +108,9 @@ onMounted(() => {
   /* border: 1px solid blue; */
   /* display: inline-flex;   */
   word-break: break-word;
+  color: var(--Colors-text-primary);
+}
+.blend_content.diplom { 
+  color: var(--Primitives-color-identity-Signal-Red);
 }
 </style>
