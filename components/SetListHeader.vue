@@ -286,7 +286,7 @@ header nav a {
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   align-items: center;
-  gap: 12px;
+  gap: var(--padding-item-horizontal-S);
 
   background: var(--Colors-nav-bar-button-fill, #F3F2EF);
 }
