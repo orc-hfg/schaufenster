@@ -15,7 +15,7 @@
               diplom: toggleBtnSetType == MATCH_DIPLOM,
               projects: toggleBtnSetType == MATCH_PROJECTS}"
               >
-            <NuxtLink class="navbar_link navbar_link_projects"
+            <NuxtLink class="navbar_link navbar_link_projects" id="navbar_link_projects"
               :class="{active: toggleBtnSetType == MATCH_PROJECTS}"
               
               @click="toggleBtnSetType != MATCH_PROJECTS && $emit('switch2settype', [MATCH_PROJECTS])"
@@ -23,7 +23,7 @@
               <!-- Alle Projekte -->
               {{ projects_label }}
             </NuxtLink>
-            <NuxtLink class="navbar_link navbar_link_diplom"
+            <NuxtLink class="navbar_link navbar_link_diplom" id="navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
               
               @click="toggleBtnSetType != MATCH_DIPLOM && $emit('switch2settype' , [MATCH_DIPLOM])"
@@ -143,24 +143,42 @@ const updateStyle = () => {
   isMobile.value = document.documentElement.getAttribute('data-layout') == 'mobile'
   projects_label.value = isMobile.value ? t('setlist.btn_title_toggle_project_mobile') : t('setlist.btn_title_toggle_project')
   diploms_label.value = isMobile.value ?  t('setlist.btn_title_toggle_diplom_mobile') : t('setlist.btn_title_toggle_diplom')
-  const project_width = getTextWidth( projects_label.value ) + 
-    (isMobile ? 29 : 27)
-  const diplom_width = getTextWidth(diploms_label.value ) +
-    (isMobile ? 30 : 28) 
-  console.log(
-    projects_label.value
+  // after drawing, get real size
+  setTimeout(() => {
+    const tg_left = document.getElementById('navbar_link_projects')?.getBoundingClientRect();
+    const tg_right = document.getElementById('navbar_link_diplom')?.getBoundingClientRect();
+    toggle_diplom_width.value = tg_right?.width + 'px'
+    toggle_project_width.value = tg_left?.width + 'px'
+
+    console.log("updateStyle: measured after redraw "
+    + projects_label.value
     + " : "
     + diploms_label.value
-    + " pw: " + project_width 
-    + " dw: " + diplom_width)
+    + " pw: " + toggle_project_width.value
+    + " dw: " + toggle_diplom_width.value)
+
+  },100)
+  
+  const project_width = getTextWidth( projects_label.value ) + 
+    (isMobile ? 27 : 27)
+  const diplom_width = getTextWidth(diploms_label.value ) +
+    (isMobile ? 28 : 28) 
   toggle_diplom_width.value = diplom_width + 'px'
   toggle_project_width.value = project_width + 'px'
+
+  console.log("updateStyle: computed before redraw"
+    +projects_label.value
+    + " : "
+    + diploms_label.value
+    + " pw: " + toggle_project_width.value
+    + " dw: " + toggle_diplom_width.value)
 }
 onMounted(() => {
   updateStyle()
   window.addEventListener("resize", (ev) => {
     updateStyle()
   })
+
 })
 
 watch(locale, () => {
