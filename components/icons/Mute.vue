@@ -22,6 +22,7 @@ const props = defineProps(['isMute'])
     font-weight: 400;
     letter-spacing: 0.02rem;
     cursor: pointer;
+    padding: 0 var(--padding-item-horizontal-M);
 }
 .btn_mute > div {
     width: 100%;
