@@ -19,7 +19,7 @@ const props = defineProps(['isMute'])
     color: var(--Colors-btm-bar-playerView-button, #2C2C2C);
     font-family: "Instrument Sans";
     font-size: 20px;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.02rem;
     cursor: pointer;
 }
