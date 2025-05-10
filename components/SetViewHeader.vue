@@ -291,6 +291,7 @@ onMounted(() => {
   display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
   align-items: center;
+  justify-content: center;
   gap: var(--spacing-item-inner, 8px);
 
   border-radius: var(--radius-full, 9999px);
