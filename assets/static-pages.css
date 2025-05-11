@@ -47,7 +47,7 @@ h1 {
 
   /* h3 */
   font-family: "Instrument Sans";
-  font-size: var(--font-h3-font-size, 48px);
+  font-size: var(--font-h4-font-size, 32px);
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-h3-line-height, 60px); /* 125% */
@@ -82,14 +82,14 @@ h3 {
   margin-bottom: var(--font-subline-line-height, 24px);
 }
 h4 {
-  color: var(--Colors-text-secondary, #CAC9C2);
+  color: var(--Colors-text-secondary, #9E9E9A);
 
   /* Subline */
   font-family: "Instrument Sans";
   font-size: var(--font-subline-font-size, 20px);
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-subline-line-height, 24px);
+  line-height: var(--font-subline-line-height, 42px);
   
   margin-top: 0;
   margin-bottom: 0;
@@ -101,7 +101,7 @@ p {
   font-size: var(--font-body-font-size, 20px);
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-body-line-height, 24px);
+  line-height: var(--font-body-line-height, 120%);
   margin-top: 0;
 }
 a,
