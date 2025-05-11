@@ -4,8 +4,9 @@
         :class="{hidden: animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink tabindex="0" @click="closeMenu()" class="logo">
-                    <IconsNavHome/>
+                <NuxtLink tabindex="0" @click="closeMenu()" class="logo" 
+                :aria-label="$t('menu.back')">
+                    <IconsNavHome />
                 </NuxtLink>
             </nav>
         </header>
@@ -18,6 +19,8 @@
            
             <div class="lang_switch">
                 <span class="btn"
+                    role=link
+                    :aria-label="$t('menu.label_de')"
                     @click="switchLocale('de')"
                     :class="{disabled: locale.indexOf('de') < 0}"
                     >
@@ -26,6 +29,7 @@
                 
                 <span class="btn"
                     tabindex="0"
+                    :aria-label="$t('menu.label_en')"
                     @click="switchLocale('en')"
                     :class="{disabled: locale.indexOf('en') < 0}"
                     >
@@ -34,25 +38,29 @@
             </div>
             <div class="btn"
                 tabindex="0"
+                :aria-label="$t('menu.about')"
                 @click="$emit('onShowAbout')">
                 {{ $t('menu.about')}}
             </div>
             <div class="btn"
                 tabindex="0"
+                :aria-label="$t('menu.fonts')"
                 @click="$emit('onShowFonts')">
                 {{ $t('menu.fonts')}}
             </div>
             <div class="btn"
                 tabindex="0"
+                :aria-label="$t('menu.dsa')"
                 @click="$emit('onShowDSA')">
                 {{ $t('menu.dsa')}}
             </div>
             <div class="btn"
                 tabindex="0"
+                :aria-label="$t('menu.impressum')"
                 @click="$emit('onShowImpressum')">
                 {{ $t('menu.impressum')}}
             </div>
-            
+               
         </div>
     
   </div>

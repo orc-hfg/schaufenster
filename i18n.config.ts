@@ -12,6 +12,7 @@ export default defineI18nConfig(() => ({
                 title: "Projektarchiv der Hochschule für Gestaltung Karlsruhe"
             },
             menu: {
+                back: "Zurück",
                 about: "Info",
                 label_de: "DE",
                 label_en: "EN",
@@ -110,6 +111,7 @@ export default defineI18nConfig(() => ({
                 title5: "of Arts and Design",
             },
             menu: {
+                back: "Back",
                 about: "Info",
                 label_de: "DE",
                 label_en: "EN",
