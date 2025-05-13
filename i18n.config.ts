@@ -53,6 +53,12 @@ export default defineI18nConfig(() => ({
                 btn_title_toggle_diplom_mobile: "Diplome",
                 btn_title_filter: "Filter",
                 btn_title_filter_reset: "Reset",
+                // Check
+                btn_title_institution: "HfG Karlsruhe",
+                
+                btn_title_year_selector_up: "Zum vorherigen Semester",
+                btn_title_year_selector_down: "Zum nächsten Semester",
+                // Till here
             },
             setview: {
                 
@@ -132,6 +138,12 @@ export default defineI18nConfig(() => ({
                 btn_title_toggle_diplom_mobile: "Diplomas",
                 btn_title_filter: "Filter",
                 btn_title_filter_reset: "Reset",
+                // Check
+                btn_title_institution: "HfG Karlsruhe",
+                
+                btn_title_year_selector_up: "To previous Semester",
+                btn_title_year_selector_down: "To next Semester",
+                // Till here
             },
             font_select: {
                 select_font_label: "Select Font",

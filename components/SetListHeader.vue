@@ -76,9 +76,10 @@
         <!-- <Transition name="move-u50">
         v-if="!hideNavBtns" -->
           <NuxtLink class="navbar_link aarchive"
+            :aria-label="$t('setlist.btn_title_institution')" 
             :class="{hidden: hideNavBtns}"
             to="https://hfg-karlsruhe.de"
-            target="_blank" rel="noopener noreferer"          
+            target="_blank" rel="noopener noreferer"       
             >
             <IconsNavIconHfG/>
           </NuxtLink>
