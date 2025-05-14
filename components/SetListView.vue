@@ -8,10 +8,12 @@
     <IconsYearSelectorUp
         tabindex="0"
         @click="clickedYearBack()"
+        @keyup.enter="clickedYearBack()"
         :class="{disabled: !isEnabledYearBack}"
         />
     <IconsYearSelectorDown
         tabindex="0"
+        @keyup.enter="clickedYearForward()"
         @click="clickedYearForward()"
         :class="{disabled: !isEnabledYearForward}"
         />
