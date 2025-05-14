@@ -15,7 +15,7 @@
       >
       <SetListView
       class="setlistview"
-      :class="{hidden: animateSwitch2Set}"
+      :class="{hidden: animateSwitch2Set || showFilterView}"
       v-if="settype == MATCH_PROJECTS"
       :col-count="colCount"
       :settype="settype"
@@ -30,7 +30,7 @@
       />
     <SetListView
       class="setlistview"
-      :class="{hidden: animateSwitch2Set}"
+      :class="{hidden: animateSwitch2Set || showFilterView}"
       v-else-if="settype == MATCH_DIPLOM"
       :col-count="colCount"
       :settype="settype"
@@ -497,11 +497,12 @@ onMounted(() => {
   position: fixed;
   top: 0px; left: 0px; width: 100vw; height: 100vh;
   clip-path: circle(calc(max(100vw, 100vh)) at 50vw 50vh) !important;
-  transition: top 500ms ease-out;
+  transition: top 500ms ease-out , opacity 500ms ease-out;
 }
 .setlistview.hidden {
-  transition: top 500ms ease-out;
+  transition: top 500ms ease-out, opacity 500ms ease-out;
   top: 50vh;
+  opacity: 0;
 }
 
 .clipout-enter-active {
