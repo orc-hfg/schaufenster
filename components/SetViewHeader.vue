@@ -118,6 +118,7 @@
         <NuxtLink
           v-if="!showInfo"
           tabindex="0"
+          @keyup.enter="$emit('toggleShowInfo')"
           @click="$emit('toggleShowInfo')"
           class="navbar_set_link info animate_up"
           :class="{hidden_move_up: hideNav || introRunning}"
@@ -128,6 +129,7 @@
         <NuxtLink
           v-else
           tabindex="0"
+          @keyup.enter="$emit('toggleShowInfo')"
           @click="$emit('toggleShowInfo')"
           class="navbar_set_link info animate_up"
           :class="{hidden_move_up: hideNav || introRunning}"
