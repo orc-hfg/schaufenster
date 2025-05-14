@@ -98,13 +98,13 @@
                     v-for="(p,idx) in md.selectedPeople"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
                     @click="$emit('addFilter', FILTERS_PEOPLE,p)">
-                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                    {{ buildPersonName(p) }}
                 </div>
                 <div class="filter_tag unselectable"
                     v-else
                     v-for="(p,idx) in md.selectedPeople"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
-                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                    {{ buildPersonName(p) }}
                 </div>
             </div>
             <MetaDatumViewShowBtn
@@ -120,7 +120,7 @@
                 v-if="md.type == MD_TYPE_PEOPLE && md.selectedPeople.length >= MIN_TAG_SHOW_COUNT">
                 <div class="filter_tag"
                     v-for="(p,idx) in md.selectedPeople">
-                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                    {{ buildPersonName(p) }}
                 </div>
             </div>
             <div class="filter_listo "
@@ -129,7 +129,7 @@
                 <div class="filter_tag"
                     v-for="(p,idx) in md.selectedPeople"
                     v-show="idx < MIN_TAG_SHOW_COUNT">
-                    {{ p.first_name }}&nbsp;{{ p.last_name }}
+                    {{ buildPersonName(p) }}
                 </div>
             </div>
 
@@ -144,13 +144,13 @@
                     v-for="(rp,idx) in md.selectedRoles"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
                     @click="$emit('addFilter', FILTERS_ROLES,rp)">
-                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                    {{ buildPersonName(rp.person) }}
                 </div>
                 <div class="filter_tag unselectable"
                     v-else
                     v-for="(rp,idx) in md.selectedRoles"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll">
-                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                    {{ buildPersonName(rp.person) }}
                 </div>
             </div>
             <MetaDatumViewShowBtn
@@ -166,7 +166,7 @@
                 v-if="md.type == MD_TYPE_ROLES && md.selectedRoles.length >= MIN_TAG_SHOW_COUNT">
                 <div class="filter_tag"
                     v-for="(rp,idx) in md.selectedRoles">
-                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                    {{ buildPersonName(rp.person) }}
                 </div>
             </div>
             <div class="filter_listo "
@@ -175,7 +175,7 @@
                 <div class="filter_tag"
                     v-for="(rp,idx) in md.selectedRoles"
                     v-show="idx < MIN_TAG_SHOW_COUNT">
-                    {{ rp.person.first_name }}&nbsp;{{ rp.person.last_name }}
+                    {{ buildPersonName(rp.person) }}
                 </div>
             </div>
 
@@ -300,6 +300,14 @@ const getAbbrevString = (text:string, show_all:boolean):string => {
     return result;
 }
 
+const buildPersonName = (p:iPerson) => {
+    if (!p.first_name && !p.last_name) {
+        return (p.description || p.pseudonym)
+    } else {
+        return p.first_name 
+            + (p.last_name ? ' ' + p.last_name : '')
+    }
+}
 const resetShowAll = () => {
     showAll.value = true
     setTimeout(() => {
