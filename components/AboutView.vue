@@ -64,9 +64,21 @@
                 </div>
             </div>
             <div class="logos">
-                <LogosHfgReduced class="hfg-logo_reduced" />
-                <LogosOrc class="orc-logo" />
-                <LogosSihl class="sihl-logo" />
+                <NuxtLink 
+                to="https://hfg-karlsruhe.de/"
+                target="_blank">
+                    <LogosHfgReduced class="hfg-logo_reduced" />
+                </NuxtLink>
+                <NuxtLink
+                to="https://hfg-karlsruhe.de/"
+                target="_blank">
+                    <LogosOrc class="orc-logo" />
+                </NuxtLink>
+                <NuxtLink
+                to="https://stiftung-hochschullehre.de/"
+                target="_blank">
+                    <LogosSihl class="sihl-logo" />
+                </NuxtLink>
             </div>
         </div>
     </div>
