@@ -493,7 +493,13 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('meta_info.label_project_keywords') }}</div>
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_KEYWORDS)"
+            @keyup.enter="toggleShowAll(MK_KEYWORDS)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_keywords') }}
+          </div>
           <template v-if="hasFilterResults(MK_KEYWORDS)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_KEYWORDS "
@@ -525,7 +531,13 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">{{ $t('meta_info.label_project_authors') }}</div>
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_AUTHORS)"
+            @keyup.enter="toggleShowAll(MK_AUTHORS)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_authors') }}
+          </div>
           <template v-if="hasFilterResults(MK_AUTHORS)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_AUTHORS "
@@ -557,7 +569,13 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
-          <div class="filter_headline">{{ $t('meta_info.label_project_participants') }}</div>
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_PARTICIPANTS)"
+            @keyup.enter="toggleShowAll(MK_PARTICIPANTS)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_participants') }}
+          </div>
           <template v-if="hasFilterResults(MK_PARTICIPANTS)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_PARTICIPANTS "
@@ -588,7 +606,13 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PROGRAM_OF_STUDY -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('meta_info.label_project_program_of_study') }}</div>
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_PROGRAM_OF_STUDY)"
+            @keyup.enter="toggleShowAll(MK_PROGRAM_OF_STUDY)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_program_of_study') }}
+          </div>
           <template v-if="hasFilterResults(MK_PROGRAM_OF_STUDY)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
@@ -620,7 +644,13 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_PROJECT_CATEGORY -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('meta_info.label_project_category') }}</div>
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_PROJECT_TYPE)"
+            @keyup.enter="toggleShowAll(MK_PROJECT_TYPE)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_category') }}
+          </div>
           <template v-if="hasFilterResults(MK_PROJECT_TYPE)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
@@ -651,7 +681,13 @@ const getShowAllStyle = (meta_key) => {
         
         <!-- MK_PROJECT_LEADER -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('meta_info.label_project_leader') }}</div>
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_PROJECT_LEADER)"
+            @keyup.enter="toggleShowAll(MK_PROJECT_LEADER)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_leader') }}
+          </div>
           <template v-if="hasFilterResults(MK_PROJECT_LEADER)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
@@ -683,7 +719,13 @@ const getShowAllStyle = (meta_key) => {
 
         <!-- MK_SEMESTER -->
         <div class="meta_key_filter">
-          <div class="filter_headline">{{ $t('meta_info.label_project_semester') }}</div>
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_SEMESTER)"
+            @keyup.enter="toggleShowAll(MK_SEMESTER)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_semester') }}
+          </div>
           <template v-if="hasFilterResults(MK_SEMESTER)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_SEMESTER "
