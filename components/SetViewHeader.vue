@@ -6,7 +6,8 @@
         class="header_nav_logo fade_out"
         :class="{hidden_fade_out: hideNav}"
         tabindex="0"
-        @click="$emit('clickedBack')">
+        @click="$emit('clickedBack')"
+        @keyup.enter="$emit('clickedBack')">
           <IconsNavHome/>
       </NuxtLink>
       <!--        
@@ -51,8 +52,9 @@
           v-for="path_set_id in pathToRoot"
           :class="{ hidden_move_up: hideNav || showInfo || introRunning }"
           :style="getLinkStyle(path_set_id)"
-          tabdindex=0
+          tabindex="0"
           @click="emit('parentClicked', path_set_id)"
+          @keyup.enter="emit('parentClicked', path_set_id)"
           >
           <span>
               {{ isShowTitle(path_set_id) ? getColTitle(path_set_id) : '&nbsp;...' }}
@@ -107,6 +109,7 @@
         v-if="activeSetId !== setid"
         tabindex="0"
         @click="emit('parentClicked', activeSetId)"
+        @keyup.enter="emit('parentClicked', activeSetId)"
         >
         <span>
           {{ getColTitle(activeSetId) }}

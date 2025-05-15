@@ -38,7 +38,6 @@
             </div>
             
 
-
             <div class="filter_list"
                 :class="{show_all: showAll}"
                 :style="getContentHeight()"
@@ -49,7 +48,8 @@
                     v-for="(kw,idx) in md.selectedKeywords"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
                     tabindex="0"
-                    @click="$emit('addFilter', FILTERS_KEYWORD,kw)">
+                    @click="$emit('addFilter', FILTERS_KEYWORD,kw)"
+                    @keyup.enter="$emit('addFilter', FILTERS_KEYWORD,kw)">
                     {{ kw.term }}
                 </div>
                 <div class="filter_tag unselectable"
@@ -98,7 +98,9 @@
                     v-if="isSelectable"
                     v-for="(p,idx) in md.selectedPeople"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
-                    @click="$emit('addFilter', FILTERS_PEOPLE,p)">
+                    tabindex="0"
+                    @click="$emit('addFilter', FILTERS_PEOPLE,p)"
+                    @keyup.enter="$emit('addFilter', FILTERS_PEOPLE,p)">
                     {{ buildPersonName(p) }}
                 </div>
                 <div class="filter_tag unselectable"
@@ -144,7 +146,9 @@
                     v-if="isSelectable"
                     v-for="(rp,idx) in md.selectedRoles"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
-                    @click="$emit('addFilter', FILTERS_ROLES,rp)">
+                    tabindex="0"
+                    @click="$emit('addFilter', FILTERS_ROLES,rp)"
+                    @keyup.enter="$emit('addFilter', FILTERS_ROLES,rp)">
                     {{ buildPersonName(rp.person) }}
                 </div>
                 <div class="filter_tag unselectable"

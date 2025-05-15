@@ -1,7 +1,9 @@
 <template>
 <button class="btn_show_all"
         v-if="isShow()"
+        tabindex="0"
         @click="$emit('toggleShowAll')"
+        @keyup.enter="$emit('toggleShowAll')"
         >
         <span v-if="!showAll">
             <IconsPlus/>

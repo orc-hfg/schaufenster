@@ -6,6 +6,7 @@
       xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
       viewbox="0 0 24 24"
       >
+      <title>{{$t('setview.btn_title_btm_bar_set_show')}}</title>
     <slot></slot>
     </svg>
   </div>

@@ -1,6 +1,7 @@
 <template>
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none"
         :class="{rotated: showPlus}">
+    <title>{{$t('setview.btn_title_btm_bar_toggle')}}</title>    
   <path :class="{hidden: !showPlus}" d="M17 2H15V30H17V2Z" fill="black"/>
   <path d="M30 15H2V17H30V15Z" fill="black"/>
 </svg>

@@ -2,7 +2,9 @@
 
 <div class="show_all_btn" role="button"
     v-if="count > min"
-    @click="$emit('toggleShowAll')">
+    tabindex="0"
+    @click="$emit('toggleShowAll')"
+    @keyup.enter="$emit('toggleShowAll')">
     <div v-if="!showAll"><span><IconsPlus/></span><span>{{ $t('meta_info.btn_show_more_label') }}</span></div>
     <div v-if="showAll"><span><IconsMinus/></span><span>{{ $t('meta_info.btn_show_less_label') }}</span></div>
 </div>

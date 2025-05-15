@@ -151,14 +151,16 @@
         v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
-        @click.once="swiperMain.slidePrev()">
+        @click.once="swiperMain.slidePrev()"
+        @keyup.enter="swiperMain.slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
         v-if="!isMobile"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
-        @click.once="swiperMain.slideNext()">
+        @click.once="swiperMain.slideNext()"
+        @keyup.enter="swiperMain.slideNext()">
         <IconsSliderArrowRight/>
       </div>
     </swiper>
