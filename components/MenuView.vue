@@ -4,7 +4,12 @@
         :class="{hidden: animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink tabindex="0" @keyup.enter="doClose()" @click="closeMenu()" class="logo" 
+                <NuxtLink 
+                tabindex="0"
+                role="link" 
+                @click="closeMenu()" 
+                @keyup.enter="closeMenu()" 
+                class="logo" 
                 :aria-label="$t('menu.back')">
                     <IconsNavHome />
                 </NuxtLink>
@@ -13,14 +18,16 @@
 
         <div class="menu_panel"
             tabindex="0"
-            @click="closeMenu()"
+            role="link"
+            @click="doClose()"
             @keyup.enter="doClose()"
 
             :style="font_style">
            
             <div class="lang_switch">
                 <span class="btn"
-                    role=link
+                    tabindex="0"
+                    role="link"
                     :aria-label="$t('menu.label_de')"
                     @keyup.enter="switchLocale('de')"
                     @click="switchLocale('de')"
@@ -31,6 +38,7 @@
                 
                 <span class="btn"
                     tabindex="0"
+                    role="link"
                     :aria-label="$t('menu.label_en')"
                     @click="switchLocale('en')"
                     @keyup.enter="switchLocale('en')"
@@ -40,6 +48,7 @@
                 </span>
             </div>
             <div class="btn"
+                role="link"
                 tabindex="0"
                 :aria-label="$t('menu.about')"
                 @click="$emit('onShowAbout')"
@@ -47,6 +56,7 @@
                 {{ $t('menu.about')}}
             </div>
             <div class="btn"
+                role="link"
                 tabindex="0"
                 :aria-label="$t('menu.fonts')"
                 @click="$emit('onShowFonts')"
@@ -54,6 +64,7 @@
                 {{ $t('menu.fonts')}}
             </div>
             <div class="btn"
+                role="link"
                 tabindex="0"
                 :aria-label="$t('menu.dsa')"
                 @click="$emit('onShowDSA')"
@@ -62,6 +73,7 @@
             </div>
             <div class="btn"
                 tabindex="0"
+                role="link"
                 :aria-label="$t('menu.impressum')"
                 @click="$emit('onShowImpressum')"
                 @keyup.enter="$emit('onShowImpressum')">
