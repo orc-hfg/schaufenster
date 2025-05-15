@@ -149,6 +149,7 @@
       </swiper-slide>
       <div class="swiper-main-button-prev"
         v-if="!isMobile"
+        role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
         @click.once="swiperMain.slidePrev()"
@@ -157,6 +158,7 @@
       </div>
       <div class="swiper-main-button-next"
         v-if="!isMobile"
+        role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
         @click.once="swiperMain.slideNext()"
@@ -180,6 +182,7 @@
     <!-- class="btn_bottom_nav_hide" -->
     <Transition name="fade">
       <div
+        role="link"
         v-if="!showInfo && !animate_view_io"
         tabindex="0"
         @click="toggleShowBottomNav()"
@@ -280,13 +283,17 @@
             
             <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
+              tabindex="0"
               @click="clickedNavShowMore(el.collection_id)"
+              @keyup.enter="clickedNavShowMore(el.collection_id)"
               >
               <IconsChevronRight/>
             </IconWrap>
             <IconWrap :large="true"
               v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
+              tabindex="0"
               @click="clickedNavShowLess(el.collection_id)"
+              @keyup.enter="clickedNavShowLess(el.collection_id)"
               >
               <IconsChevronLeft/>
             </IconWrap>
