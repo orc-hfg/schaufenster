@@ -4,7 +4,7 @@
         :class="{hidden: animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink tabindex="0" @click="closeMenu()" class="logo" 
+                <NuxtLink tabindex="0" @keyup.enter="doClose()" @click="closeMenu()" class="logo" 
                 :aria-label="$t('menu.back')">
                     <IconsNavHome />
                 </NuxtLink>
@@ -14,6 +14,7 @@
         <div class="menu_panel"
             tabindex="0"
             @click="closeMenu()"
+            @keyup.enter="doClose()"
 
             :style="font_style">
            
@@ -21,6 +22,7 @@
                 <span class="btn"
                     role=link
                     :aria-label="$t('menu.label_de')"
+                    @keyup.enter="switchLocale('de')"
                     @click="switchLocale('de')"
                     :class="{disabled: locale.indexOf('de') < 0}"
                     >
@@ -31,6 +33,7 @@
                     tabindex="0"
                     :aria-label="$t('menu.label_en')"
                     @click="switchLocale('en')"
+                    @keyup.enter="switchLocale('en')"
                     :class="{disabled: locale.indexOf('en') < 0}"
                     >
                     {{ $t('menu.label_en')}}
@@ -39,25 +42,29 @@
             <div class="btn"
                 tabindex="0"
                 :aria-label="$t('menu.about')"
-                @click="$emit('onShowAbout')">
+                @click="$emit('onShowAbout')"
+                @keyup.enter="$emit('onShowAbout')">
                 {{ $t('menu.about')}}
             </div>
             <div class="btn"
                 tabindex="0"
                 :aria-label="$t('menu.fonts')"
-                @click="$emit('onShowFonts')">
+                @click="$emit('onShowFonts')"
+                @keyup.enter="$emit('onShowFonts')">
                 {{ $t('menu.fonts')}}
             </div>
             <div class="btn"
                 tabindex="0"
                 :aria-label="$t('menu.dsa')"
-                @click="$emit('onShowDSA')">
+                @click="$emit('onShowDSA')"
+                @keyup.enter="$emit('onShowDSA')">
                 {{ $t('menu.dsa')}}
             </div>
             <div class="btn"
                 tabindex="0"
                 :aria-label="$t('menu.impressum')"
-                @click="$emit('onShowImpressum')">
+                @click="$emit('onShowImpressum')"
+                @keyup.enter="$emit('onShowImpressum')">
                 {{ $t('menu.impressum')}}
             </div>
                
