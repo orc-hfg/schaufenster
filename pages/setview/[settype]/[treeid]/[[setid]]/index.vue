@@ -433,7 +433,7 @@ const clickedParent = (col_id: string) => {
 
 const showFilterView = ref(false)
 const filterShowMetaKey = ref('')
-const addedFilter = (type, data) => {
+const addedFilter = (type, data, meta_key) => {
   
   newFiltersMap.value = {}
   newFiltersMap.value[type] = {}
@@ -446,13 +446,14 @@ const addedFilter = (type, data) => {
       //TODO roles is missing meta_key_id
       //meta_key: data.meta_key_id
       //TODO this is a fake fix, but we have only one role meta-data
-      meta_key: 'creative_work:other_creative_participants'
+      meta_key: meta_key || 'creative_work:other_creative_participants'
     }
   } else {
+    debugger
     newFiltersMap.value[type][data.id] = {
       id: data.id,
       name: data.term,
-      meta_key: data.meta_key_id
+      meta_key: meta_key || data.meta_key_id
     }
     
     

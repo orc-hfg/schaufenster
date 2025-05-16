@@ -290,9 +290,13 @@ const updateShowAll = () => {
   for (const type in newFiltersMap.value) {
     for (const id in newFiltersMap.value[type]) {
         const filterInfo = newFiltersMap.value[type][id]
+        console.log("updateShowAll: " + filterInfo.meta_key)
+        console.dir(filterInfo)
         showAll.value[filterInfo.meta_key] = true
       }
   }
+  console.log("updateShowAll: ")
+  console.dir( showAll.value)
 }
 
 const hasFilterResults = (meta_key: string): boolean => {
@@ -351,28 +355,29 @@ onMounted(() => {
         const fc_elem = document.getElementById('filter_cloud_' + meta_key)
         const height = fc_elem?.getBoundingClientRect().height || 54 //164
         showAllHeight.value[meta_key] = height + 'px';
-      })
-      console.log("got show heights: " + JSON.stringify(showAllHeight.value))
-   },100)
+    })
+    console.log("got show heights: " + JSON.stringify(showAllHeight.value))
+
+      setTimeout(() => {
+        [MK_AUTHORS,
+          MK_KEYWORDS,
+          MK_PARTICIPANTS,
+          MK_PROGRAM_OF_STUDY,
+          MK_PROJECT_LEADER,
+          MK_PROJECT_TYPE,
+          MK_SEMESTER].forEach(meta_key => {
+            showAll.value[meta_key] = false
+        });
+
+        if (props.showMetaKey) {
+          showAll.value[props.showMetaKey] = true
+          document.getElementById('filter_cloud_' + props.showMetaKey)?.scrollIntoView()
+        }
+      }, 100)
+
+    },100)
+
    
-
-   setTimeout(() => {
-    [MK_AUTHORS,
-      MK_KEYWORDS,
-      MK_PARTICIPANTS,
-      MK_PROGRAM_OF_STUDY,
-      MK_PROJECT_LEADER,
-      MK_PROJECT_TYPE,
-      MK_SEMESTER].forEach(meta_key => {
-        showAll.value[meta_key] = false
-      });
-  
-      if (props.showMetaKey) {
-        showAll.value[props.showMetaKey] = true
-        document.getElementById('filter_cloud_' + props.showMetaKey)?.scrollIntoView()
-      }
-   }, 100)
-
   
   animate_intro.value = true;
   setTimeout(() => {

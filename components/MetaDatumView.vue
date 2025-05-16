@@ -49,7 +49,7 @@
                     v-for="(kw,idx) in md.selectedKeywords"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
                     tabindex="0"
-                    @click="$emit('addFilter', FILTERS_KEYWORD,kw)">
+                    @click="$emit('addFilter', FILTERS_KEYWORD,kw, metaKey)">
                     {{ kw.term }}
                 </div>
                 <div class="filter_tag unselectable"
@@ -98,7 +98,7 @@
                     v-if="isSelectable"
                     v-for="(p,idx) in md.selectedPeople"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
-                    @click="$emit('addFilter', FILTERS_PEOPLE,p)">
+                    @click="$emit('addFilter', FILTERS_PEOPLE,p, metaKey)">
                     {{ buildPersonName(p) }}
                 </div>
                 <div class="filter_tag unselectable"
@@ -144,7 +144,7 @@
                     v-if="isSelectable"
                     v-for="(rp,idx) in md.selectedRoles"
                     v-show="idx < MIN_TAG_SHOW_COUNT || showAll"
-                    @click="$emit('addFilter', FILTERS_ROLES,rp)">
+                    @click="$emit('addFilter', FILTERS_ROLES,rp, metaKey)">
                     {{ buildPersonName(rp.person) }}
                 </div>
                 <div class="filter_tag unselectable"
@@ -203,7 +203,7 @@ const MIN_TEXT_SHOW_COUNT = 200;
 const MIN_FILTER_TAG_LIST_HEIGHT = 52;
 const MIN_TEXT_HEIGHT = 24;
 
-const props = defineProps(['md','title', 'isSelectable', 'additStringList'])
+const props = defineProps(['md','title', 'isSelectable', 'additStringList', 'metaKey'])
 const emits = defineEmits(['addFilter'])
 const showAll = ref(false)
 

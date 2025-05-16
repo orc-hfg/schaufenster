@@ -40,6 +40,7 @@
           :title="$t('meta_info.label_project_authors')"
           :is-selectable="true"
           :md="currentTree.cols_meta_data[parentSetId]['madek_core:authors']"
+          meta-key="madek_core:authors"
           @add-filter="addFilter"/>
   
         <MetaDatumView
@@ -202,12 +203,12 @@ const props = defineProps([
 
 const emit = defineEmits(['scrollPosChanged','addedFilter'])
 
-const addFilter = (type:string, md:object) => {
+const addFilter = (type:string, md:object, mk:string) => {
   /* console.log("addFilter:"
     + " type: " + type
     + " data: " + JSON.stringify(md)
   ) */
-  emit("addedFilter", type, md)
+  emit("addedFilter", type, md, mk)
 }
 //const entry_info_hidden = ref(false)
 
