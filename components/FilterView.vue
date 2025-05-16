@@ -407,11 +407,13 @@ const getShowAllStyle = (meta_key) => {
         <div class="wrapper_left">
           <button class="btn_logo"
             tabindex="0"
-            @click.once="closeFilter()">
+            @click.once="closeFilter()"
+            @keyup.enter="closeFilter()">
             <!-- <IconsNavHome class="logo"/> -->
             <!-- TODO padding -->
             <svg class="logo"
               xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <title>{{ $t('menu.back')}}</title>
               <circle cx="24" cy="24" r="12" transform="rotate(180 24 24)" fill="#2C2C2C"/>
             </svg>
           </button>
@@ -450,8 +452,10 @@ const getShowAllStyle = (meta_key) => {
               v-model="newFiltersTitle"/>
             <div class="filter_text_clear"
               tabindex="0"
-              @click="newFiltersTitle = '';updateFilteredCounts()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+              @click="newFiltersTitle = '';updateFilteredCounts()"
+              @keyup.enter="newFiltersTitle = '';updateFilteredCounts()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <title>{{ $t('filter.input_clear')}}</title>
                 <path d="M18 6L6 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M6 6L18 18" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -460,8 +464,9 @@ const getShowAllStyle = (meta_key) => {
 
           <button class="btn_close"
             tabindex="0"
-            @click="resetFilter()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            @click="resetFilter()"
+            @keyup.enter="resetFilter()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -479,7 +484,7 @@ const getShowAllStyle = (meta_key) => {
         :class="{'projects-active': mobile_show_projects}">
         <button 
           class="content_toggle_filter"
-          tabindex="0"
+          tabindex="-1"
           @click="mobile_show_projects = !mobile_show_projects"
           :class="{active: !mobile_show_projects}">
           Filter
@@ -487,13 +492,14 @@ const getShowAllStyle = (meta_key) => {
         
         <button
           class="content_toggle_projects"
-          tabindex="0"
+          tabindex="-1"
           @click="mobile_show_projects = !mobile_show_projects"
           :class="{active: mobile_show_projects}">
           Projekte
         </button>
       </div>
       <div class="wrapper_filter"
+      tabindex="-1"
         :class="{mobile_hidden:mobile_show_projects}">
 
         <!-- HH Können statt den filter-translations die meta_info-translations verwendet werden? Redundanz vermeiden. -->
@@ -724,6 +730,7 @@ const getShowAllStyle = (meta_key) => {
       </div>
 
       <div class="wrapper_projects"
+      tabindex="-1"
         :class="{mobile_hidden:!mobile_show_projects}">
         <div class="filter_headline">{{ $t('filter.label_projects') }}</div>
         
