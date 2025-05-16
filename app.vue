@@ -115,6 +115,8 @@ if (import.meta.server) {
   
 }
 
+const setlistLastSlideState = useState("setlistLastSlideState",() => { return -1})
+
 if (import.meta.client) {
   console.log(" is client ")
   selectRandomFont()

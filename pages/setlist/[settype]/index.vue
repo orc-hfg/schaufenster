@@ -144,13 +144,14 @@ const showFilterView = ref(false);
 const showMenuView = ref(false)
 
 const toggleBtnSetType = ref(route.params.settype)
+const setlistLastSlideState = useState("setlistLastSlideState")
 
 const switch2settype = (type:string) => {
   route.params.settype = type
   settype.value = type;
   updateSetType()
   toggleBtnSetType.value = type
-  
+  setlistLastSlideState.value = -1
   const rpath = '/setlist/' + type
   router.replace(rpath)
   const hpath = useRuntimeConfig().app.baseURL + rpath

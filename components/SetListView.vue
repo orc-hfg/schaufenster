@@ -174,6 +174,13 @@ const intro_info_style = ref(mergeSetTypeColor(props.settype, getPixelSizedStyle
 const year_info_style = ref(mergeSetTypeColor(props.settype, getPixelSizedStyle(240,210)))
 
 onMounted(() => {
+  if (typeof setlistLastSlideState.value == "number"
+    && setlistLastSlideState.value > -1) {
+    setTimeout(() => {
+      console.log("setListView: slideTo " + setlistLastSlideState.value)
+      swiperMain.value.slideTo(setlistLastSlideState.value)
+    },1000)
+  }
   updateStyles()
   window.addEventListener("resize", (ev) => {
     updateStyles()
@@ -244,7 +251,12 @@ const previewLargeUrl = (treeId: string): string => {
   const pid = props.useTree[props.settype][treeId]?.previewsLarge[eId]?.id;
   return apiBaseUrl + "previews/" + pid + "/data-stream";
 };
-const switch2set = (setid) => {
+
+const setlistLastSlideState = useState("setlistLastSlideState")
+
+const switch2set = (setid:string) => {
+  setlistLastSlideState.value = swiperMain.value.activeIndex
+  console.log("switch2set: stored swiper pos: " + setlistLastSlideState.value)
   emits('switch2setview', setid)
 };
 
