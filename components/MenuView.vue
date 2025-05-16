@@ -143,6 +143,7 @@ header {
     padding: 0;
     border: 1px solid transparent;
     height: 48px;
+    width: 48px;
 }
 svg {
     mix-blend-mode: normal;
