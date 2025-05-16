@@ -60,7 +60,8 @@
             :class="[el.previewDirection, el.previewPlacement]"
             :style="el.previewstyle"
             tabindex="0"
-            @click="switch2set(el.col_id)">
+            @click="switch2set(el.col_id)"
+            @keyup.enter="switch2set(el.col_id)">
             <div class="img"
               v-if="hasPreview(el.col_id)"
               :class="{swiper_moving: swiperMoving}"

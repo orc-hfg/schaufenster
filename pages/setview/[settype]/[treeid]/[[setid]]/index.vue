@@ -186,6 +186,7 @@
         v-if="!showInfo && !animate_view_io"
         tabindex="0"
         @click="toggleShowBottomNav()"
+        @keyup.enter="toggleShowBottomNav()"
         class="btn_bottom_nav_toggle">
         <IconsBtmBarFoldPlusMinus :show-plus="!showBottomNav || show_av_control" />
       </div>
@@ -237,6 +238,7 @@
             class="nav_preview"
             tabindex="0"
             @click="nav2Element(el)"
+            @keyup.enter="nav2Element(el)"
             :class="getNavPreviewClass(el)"
             :style="{ 'background-image': 'url(\'' + previewUrl(el.entry_id) + '\')' }">
             
@@ -267,6 +269,7 @@
             v-if="el.type === NavSlideType.Set"
             tabindex="0"
             @click="nav2Element(el)"
+            @keyup.enter="nav2Element(el)"
             >
             <!-- :style="{ 'background-image': 'url(\'' + previewUrl(ceId) + '\')' }" -->
             <div class="nav_preview_subset"
@@ -320,13 +323,15 @@
     :class="{hidden: !show_av_control || showInfo || showSetTitle}">
     <div class="av_control_playpause"
       tabindex="0"
-      @click="toggleStatePlay(!av_state_play)">
+      @click="toggleStatePlay(!av_state_play)"
+      @keyup.enter="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
       />
     </div>
     <div class="av_control_mute"
       v-if="av_state_show_mute"
-      @click="toggleStateMute(!av_state_mute)">
+      @click="toggleStateMute(!av_state_mute)"
+      @keyup.enter="toggleStateMute(!av_state_mute)">
       <IconsMute :isMute="av_state_mute"
       />
     </div>
