@@ -25,6 +25,7 @@ export default defineI18nConfig(() => ({
                 label_font_by: "von",
             },
             filter: {
+                input_label: "Suchen",
                 btn_apply_label: "Anwenden",
                 btn_close_label: "Filter zurücksetzen",
                 btn_reset_label: "Filter zurücksetzen",
@@ -156,6 +157,7 @@ export default defineI18nConfig(() => ({
                 label_font_by: "by",
             },
             filter: {
+                input_label: "Search",
                 btn_apply_label: "Apply",
                 btn_close_label: "Reset Filter",
                 btn_reset_label: "Reset Filter",

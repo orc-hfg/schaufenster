@@ -437,7 +437,14 @@ const getShowAllStyle = (meta_key) => {
 
           <!-- slightly different construction */ -->
           <div class="input_wrapper">
-            <input class="filter_text_input"
+            <label 
+              id="filter_text_input_label"
+              for="filter_text_input">
+                 {{ $t('filter.input_label')}}
+            </label>
+            <input
+              id="filter_text_input"
+              class="filter_text_input"
               type="text"
               @input="changedFilterTitle"
               v-model="newFiltersTitle"/>
