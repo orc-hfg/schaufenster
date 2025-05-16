@@ -4,7 +4,11 @@
         :class="{hidden:animate_io}">
         <header>
             <nav class="nav">
-                <NuxtLink @click="doClose()" class="nav_close">
+                <NuxtLink 
+                    tabindex="0"
+                    @keyup.enter="doClose()"
+                    @click="doClose()"
+                    class="nav_close">
                     <IconsNavHome/>
                 </NuxtLink>
             </nav>
