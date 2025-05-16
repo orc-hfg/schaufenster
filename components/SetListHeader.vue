@@ -15,7 +15,7 @@
              -->
           <div class="settype_toggle"
             :class="{
-              hidden: hideNavBtns,
+              hidden: hideNavBtns || isKioskMode,
               diplom: toggleBtnSetType == MATCH_DIPLOM,
               projects: toggleBtnSetType == MATCH_PROJECTS}"
               >
@@ -122,6 +122,8 @@ const props = defineProps([
     'showFilterView'
 ])
 const isMobile = ref(false)
+const isKioskMode = ref(false)
+
 
 const getTextWidth = (text:string):number => {
   // re-use canvas object for better performance
@@ -148,6 +150,12 @@ const projects_label = ref('Projects')
 const diploms_label = ref('Diploma')
 
 const updateStyle = () => {
+  
+  if (useRuntimeConfig().public.kioskForestSetId) {
+    isKioskMode.value = true
+    return
+  }
+  
   isMobile.value = document.documentElement.getAttribute('data-layout') == 'mobile'
   projects_label.value = isMobile.value ? t('setlist.btn_title_toggle_project_mobile') : t('setlist.btn_title_toggle_project')
   diploms_label.value = isMobile.value ?  t('setlist.btn_title_toggle_diplom_mobile') : t('setlist.btn_title_toggle_diplom')

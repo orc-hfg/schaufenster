@@ -31,6 +31,7 @@ const {
   initApi,
   initTree,
   initForest,
+  initKioskForest
 } = treeHelper();
 
 const route = useRoute();
@@ -97,7 +98,12 @@ if (import.meta.server) {
   initMadek() 
   const config = useRuntimeConfig()
   initApi(config.public.apiBaseUrl)
-  if (config.public.kioskSetId) {
+  if (config.public.kioskForestSetId) {
+    console.log("init root set")
+    const treesData = await initKioskForest(config.public.kioskForestSetId)
+    useTree.value = treesData
+  }
+  else if (config.public.kioskSetId) {
     console.log("init kiosk set")
     const treesData = await initTree(MATCH_PROJECTS, config.public.kioskSetId)
     //useTree.value = treesData
@@ -111,7 +117,7 @@ if (import.meta.server) {
 
 if (import.meta.client) {
   console.log(" is client ")
-    selectRandomFont()
+  selectRandomFont()
 }
 
 

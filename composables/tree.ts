@@ -713,21 +713,26 @@ export const treeHelper = () => {
   const buildTree = async (treeType: string, col_id: string) => {
     const treeId = col_id;
 
+    const col = collectionsAll.get(treeId)
+    if (!col || !col.id) {
+      console.error("buildTree: invalid collection to build tree for: " + col_id)
+      return;
+    }
     const tree = getOrCreateTree(treeType, treeId);
     tree.edges[RID] = tree.edges[RID] || {};
     tree.edges[RID][treeId] = {
       parent_id: RID,
-      collection: collectionsAll.get(treeId),
+      collection: col,
       depth: 0,
     } as iTreeNode;
     tree.up = {};
     tree.up[treeId] = RID;
     await buildSubTree(treeType, treeId, col_id, 0);
-    /* console.log("builtTree finished sub trees:"
+    console.log("builtTree finished sub trees:"
       + " Ttype: " + treeType
       + " Tid: " + treeId
-      + " loading:" + state.loading
-    ) */
+      + " col:" + collectionsAll.get(treeId)
+    ) 
     //console.dir(state.treeMapper[treeType][treeId])
   };
 
@@ -788,23 +793,7 @@ export const treeHelper = () => {
           .replace('Wintersemester','WiSe')
         const year = sy.split(' ')[1]
         tree.cols_semesters[clientId] = year + ' ' + sem
-        // i18 for semester keywords
-        //const sem_en = sy.split(' ')[0]
-        //  .replace('Sommersemester','SuSe')
-        //  .replace('Wintersemester','WiSe')
-        //tree.cols_semesters_en[clientId] = year + ' ' + sem_en
-        
-        //tree.cols_semesters[clientId] = md.selectedKeywords[0].term
-      /* } else if (metaKey == MK_PROGRAM_OF_STUDY) {
-        
-        tree.cols_departments[clientId] = tree.cols_departments[clientId] || []
-        md.selectedKeywords.forEach(kw => {
-          tree.cols_departments[clientId].push(kw.term)
-        })
-        console.log("found program of study: " + JSON.stringify(tree.cols_departments[clientId])) */
       }
-      // TODO mitwirkende
-      // TODO year / from semester
 
       if (md.selectedKeywords && md.selectedKeywords.length) {
         tree.colKeywordMap[metaKey] =
@@ -855,9 +844,6 @@ export const treeHelper = () => {
         + " Ttype " + treeType
         + " Tid " + treeId) */
     //console.dir(tree)
-
-    //await buildSubTreeEntries(tree, state.treeMapper[treeType][treeId].edges[RID][treeId])
-    //await buildCollectionMetaData(treeType,treeId,RID,treeId);
 
     for (const parentId in tree.edges) {
       for (const clientId in tree.edges[parentId]) {
@@ -938,48 +924,17 @@ export const treeHelper = () => {
 
   }
   const initTrees = async (keyword_match: string, treeType:string) => {
-    /*const filterBy = JSON.stringify({
-      meta_data: [{ key: "any", match: keyword_match }],
-    });
-    const cols_query_match = {
-      full_data: false,
-      public_get_metadata_and_previews: true,
-      page: 0,
-      size: 10000,
-      filter_by: filterBy,
-    };
-    const cols_data = (await apiH.api.collectionsList(cols_query_match))
-      .data as CollectionsListData;
 
-    console.log("got cols for keyword: " + keyword_match + ":" + treeType)
-    
-    //console.dir(cols_data)
-
-    for await (const colEl of cols_data.collections) {
-      if (CHILD_IDS_SCHAUFENSTER[colEl.id]
-        //|| keyword_match !== MATCH_PROJECTS
-        ) {
-        //console.log("found col id in schaufenster set ids: " + colEl.id)
-        initTree(treeType, colEl.id)
-        //console.log("finished build tree and meta_data " + colEl.id);
-      } else {
-        console.log("set not in schaufenster set ids: " + colEl.id)
-      }
-    }
-  
-
-    //useState('tree-' + keyword_match, () => { return state.treeMapper[keyword_match] })
-    */
     for (const colId in CHILD_IDS_SCHAUFENSTER) {
       await initTree(treeType, colId)
       console.log("finished build tree and meta_data " + colId + " as " + treeType);
     }
-    console.log("finished build tree all " + keyword_match);
+    console.log("finished build tree all ");
     useTree.value = state.treeMapper;
     //console.dir(state.treeMapper)
   };
 
-  //const COL_ID_SCHAUFENSTER = '75a2d948-fefa-405f-b8c4-40d7de7c0ddf'
+  
   const DATA_COL_COL_ARC = "collection-collection-arcs"
   const CHILD_IDS_SCHAUFENSTER = {} as {[key:string]: string};
 
@@ -988,32 +943,42 @@ export const treeHelper = () => {
       await apiH.api.collectionCollectionArcsList({ parent_id: root_set_id })
     ).data;
     
-    const ccas = ccas_resp_data["collection-collection-arcs"];
+    const ccas = ccas_resp_data[DATA_COL_COL_ARC];
     
     const ccass =  ccas.slice(0, useRuntimeConfig().public.MAX_PROJECT_COUNT);
 
     console.log("initTree: schaufenster col count:" + ccass.length)
     for await (const cca of ccass) {
-      CHILD_IDS_SCHAUFENSTER[cca.child_id] = cca.child_id
+      const cid = cca.child_id
+      const col = collectionsAll.get(cid)
+      if (!col || !col.id) {
+        console.error("initTree: ignore invalid collection: " + cid)
+      } else {
+        CHILD_IDS_SCHAUFENSTER[cid] = cid
+        console.log("initTree: schaufenster col " + cid + ":" + col?.id)
+      }
+      
     }   
     console.log("buildRootChildList: schaufenster col count:" 
      + Object.keys(CHILD_IDS_SCHAUFENSTER).length)
      + " all : " + ccas.length
   }
+
+
   const initApi = (apiBaseUrl:string) => {
     apiH = getNewApi(getNewConfig(apiBaseUrl))
   }
+
+
   const initForest = async (root_set_id:string) => {
     console.log("initForest: ");
 
     await fetch_cols_all();
     await buildRootChildList(root_set_id)
-    
-
     await initTrees(MATCH_VAL_PROJECT, MATCH_PROJECTS);
 
 
-    //TODO just copy the trees
+    //clones trees if matching keyword
     for (const treeId in state.treeMapper[MATCH_PROJECTS]) {
       console.log("scan tree for kw " + treeId)
       const tree = state.treeMapper[MATCH_PROJECTS][treeId]
@@ -1047,8 +1012,6 @@ export const treeHelper = () => {
       
     }
 
-    //await initTrees(MATCH_VAL_DIPLOM, MATCH_DIPLOM);
-    //await initTrees(MATCH_VAL_MAGISTER, MATCH_DIPLOM);
 
     console.log(
       " built collections map " +
@@ -1062,6 +1025,28 @@ export const treeHelper = () => {
 
     return state.treeMapper;
   };
+
+  
+  const initKioskForest = async (root_set_id:string) => {
+    console.log("initKioskForest: ");
+
+    await fetch_cols_all();
+    await buildRootChildList(root_set_id)
+    await initTrees(MATCH_VAL_PROJECT, MATCH_PROJECTS);
+  
+    console.log(
+      " built collections map " +
+        " All: " +
+        collectionsAll.size +
+        " Project: " +
+        Object.keys(state.treeMapper[MATCH_PROJECTS]).length
+        //+ " Diplom: " +
+        //Object.keys(state.treeMapper[MATCH_DIPLOM]).length 
+    );
+
+    return state.treeMapper;
+  };
+
 
   return {
     MATCH_DIPLOM,
@@ -1089,6 +1074,7 @@ export const treeHelper = () => {
     initApi,
     initTree,
     initForest,
+    initKioskForest,
     buildCollectionMetaData,
     buildTreeMetaData,
 
