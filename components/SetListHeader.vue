@@ -14,6 +14,7 @@
         v-if="!hideNavBtns"
              -->
           <div class="settype_toggle"
+            v-if="!isKioskMode"
             :class="{
               hidden: hideNavBtns || isKioskMode,
               diplom: toggleBtnSetType == MATCH_DIPLOM,

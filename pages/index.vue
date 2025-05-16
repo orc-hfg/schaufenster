@@ -56,6 +56,8 @@ const switchPage = () => {
       + '/' 
       + kioskId
     router.push(path)
+  } else if (config.public.kioskForestSetId) {
+    router.push('/setlist/' + MATCH_PROJECTS)
   } else {
     router.push('/setlist/' + MATCH_DIPLOM)
   }
