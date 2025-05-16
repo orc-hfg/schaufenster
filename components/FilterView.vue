@@ -37,7 +37,7 @@ const filterFor = ref('')
 
 const mobile_show_projects = ref(false)
 const emit = defineEmits(['closed', 'applied'])
-const props = defineProps(['trees_map', 'tree_type', 'useCurrentFilters', 'useCleanFilters'])
+const props = defineProps(['trees_map', 'tree_type', 'useCurrentFilters', 'useCleanFilters', 'showMetaKey'])
 
 const SHOW_ANIMATE_IO_DELAY = 300
 const animate_intro = ref(true)
@@ -367,6 +367,10 @@ onMounted(() => {
         showAll.value[meta_key] = false
       });
   
+      if (props.showMetaKey) {
+        showAll.value[props.showMetaKey] = true
+        document.getElementById('filter_cloud_' + props.showMetaKey)?.scrollIntoView()
+      }
    }, 100)
 
   

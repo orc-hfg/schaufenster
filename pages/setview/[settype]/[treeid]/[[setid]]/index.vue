@@ -337,6 +337,7 @@
 
     <FilterView
           v-if="useTree && showFilterView"
+          :show-meta-key="filterShowMetaKey"
           :use-clean-filters="false"
           :use-current-filters="false"
           :trees_map="useTree[settype]"
@@ -431,8 +432,9 @@ const clickedParent = (col_id: string) => {
 }
 
 const showFilterView = ref(false)
+const filterShowMetaKey = ref('')
 const addedFilter = (type, data) => {
-  showFilterView.value = true;
+  
   newFiltersMap.value = {}
   newFiltersMap.value[type] = {}
   if (type == FILTERS_ROLES) {
@@ -452,7 +454,11 @@ const addedFilter = (type, data) => {
       name: data.term,
       meta_key: data.meta_key_id
     }
+    
+    
   }
+  filterShowMetaKey.value = data.meta_key_id
+  showFilterView.value = true;
   //console.error("new filters map: " + JSON.stringify(newFiltersMap.value))
 }
 const onFilterViewApplied = () => {
