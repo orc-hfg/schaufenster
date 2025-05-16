@@ -69,6 +69,9 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.NUXT_APP_API_BASE_URL || 'https://staging.madek.hfg-karlsruhe.de',
       apiPath: process.env.NUXT_APP_API_PATH || '/api-v2/',
       rootSetId: process.env.NUXT_APP_ROOT_SET_ID || '75a2d948-fefa-405f-b8c4-40d7de7c0ddf',
+      kioskForestSetId: process.env.NUXT_APP_KIOSK_SET_LIST_ID || 
+        'f9519557-5a60-4f5e-8fb4-a39e7ef3f6fb',
+        //undefined, 
       kioskSetId: process.env.NUXT_APP_KIOSK_SET_ID || 
         //'f9519557-5a60-4f5e-8fb4-a39e7ef3f6fb',
         undefined, 
