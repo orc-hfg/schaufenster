@@ -392,12 +392,17 @@ const setMainSwiper = (swiper: Swiper) => {
 .swiper_main {
   /* border: 1px solid red; */
   position: absolute;
-  top: 112px;
   left: 0px;
   width: 100vw;
-  height: calc(100vh - 112px - 240px);
-  overflow-y: visible;
   background-color: var(--Colors-background-default);
+  /* HH Gibt es einen bestimmten Grund, warum das Element nach unten versetzt ist 
+  * und seine Höhe mit calc() berechnet wird? Es sorgt für fehlerhafte Darstellung in Safari.
+  */
+  /* top: 112px;
+  height: calc(100vh - 112px - 240px);
+  overflow-y: visible; */
+  top: 0;
+  height: 100%;
 }
 .filter_blured {
   filter: blur(25px);
