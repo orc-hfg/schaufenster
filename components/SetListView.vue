@@ -520,6 +520,7 @@ const setMainSwiper = (swiper: Swiper) => {
   text-align: center;
   z-index: 1010;
   user-select: none;
+  pointer-events: none;
 }
 
 .year_info {
@@ -529,10 +530,10 @@ const setMainSwiper = (swiper: Swiper) => {
   transform: translate(-50%, -50%);
   margin-top: -.25em;
   z-index: 1010;
-  user-select: none;
   font-size: 10vh;
   text-align: center;
   align-items: center;
+  user-select: none;
   pointer-events: none;
 }
 
