@@ -1765,11 +1765,12 @@ progress {
   --Colors-av-progress-background: rgba(255,255,255,.2);
   --Colors-av-progress-bar: #FFFFFF;
   cursor: pointer;
+  overflow: hidden;
 }
 /* HH add color of background */
 progress::-webkit-progress-bar,
 progress {
-  border-radius: 50px;
+  /* border-radius: 50px; */
   background-color: var(--Colors-av-progress-background); 
 }
 /* HH add color of (moving) bar */
@@ -1778,13 +1779,13 @@ progress::-moz-progress-bar {
   background-color: var(--Colors-av-progress-bar);
 }
 progress::-webkit-progress-value { 
-  border-top-left-radius: 50px;
-  border-bottom-left-radius: 50px;
+  /* border-top-left-radius: 50px;
+  border-bottom-left-radius: 50px; */
   background-color: var(--Colors-av-progress-bar);
 }
-progress {
+/* progress {
   color: yellow;
-}
+} */
 
 
 /* 
