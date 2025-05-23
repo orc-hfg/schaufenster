@@ -51,7 +51,7 @@
       
     <swiper-slide
         class="main_slide"
-        v-for="slide in slideList"
+        v-for="(slide,idx) in slideList"
         tabindex="-1"
         >
         
@@ -68,6 +68,7 @@
             role="link"
             :aria-label="getColTitle(el.col_id)"
             @click="switch2set(el.col_id)"
+            @keyup.tab="swiperMain.slideTo(idx)"
             @keyup.enter="switch2set(el.col_id)">
             <div
               role="img"
