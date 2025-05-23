@@ -1843,6 +1843,9 @@ progress {
   height: 95px;
   margin-top: 24px;
   /* margin: var(--padding-item-vertical-M, 12px) 0px; */
+  /* HH optisch müssten das padding-left 10px betragen, nicht 12px.
+   * Hier mal vorläufig mit calc() feinjustiert. */
+  padding-left: calc(var(--padding-item-vertical-M, 12px) - 2px);
   margin-left: -4px;
   
   border-top: var(--padding-item-vertical-M, 12px) solid var(--Colors-btm-bar-galleryView-gradient-default-stop-1);
@@ -1854,7 +1857,10 @@ progress {
 
 .set_highlight {
   background-color: var(--btm-bar-galleryView-set-hover, var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1));
+  /* HH padding-left beim nav_slide gesetzt, nicht erst bei heighlight.
+   * Ansonsten springt es im Firefox bei mouse-over. */
   /* padding: var(--padding-item-vertical-M, 12px) -4px; */
+  
   border-top: var(--padding-item-vertical-M, 12px) solid var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1);
   border-bottom: var(--padding-item-vertical-M, 12px) solid var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1);
   border-left: var(--spacing-between-items-S, 12px) solid var(--Colors-btm-bar-galleryView-gradient-hover-stop-1 ,#E7E6E1);
