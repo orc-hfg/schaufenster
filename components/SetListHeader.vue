@@ -206,17 +206,20 @@ header {
   padding: var(--padding-navbar-left-right-top-btm);
   justify-content: space-between;
   align-items: center;
+  pointer-events: none;
 }
 .wrapper_left {
   display: flex;
 align-items: center;
 gap: var(--spacing-navbar-between-items, 4px);
+ pointer-events: auto;
 }
 .wrapper_right {
   display: flex;
 justify-content: flex-end;
 align-items: center;
 gap: var(--margin-navbar-institution-logo-right, 10px);
+ pointer-events: auto;
 }
 header nav a {
   text-decoration: none;
