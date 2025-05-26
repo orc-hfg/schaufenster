@@ -12,6 +12,7 @@
 import '~/assets/vars.css'
 import '~/assets/highcontrast.css'
 import '~/assets/base.css'
+import '~/assets/high-contrast.css'
 
 const {
     font_list,

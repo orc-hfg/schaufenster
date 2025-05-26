@@ -6,18 +6,18 @@
     <div v-if="settype==MATCH_DIPLOM && !showMenuView"
         class="year_stepper">
     <IconsYearSelectorUp
-        tabindex="0"
         role="link"
         @click="clickedYearBack()"
         @keyup.enter="clickedYearBack()"
         :class="{disabled: !isEnabledYearBack}"
+        :tabindex="(isEnabledYearBack? '0': '-1')"
         />
     <IconsYearSelectorDown
-        tabindex="0"
         role="link"
         @keyup.enter="clickedYearForward()"
         @click="clickedYearForward()"
         :class="{disabled: !isEnabledYearForward}"
+        :tabindex="(isEnabledYearForward? '0': '-1')"
         />
     </div>
     </Transition>
@@ -276,6 +276,8 @@ const switch2set = (setid:string) => {
 
 const isEnabledYearBack = ref(false)
 const isEnabledYearForward = ref(false)
+
+
 
 const upateEnabledYearBack = () => {
   const activeSlide = swiperMain.value?.activeIndex

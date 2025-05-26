@@ -79,6 +79,14 @@
                 @keyup.enter="$emit('onShowImpressum')">
                 {{ $t('menu.impressum')}}
             </div>
+             <div class="btn"
+                role="link"
+                tabindex="0"
+                :aria-label="$t('menu.accessibility')"
+                @click="$emit('onShowA11y')"
+                @keyup.enter="$emit('onShowA11y')">
+                {{ $t('menu.accessibility')}}
+            </div>
                
         </div>
     
@@ -108,6 +116,7 @@ const {
 //TODO close menu on click beside text
 
 const emit = defineEmits([
+    'onShowA11y',
     'onShowAbout',
     'onShowFonts',
     'onShowDSA',

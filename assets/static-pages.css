@@ -94,7 +94,7 @@ h4 {
   margin-top: 0;
   margin-bottom: 0;
 }
-p {
+p, address {
   color: var(--Colors-text-primary, #FFF);
   /* Body */
   font-family: "Instrument Sans";

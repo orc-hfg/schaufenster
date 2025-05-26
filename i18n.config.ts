@@ -18,7 +18,8 @@ export default defineI18nConfig(() => ({
                 label_en: "EN",
                 fonts: "Schriften",
                 impressum: "Impressum",
-                dsa: "Datenschutz"
+                dsa: "Datenschutz",
+                accessibility: "Barrierefreiheit",
             },
             font_select: {
                 select_font_label: "Schrift wählen",
@@ -140,11 +141,9 @@ export default defineI18nConfig(() => ({
                     role5: "Softwareentwicker",
                     contact2: "Kontakt",
                 },
-                impressum: {
-
-                },
-                datenschutz: {
-
+                accessibility: {
+                    label: "Hochkontrastmodus ein- und ausblenden",
+                    h1: "Barrierefreiheit",
                 },
             }
 
@@ -165,7 +164,8 @@ export default defineI18nConfig(() => ({
                 label_en: "EN",
                 fonts: "Fonts",
                 impressum: "Imprint",
-                dsa: "Privacy Policy"
+                dsa: "Privacy Policy",
+                accessibility: "Acessibility"
             },
             setlist: {
                 intro_title_project: "All",
@@ -270,7 +270,7 @@ export default defineI18nConfig(() => ({
 
             // static pages: about, impressum, Datenschutz
             static_pages: {
-                                about: {
+                    about: {
                     title1: "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
                     p1_1: "Additionally, all projects can  be found and researched in more detail in the HfG project archive database at ",
                     p1_2: "Any member of the university is invited to propose any project for publication on Schaufenster, provided that the project has been submitted to the project archive database beforehand. Submissions are formally checked to ensure that the necessary metadata have been provided. In the case of graduation projects, graduates can decide whether they wish to publish their pojects on Schaufenster before they get archived for the long-term.",

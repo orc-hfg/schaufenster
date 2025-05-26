@@ -50,6 +50,7 @@
 
     <MenuView v-if="showMenuView"
       :settype="settype"
+      @onShowA11y="showA11yView = true"
       @onShowFonts="showFontsView = true"
       @onShowAbout="showAboutView = true"
       @onShowImpressum="showImpressumView = true"
@@ -73,6 +74,10 @@
     <Transition name="fade">
       <DatenschutzView v-if="showDSAView"
         @on-close="showDSAView = false; showMenuView = true"/>
+    </Transition>
+    <Transition name="fade">
+      <A11yView v-if="showA11yView"
+        @on-close="showA11yView = false; showMenuView = true"/>
     </Transition>
 
     <!-- <Transition name="fade"> -->
@@ -100,7 +105,7 @@ const showFontsView = ref(false)
 const showAboutView = ref(false)
 const showDSAView = ref(false)
 const showImpressumView = ref(false)
-
+const showA11yView = ref(false)
 const router = useRouter()
 
 const {
@@ -408,7 +413,8 @@ const showMenu = () => {
     console.log("hide menu")
     showMenuView.value = false;
     showFilterView.value = false;
-    showFontsView.value = false
+    showFontsView.value = false;
+    showA11yView.value = false
   } else {
     console.log("show menu")
     setTimeout(() => {
@@ -434,7 +440,7 @@ updateSetType();
 onMounted(() => {
   
   updateSetType();
-  document.documentElement.setAttribute("data-theme", "light");
+  document.documentElement.setAttribute("data-theme", "high-contrast-light");
   document.documentElement.setAttribute("lang", locale.value );
 
   /* Metadata & SEO */
