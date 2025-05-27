@@ -33,7 +33,10 @@ export default defineNuxtConfig({
     '/setview/*/*/*': { swr: 7200 },
   },
   i18n: {
-    vueI18n: 'i18n.config.ts'
+    vueI18n: 'i18n.config.ts',
+    detectBrowserLanguage: {
+      useCookie: false,
+    }
   },
   $production: {
     app: {
