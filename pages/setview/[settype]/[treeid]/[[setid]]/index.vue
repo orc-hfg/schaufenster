@@ -152,8 +152,7 @@
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
-        @click.once="swiperMain.slidePrev()"
-        @keyup.enter="swiperMain.slidePrev()">
+        @keyup.enter="slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
@@ -161,8 +160,7 @@
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
-        @click.once="swiperMain.slideNext()"
-        @keyup.enter="swiperMain.slideNext()">
+        @keyup.enter="slideNext()">
         <IconsSliderArrowRight/>
       </div>
     </swiper>
@@ -754,6 +752,13 @@ const clickedNavShowMore = (treeId:string) => {
       }, (i-start) * 50)
       
     }
+}
+
+const slidePrev = () => {
+  swiperMain.value?.slidePrev()
+}
+const slideNext = () => {
+  swiperMain.value?.slideNext()
 }
 
 const getColTitle = (id: string): string => {
