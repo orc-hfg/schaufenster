@@ -214,6 +214,16 @@ onMounted(() => {
   })
   document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
   document.addEventListener('keyup', onkeyupEv, true)
+
+  const bUrl = useRuntimeConfig().app.baseURL
+  useHead({
+    "link": [
+      // Favicon
+      { rel: 'icon', type: 'apple-touch-icon', sizes: '180x180', href: bUrl + '/apple-touch-icon.png'},
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: bUrl + '/favicon-32x32.png'},
+      { rel: 'icon', type: 'image/png', sizes:'16x16', href: bUrl + '/favicon-16x16.png'},
+      { rel: 'icon', type:'manifest', href: bUrl + '/site.webmanifest'},
+  ]})
 })
 onBeforeUnmount(() => {
   document.removeEventListener('keyup', onkeyupEv,true)
