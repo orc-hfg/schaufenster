@@ -195,9 +195,9 @@ const onkeyupEv = (ev:KeyboardEvent) => {
     //console.log('switched to mobile: ' + isMobile.value)
   }
 }
-
+const MOBILE_SWITCH_RESOLUTION = 768
 const updateMobileStateByWinWidth = () => {
-  if (window.innerWidth < 1024) {
+  if (window.innerWidth < MOBILE_SWITCH_RESOLUTION) {
     isMobile.value = true
   } else {
     isMobile.value = false
