@@ -496,6 +496,7 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
   width: 1.25em;
   height: 1.25em;
 }
+/* TODO high contrast */
 [data-theme="dark"] {
   .btn_round svg {
     stroke: var(--Colors-text-primary, #2C2C2C);

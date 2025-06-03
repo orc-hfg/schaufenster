@@ -134,3 +134,8 @@
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
 }
 
+@media (prefers-contrast: more) {
+    :root {
+         --high-contrast-enabled: 1000;
+    }
+}

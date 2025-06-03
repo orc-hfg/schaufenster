@@ -405,10 +405,11 @@ const getShowAllStyle = (meta_key) => {
   return {height: showAllHeight.value[meta_key]}
 }
 
+const highContrastState = useState('isHighContrast')
 </script>
 <template>
   <div class="filter_view"
-    data-theme="light"
+    :data-theme="highContrastState? 'hc_light': 'light'"
     :class="{hidden: animate_intro}">
     <!-- TODO mobile theme: complete different layout; show more/less sizes; btn paddings -->
     <header class="header">

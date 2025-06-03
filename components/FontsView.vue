@@ -1,7 +1,7 @@
 <template>
     <div class="dialog_menu fades" 
         :class="{hidden:animate_io, action:selector_open}"
-        data-theme="dark">
+        :data-theme="highContrastState? 'hc_dark': 'dark'">
         <header>
             <nav class="nav back_button fades">
                 <NuxtLink 
@@ -89,6 +89,7 @@
     </div>
 </template>
 <script setup lang="ts">
+const highContrastState = useState('isHighContrast')
 // TODO use global config var
 const ANIMATE_IN_MS = 150;
 const ANIMATE_OUT_MS = 300;

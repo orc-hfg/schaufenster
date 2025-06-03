@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO high contrast -->
   <div class="intro_page" data-theme="dark" @click.prevent.once="switchPage()">
   <!-- TODO mobile theme: dynamic fonts font sizes -->
     <header>

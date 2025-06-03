@@ -1,6 +1,7 @@
 <template>
 
-    <div class="dialog fades" data-theme="dark"
+    <div class="dialog fades"
+        :data-theme="highContrastState? 'hc_dark': 'dark'"
         :class="{hidden:animate_io}">
         <header>
             <nav class="nav">
@@ -63,7 +64,7 @@
 </template>
 <script setup lang="ts">
 const emit = defineEmits(['onClose'])
-
+const highContrastState = useState('isHighContrast')
 const animate_io = ref(true)
 
 // TODO use global config var

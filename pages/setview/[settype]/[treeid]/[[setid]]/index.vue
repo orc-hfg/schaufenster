@@ -1,6 +1,7 @@
 <template>
   <div class="setview_page">
   <!-- TODO mobile theme: different layout meta-data (animations); -->
+  <!-- TODO high contrast theme -->
     <SetViewHeader 
       :settype="settype"
       :treeid="treeid"
@@ -919,12 +920,14 @@ const onMainSwiperSlideChanged = () => {
           //showBottomNav.value = false
         }
         console.error("is an av element for entry: " + entry.id)
+        /* TODO high contrast theme */
         document.documentElement.setAttribute("data-theme", "dark");
         data_theme.value="dark"
       }
       else {
         console.error("not an av element for entry: " + entry.id)
         show_av_control.value = false
+        /* TODO high contrast theme */
         document.documentElement.setAttribute("data-theme", "light");
         data_theme.value=""
       }
@@ -1228,6 +1231,7 @@ const initData = () => {
 const showSetTitle = ref(false)
 
 onMounted(() => {
+  /* TODO high contrast theme */
   document.documentElement.setAttribute("data-theme", "light");
   document.documentElement.setAttribute("lang", locale.value );
   isMobile.value = (document.documentElement.getAttribute('data-layout') == "mobile")

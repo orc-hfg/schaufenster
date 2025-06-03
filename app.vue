@@ -185,14 +185,36 @@ watch(() => route.fullPath, () => {
   //console.log("APP: changed route: " + JSON.stringify(route.fullPath));
 
 });
+const isHC = ref(false)
 
+const updateTheme = () => {
+  highContrastState.value = isHC.value
+  const curr = document.documentElement.getAttribute('data-theme')
+      
+  if (isHC.value) {
+    const newTheme = (curr?.indexOf('light') ? 'hc_light' : 'hc_dark')
+    document.documentElement.setAttribute('data-theme', newTheme)
+  } else {
+
+  }
+
+}
 
 const onkeyupEv = (ev:KeyboardEvent) => {
   console.log(" onkeyup " + ev.code)
-  if ((ev.altKey || ev.ctrlKey) && ev.code == 'KeyL') {
+  /*if ((ev.altKey || ev.ctrlKey) && ev.code == 'KeyM') {
     
     isMobile.value = !isMobile.value
     document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
+    //console.log('switched to mobile: ' + isMobile.value)
+  }*/
+
+  if ((ev.altKey || ev.ctrlKey) 
+    // && ev.shiftKey 
+     && ev.code == 'KeyM') {
+    debugger
+    isHC.value = !isHC.value
+    updateTheme()
     //console.log('switched to mobile: ' + isMobile.value)
   }
 }
@@ -206,8 +228,13 @@ const updateMobileStateByWinWidth = () => {
   console.log("updateMobileStateByWinWidth: " + window.innerWidth + ":" + isMobile.value)
 }
 
+const highContrastState = useState('isHighContrast')
+
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "light");
+  document.documentElement.style.getPropertyValue('--high-contrast-enabled') == '1000' ? isHC.value = true : isHC.value = false
+  
+  updateTheme()
   updateMobileStateByWinWidth()
   window.addEventListener("resize", (ev) => {
     updateMobileStateByWinWidth()

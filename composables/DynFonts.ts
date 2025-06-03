@@ -82,6 +82,7 @@ export const DynFonts = () => {
         return result;
     }
 
+    /* TODO high contrast theme */
     const getSetTypeColor = (settype: string, theme: string = '') => {
         const color = settype == MATCH_DIPLOM ? COLOR_DIPLOM : 
             theme == 'dark' ? COLOR_PROJECTS_DARK : COLOR_PROJECTS

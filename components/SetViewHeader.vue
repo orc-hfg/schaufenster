@@ -175,7 +175,7 @@ const props = defineProps([
     'introRunning',
     'pathToRoot'
 ])
-
+/* TODO high contrast theme */
 watch(() => props.theme,() => {
   console.log("theme changed")
   infoBtnStyle.value['background-color'] = getSetTypeColor(props.settype, props.theme)
