@@ -1,0 +1,136 @@
+
+:root {
+    /* example: special high contrast color vars */
+    --Primitives-color-hc-highlight-bright-tone: var(--Primitives-color-identity-Signal-Red);
+    --Primitives-color-hc-highlight-dark-tone: var(--Primitives-color-identity-Signal-Red);
+}
+
+/* colors high contrast light */
+[data-theme="hc_light"] {
+--Colors-background-filter: var(--Primitives-color-greys-Black);  
+--Colors-background-menu: var(--Primitives-color-greys-Black);  
+--Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-background-video: var(--Primitives-color-greys-Black);
+
+--Colors-background-audio: var(--Primitives-color-greys-Black);
+
+--Colors-btm-bar-galleryView-gradient-default-stop-1: #F3F2EF;
+--Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(243,242,239,0);
+
+--Colors-btm-bar-galleryView-gradient-hover-stop-1: #E7E6E1;
+--Colors-btm-bar-galleryView-gradient-hover-stop-2: rgba(231,230,225,0);
+
+--Colors-btm-bar-galleryView-set-hover: var(--Primitives-color-greys-LightGrey);
+--Colors-btm-bar-main-button-fill: rgba(243,242,239,0.7);
+--Colors-btm-bar-main-button-icon: var(--Primitives-color-greys-Black);
+--Colors-btm-bar-playerView-background: var(--Primitives-color-transparencies-black-10);
+--Colors-btm-bar-playerView-button: var(--Primitives-color-greys-ORCBlack);
+--Colors-btm-bar-playerView-progress: var(--Primitives-color-greys-MediumGrey);
+--Colors-btm-bar-set-button: var(--Primitives-color-greys-LightGrey);
+--Colors-btm-bar-thumbnail-active: var(--Primitives-color-greys-White);
+--Colors-divider-universal: var(--Primitives-color-greys-MediumGrey);
+--Colors-filter-text-primary: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-chip-fill-active: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-chip-fill-default: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-filter-chip-fill-hover: var(--Primitives-color-greys-LightGrey);
+--Colors-filter-chip-fill-outline: var(--Primitives-color-greys-MediumGrey);
+--Colors-filter-chip-text-active: var(--Primitives-color-greys-White);
+--Colors-filter-chip-text-default: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-searchbar-fill-default: var(--Primitives-color-greys-LightGrey);
+--Colors-filter-searchbar-text-active: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-searchbar-text-disabled: var(--Primitives-color-greys-MediumGrey);
+--Colors-filter-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-filter-toggle-on: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-button-fill-hover: var(--Primitives-color-greys-LightGrey);
+--Colors-nav-bar-button-fill: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-nav-bar-button-outline: var(--Primitives-color-greys-MediumGrey);
+--Colors-nav-bar-filter-button: var(--Primitives-color-greys-Grey);
+
+--Colors-nav-bar-info-button-fill: var(--Primitives-color-greys-ORCBlack);
+
+--Colors-nav-bar-institution-logo: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-platform-logo: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-set-button-folded: var(--Primitives-color-greys-LightGrey);
+--Colors-nav-bar-set-button: var(--Primitives-color-greys-LightGrey);
+--Colors-nav-bar-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
+
+--Colors-nav-bar-toogle-on: var(----Primitives-color-hc-highlight-dark-tone);
+
+--Colors-nav-bar-toggle-highlight: var(----Primitives-color-hc-highlight-bright-tone);
+--Colors-nav-bar-toogle-project: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-toogle-diplom: var(----Primitives-color-hc-highlight-bright-tone);
+
+--Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
+--Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
+--Colors-project-counter-text: var(----Primitives-color-hc-highlight-dark-tone);
+--Colors-text-headlines: var(----Primitives-color-hc-highlight-dark-tone);
+--Colors-text-primary-inverted: var(--Primitives-color-greys-White);
+--Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
+--Colors-text-secondary: var(--Primitives-color-greys-MediumGrey);
+
+--Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
+}
+
+
+/* colors high contrast dark */
+[data-theme="hc_dark"] {
+--Colors-background-default: var(--Primitives-color-greys-ORCBlack);
+--Colors-background-video: var(--Primitives-color-greys-Black);
+--Colors-background-audio: var(--Primitives-color-greys-Black);
+/*
+--Colors-btm-bar-galleryView-gradient-default-stop-1: #000000;
+--Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(0,0,0,0);
+
+--Colors-btm-bar-galleryView-gradient-hover-stop-1: var(--Primitives-color-greys-ORCBlack);
+--Colors-btm-bar-galleryView-gradient-hover-stop-2: rgba(44,44,44,0);
+*/
+--Colors-btm-bar-galleryView-gradient-default-stop-1: var(--Primitives-color-greys-ORCBlack);
+--Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(44,44,44,0);
+
+--Colors-btm-bar-galleryView-gradient-hover-stop-1: #000000;
+--Colors-btm-bar-galleryView-gradient-hover-stop-2: rgba(0,0,0,0);
+
+--Colors-btm-bar-galleryView-set-hover: var(--Primitives-color-greys-ORCBlack);
+--Colors-btm-bar-main-button-fill: var(--Primitives-color-transparencies-black-30);
+--Colors-btm-bar-main-button-icon: var(--Primitives-color-greys-White);
+--Colors-btm-bar-playerView-background: var(--Primitives-color-transparencies-white-20);
+--Colors-btm-bar-playerView-button: var(--Primitives-color-greys-White);
+--Colors-btm-bar-playerView-progress: var(--Primitives-color-greys-White);
+--Colors-btm-bar-set-button: var(--Primitives-color-greys-LightGrey);
+--Colors-btm-bar-thumbnail-active: var(--Primitives-color-greys-White);
+--Colors-divider-universal: var(--Primitives-color-greys-DarkGrey);
+--Colors-filter-chip-fill-active: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-chip-fill-default: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-filter-chip-fill-hover: var(--Primitives-color-greys-DarkGrey);
+--Colors-filter-chip-fill-outline: var(--Primitives-color-greys-MediumGrey);
+--Colors-filter-chip-text-active: var(--Primitives-color-greys-White);
+--Colors-filter-chip-text-default: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-searchbar-fill-default: var(--Primitives-color-greys-LightGrey);
+--Colors-filter-searchbar-text-actice: var(--Primitives-color-greys-ORCBlack);
+--Colors-filter-searchbar-text-disabled: var(--Primitives-color-greys-MediumGrey);
+--Colors-filter-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-filter-toggle-on: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-button-fill-hover: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-button-fill: var(--Primitives-color-greys-ORCBlack);
+--Colors-nav-bar-button-outline: var(--Primitives-color-greys-DarkGrey);
+--Colors-nav-bar-filter-button: var(--Primitives-color-greys-Diplom-UltraLightGrey);
+--Colors-nav-bar-info-button-fill: var(----Primitives-color-hc-highlight-bright-tone);
+--Colors-nav-bar-institution-logo: var(--Primitives-color-greys-White);
+--Colors-nav-bar-platform-logo: var(--Primitives-color-greys-White);
+--Colors-nav-bar-set-button-folded: var(--Primitives-color-greys-Grey);
+--Colors-nav-bar-set-button: var(--Primitives-color-greys-Grey);
+
+--Colors-nav-bar-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-nav-bar-toogle-on: var(----Primitives-color-hc-highlight-bright-tone);
+
+--Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
+--Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
+--Colors-project-counter-text: var(----Primitives-color-hc-highlight-bright-tone);
+--Colors-text-headlines: var(----Primitives-color-hc-highlight-bright-tone);
+--Colors-text-primary-inverted: var(--Primitives-color-greys-Black);
+--Colors-text-primary: var(--Primitives-color-greys-White);
+--Colors-text-secondary: var(--Primitives-color-greys-MediumGrey);
+
+--Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
+}
+

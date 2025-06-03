@@ -10,6 +10,7 @@
 </template>
 <script setup lang="ts">
 import '~/assets/vars.css'
+import '~/assets/highcontrast.css'
 import '~/assets/base.css'
 
 const {
