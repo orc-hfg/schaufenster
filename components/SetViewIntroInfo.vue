@@ -49,7 +49,7 @@ onMounted(() => {
     animate_io.value = false;
     // auto self hide
     setTimeout(() => {
-        doClose()
+        //doClose()
     }, SHOW_SET_TITLE_DELAY)
     
 })
@@ -111,6 +111,6 @@ onMounted(() => {
   color: var(--Colors-text-primary);
 }
 .blend_content.diplom { 
-  color: var(--Primitives-color-identity-Signal-Red);
+  color: var(--Colors-text-headlines);
 }
 </style>

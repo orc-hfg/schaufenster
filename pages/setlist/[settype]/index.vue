@@ -440,7 +440,7 @@ updateSetType();
 onMounted(() => {
   
   updateSetType();
-  document.documentElement.setAttribute("data-theme", "high-contrast-light");
+  
   document.documentElement.setAttribute("lang", locale.value );
 
   /* Metadata & SEO */

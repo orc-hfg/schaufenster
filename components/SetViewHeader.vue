@@ -272,9 +272,7 @@ const getTitleWidth = (id:string): string => {
 }
 
 onMounted(() => {
-  const theme = document.documentElement.getAttribute('data-theme') || ''
-  
-  infoBtnStyle.value['background-color'] = getSetTypeColor(props.settype, theme)
+  infoBtnStyle.value['background-color'] = getSetTypeColor(props.settype, props.theme)
   
 })
 

@@ -178,7 +178,7 @@
       @added-filter="addedFilter"
     />
 
-    <!-- class="btn_bottom_nav_hide" -->
+
     <Transition name="fade">
       <div
         role="link"
