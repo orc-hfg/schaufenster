@@ -17,11 +17,9 @@
         </header>
 
         <div class="menu_panel"
-            tabindex="0"
+            tabindex="-1"
             role="link"
-            @click="closeMenu()"
-            @keyup.enter="closeMenu()"
-
+            
             :style="font_style">
            
             <div class="lang_switch">
@@ -275,6 +273,21 @@ svg {
     /* line-height: var(--font-h1-line-height, 210px);  */
 }
 
+
+[data-theme = "hc_light"]{
+    .lang_switch .btn {
+        /* font-weight:900; */
+        text-decoration: underline;
+    }
+    .lang_switch .disabled {
+        /* font-weight:100; */
+        text-decoration: none;
+        opacity: 1;
+    }
+  .dialog_menu {
+        background-color: var(--Colors-background-default);
+    }
+}
 
 [data-layout="mobile"] {
     .dialog_menu {

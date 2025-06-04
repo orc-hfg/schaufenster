@@ -5,7 +5,7 @@
           @click="$emit('showMenu')" 
           @keyup.enter="$emit('showMenu')"
           class="header_nav_logo"
-          tabindex="0">
+          :tabindex="(!showMenuView? '0' : '-1')">
           <IconsNavIconORC />
         </NuxtLink>
 

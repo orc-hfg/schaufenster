@@ -532,7 +532,7 @@ const highContrastState = useState('isHighContrast')
               <div class="filter_cloud_item"
                 v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
                 <button class="keyword_item"
-                tabindex="0"  
+                :tabindex="(!showAll[MK_KEYWORDS]? '-1' : '0')"  
                 @click="clickedKeyword(kws)"
                   v-if="!isHideIfNotSubString(kws[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
@@ -570,7 +570,7 @@ const highContrastState = useState('isHighContrast')
               <div class="filter_cloud_item"
                 v-for="person in globalMap[MK_AUTHORS]" :key="person">
                 <button class="keyword_item"
-                  tabindex="0"
+                  :tabindex="(!showAll[MK_AUTHORS]? '-1' : '0')"
                   @click="clickedPeople(person)"
                   v-if="!isHideIfNotSubString(person[0].name)"
                   :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, person[0])"
@@ -608,7 +608,7 @@ const highContrastState = useState('isHighContrast')
               <div class="filter_cloud_item"
                 v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
                 <button class="keyword_item"
-                  tabindex="0"
+                  :tabindex="(!showAll[MK_PARTICIPANTS]? '-1' : '0')"
                   @click="clickedRole(person)"
                   v-if="!isHideIfNotSubString(person[0].name)"
                   :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
@@ -645,7 +645,7 @@ const highContrastState = useState('isHighContrast')
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_PROGRAM_OF_STUDY]" :key="item">
                 <button class="keyword_item"
-                  tabindex="0"
+                  :tabindex="(!showAll[MK_PROGRAM_OF_STUDY]? '-1' : '0')"
                   @click="clickedKeyword(item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, item[0])"
@@ -683,7 +683,7 @@ const highContrastState = useState('isHighContrast')
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_PROJECT_TYPE]" :key="item">
                 <button class="keyword_item"
-                  tabindex="0"
+                  :tabindex="(!showAll[MK_PROJECT_TYPE]? '-1' : '0')"
                   @click="clickedKeyword(item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, item[0])"
@@ -720,7 +720,7 @@ const highContrastState = useState('isHighContrast')
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_PROJECT_LEADER]" :key="item">
                 <button class="keyword_item"
-                  tabindex="0"
+                  :tabindex="(!showAll[MK_PROJECT_LEADER]? '-1' : '0')"
                   @click="clickedPeople(item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, item[0])"
@@ -758,7 +758,7 @@ const highContrastState = useState('isHighContrast')
               <div class="filter_cloud_item"
                 v-for="item in globalMap[MK_SEMESTER]" :key="item">
                 <button class="keyword_item"
-                  tabindex="0"
+                  :tabindex="(!showAll[MK_SEMESTER]? '-1' : '0')"
                   @click="clickedFilter(FILTERS_KEYWORD, item)"
                   v-if="!isHideIfNotSubString(item[0].name)"
                   :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, item[0])"
@@ -911,6 +911,16 @@ nav {
 }
 .hidden .wrapper_mid {
   transform: translateY(-20vh);
+}
+
+[data-theme="hc_light"] {
+  .filter_headline {
+    color: #4d4d4d;
+  }
+ ::placeholder {
+    color: #020202;
+    opacity: 1;
+  }
 }
 
 [data-layout="mobile"] {

@@ -1,12 +1,12 @@
 
 :root {
     /* example: special high contrast color vars */
-    --Primitives-color-hc-identity-Signal-Red: #D13F00;
-
+    --Primitives-color-hc-identity-Signal-Red: #A33100;
+    
     --Primitives-color-hc-highlight-bright-tone: var(--Primitives-color-hc-identity-Signal-Red);
     --Primitives-color-hc-highlight-dark-tone: var(--Primitives-color-hc-identity-Signal-Red);
 
-
+    --Colors-hc-background-default: var(--Primitives-color-greys-White);
 }
 
 /* colors high contrast light */
@@ -14,7 +14,7 @@
 
 --Colors-background-filter: var(--Primitives-color-greys-Black);  
 --Colors-background-menu: var(--Primitives-color-greys-Black);  
---Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-background-default: var(--Colors-hc-background-default);
 --Colors-background-video: var(--Primitives-color-greys-Black);
 
 --Colors-background-audio: var(--Primitives-color-greys-Black);
@@ -48,7 +48,7 @@
 --Colors-filter-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-filter-toggle-on: var(--Primitives-color-greys-ORCBlack);
 --Colors-nav-bar-button-fill-hover: var(--Primitives-color-greys-LightGrey);
---Colors-nav-bar-button-fill: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-nav-bar-button-fill: var(--Colors-background-default);
 --Colors-nav-bar-button-outline: var(--Primitives-color-greys-MediumGrey);
 --Colors-nav-bar-filter-button: var(--Primitives-color-greys-Grey);
 
@@ -72,7 +72,7 @@
 --Colors-text-headlines: var(--Primitives-color-hc-highlight-dark-tone);
 --Colors-text-primary-inverted: var(--Primitives-color-greys-White);
 --Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
---Colors-text-secondary: #6a6767;
+--Colors-text-secondary: #605e5d;
 
 
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);

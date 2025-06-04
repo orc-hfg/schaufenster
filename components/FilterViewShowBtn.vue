@@ -1,7 +1,7 @@
 <template>
 <button class="btn_show_all"
         v-if="isShow()"
-        tabindex="0"
+        tabindex="-1"
         @click="$emit('toggleShowAll')"
         @keyup.enter="$emit('toggleShowAll')"
         >

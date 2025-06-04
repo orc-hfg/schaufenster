@@ -1,5 +1,6 @@
 <template>
-  <div class="setview_page">
+  <div class="setview_page"
+    @keyup.i="toggleShowInfo()" >
   <!-- TODO mobile theme: different layout meta-data (animations); -->
   <!-- TODO high contrast theme -->
     <SetViewHeader 
@@ -26,6 +27,7 @@
       :class="{
         move_up_hidden: !showInfo || showFilterView,
         fade_hidden: entry_info_hidden}"
+        tabindex="-1"
       v-if="currentTree && currentTree.colTitlesMap"
       >
       {{getAbbrevColTitle(setid)}}
@@ -35,6 +37,7 @@
     <swiper
       :modules="modules"
       class="swiper_main"
+      role="none"
       :class="{
         hidden: animate_view_io,
         info_active: showInfo,
@@ -127,13 +130,21 @@
         </div>
         <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.entries_doc_type[el.id]"
           class="main_preview">
-          <a
-            role="button"
+          <div
             class="image_slide"
-            :href="getDocumentLink(el.id)"
-            target="_blank" rel="noopener noreferer"
             :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
-          </a>
+              <a
+                :href="getDocumentLink(el.id)"
+                target="_blank" rel="noopener noreferer"
+                class="btn_round btn_pdf"
+                role="decorative"
+                :aria-label="$t('setview.btn_title_pdf')"
+                style=""
+                >
+                <span>PDF</span>
+                <IconsLink/>
+              </a>
+          </div>
         </div>
         <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'image'"
           class="main_preview">
@@ -160,6 +171,7 @@
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
+        :aria-label="$t('setview.btn_title_arrow_left')"
         @keyup.enter="slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
@@ -168,7 +180,8 @@
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
-        @keyup.enter="slideNext()">
+        @keyup.enter="slideNext()"
+        :aria-label="$t('setview.btn_title_arrow_right')">
         <IconsSliderArrowRight/>
       </div>
     </swiper>
@@ -213,6 +226,8 @@
       <swiper
         :modules="modules"
         class="swiper_nav"
+        tabindex="-1"
+        role="none"
         :class="{hidden: !showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control }"
         @swiper="setNavSwiper"
         :freeMode="{
@@ -239,10 +254,13 @@
           >
           
           <!-- :title="'E: \n' + el.index + ':\n' + JSON.stringify(el)" -->
+
+          
           <div
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
-            tabindex="0"
+            
+            :tabindex="(!showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control? '-1': '0')"
             role="link"
             @click="nav2Element(el)"
             @keyup.enter="nav2Element(el)"
@@ -274,7 +292,7 @@
           <div
             class="nav_preview nav_set"
             v-if="el.type === NavSlideType.Set"
-            tabindex="0"
+            :tabindex="(!showBottomNav? '-1': '0')"
             @click="nav2Element(el)"
             @keyup.enter="nav2Element(el)"
             >
@@ -293,7 +311,9 @@
             
             <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
-              tabindex="0"
+              :tabindex="(!showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control? '-1': '0')"
+              role="link"
+              :aria-label="$t('setview.btn_title_btm_bar_set_show')"
               @click="clickedNavShowMore(el.collection_id)"
               @keyup.enter="clickedNavShowMore(el.collection_id)"
               >
@@ -301,7 +321,9 @@
             </IconWrap>
             <IconWrap :large="true"
               v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
-              tabindex="0"
+              :tabindex="(!showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control? '-1': '0')"
+              role="link"
+              :aria-label="$t('setview.btn_title_btm_bar_set_show')"
               @click="clickedNavShowLess(el.collection_id)"
               @keyup.enter="clickedNavShowLess(el.collection_id)"
               >
@@ -330,6 +352,7 @@
     :class="{hidden: !show_av_control || showInfo || showSetTitle}">
     <div class="av_control_playpause"
       tabindex="0"
+      role="button"
       @click="toggleStatePlay(!av_state_play)"
       @keyup.enter="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
@@ -337,13 +360,15 @@
     </div>
     <div class="av_control_mute"
       v-if="av_state_show_mute"
+      tabindex="0"
+      role="button"
       @click="toggleStateMute(!av_state_mute)"
       @keyup.enter="toggleStateMute(!av_state_mute)">
       <IconsMute :isMute="av_state_mute"
       />
     </div>
-    <div class="av_progress_cont" tabindex="0">
-      <progress id="av_progress" value="0" min="0" @click="avProgressClicked">
+    <div class="av_progress_cont" tabindex="-1" role="none" aria-label="">
+      <progress id="av_progress" tabindex="0" aria-label="Progress" role="progressbar" value="0" min="0" @click="avProgressClicked">
           <!-- <span id="av_progress_bar"></span> -->
       </progress>
     </div>
@@ -1374,7 +1399,9 @@ const handleMouseLeave = () => {
   background-position: center;
   background-repeat: no-repeat;
   transition: all 300ms linear;
+  text-align: center;
 }
+
 
 /* HH TODO video_slide Höhe begrenzen wenn controls open */
 /* Umschalter der bottom nav hat momentan noch Probleme */
@@ -2233,4 +2260,15 @@ progress {
 
 }
 
+.btn_pdf {
+  display:inline-flex;
+  position:relative;
+  top:50%;
+  text-decoration:none;
+}
+.btn_pdf svg {
+  width: 20px;
+  height: 20px;
+  padding: 4px 0px;
+}
 </style>
