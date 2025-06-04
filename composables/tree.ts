@@ -117,6 +117,12 @@ export interface iTree {
   entries_authors: {
     [key: string]: string[];
   };
+  entries_doc_type: {
+    [key: string]: boolean;
+  };
+  entries_files: {
+    [key: string]: {};
+  }
   previewDirection: string;
   previewPlacement: string;
   previewstyle: {
@@ -519,9 +525,9 @@ export const treeHelper = () => {
             tree.previewsVideo[entryId] = tree.previewsVideo[entryId] || [];
             tree.previewsVideo[entryId].push(preview)
             //console.error("found entry with video " + entryId)
-          } else if (preview.media_type == "document") {
+          //} else if (preview.media_type == "document") {
 
-            console.error("found entry with document " + entryId);
+            //console.error("found entry with document " + entryId);
           } else {
             console.error(
               "found entry with unknown media type: " + preview.media_type
@@ -625,8 +631,10 @@ export const treeHelper = () => {
           try {
             const mf = (await apiH.api.mediaEntryMediaFileDetail(entry.id)).data
             if (mf.media_type == 'document') {
-              //console.error("got doc and download allowed");
-              treeNode.entries[entry.id].media_type_doc = true
+              console.error("got doc and download allowed");
+              //treeNode.entries[entry.id].media_type_doc = true
+              tree.entries_doc_type[entry.id] = true
+              tree.entries_files[entry.id] = mf
             }
           } catch(error) {
             console.error("could not get me file data", error)
@@ -727,6 +735,8 @@ export const treeHelper = () => {
     } as iTreeNode;
     tree.up = {};
     tree.up[treeId] = RID;
+    tree.entries_doc_type = {}
+    tree.entries_files = {}
     await buildSubTree(treeType, treeId, col_id, 0);
     console.log("builtTree finished sub trees:"
       + " Ttype: " + treeType

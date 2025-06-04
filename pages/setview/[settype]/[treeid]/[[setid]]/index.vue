@@ -125,8 +125,15 @@
             <source v-for="url in previewVideoUrls(el.id)" :src="url">
           </video>
         </div>
-        <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'document'">
-          TODO docs
+        <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.entries_doc_type[el.id]"
+          class="main_preview">
+          <a
+            role="button"
+            class="image_slide"
+            :href="getDocumentLink(el.id)"
+            target="_blank" rel="noopener noreferer"
+            :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
+          </a>
         </div>
         <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'image'"
           class="main_preview">
@@ -667,6 +674,12 @@ const previewLargeUrl = (eId: string): string => {
   const pid = currentTree.value.previewsLarge[eId]?.id
   return apiBaseUrl + 'previews/' + pid + '/data-stream'
 }
+const getDocumentLink = (eId: string): string => {
+  //return apiBaseUrl + 'media-entry/' + eId + '/media-file'///data-stream'
+  const fId = currentTree.value.entries_files[eId]?.id
+  return apiBaseUrl + 'media-file/' + fId + '/data-stream'
+}
+
 const previewAudioUrls = (eId: string): string[] => {
   const urlList = [] as string[]
   currentTree.value.previewsAudio[eId].forEach(preview => {
@@ -861,25 +874,25 @@ const onMainSwiperSlideChanged = () => {
     activeEntryId.value = entry.id
     activeSetId.value = colId
     const navIdx = navSlider.value.entryId2Idx[entry.id];
-    console.error("swiperMain changed slide: " + activeSlide
+    /*console.error("swiperMain changed slide: " + activeSlide
       + " entry " + entry.id // JSON.stringify(entry)
       + " colId " + colId
       + " navIdx " + navIdx) 
-    
+    */
 
 
     
     const oael = document.getElementsByClassName('audio_player')
     for (let i=0; i < oael.length; i++) {
       const ael = oael[i]
-      console.log("stop audio "+ ael.id)
+      //console.log("stop audio "+ ael.id)
       ael.pause()
       ael.removeEventListener('timeupdate', on_av_time_update)
     }
     const ovel = document.getElementsByClassName('video_player')
     for (let i=0; i < ovel.length; i++) {
       const vel = ovel[i]
-      console.log("stop video "+ vel.id)
+      //console.log("stop video "+ vel.id)
       vel.pause()
       vel.removeEventListener('timeupdate', on_av_time_update)
     }
@@ -893,7 +906,7 @@ const onMainSwiperSlideChanged = () => {
       const avel = document.getElementById('slide-audio-'+ entry.id) || document.getElementById('slide-video-'+ entry.id)
       const progressEl = document.getElementById('av_progress')
       //const progressBarEl = document.getElementById('progress_bar')
-      console.error(" avel " + avel + " pEL: " + progressEl)
+      //console.error(" avel " + avel + " pEL: " + progressEl)
       if (avel && progressEl) {
         
         progressEl.setAttribute('max', avel.duration)
@@ -919,14 +932,14 @@ const onMainSwiperSlideChanged = () => {
           show_av_control.value = true
           //showBottomNav.value = false
         }
-        console.error("is an av element for entry: " + entry.id)
+        //console.error("is an av element for entry: " + entry.id)
         /* high contrast theme */
         const theme = highContrastState.value ? 'hc_dark' : 'dark'
         document.documentElement.setAttribute("data-theme", theme);
         data_theme.value = theme
       }
       else {
-        console.error("not an av element for entry: " + entry.id)
+        //console.error("not an av element for entry: " + entry.id)
         show_av_control.value = false
         /* high contrast theme */
         const theme = highContrastState.value ? 'hc_light' : 'light'
@@ -939,7 +952,7 @@ const onMainSwiperSlideChanged = () => {
           || document.getElementById('slide-video-'+ lastActiveEntryId)
         if (lavel && !avel && !showInfo.value) {
 
-            console.error("last elem was audio or video, but current is not; info is not shown: show btm nav and hide av_control")
+            //console.error("last elem was audio or video, but current is not; info is not shown: show btm nav and hide av_control")
             show_av_control.value = false
             //showBottomNav.value = true
         }
@@ -952,7 +965,7 @@ const onMainSwiperSlideChanged = () => {
       // reset all other showcounts, show all for active set
       if (lastActiveSetId.localeCompare(activeSetId.value) !== 0 ) {
 
-        console.log(" changed active set id " + lastActiveSetId + ':' + activeSetId.value)
+        //console.log(" changed active set id " + lastActiveSetId + ':' + activeSetId.value)
         for(const cid in showCount.value) {  
           showCount.value[cid] = Math.min( MIN_SHOW_COUNT, maxCount.value[cid])
         }
@@ -1354,6 +1367,7 @@ const handleMouseLeave = () => {
 }
 
 .image_slide {
+  display: block;
   width: 100%;
   height: 100%;
   background-size: contain;
