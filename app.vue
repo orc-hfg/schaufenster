@@ -232,7 +232,7 @@ const highContrastState = useState('isHighContrast')
 
 onMounted(() => {
   document.documentElement.setAttribute("data-theme", "light");
-  document.documentElement.style.getPropertyValue('--high-contrast-enabled') == '1000' ? isHC.value = true : isHC.value = false
+  window.getComputedStyle(document.body).getPropertyValue('--high-contrast-enabled') == '1000' ? isHC.value = true : isHC.value = false
   
   updateTheme()
   updateMobileStateByWinWidth()
