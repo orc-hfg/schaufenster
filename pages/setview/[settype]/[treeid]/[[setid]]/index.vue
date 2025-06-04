@@ -1,5 +1,6 @@
 <template>
-  <div class="setview_page">
+  <div class="setview_page"
+    @keyup.i="toggleShowInfo()" >
   <!-- TODO mobile theme: different layout meta-data (animations); -->
   <!-- TODO high contrast theme -->
     <SetViewHeader 
@@ -35,6 +36,7 @@
     <swiper
       :modules="modules"
       class="swiper_main"
+      role="none"
       :class="{
         hidden: animate_view_io,
         info_active: showInfo,
@@ -214,6 +216,7 @@
         :modules="modules"
         class="swiper_nav"
         tabindex="-1"
+        role="none"
         :class="{hidden: !showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control }"
         @swiper="setNavSwiper"
         :freeMode="{
@@ -240,10 +243,13 @@
           >
           
           <!-- :title="'E: \n' + el.index + ':\n' + JSON.stringify(el)" -->
+
+          
           <div
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
-            tabindex="0"
+            
+            :tabindex="(!showBottomNav? '-1': '0')"
             role="link"
             :aria-label="getAriaLabel(setid)"
             @click="nav2Element(el)"
@@ -276,7 +282,7 @@
           <div
             class="nav_preview nav_set"
             v-if="el.type === NavSlideType.Set"
-            tabindex="0"
+            :tabindex="(!showBottomNav? '-1': '0')"
             @click="nav2Element(el)"
             @keyup.enter="nav2Element(el)"
             >
@@ -295,7 +301,9 @@
             
             <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
-              tabindex="0"
+              :tabindex="(!showBottomNav? '-1': '0')"
+              role="link"
+              :aria-label="$t('setview.btn_title_btm_bar_set_show')"
               @click="clickedNavShowMore(el.collection_id)"
               @keyup.enter="clickedNavShowMore(el.collection_id)"
               >
@@ -303,7 +311,9 @@
             </IconWrap>
             <IconWrap :large="true"
               v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
-              tabindex="0"
+              :tabindex="(!showBottomNav? '-1': '0')"
+              role="link"
+              :aria-label="$t('setview.btn_title_btm_bar_set_show')"
               @click="clickedNavShowLess(el.collection_id)"
               @keyup.enter="clickedNavShowLess(el.collection_id)"
               >
@@ -332,6 +342,7 @@
     :class="{hidden: !show_av_control || showInfo || showSetTitle}">
     <div class="av_control_playpause"
       tabindex="0"
+      role="button"
       @click="toggleStatePlay(!av_state_play)"
       @keyup.enter="toggleStatePlay(!av_state_play)">
       <IconsPlayPause :isPlay="av_state_play"
@@ -339,13 +350,15 @@
     </div>
     <div class="av_control_mute"
       v-if="av_state_show_mute"
+      tabindex="0"
+      role="button"
       @click="toggleStateMute(!av_state_mute)"
       @keyup.enter="toggleStateMute(!av_state_mute)">
       <IconsMute :isMute="av_state_mute"
       />
     </div>
-    <div class="av_progress_cont" tabindex="0">
-      <progress id="av_progress" value="0" min="0" @click="avProgressClicked">
+    <div class="av_progress_cont" tabindex="-1" role="none" aria-label="">
+      <progress id="av_progress" tabindex="0" aria-label="Progress" role="progressbar" value="0" min="0" @click="avProgressClicked">
           <!-- <span id="av_progress_bar"></span> -->
       </progress>
     </div>
