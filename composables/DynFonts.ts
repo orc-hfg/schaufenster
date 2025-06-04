@@ -18,13 +18,14 @@ const dynFontsState = reactive<iDynFontsState> ({
     font_list: [] as iFontData[]
 })
 
+// TODO default font
 const font_0:iFontData = {
     name: 'Anthony',
     url: 'assets/anthony/anthony.woff2',
     author: 'Sun Young Oh',
     year: '2021',
     size_factor: 0.9,
-    line_height_factor: 0.9,
+    line_height_factor: 1.0 // 0.9,
 }
 const font_1:iFontData = {
     name: 'gqom404',
@@ -32,17 +33,11 @@ const font_1:iFontData = {
     author: 'Calvin Kudufia',
     year: '2020',
     size_factor: 0.9,
-    line_height_factor: 0.9,
+    line_height_factor: 1.0 // 0.9,
 }
 
-/* TODO high contrast theme */
-// get colors from theme ?
-/*const COLOR_DIPLOM =  '#FF4D00' // --Primitives-color-highlight-bright-tone
-const COLOR_PROJECTS = '#2C2C2C' // --Primitives-color-greys-ORCBlack
-const COLOR_PROJECTS_DARK = '#F3F2EF' // --Primitives-color-greys-UltraLightGrey
-const COLOR_HC_DIPLOM =  '#FF4D00' // --Primitives-color-hc-highlight-bright-tone
-const COLOR_HC_PROJECTS = '#2C2C2C' // --Primitives-color-greys-ORCBlack
-const COLOR_HC_PROJECTS_DARK = '#F3F2EF' // --Primitives-color-greys-UltraLightGrey*/
+/* high contrast theme */
+// get colors from css
 const COLOR_DIPLOM =  '--Primitives-color-highlight-bright-tone' // '#FF4D00'
 const COLOR_PROJECTS = '--Primitives-color-greys-ORCBlack' // '#2C2C2C'
 const COLOR_PROJECTS_DARK = '--Primitives-color-greys-UltraLightGrey' // '#F3F2EF'
@@ -50,7 +45,7 @@ const COLOR_HC_DIPLOM =  '--Primitives-color-hc-highlight-bright-tone' // '#FF4D
 const COLOR_HC_PROJECTS = '--Primitives-color-greys-ORCBlack' // '#2C2C2C'
 const COLOR_HC_PROJECTS_DARK = '--Primitives-color-greys-UltraLightGrey' // '#F3F2EF'
 
-// TODO kiosk: useRuntimeConfig
+// TODO cannot useTree / for kiosk: useRuntimeConfig
 const MATCH_DIPLOM = "diplom";
 
 export const DynFonts = () => {
@@ -97,6 +92,10 @@ export const DynFonts = () => {
     const highContrastState = useState('isHighContrast')
     
     const getSetTypeColor = (settype: string, theme: string = '') => {
+        if (!window) {
+            debugger
+            return '#2C2C2C'
+        }
         const style = window.getComputedStyle(document.body)
         if (highContrastState.value) {
             const colVar = settype == MATCH_DIPLOM ? COLOR_HC_DIPLOM : 

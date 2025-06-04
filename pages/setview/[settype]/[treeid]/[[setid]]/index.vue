@@ -920,16 +920,18 @@ const onMainSwiperSlideChanged = () => {
           //showBottomNav.value = false
         }
         console.error("is an av element for entry: " + entry.id)
-        /* TODO high contrast theme */
-        document.documentElement.setAttribute("data-theme", "dark");
-        data_theme.value="dark"
+        /* high contrast theme */
+        const theme = highContrastState.value ? 'hc_dark' : 'dark'
+        document.documentElement.setAttribute("data-theme", theme);
+        data_theme.value = theme
       }
       else {
         console.error("not an av element for entry: " + entry.id)
         show_av_control.value = false
-        /* TODO high contrast theme */
-        document.documentElement.setAttribute("data-theme", "light");
-        data_theme.value=""
+        /* high contrast theme */
+        const theme = highContrastState.value ? 'hc_light' : 'light'
+        document.documentElement.setAttribute("data-theme", theme);
+        data_theme.value = theme // ''
       }
       
       if (lastActiveEntryId) {
@@ -1230,9 +1232,11 @@ const initData = () => {
 
 const showSetTitle = ref(false)
 
+const highContrastState = useState('isHighContrast')
+
 onMounted(() => {
   /* TODO high contrast theme */
-  document.documentElement.setAttribute("data-theme", "light");
+  document.documentElement.setAttribute("data-theme", highContrastState.value ? 'hc_light' : 'light')
   document.documentElement.setAttribute("lang", locale.value );
   isMobile.value = (document.documentElement.getAttribute('data-layout') == "mobile")
   initData();

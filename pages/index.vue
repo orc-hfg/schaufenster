@@ -1,7 +1,8 @@
 <template>
-  <!-- TODO high contrast -->
+  <!-- TODO high contrast : at first we can ommit special handling for this page -->
   <div class="intro_page" data-theme="dark" @click.prevent.once="switchPage()">
   <!-- TODO mobile theme: dynamic fonts font sizes -->
+  <!-- TODO animations: individual timings for each intro line -->
     <header>
       <nav class="wrap_left">
         <NuxtLink to="/" class="home_link">
