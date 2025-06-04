@@ -116,7 +116,7 @@ const props = defineProps([
   mask-image: linear-gradient(0deg, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 25%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0) 100%);
 }
 .project_counter.diplom {
-  color: var(--Primitives-color-identity-Signal-Red);
+  color: var(--Colors-project-counter-text);
   mask-image: linear-gradient(0deg, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 25%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0) 100%);
 }
 

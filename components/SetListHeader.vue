@@ -408,7 +408,7 @@ header nav a {
   border-left: none;
 }
 .navbar_link.navbar_link_diplom.active {
-  border-color: var(--Colors-nav-bar-toogle-highlight, #FF4D00);
+  border-color: var(--Colors-nav-bar-toogle-diplom, #FF4D00);
   color: #fff;
 }
 .navbar_link.navbar_link_diplom.active:hover {
