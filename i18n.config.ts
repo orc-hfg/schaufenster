@@ -84,6 +84,7 @@ export default defineI18nConfig(() => ({
                 btn_title_audio_video_progress: "Fortschritt",
                 btn_title_arrow_right: "Nächstes Medium",
                 btn_title_arrow_left: "Vorheriges Medium",
+                btn_title_preview_label_placeholder: "Bild von dem Projekt",
             },
             meta_info: {
                 label_project_parent_title: "Vollständiger Projekttitel",
@@ -229,6 +230,7 @@ export default defineI18nConfig(() => ({
                 btn_title_audio_video_progress: "Progress",
                 btn_title_arrow_right: "Next Media",
                 btn_title_arrow_left: "Previous Media",
+                btn_title_preview_label_placeholder: "Image of the project",
             },
             meta_info: {
                 label_project_parent_title: "Complete Project Title",

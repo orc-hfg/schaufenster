@@ -213,6 +213,7 @@
       <swiper
         :modules="modules"
         class="swiper_nav"
+        tabindex="-1"
         :class="{hidden: !showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control }"
         @swiper="setNavSwiper"
         :freeMode="{
@@ -244,6 +245,7 @@
             class="nav_preview"
             tabindex="0"
             role="link"
+            :aria-label="getAriaLabel(setid)"
             @click="nav2Element(el)"
             @keyup.enter="nav2Element(el)"
             :class="getNavPreviewClass(el)"
@@ -564,6 +566,20 @@ const getAbbrevColTitle = (setid: string): string => {
       return title.substring(0, max) + '...'
     }
     return title
+}
+
+/* TODO #125 Script for getting the aria label of preview of the bottom bar */
+const getAriaLabel = (setid: string): string => {
+  /* If Aria label(notempty) → Aria label, else 
+  const ariaLabel = ?  
+  if (ariaLabel === 0){ */
+    const title = currentTree.value.colTitlesMap[setid]
+    /* get setview.btn_title_preview_label_placeholder' from i18n */
+    const comment = "$t('setview.btn_title_preview_label_placeholder')"
+    return /*comment + */ " " + title
+  /* } else { 
+    return ariaLabel
+  } */
 }
 
 const showCount = ref({} as { [key:string]: number})
