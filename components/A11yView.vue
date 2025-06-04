@@ -34,7 +34,10 @@
             <p>
                 Die Staatliche Hochschule für Gestaltung Karlsruhe ist bemüht, ihre Website <a href="https://hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://hfg-karlsruhe.de</a> in Einklang mit § 10 Absatz 1 des Landesbehindertengleichstellungsgesetzes (L-BGG) barrierefrei zugänglich zu machen.
             </p>
-            <p>Diese Erklärung zur Barrierefreiheit gilt für alle Seiten und Unterseiten des <a href="https://hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://hfg-karlsruhe.de</a></p>
+            <p>
+                <!-- nochmal dem Link -->
+                Diese Erklärung zur Barrierefreiheit gilt für alle Seiten und Unterseiten des <a href="https://hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://hfg-karlsruhe.de</a>
+            </p>
             <h3>
                  1. Stand der Vereinbarkeit mit den Anforderungen
             </h3>
@@ -47,7 +50,7 @@
             <p>
                 Die nachstehend aufgeführten Inhalte sind aus den folgenden Gründen nicht barrierefrei (Unvereinbarkeit mit § 10 Absatz 1 L-BGG):
             </p>
-                <!-- ↑ Nochmal prüfen ↑ -->
+                <!-- ↓ Nochmal prüfen ↑ -->
             <ul>
                 <li>Die Alternativtexte beschreiben nicht den dargestellten Bildinhalt.</li>
                 <li>Einige visuell wahrnehmbare Überschriften sind nicht mit dem</li> HTML-Strukturelement „Überschrift“ ausgezeichnet.
@@ -64,7 +67,7 @@
             <h3>
                 3. Erstellung dieser Erklärung zur Barrierefreiheit
             </h3>
-            <p>Diese Erklärung wurde am 10.07.2024 erstellt.</p>
+            <p>Diese Erklärung wurde am 04.06.2025 erstellt.</p>
             <h3>
                 4. Rückmeldung und Kontaktangaben
             </h3>
@@ -76,7 +79,7 @@
                 Presse- und Öffentlichkeitsarbeit<br/>
                 Lorenzstraße 15, 76135 Karlsruhe<br/>
                 Tel.: +49 (0) 721 / 8203 2313<br/>
-                E-Mail: presse(at)hfg-karlsruhe.de
+                E-Mail: <a href="mailto:&#112;&#114;&#101;&#115;&#115;&#101;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;">&#112;&#114;&#101;&#115;&#115;&#101;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;</a>
             </address>
             <h3>
                 5. Schlichtungsverfahren
@@ -93,7 +96,9 @@
             Else-Josenhans-Straße 6<br/>
             70173 Stuttgart<br/>
             Telefon: 0711 123 39375<br/>
-            E-Mail: schlichtung(at)barrierefreiheit.bwl.de<br/>
+            <!-- https://v2.cryptii.com/text/htmlentities -->
+            E-Mail: <a href="mailto:&#115;&#99;&#104;&#108;&#105;&#99;&#104;&#116;&#117;&#110;&#103;&#64;&#98;&#97;&#114;&#114;&#105;&#101;&#114;&#101;&#102;&#114;&#101;&#105;&#104;&#101;&#105;&#116;&#46;&#98;&#119;&#108;&#46;&#100;&#101;">
+                &#115;&#99;&#104;&#108;&#105;&#99;&#104;&#116;&#117;&#110;&#103;&#64;&#98;&#97;&#114;&#114;&#105;&#101;&#114;&#101;&#102;&#114;&#101;&#105;&#104;&#101;&#105;&#116;&#46;&#98;&#119;&#108;&#46;&#100;&#101;</a><br/>
             Webseite: <a href="https://barrierefreiheit-bw.de/" target="_blank" rel="noopener noreferre">https://barrierefreiheit-bw.de/</a>
         </address>
         <p>
