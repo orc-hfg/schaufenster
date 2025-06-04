@@ -87,7 +87,7 @@
             <p>
                 Falls wir Ihnen nicht oder nicht zufriedenstellend innerhalb von vier Wochen ab Zugang Ihrer Anfrage antworten, können Sie sich an die Schlichtungsstelle des Landeszentrums Barrierefreiheit (LZ-BARR) wenden. Die Schlichtungsstelle erreichen Sie wie folgt:
             </p>
-        <p><address>
+        <address>
             Landeszentrum Barrierefreiheit<br/>
             Schlichtungsstelle <br/>
             Else-Josenhans-Straße 6<br/>
@@ -95,7 +95,7 @@
             Telefon: 0711 123 39375<br/>
             E-Mail: schlichtung(at)barrierefreiheit.bwl.de<br/>
             Webseite: <a href="https://barrierefreiheit-bw.de/" target="_blank" rel="noopener noreferre">https://barrierefreiheit-bw.de/</a>
-        </address></p>
+        </address>
         <p>
             Das Schlichtungsverfahren ist unentgeltlich.
         </p>
