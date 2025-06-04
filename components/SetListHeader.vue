@@ -10,10 +10,7 @@
         </NuxtLink>
 
 <!-- TODO mobile theme btn paddings, toggle size -->
-        <!-- <Transition name="move-u50">
-        v-if="!hideNavBtns"
-             -->
-          <div class="settype_toggle"
+        <div class="settype_toggle"
             v-if="!isKioskMode"
             :class="{
               hidden: hideNavBtns || isKioskMode,
@@ -31,60 +28,48 @@
             </NuxtLink>
             <NuxtLink class="navbar_link navbar_link_diplom" id="navbar_link_diplom"
               :class="{active: toggleBtnSetType == MATCH_DIPLOM}"
-              tabindex="0"
+              :tabindex="(hideNavBtns? '-1': '0')"
               @click="switch2SetType(MATCH_DIPLOM)"
               @keyup.enter="switch2SetType(MATCH_DIPLOM)"
               >
               <!-- Abschlussarbeiten -->
               {{ diploms_label }}
             </NuxtLink>
-          </div>
-        <!-- </Transition> -->
+        </div>
 
-        <!-- <Transition name="move-u50"> 
-        v-if="!hideNavBtns"
-            -->
-          <NuxtLink class="navbar_link afilter"
+        <NuxtLink class="navbar_link afilter"
             :class="{hidden: hideNavBtns,
               active:showFilterView}"
-              tabindex="0"
+              :tabindex="(hideNavBtns? '-1': '0')"
             @click="$emit('showFilter')"
             @keyup.enter="$emit('showFilter')">
             <!-- Filter -->
-            <!-- <IconWrap class="filter_icon" v-if="isMobile"> -->
             <IconsFilterSearch class="filter_icon" v-if="isMobile"/>
-            <!-- </IconWrap> -->
             <span v-else>{{ $t('setlist.btn_title_filter') }}</span>
             
             <span v-if="filterCount">({{filterCount}})</span>
-          </NuxtLink>
-        <!-- </Transition> -->
-
-        <!-- <Transition name="move-u50">
-        v-if="!hideNavBtns && filterCount"
-             -->
+        </NuxtLink>
+      
         <NuxtLink class="navbar_link areset"
             :class="{hidden: hideNavBtns || filterCount == 0}"
+            :tabindex="(hideNavBtns || filterCount == 0? '-1': '0')"
             @click="$emit('resetFilter')"
             >
             <!-- Reset -->
             {{ $t('setlist.btn_title_filter_reset') }}
           </NuxtLink>
-        <!-- </Transition> -->
-        
       </nav>
+
       <nav class="wrapper_right">
-        <!-- <Transition name="move-u50">
-        v-if="!hideNavBtns" -->
           <NuxtLink class="navbar_link aarchive"
             :aria-label="$t('setlist.btn_title_institution')" 
             :class="{hidden: hideNavBtns}"
+            :tabindex="(hideNavBtns? '-1': '0')"
             to="https://hfg-karlsruhe.de"
             target="_blank" rel="noopener noreferer"       
             >
             <IconsNavIconHfG/>
           </NuxtLink>
-        <!-- </Transition> -->
       </nav>
       
     </header>
@@ -168,13 +153,13 @@ const updateStyle = () => {
     toggle_diplom_width.value = tg_right?.width + 'px'
     toggle_project_width.value = tg_left?.width + 'px'
 
-    console.log("updateStyle: measured after redraw "
+    /*console.log("updateStyle: measured after redraw "
     + projects_label.value
     + " : "
     + diploms_label.value
     + " pw: " + toggle_project_width.value
     + " dw: " + toggle_diplom_width.value)
-
+    */
   },100)
   
   const project_width = getTextWidth( projects_label.value ) + 
@@ -184,12 +169,13 @@ const updateStyle = () => {
   toggle_diplom_width.value = diplom_width + 'px'
   toggle_project_width.value = project_width + 'px'
 
-  console.log("updateStyle: computed before redraw"
+  /*console.log("updateStyle: computed before redraw"
     +projects_label.value
     + " : "
     + diploms_label.value
     + " pw: " + toggle_project_width.value
     + " dw: " + toggle_diplom_width.value)
+    */
 }
 onMounted(() => {
   updateStyle()

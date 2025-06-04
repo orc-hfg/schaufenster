@@ -12,7 +12,7 @@
 import '~/assets/vars.css'
 import '~/assets/highcontrast.css'
 import '~/assets/base.css'
-import '~/assets/high-contrast.css'
+
 
 const {
     font_list,
@@ -22,7 +22,6 @@ const {
 } = DynFonts()
 
 import '~/assets/dynfonts.css'
-//import type { AppSettingsListData } from './generated/data-contracts';
 
 //const { error_msg, ok_msg, reset_error } = errorHelper();
 
@@ -54,50 +53,8 @@ const {
 const APP_DEFAULT_LOCAL = 'de'
 
 
-
-const initMadek = async () => {
-  console.log("initMadek")
-  const config = useRuntimeConfig()
-  /*const url = config.public.apiBaseUrl + config.public.apiPath + 'app-settings'
-  const onOk = (appSettings: Ref<AppSettingsListData>) => {
-    console.log("initMadek: fetch: onOk: madek appsettings loaded: ")
-    useAppSettings.value = {
-      locale: appSettings.value.default_locale,
-      locales: appSettings.value.available_locales
-    }
-       
-    locale.value = appSettings.value.default_locale || APP_DEFAULT_LOCAL
-    console.error(" detected locale: " + locale.value);
-  }
-
-  useFetch(url).then(resp => onOk(resp.data))
-  */
-
-  /*
-  const madek_store = useMadekStore()  
-  madek_store.initApi(config.public.apiBaseUrl)
-  madek_store.initPublic().then(() => {
-      console.log("initMadek: madek appsettings loaded")
-      
-      useAppSettings.value = {
-        locale: madek_store.appSettings.default_locale,
-        locales: madek_store.appSettings.available_locales
-      }
-       
-      locale.value = madek_store.appSettings.default_locale || APP_DEFAULT_LOCAL
-      console.log("initMadek: detected locale: " + locale.value);
-  })
-  .catch(error => {
-    console.error("initMadek: Could not get madek appsettings.", error)
-  })*/
-
-  
-  
-}
-
 if (import.meta.server) { 
   console.log("import meta server")
-  initMadek() 
   const config = useRuntimeConfig()
   initApi(config.public.apiBaseUrl)
   if (config.public.kioskForestSetId) {
@@ -193,10 +150,11 @@ const updateTheme = () => {
   const curr = document.documentElement.getAttribute('data-theme')
       
   if (isHC.value) {
-    const newTheme = (curr?.indexOf('light') ? 'hc_light' : 'hc_dark')
+    const newTheme = (curr?.indexOf('light') > -1 ? 'hc_light' : 'hc_dark')
     document.documentElement.setAttribute('data-theme', newTheme)
   } else {
-
+    const newTheme = (curr?.indexOf('light') > -1 ? 'light' : 'dark')
+    document.documentElement.setAttribute('data-theme', newTheme)
   }
 
 }
@@ -210,13 +168,10 @@ const onkeyupEv = (ev:KeyboardEvent) => {
     //console.log('switched to mobile: ' + isMobile.value)
   }*/
 
-  if ((ev.altKey || ev.ctrlKey) 
-    // && ev.shiftKey 
-     && ev.code == 'KeyM') {
-    debugger
+  if ((ev.altKey || ev.ctrlKey) && ev.code == 'KeyM') {
     isHC.value = !isHC.value
     updateTheme()
-    //console.log('switched to mobile: ' + isMobile.value)
+    console.log('switched to high contrast: ' + highContrastState.value)
   }
 }
 const MOBILE_SWITCH_RESOLUTION = 768

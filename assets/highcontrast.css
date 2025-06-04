@@ -1,12 +1,17 @@
 
 :root {
     /* example: special high contrast color vars */
-    --Primitives-color-hc-highlight-bright-tone: var(--Primitives-color-identity-Signal-Red);
-    --Primitives-color-hc-highlight-dark-tone: var(--Primitives-color-identity-Signal-Red);
+    --Primitives-color-hc-identity-Signal-Red: #D13F00;
+
+    --Primitives-color-hc-highlight-bright-tone: var(--Primitives-color-hc-identity-Signal-Red);
+    --Primitives-color-hc-highlight-dark-tone: var(--Primitives-color-hc-identity-Signal-Red);
+
+
 }
 
 /* colors high contrast light */
 [data-theme="hc_light"] {
+
 --Colors-background-filter: var(--Primitives-color-greys-Black);  
 --Colors-background-menu: var(--Primitives-color-greys-Black);  
 --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
@@ -14,7 +19,8 @@
 
 --Colors-background-audio: var(--Primitives-color-greys-Black);
 
---Colors-btm-bar-galleryView-gradient-default-stop-1: #F3F2EF;
+/* --Colors-btm-bar-galleryView-gradient-default-stop-1: #F3F2EF; */
+--Colors-btm-bar-galleryView-gradient-default-stop-1: #FDFDFC;
 --Colors-btm-bar-galleryView-gradient-default-stop-2: rgba(243,242,239,0);
 
 --Colors-btm-bar-galleryView-gradient-hover-stop-1: #E7E6E1;
@@ -60,13 +66,14 @@
 --Colors-nav-bar-toogle-project: var(--Primitives-color-greys-ORCBlack);
 --Colors-nav-bar-toogle-diplom: var(----Primitives-color-hc-highlight-bright-tone);
 
---Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
+--Colors-nav-bar-year-selector: var(--Primitives-color-hc-identity-Signal-Red);
 --Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
 --Colors-project-counter-text: var(----Primitives-color-hc-highlight-dark-tone);
 --Colors-text-headlines: var(----Primitives-color-hc-highlight-dark-tone);
 --Colors-text-primary-inverted: var(--Primitives-color-greys-White);
 --Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
---Colors-text-secondary: var(--Primitives-color-greys-MediumGrey);
+--Colors-text-secondary: #6a6767;
+
 
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
 }
@@ -123,7 +130,7 @@
 --Colors-nav-bar-toggle-off: var(--Primitives-color-greys-UltraLightGrey);
 --Colors-nav-bar-toogle-on: var(----Primitives-color-hc-highlight-bright-tone);
 
---Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
+--Colors-nav-bar-year-selector: var(--Primitives-color-hc-identity-Signal-Red);
 --Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
 --Colors-project-counter-text: var(----Primitives-color-hc-highlight-bright-tone);
 --Colors-text-headlines: var(----Primitives-color-hc-highlight-bright-tone);

@@ -1,6 +1,7 @@
 <template>
 
-    <div class="dialog fades" data-theme="dark"
+    <div class="dialog fades" 
+        :data-theme="highContrastState? 'hc_dark' : 'dark'"
         :class="{hidden:animate_io}">
         <header>
             <nav class="nav">
@@ -10,6 +11,13 @@
                     @click="doClose()" class="nav_close">
                     <IconsNavHome/>
                 </NuxtLink>
+
+                <NuxtLink  
+                    tabindex="0"
+                    @click="changeContrast()"
+                    >
+                    {{ $t('static_pages.accessibility.label') }}
+                </NuxtLink >
             </nav>
         </header>
 
@@ -21,12 +29,7 @@
             <h1>
                 {{ $t('static_pages.accessibility.h1') }}  
             </h1>
-            <a  
-                tabindex="0"
-                @click="changeContrast()"
-                >
-                    {{ $t('static_pages.accessibility.label') }}
-        </a >
+            
             <h2>Erklärung zur Barrierefreiheit </h2>
             <p>
                 Die Staatliche Hochschule für Gestaltung Karlsruhe ist bemüht, ihre Website <a href="https://hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://hfg-karlsruhe.de</a> in Einklang mit § 10 Absatz 1 des Landesbehindertengleichstellungsgesetzes (L-BGG) barrierefrei zugänglich zu machen.
@@ -117,9 +120,17 @@ const doClose = () => {
         emit("onClose")
     }, ANIMATE_OUT_MS)
 }
+const highContrastState = useState('isHighContrast')
 /* Kann gelöscht werden */
 const changeContrast = () => {
-    document.documentElement.setAttribute("data-theme", "high-contrast-light");
+    
+    highContrastState.value = !highContrastState.value
+    if (highContrastState.value) {
+        document.documentElement.setAttribute("data-theme", "hc_light");
+    } else {
+        document.documentElement.setAttribute("data-theme", "light");
+    }
+    
 }
 
 onMounted(() => {

@@ -443,7 +443,6 @@ const setMainSwiper = (swiper: Swiper) => {
 }
 .year_stepper svg * {
   stroke: transparent;
-  fill: var(--Colors-text-headlines);
 }
 
 .sub_slide {
