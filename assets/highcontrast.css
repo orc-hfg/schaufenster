@@ -1,7 +1,8 @@
 
 :root {
     /* example: special high contrast color vars */
-    --Primitives-color-hc-identity-Signal-Red: #D13F00;
+    --Primitives-color-hc-identity-Signal-Red: #A33100;
+    
 
     --Primitives-color-hc-highlight-bright-tone: var(--Primitives-color-hc-identity-Signal-Red);
     --Primitives-color-hc-highlight-dark-tone: var(--Primitives-color-hc-identity-Signal-Red);
@@ -12,9 +13,12 @@
 /* colors high contrast light */
 [data-theme="hc_light"] {
 
+--Colors-hc-background-default: #FFFFFF;
+--Colors-text-secondary: #605e5d;
+
 --Colors-background-filter: var(--Primitives-color-greys-Black);  
 --Colors-background-menu: var(--Primitives-color-greys-Black);  
---Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
+/* --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey); */
 --Colors-background-video: var(--Primitives-color-greys-Black);
 
 --Colors-background-audio: var(--Primitives-color-greys-Black);
@@ -72,7 +76,7 @@
 --Colors-text-headlines: var(--Primitives-color-hc-highlight-dark-tone);
 --Colors-text-primary-inverted: var(--Primitives-color-greys-White);
 --Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
---Colors-text-secondary: #6a6767;
+
 
 
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
