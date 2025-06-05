@@ -398,6 +398,9 @@ const updateSetType = () => {
 const showFilter = () => {
   if (showFilterView.value) {
     showFilterView.value = false;
+    /* Add Class hidden */
+
+    
   } else {
     showFilterView.value = true;
   }
@@ -523,6 +526,7 @@ onMounted(() => {
   transition: top 500ms ease-out, opacity 500ms ease-out;
   top: 50vh;
   opacity: 0;
+  display:none;
 }
 
 .clipout-enter-active {

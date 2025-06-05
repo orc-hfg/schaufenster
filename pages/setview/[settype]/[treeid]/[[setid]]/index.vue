@@ -162,6 +162,7 @@
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
+        :aria-label="$t('setview.btn_title_arrow_left')"
         @keyup.enter="slidePrev()">
         <IconsSliderArrowLeft/>
       </div>
@@ -170,7 +171,8 @@
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
-        @keyup.enter="slideNext()">
+        @keyup.enter="slideNext()"
+        :aria-label="$t('setview.btn_title_arrow_right')">
         <IconsSliderArrowRight/>
       </div>
     </swiper>

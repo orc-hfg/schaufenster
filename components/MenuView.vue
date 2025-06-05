@@ -17,7 +17,7 @@
         </header>
 
         <div class="menu_panel"
-            tabindex="0"
+            tabindex="-1"
             role="link"
             @click="doClose()"
             @keyup.enter="doClose()"

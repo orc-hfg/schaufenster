@@ -64,7 +64,7 @@
           <div class="set_preview"
             :class="[el.previewDirection, el.previewPlacement]"
             :style="el.previewstyle"
-            tabindex="0"
+            :tabindex="(!showMenuView? '0' : '-1')"
             role="link"
             :aria-label="getColTitle(el.col_id)"
             @click="switch2set(el.col_id)"
