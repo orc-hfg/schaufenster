@@ -1896,7 +1896,7 @@ progress {
 .entry_highlight {
   position: absolute;
   top: 36px;
-  left: 30px;
+  left: 34px; /* pad-left: 10px + nav-w/2: 36px -svg-w/2: 12px */
   width: 24px; height: 24px;
 }
 .entry_highlight svg {
