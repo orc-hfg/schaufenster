@@ -273,7 +273,7 @@ svg {
  .lang_switch .disabled {
         font-weight:100;
         text-decoration: none;
-        font-size: var(--font-h1-font-size, 240px)
+        
         opacity: 1;
     }
 }
