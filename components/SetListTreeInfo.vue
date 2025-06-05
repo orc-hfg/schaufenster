@@ -120,6 +120,8 @@ const props = defineProps([
   mask-image: linear-gradient(0deg, rgba(0,0,0,0) 15%,rgba(0,0,0,1) 25%, rgba(0,0,0,1) 40%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.2) 80%, rgba(0,0,0,0) 100%);
 }
 
+
+
 /* HH Helper zum visualisieren der Maske */
 /* #dummy {
   display: block;
@@ -156,6 +158,17 @@ const props = defineProps([
   }
 }
 
+[data-theme="hc_light"] {
+  .project_counter.projekt {
+    filter: none;
+    mix-blend-mode: unset;
+  }
+  .cell {
+      color: black;
+      background-color:white;
+
+  }
+}
 .content {
   display: flex;
   position: relative;
