@@ -45,12 +45,14 @@
 --Primitives-color-transparencies-white-50: rgba(255,255,255,0.5);
 --Primitives-color-transparencies-white-60: rgba(255,255,255,0.6);
 --Primitives-color-transparencies-white-70: rgba(255,255,255,0.7);
---Primitives-color-transparencies-white-80: rgba(255,255,255,0.8)
+--Primitives-color-transparencies-white-80: rgba(255,255,255,0.8);
+
 }
 
 /* colors light */
 /* :root { */
 [data-theme="light"] {
+--Colors-hc-background: none;
 --Colors-background-filter: var(--Primitives-color-greys-Black);  
 --Colors-background-menu: var(--Primitives-color-greys-Black);  
 --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);

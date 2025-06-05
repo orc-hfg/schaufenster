@@ -194,6 +194,7 @@ svg {
     z-index: 1000;
     opacity: 1;
     backdrop-filter: blur(30px);
+    background-color: var(--Colors-hc-background);
     
 }
 
@@ -263,7 +264,19 @@ svg {
     /* line-height: var(--font-h1-line-height, 210px);  */
 }
 
-
+[data-theme = "hc_light"]{
+   
+    .lang_switch .btn {
+        font-weight:900;
+        text-decoration: underline;
+    }
+ .lang_switch .disabled {
+        font-weight:100;
+        text-decoration: none;
+        font-size: var(--font-h1-font-size, 240px)
+        opacity: 1;
+    }
+}
 [data-layout="mobile"] {
     .dialog_menu {
         display: flex;
