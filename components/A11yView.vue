@@ -11,14 +11,20 @@
                     @click="doClose()" class="nav_close">
                     <IconsNavHome/>
                 </NuxtLink>
-
-                <NuxtLink  
+            </nav>
+            <div class="wrapper_center">
+                <div class="wrapper_dropdown">
+                    <div class="hc_selector"
                     tabindex="0"
                     @click="changeContrast()"
                     >
-                    {{ $t('static_pages.accessibility.label') }}
-                </NuxtLink >
-            </nav>
+                    <div class="hc_label">
+                        {{ $t('static_pages.accessibility.label') }}
+                    </div>
+                </div>
+            </div >
+            
+        </div>    
         </header>
 
         <div class="page_content">
@@ -148,4 +154,72 @@ onMounted(() => {
 
 <style scoped>
     @import 'assets/static-pages.css';
+    
+    .wrapper_center {
+    /* width: calc(100% - 48px); */
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid green; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--margin-navbar-institution-logo-right, 10px);
+}
+[data-layout="mobile"] {
+    .dropdown_label {
+        display: none
+    }
+    .wrapper_center {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+.wrapper_dropdown {
+    width: fit-content;
+    height: 100%;
+    /* border: 1px solid green; */
+    display: flex;
+    justify-content: center;
+}
+
+.hc_selector {
+
+    display: inline-flex;
+    
+    padding: var(--margin-navbar-institution-logo-right, 10px);
+    justify-content: center;
+    align-items: center;
+    gap: var(--margin-navbar-institution-logo-right, 10px);
+
+    border-radius: var(--radius-full, 9999px);
+    border: 1px solid var(--Colors-nav-bar-button-outline, #524F4F);
+    background: #2C2C2C;
+
+
+    font-family: "Instrument Sans";
+    font-size: var(--font-button-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-button-line-height, 24px); /* 120% */
+
+    color: var(--Colors-text-primary, #FFF);
+
+    cursor: pointer;
+}
+.hc_label {
+    
+    color: var(--Colors-text-primary, #FFF);
+    text-align: center;
+
+    /* Buttons */
+    font-family: "Instrument Sans";
+    font-size: var(--font-button-font-size, 20px);
+    font-style: normal;
+    font-weight: 400; letter-spacing: 0.02rem;
+    line-height: var(--font-button-line-height, 24px); /* 120% */
+    padding-right: 5px;
+    padding-left: 5px;
+}
 </style>
