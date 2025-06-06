@@ -52,7 +52,7 @@
           v-for="path_set_id in pathToRoot"
           :class="{ hidden_move_up: hideNav || showInfo || introRunning }"
           :style="getLinkStyle(path_set_id)"
-          tabindex="0"
+          :tabindex="(!showInfo? '0' : '-1')"
           @click="emit('parentClicked', path_set_id)"
           @keyup.enter="emit('parentClicked', path_set_id)"
           >
@@ -107,7 +107,7 @@
       <NuxtLink class="navbar_set_link animate_up"
         :class="{hidden_move_up: hideNav || showInfo || introRunning}"
         v-if="activeSetId !== setid"
-        tabindex="0"
+        :tabindex="(!showInfo? '0' : '-1')"
         @click="emit('parentClicked', activeSetId)"
         @keyup.enter="emit('parentClicked', activeSetId)"
         >

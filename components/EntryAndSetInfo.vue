@@ -1,7 +1,8 @@
 <template>    
   <div class="entry_info"
     @scroll="scrolled"
-    @wheel="scrolled">
+    @wheel="scrolled"
+    tabindex="-1">
         <!-- TODO mobile theme: different layout meta-data; show more/less sizes; btn paddings -->
     <div v-if="!activeEntryId || !currentTree || !currentTree.entries_meta_data">
       No meta data yet.

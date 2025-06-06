@@ -27,6 +27,7 @@
       :class="{
         move_up_hidden: !showInfo || showFilterView,
         fade_hidden: entry_info_hidden}"
+        tabindex="-1"
       v-if="currentTree && currentTree.colTitlesMap"
       >
       {{getAbbrevColTitle(setid)}}
@@ -251,7 +252,7 @@
             v-if="el.type === NavSlideType.Entry"
             class="nav_preview"
             
-            :tabindex="(!showBottomNav? '-1': '0')"
+            :tabindex="(!showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control? '-1': '0')"
             role="link"
             :aria-label="getAriaLabel(setid)"
             @click="nav2Element(el)"
@@ -303,7 +304,7 @@
             
             <IconWrap :large="true" 
               v-if="showCount[el.collection_id] < maxCount[el.collection_id]"
-              :tabindex="(!showBottomNav? '-1': '0')"
+              :tabindex="(!showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control? '-1': '0')"
               role="link"
               :aria-label="$t('setview.btn_title_btm_bar_set_show')"
               @click="clickedNavShowMore(el.collection_id)"
@@ -313,7 +314,7 @@
             </IconWrap>
             <IconWrap :large="true"
               v-if="showCount[el.collection_id] >= maxCount[el.collection_id] && maxCount[el.collection_id] > MIN_SHOW_COUNT"
-              :tabindex="(!showBottomNav? '-1': '0')"
+              :tabindex="(!showBottomNav || showInfo || animate_view_io || showSetTitle || show_av_control? '-1': '0')"
               role="link"
               :aria-label="$t('setview.btn_title_btm_bar_set_show')"
               @click="clickedNavShowLess(el.collection_id)"
