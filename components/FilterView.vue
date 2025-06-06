@@ -1014,11 +1014,8 @@ nav {
 }
 
 [data-theme="hc_light"] {
-  .filter_headline {
-    color: #4d4d4d;
-  }
+
  ::placeholder {
-    color: #020202;
     opacity: 1;
   }
 }

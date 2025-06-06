@@ -52,7 +52,6 @@
 /* colors light */
 /* :root { */
 [data-theme="light"] {
---Colors-hc-background: none;
 --Colors-background-filter: var(--Primitives-color-greys-Black);  
 --Colors-background-menu: var(--Primitives-color-greys-Black);  
 --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
@@ -107,6 +106,7 @@
 --Colors-nav-bar-toogle-diplom: var(--Primitives-color-highlight-bright-tone);
 
 --Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
+--Colors-project-counter-background: none;
 --Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
 --Colors-project-counter-text: var(--Primitives-color-highlight-dark-tone);
 --Colors-text-headlines: var(--Primitives-color-highlight-dark-tone);
@@ -122,6 +122,7 @@
 [data-theme="dark"] {
 --Colors-background-default: var(--Primitives-color-greys-ORCBlack);
 --Colors-background-video: var(--Primitives-color-greys-Black);
+--Colors-background-menu: none;  
 --Colors-background-audio: var(--Primitives-color-greys-Black);
 /*
 --Colors-btm-bar-galleryView-gradient-default-stop-1: #000000;
@@ -170,6 +171,7 @@
 --Colors-nav-bar-toogle-on: var(--Primitives-color-highlight-bright-tone);
 
 --Colors-nav-bar-year-selector: var(--Primitives-color-identity-Signal-Red);
+--Colors-project-counter-background: none;
 --Colors-project-counter-gradient: var(--Primitives-color-blurs-project-counter-blur);
 --Colors-project-counter-text: var(--Primitives-color-highlight-bright-tone);
 --Colors-text-headlines: var(--Primitives-color-highlight-bright-tone);

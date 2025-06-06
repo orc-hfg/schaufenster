@@ -194,6 +194,7 @@ svg {
     z-index: 1000;
     opacity: 1;
     backdrop-filter: blur(30px);
+    background-color: var(--Colors-background-menu);
     
 }
 
@@ -265,19 +266,16 @@ svg {
 
 [data-theme = "hc_light"]{
    
-    .lang_switch .btn {
+ .lang_switch .btn {
         font-weight:900;
         text-decoration: underline;
     }
  .lang_switch .disabled {
         font-weight:100;
         text-decoration: none;
-        
         opacity: 1;
     }
-  .dialog_menu {
-        background-color: var(--Colors-hc-background);
-    }
+
 }
 [data-layout="mobile"] {
     .dialog_menu {

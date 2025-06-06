@@ -413,10 +413,4 @@ transition: all 300ms ease-out;
     padding: var(--padding-item-vertical-S, 8px) var(--padding-item-horizontal-M, 12px) var(--padding-item-vertical-S, 8px) 0;
 }
 
-[data-theme="hc_light"] {
-    .meta_title {
-        color: #4d4d4d;
-    }
-
-}
 </style>
