@@ -50,7 +50,7 @@
 --Colors-filter-toggle-on: var(--Primitives-color-greys-ORCBlack);
 
 --Colors-nav-bar-button-fill-hover: var(--Primitives-color-greys-LightGrey);
---Colors-nav-bar-button-fill: var(--Primitives-color-greys-UltraLightGrey);
+--Colors-nav-bar-button-fill: var(--Colors-background-default);
 --Colors-nav-bar-button-outline: var(--Primitives-color-greys-MediumGrey);
 --Colors-nav-bar-filter-button: var(--Primitives-color-greys-Grey);
 --Colors-nav-bar-info-button-fill: var(--Primitives-color-greys-ORCBlack);
