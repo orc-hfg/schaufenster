@@ -176,6 +176,15 @@ onMounted(() => {
     }
 }
 
+[data-theme="dark"] {
+.hc_selector {
+    background-color:#f3f2ef;
+}
+.hc_label{
+    color: #5a5959;
+}
+
+}
 .wrapper_dropdown {
     width: fit-content;
     height: 100%;
@@ -208,6 +217,7 @@ onMounted(() => {
 
     cursor: pointer;
 }
+
 .hc_label {
     
     color: var(--Colors-text-primary, #FFF);
@@ -222,4 +232,5 @@ onMounted(() => {
     padding-right: 5px;
     padding-left: 5px;
 }
+
 </style>
