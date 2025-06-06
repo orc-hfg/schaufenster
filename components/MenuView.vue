@@ -194,7 +194,6 @@ svg {
     z-index: 1000;
     opacity: 1;
     backdrop-filter: blur(30px);
-    background-color: var(--Colors-hc-background);
     
 }
 
@@ -275,6 +274,9 @@ svg {
         text-decoration: none;
         
         opacity: 1;
+    }
+  .dialog_menu {
+        background-color: var(--Colors-hc-background);
     }
 }
 [data-layout="mobile"] {
