@@ -89,6 +89,8 @@ const addFilterTagCounter =
         meta_key: kwMetaKey})
 }
 
+const selector_open = ref(false)
+
 const initKeywords = (treeMap:iTreeMap, kwMetaKey:string, kwMap: iFilterTypeMap) => {
   //kwMap = kwMap || {} as iFilterTypeMap
   for(const treeId in treeMap) {
@@ -219,6 +221,11 @@ const changedFilterTitle = () => {
   //filtersText.value = filtersTitle.value
   console.log("changedFilterTitle " + newFiltersTitle.value)
   updateFilteredCounts();
+
+  /* TOFO VFC Update height of MK_Keyword */
+  toggleShowAll(MK_KEYWORDS)
+  updateShowAll();
+  getShowAllStyle(MK_KEYWORD);
 }
 
 const isSelected = (type:string, id:string) => {
@@ -518,35 +525,52 @@ const highContrastState = useState('isHighContrast')
         <!-- MK_KEYWORDS -->
         <div class="meta_key_filter">
           <div class="filter_headline"
-            @click="toggleShowAll(MK_KEYWORDS)"
-            @keyup.enter="toggleShowAll(MK_KEYWORDS)"
+            @click="selector_open = !selector_open, toggleShowAll(MK_KEYWORDS)"
+            @keyup.enter="selector_open = !selector_open, toggleShowAll(MK_KEYWORDS)"
             role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_keywords') }}
+            tabIndex="-1">
+            <div style="display:initial; width:100%">
+              <div style="float:left">
+               {{ $t('meta_info.label_project_keywords') }}
+              </div>
+              <div class="filter_chevron" style="float:right">
+                <IconsChevronUpDownFilter
+                  v-if="hasFilterResults(MK_KEYWORDS)"
+                  :show-up="selector_open"
+                  :show-all="showAll[MK_KEYWORDS]"
+                  :count="getTagCount(MK_KEYWORDS)"/>
+              </div>
+            </div>  
           </div>
           <template v-if="hasFilterResults(MK_KEYWORDS)">
-            <div class="filter_cloud"
-              :id=" 'filter_cloud_' + MK_KEYWORDS "
-              :style="getShowAllStyle(MK_KEYWORDS)"
-              :class="{hide_all:!showAll[MK_KEYWORDS]}">
-              <div class="filter_cloud_item"
-                v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
-                <button class="keyword_item"
-                :tabindex="(!showAll[MK_KEYWORDS]? '-1' : '0')"  
-                @click="clickedKeyword(kws)"
-                  v-if="!isHideIfNotSubString(kws[0].name)"
-                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
-                  >
-                  {{ kws[0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, kws[0].id) }}</span>
-                </button>
+              <div class="filter_cloud"
+                :id=" 'filter_cloud_' + MK_KEYWORDS "
+                :style="getShowAllStyle(MK_KEYWORDS)"
+                :class="{hide_all:!showAll[MK_KEYWORDS]}"
+                >
+                <div class="filter_cloud_item"
+                  v-for="kws in globalMap[MK_KEYWORDS]" :key="kws">
+                  <button class="keyword_item"
+                  :tabindex="(!showAll[MK_KEYWORDS]? '-1' : '0')"  
+                  @click="clickedKeyword(kws)"
+                    v-if="!isHideIfNotSubString(kws[0].name)"
+                    :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, kws[0])"
+                    >
+                    {{ kws[0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, kws[0].id) }}</span>
+                  </button>
+                </div>
               </div>
-            </div>
-            <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
-              :show-all="showAll[MK_KEYWORDS]"
-              :count="getTagCount(MK_KEYWORDS)"/>
+              <div>
+                <FilterViewShowBtn
+                @toggle-show-all="selector_open = !selector_open, toggleShowAll(MK_KEYWORDS)"
+                :show-all="showAll[MK_KEYWORDS]"
+                :count="getTagCount(MK_KEYWORDS)"
+                :tabindex="(hide_plus? '-1' : '0')"
+                />
+              </div>
           </template>
+          
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
@@ -556,17 +580,29 @@ const highContrastState = useState('isHighContrast')
         <!-- MK_AUTHORS -->
         <div class="tree_filter_people">
           <div class="filter_headline"
-            @click="toggleShowAll(MK_AUTHORS)"
-            @keyup.enter="toggleShowAll(MK_AUTHORS)"
+            @click="selector_open = !selector_open, toggleShowAll(MK_AUTHORS)"
+            @keyup.enter="selector_open = !selector_open, toggleShowAll(MK_AUTHORS)"
             role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_authors') }}
-          </div>
-          <template v-if="hasFilterResults(MK_AUTHORS)">
+            tabIndex="-1">
+            <div style="display:initial; width:100%">
+              <div style="float:left">
+                {{ $t('meta_info.label_project_authors') }}
+            </div>
+            <div class="filter_chevron" style="float:right">
+              <IconsChevronUpDownFilter
+                v-if="hasFilterResults(MK_AUTHORS)"
+                :show-up="selector_open"
+                :show-all="showAll[MK_AUTHORS]"
+                :count="getTagCount(MK_AUTHORS)"/>
+            </div>
+          </div>  
+        </div>
+        <template v-if="hasFilterResults(MK_AUTHORS)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_AUTHORS "
               :style="getShowAllStyle(MK_AUTHORS)"
-              :class="{hide_all:!showAll[MK_AUTHORS]}">
+              :class="{hide_all:!showAll[MK_AUTHORS]}"
+              >
               <div class="filter_cloud_item"
                 v-for="person in globalMap[MK_AUTHORS]" :key="person">
                 <button class="keyword_item"
@@ -581,9 +617,10 @@ const highContrastState = useState('isHighContrast')
               </div>
             </div>
             <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_AUTHORS)"
+              @toggle-show-all="selector_open = !selector_open, toggleShowAll(MK_AUTHORS)"
               :show-all="showAll[MK_AUTHORS]"
-              :count="getTagCount(MK_AUTHORS)"/>
+              :count="getTagCount(MK_AUTHORS)"
+              :tabindex="(hide_plus? '-1' : '0')"/>
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -594,33 +631,46 @@ const highContrastState = useState('isHighContrast')
         <!-- MK_PARTICIPANTS -->
         <div class="tree_filter_people">
           <div class="filter_headline"
-            @click="toggleShowAll(MK_PARTICIPANTS)"
-            @keyup.enter="toggleShowAll(MK_PARTICIPANTS)"
+            @click="selector_open = !selector_open, toggleShowAll(MK_PARTICIPANTS)"
+            @keyup.enter="selector_open = !selector_open, toggleShowAll(MK_PARTICIPANTS)"
             role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_participants') }}
+            tabIndex="-1">
+            <div style="display:initial; width:100%">
+              <div style="float:left">
+                {{ $t('meta_info.label_project_participants') }}
           </div>
-          <template v-if="hasFilterResults(MK_PARTICIPANTS)">
-            <div class="filter_cloud"
-              :id=" 'filter_cloud_' + MK_PARTICIPANTS "
-              :style="getShowAllStyle(MK_PARTICIPANTS)"
-              :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
-              <div class="filter_cloud_item"
-                v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
-                <button class="keyword_item"
-                  :tabindex="(!showAll[MK_PARTICIPANTS]? '-1' : '0')"
-                  @click="clickedRole(person)"
-                  v-if="!isHideIfNotSubString(person[0].name)"
-                  :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
-                  {{ person[0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, person[0].id) }}</span>
-                </button>
-              </div>
+            <div class="filter_chevron" style="float:right">
+              <IconsChevronUpDownFilter
+                v-if="hasFilterResults(MK_PARTICIPANTS)"
+                :show-up="selector_open"
+                :show-all="showAll[MK_PARTICIPANTS]"
+                :count="getTagCount(MK_PARTICIPANTS)"/>
             </div>
-            <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PARTICIPANTS)"
-              :show-all="showAll[MK_PARTICIPANTS]"
-              :count="getTagCount(MK_PARTICIPANTS)"/>
+          </div>  
+        </div>
+        <template v-if="hasFilterResults(MK_PARTICIPANTS)">
+          <div class="filter_cloud"
+            :id=" 'filter_cloud_' + MK_PARTICIPANTS "
+            :style="getShowAllStyle(MK_PARTICIPANTS)"
+            :class="{hide_all:!showAll[MK_PARTICIPANTS]}"
+            >
+            <div class="filter_cloud_item"
+              v-for="person in globalMap[MK_PARTICIPANTS]" :key="person">
+              <button class="keyword_item"
+                :tabindex="(!showAll[MK_PARTICIPANTS]? '-1' : '0')"
+                @click="clickedRole(person)"
+                v-if="!isHideIfNotSubString(person[0].name)"
+                :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, person[0])">
+                {{ person[0].name }}
+                <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, person[0].id) }}</span>
+              </button>
+            </div>
+          </div>
+          <FilterViewShowBtn
+            @toggle-show-all="selector_open = !selector_open, toggleShowAll(MK_PARTICIPANTS)"
+            :show-all="showAll[MK_PARTICIPANTS]"
+            :count="getTagCount(MK_PARTICIPANTS)"
+            :tabindex="(hide_plus? '-1' : '0')"/>
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -631,12 +681,23 @@ const highContrastState = useState('isHighContrast')
         <!-- MK_PROGRAM_OF_STUDY -->
         <div class="meta_key_filter">
           <div class="filter_headline"
-            @click="toggleShowAll(MK_PROGRAM_OF_STUDY)"
-            @keyup.enter="toggleShowAll(MK_PROGRAM_OF_STUDY)"
+            @click="selector_open = !selector_open, toggleShowAll(MK_PROGRAM_OF_STUDY)"
+            @keyup.enter="selector_open = !selector_open, toggleShowAll(MK_PROGRAM_OF_STUDY)"
             role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_program_of_study') }}
-          </div>
+            tabIndex="-1">
+            <div style="display:initial; width:100%">
+              <div style="float:left">
+                {{ $t('meta_info.label_project_program_of_study') }}
+            </div>
+            <div class="filter_chevron" style="float:right">
+              <IconsChevronUpDownFilter
+                v-if="hasFilterResults(MK_PROGRAM_OF_STUDY)"
+                :show-up="selector_open"
+                :show-all="showAll[MK_PROGRAM_OF_STUDY]"
+                :count="getTagCount(MK_PROGRAM_OF_STUDY)"/>
+            </div>
+          </div>  
+        </div>
           <template v-if="hasFilterResults(MK_PROGRAM_OF_STUDY)">
             <div class="filter_cloud"
               :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
@@ -656,9 +717,10 @@ const highContrastState = useState('isHighContrast')
               </div>
             </div>
             <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PROGRAM_OF_STUDY)"
+              @toggle-show-all="selector_open = !selector_open, toggleShowAll(MK_PROGRAM_OF_STUDY)"
               :show-all="showAll[MK_PROGRAM_OF_STUDY]"
-              :count="getTagCount(MK_PROGRAM_OF_STUDY)"/>
+              :count="getTagCount(MK_PROGRAM_OF_STUDY)"
+              :tabindex="(hide_plus? '-1' : '0')"/>
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -669,11 +731,22 @@ const highContrastState = useState('isHighContrast')
         <!-- MK_PROJECT_CATEGORY -->
         <div class="meta_key_filter">
           <div class="filter_headline"
-            @click="toggleShowAll(MK_PROJECT_TYPE)"
-            @keyup.enter="toggleShowAll(MK_PROJECT_TYPE)"
+            @click="selector_open = !selector_open, toggleShowAll(MK_PROJECT_TYPE)"
+            @keyup.enter="selector_open = !selector_open, toggleShowAll(MK_PROJECT_TYPE)"
             role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_category') }}
+            tabIndex="-1">
+            <div style="display:initial; width:100%">
+              <div style="float:left">
+                {{ $t('meta_info.label_project_category') }}
+              </div>
+              <div class="filter_chevron" style="float:right">
+                <IconsChevronUpDownFilter
+                  v-if="hasFilterResults(MK_PROJECT_TYPE)"
+                  :show-up="selector_open"
+                  :show-all="showAll[MK_PROJECT_TYPE]"
+                  :count="getTagCount(MK_PROJECT_TYPE)"/>
+              </div>
+            </div>  
           </div>
           <template v-if="hasFilterResults(MK_PROJECT_TYPE)">
             <div class="filter_cloud"
@@ -694,9 +767,10 @@ const highContrastState = useState('isHighContrast')
               </div>
             </div>
             <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PROJECT_TYPE)"
+              @toggle-show-all="selector_open = !selector_open, toggleShowAll(MK_PROJECT_TYPE)"
               :show-all="showAll[MK_PROJECT_TYPE]"
-              :count="getTagCount(MK_PROJECT_TYPE)"/>
+              :count="getTagCount(MK_PROJECT_TYPE)"
+              :tabindex="(hide_plus? '-1' : '0')"/>
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -706,11 +780,22 @@ const highContrastState = useState('isHighContrast')
         <!-- MK_PROJECT_LEADER -->
         <div class="meta_key_filter">
           <div class="filter_headline"
-            @click="toggleShowAll(MK_PROJECT_LEADER)"
-            @keyup.enter="toggleShowAll(MK_PROJECT_LEADER)"
+            @click="selector_open = !selector_open, toggleShowAll(MK_PROJECT_LEADER)"
+            @keyup.enter="selector_open = !selector_open, toggleShowAll(MK_PROJECT_LEADER)"
             role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_leader') }}
+            tabIndex="-1">
+            <div style="display:initial; width:100%">
+              <div style="float:left">
+                {{ $t('meta_info.label_project_leader') }}
+              </div>
+              <div class="filter_chevron" style="float:right">
+                <IconsChevronUpDownFilter
+                  v-if="hasFilterResults(MK_PROJECT_LEADER)"
+                  :show-up="selector_open"
+                  :show-all="showAll[MK_PROJECT_LEADER]"
+                  :count="getTagCount(MK_PROJECT_LEADER)"/>
+              </div>
+            </div>  
           </div>
           <template v-if="hasFilterResults(MK_PROJECT_LEADER)">
             <div class="filter_cloud"
@@ -731,9 +816,10 @@ const highContrastState = useState('isHighContrast')
               </div>
             </div>
             <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PROJECT_LEADER)"
+              @toggle-show-all="selector_open = !selector_open, toggleShowAll(MK_PROJECT_LEADER)"
               :show-all="showAll[MK_PROJECT_LEADER]"
-              :count="getTagCount(MK_PROJECT_LEADER)"/>
+              :count="getTagCount(MK_PROJECT_LEADER)"
+              :tabindex="(hide_plus? '-1' : '0')"/>
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -744,11 +830,22 @@ const highContrastState = useState('isHighContrast')
         <!-- MK_SEMESTER -->
         <div class="meta_key_filter">
           <div class="filter_headline"
-            @click="toggleShowAll(MK_SEMESTER)"
-            @keyup.enter="toggleShowAll(MK_SEMESTER)"
+            @click="selector_open = !selector_open, toggleShowAll(MK_SEMESTER)"
+            @keyup.enter="selector_open = !selector_open, toggleShowAll(MK_SEMESTER)"
             role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_semester') }}
+            tabIndex="-1">
+            <div style="display:initial; width:100%">
+              <div style="float:left">
+                {{ $t('meta_info.label_project_semester') }}
+              </div>
+              <div class="filter_chevron" style="float:right">
+                <IconsChevronUpDownFilter
+                  v-if="hasFilterResults(MK_SEMESTER)"
+                  :show-up="selector_open"
+                  :show-all="showAll[MK_SEMESTER]"
+                  :count="getTagCount(MK_SEMESTER)"/>
+              </div>
+            </div>  
           </div>
           <template v-if="hasFilterResults(MK_SEMESTER)">
             <div class="filter_cloud"
@@ -769,9 +866,10 @@ const highContrastState = useState('isHighContrast')
               </div>
             </div>
             <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_SEMESTER)"
+              @toggle-show-all="selector_open = !selector_open, toggleShowAll(MK_SEMESTER)"
               :show-all="showAll[MK_SEMESTER]"
-              :count="getTagCount(MK_SEMESTER)"/>
+              :count="getTagCount(MK_SEMESTER)"
+              :tabindex="(hide_plus? '-1' : '0')"/>
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -785,7 +883,9 @@ const highContrastState = useState('isHighContrast')
       <div class="wrapper_projects"
       tabindex="-1"
         :class="{mobile_hidden:!mobile_show_projects}">
-        <div class="filter_headline">{{ $t('filter.label_projects') }}</div>
+        <div class="filter_headline">
+          {{ $t('filter.label_projects') }}
+        </div>
         
 
         <div class="tree_list">
@@ -1222,6 +1322,9 @@ nav {
   height: 164px;
   
   transition: all 300ms ease-out;
+}
+.btn_show_all.hide_plus {
+display:none;
 }
 
 .filter_cloud_no_results {

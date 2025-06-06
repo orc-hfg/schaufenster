@@ -592,7 +592,7 @@ const getAbbrevColTitle = (setid: string): string => {
     return title
 }
 
-/* TODO #125 Script for getting the aria label of preview of the bottom bar */
+/* VFC TODO #125 Script for getting the aria label of preview of the bottom bar */
 const getAriaLabel = (setid: string): string => {
   /* If Aria label(notempty) → Aria label, else 
   const ariaLabel = ?  
