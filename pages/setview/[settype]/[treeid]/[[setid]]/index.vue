@@ -136,6 +136,14 @@
             :href="getDocumentLink(el.id)"
             target="_blank" rel="noopener noreferer"
             :style="{ 'background-image': 'url(\'' + previewLargeUrl(el.id) + '\')' }">
+              <a
+                class="btn_round"
+                role="decorative"
+                :aria-label="$t('setview.btn_title_pdf')"
+                style="display:initial; position:relative; top:50%; text-decoration:none"
+                >
+                 PDF <IconsLink/>
+              </a>
           </a>
         </div>
         <div v-else-if="currentTree.previewsLarge[el.id] && currentTree.previewsLarge[el.id].media_type == 'image'"
@@ -1406,7 +1414,9 @@ const handleMouseLeave = () => {
   background-position: center;
   background-repeat: no-repeat;
   transition: all 300ms linear;
+  text-align: center;
 }
+
 
 /* HH TODO video_slide Höhe begrenzen wenn controls open */
 /* Umschalter der bottom nav hat momentan noch Probleme */
