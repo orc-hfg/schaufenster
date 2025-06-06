@@ -165,7 +165,7 @@ const props = defineProps([
   }
   .cell {
       color: black;
-      background-color:white;
+      background-color: var(--Colors-hc-background);
 
   }
 }
@@ -190,7 +190,6 @@ const props = defineProps([
   justify-content: center;
   align-items: center;
   gap: var(--margin-navbar-institution-logo-right, 10px);
-  background-color: var(--Colors-hc-background);
   font-size: 20px;
   font-weight: 400;
 }
