@@ -93,6 +93,9 @@ router.beforeEach((to, from, next) => {
     } else {
       isNoClip.value = false;
     }
+    if (ts.indexOf('setlist') > -1) {
+      updateTheme('light');
+    }
     next()
   }
   else {
@@ -143,20 +146,16 @@ watch(() => route.fullPath, () => {
   //console.log("APP: changed route: " + JSON.stringify(route.fullPath));
 
 });
-const isHC = ref(false)
 
-const updateTheme = () => {
-  highContrastState.value = isHC.value
-  const curr = document.documentElement.getAttribute('data-theme')
-      
-  if (isHC.value) {
-    const newTheme = (curr?.indexOf('light') > -1 ? 'hc_light' : 'hc_dark')
-    document.documentElement.setAttribute('data-theme', newTheme)
-  } else {
-    const newTheme = (curr?.indexOf('light') > -1 ? 'light' : 'dark')
-    document.documentElement.setAttribute('data-theme', newTheme)
-  }
-
+const updateTheme = (defaultTheme:string) => {
+  const curr = defaultTheme || document.documentElement.getAttribute('data-theme') || 'light'
+  const isLight = curr.indexOf('light') > -1
+    
+  const newTheme = 
+      (highContrastState.value ? 'hc_' : '') + 
+      (isLight ? 'light' : 'dark')
+   
+  document.documentElement.setAttribute('data-theme', newTheme)
 }
 
 const onkeyupEv = (ev:KeyboardEvent) => {
@@ -169,7 +168,7 @@ const onkeyupEv = (ev:KeyboardEvent) => {
   }*/
 
   if ((ev.altKey || ev.ctrlKey) && ev.code == 'KeyM') {
-    isHC.value = !isHC.value
+    highContrastState.value = !highContrastState.value
     updateTheme()
     console.log('switched to high contrast: ' + highContrastState.value)
   }
@@ -187,10 +186,11 @@ const updateMobileStateByWinWidth = () => {
 const highContrastState = useState('isHighContrast')
 
 onMounted(() => {
-  document.documentElement.setAttribute("data-theme", "light");
-  window.getComputedStyle(document.body).getPropertyValue('--high-contrast-enabled') == '1000' ? isHC.value = true : isHC.value = false
+  //document.documentElement.setAttribute("data-theme", "light");
+  highContrastState.value = 
+    window.getComputedStyle(document.body).getPropertyValue('--high-contrast-enabled') == '1000'
   
-  updateTheme()
+  updateTheme('light')
   updateMobileStateByWinWidth()
   window.addEventListener("resize", (ev) => {
     updateMobileStateByWinWidth()
