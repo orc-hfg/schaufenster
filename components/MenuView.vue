@@ -19,8 +19,8 @@
         <div class="menu_panel"
             tabindex="0"
             role="link"
-            @click="doClose()"
-            @keyup.enter="doClose()"
+            @click="closeMenu()"
+            @keyup.enter="closeMenu()"
 
             :style="font_style">
            
@@ -142,16 +142,28 @@ const closeMenu = () => {
     
 }
 
+const mobileState = useState('mobile')
+
+const FONT_HEIGHT = (100 / 8) // 12.5
+const FONT_SIZES = [12,14,18,22]
+const FONT_SIZE_BREAKPOINTS = [ 768, 1280, 1960, 999999]
 const init = () => {
     console.log("init menu: " + props.settype)
-    let vw = 18
-    if (window && window.innerWidth) {
+    let vw = FONT_SIZES[0]
+
+    for(let idx = 0; window && window.innerWidth && window.innerWidth > FONT_SIZE_BREAKPOINTS[idx]; idx++) {
+        vw = FONT_SIZES[idx]
+    }
+    /* if (window && window.innerWidth) {
         const iw = window.innerWidth
         if (iw < 768) vw = 12
         else if (iw < 1280) vw = 14
         else if (iw > 2048) vw = 22
-    }    
-    const fs = getViewSizedStyle(vw,16)
+    } */    
+    if (mobileState.value) {
+
+    }
+    const fs = getViewSizedStyle(vw, FONT_HEIGHT)
     font_style.value = mergeSetTypeColor(props.settype, fs)
     console.log("font after")
     console.dir(font_style.value)
@@ -278,13 +290,15 @@ svg {
     }
     @media (orientation: portrait) {
         .menu_panel .btn {
-            font-size: 14vw;
+            /* TODO AL as it is computed... */
+            /* font-size: 14vw; */
             line-height: 1.3em;
         }
     }
     @media (orientation: landscape) {
         .menu_panel .btn {
-            font-size: 13vh;
+            /* TODO AL as it is computed... */
+            /* font-size: 13vh; */
             line-height: 1.3em;
         }
     }
