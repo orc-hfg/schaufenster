@@ -23,26 +23,24 @@
                 {{ $t('static_pages.about.p1_1') }}<a href="https://madek.hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://madek.hfg-karlsruhe.de</a>. {{ $t('static_pages.about.p1_2') }}
             </p>
             <p>
-                 {{ $t('static_pages.about.contact') }}<a href="mailto:&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;">&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;</a><br>
+                {{ $t('static_pages.about.contact') }}<a href="mailto:&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;">&#115;&#99;&#104;&#97;&#117;&#102;&#101;&#110;&#115;&#116;&#101;&#114;&#64;&#104;&#102;&#103;&#45;&#107;&#97;&#114;&#108;&#115;&#114;&#117;&#104;&#101;&#46;&#100;&#101;</a><br>
                 {{ $t('static_pages.about.more_info') }}<a href="https://hfg-karlsruhe.de" target="_blank" rel="noopener noreferre">https://hfg-karlsruhe.de</a>
             </p>
-            <h2>
-                 {{ $t('static_pages.about.title2') }}
-            </h2>
-            <p>
-                  {{ $t('static_pages.about.p2_1') }}
-            </p>
-            <h2>
-                  {{ $t('static_pages.about.title3') }}               
-            </h2>
-            <p>
-                {{ $t('static_pages.about.p3_1') }}
-                <!-- Der Quellcode kann auf GitHub eingesehen und weiter genutzt werden. -->
-            </p>
+            <div class="row two-cols">
+                <div class="col">
+                    <h2>{{ $t('static_pages.about.title2') }}</h2>
+                    <p>{{ $t('static_pages.about.p2_1') }}</p>
+                </div>
+                <div class="col">
+                    <h2>{{ $t('static_pages.about.title3') }}</h2>
+                    <p>{{ $t('static_pages.about.p3_1') }}</p>
+                </div>
+            </div>
+            
             <h2>
                  {{ $t('static_pages.about.title4') }}
             </h2>
-            <div class="row">
+            <div class="row two-cols">
                 <div class="col">
                     <h4>{{ $t('static_pages.about.role1') }}</h4>
                     <p>Dr. Barbara Kuon</p>

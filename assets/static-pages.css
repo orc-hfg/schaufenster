@@ -38,91 +38,125 @@
 }
 
 .page_content {
-  max-width: 800px;
+  max-width: 1023px;
   margin: 0 auto; 
   padding: 0 16px var(--padding-container-bottom-XL, 112px) 16px;
 }
-h1 {
-  color: var(--text-primary, #FFF);
 
-  /* h3 */
+h1, h2, h3, h4,
+p,
+a, a:visited, a:active, a:hover {
   font-family: "Instrument Sans";
-  font-size: var(--font-h4-font-size, 32px);
   font-style: normal;
   font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-h3-line-height, 60px); /* 125% */
+}
 
-  margin-top: calc(var(--font-h3-line-height, 60px) * 2);
-  margin-bottom: calc(var(--font-h3-line-height, 60px) * 1.5);
-
+h1 {
+  color: var(--text-primary, #FFF);
+  font-size: var(--font-h4-font-size);
+  line-height: var(--font-h4-line-height);
+  margin-top: calc(var(--font-body-font-size) * 4.8); /* HH entspricht 96px / desktop */
+  margin-bottom: 24px;
 }
 h2 {
   color: var(--text-primary, #FFF);
-  font-family: "Instrument Sans";
-  /* COMMENT etwas stimmt nicht mit den Variablen, die Werte sind nicht gesetztt.  */
-  /* was ist ".Spaces_Dimensions" in "vars.css"? */
-  font-size: var(--font-h4-font-size, 32px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-h4-line-height, 40px);
-  /* COMMENT vertikaler Abstand ergänzt */
-  margin-top: calc(var(--font-h4-line-height, 40px) * 2);
-  margin-bottom: calc(var(--font-h4-line-height, 40px) * 1);
+  font-size: var(--font-h4-font-size);
+  line-height: var(--font-h4-line-height);
+  margin-top: calc(var(--font-body-font-size) * 4.8); /* HH entspricht 96px / desktop */
+  margin-bottom: 24px;
 }
 h3 {
   color: var(--Colors-text-secondary, #CAC9C2);
-
-  font-family: "Instrument Sans";
   font-size: var(--font-subline-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-subline-line-height, 24px);
-  
   margin-top: calc(var(--font-subline-line-height, 24px) * 1.75);
   margin-bottom: var(--font-subline-line-height, 24px);
 }
 h4 {
   color: var(--Colors-text-secondary, #9E9E9A);
-
-  /* Subline */
-  font-family: "Instrument Sans";
   font-size: var(--font-subline-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-subline-line-height, 42px);
-  
-  margin-top: 0;
+  margin-top: var(--font-body-line-height);
+  margin-bottom: var(--padding-item-horizontal-S, 8px);
+}
+
+/* Kein Abstand nach unten für p, wenn kein p folgt */
+/* Korrigiert Abstände zwischen p und h usw. */
+p:not(:has(+ p, +address)) {
   margin-bottom: 0;
 }
+/* HH Remove top margin from first h3 inside a column that directly follows h1 */
+h1 + .row > .col > h3:first-child {
+  margin-top: 0;
+}
+
+/* HH Remove top margin from first h4 inside a column that directly follows h2 */
+h2 + .row > .col>h4:first-child {
+  margin-top: 0;
+}
+
+/* HH Remove top margin from second h4 inside a column that directly follows h2 */
+h2 + h4 + h4 {
+  margin-top: var(--font-body-line-height);
+}
+
 p, address {
   color: var(--Colors-text-primary, #FFF);
-  /* Body */
-  font-family: "Instrument Sans";
   font-size: var(--font-body-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-body-line-height, 120%);
+  line-height: var(--font-body-line-height);
   margin-top: 0;
-  margin-bottom: var(--padding-container-bottom-M);
 }
+address {
+  margin-bottom: 1em;
+  font-style: normal;
+}
+
 a,
 a:visited,
 a:active,
 a:hover {
   color: var(--Colors-text-primary, #FFF);
-  /* Body */
-  font-family: "Instrument Sans";
   font-size: var(--font-body-font-size, 20px);
-  font-style: normal;
-  font-weight: 400; letter-spacing: 0.02rem;
-  line-height: var(--font-body-line-height, 24px); /* 120% */
+  line-height: var(--font-body-line-height);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 a:hover {
   text-decoration: none;
 }
+
+li {
+  font-size: var(--font-body-font-size);
+  line-height: var(--font-body-line-height);
+}
+
 .row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(368px, 1fr)); */
+  display: flex;
+  flex-wrap: wrap;
+}
+.col {
+  hyphens: auto;
+}
+.row.two-cols {
+  gap: 100px;
+}
+.row.three-cols {
+  gap: 32px;
+}
+.row .col {
+  flex: 1 1 280px;
+}
+
+[data-layout="mobile"] {
+  .row.three-cols,
+  .row.two-cols {
+    gap: 0;
+  }
+  .row .col {
+    flex: 1 0 100%;
+  }
 }
 
 .logos {

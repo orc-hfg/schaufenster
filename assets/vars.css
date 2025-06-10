@@ -173,7 +173,7 @@
 --Colors-text-headlines: var(--Primitives-color-highlight-bright-tone);
 --Colors-text-primary-inverted: var(--Primitives-color-greys-Black);
 --Colors-text-primary: var(--Primitives-color-greys-White);
---Colors-text-secondary: var(--Primitives-color-greys-MediumGrey);
+--Colors-text-secondary: var(--Primitives-color-greys-Grey);
 
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
 }
@@ -203,10 +203,13 @@
   --font-h3-line-height:48px;
   /* --font-h3-line-height:60; */
   --font-h4-font-size:32px;
-  --font-h4-line-height:40px;
+  --font-h4-line-height:42px;
 
   --font-body-font-size:20px;
-  --font-body-line-height:24px;
+
+  /* HH In issue #181 wird zwar 120% gefordert, in Figma ist allerdings 130% angegeben. */
+  /* Mit 120% wäre das Schriftbild vor allem auf den statischen Seiten ziemlich gedrängt. */
+  --font-body-line-height:1.3em; 
 
   --font-button-font-size:20px;
   --font-button-line-height:24px;
