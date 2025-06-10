@@ -42,7 +42,8 @@ const useTree = useState('tree');
 
 const showMenu = ref(false)
 
-const isMobile = ref(true);
+//const isMobile = ref(true);
+const isMobile = useState('mobile', () => { return false})
 
 
 const {
@@ -160,14 +161,14 @@ const updateTheme = (defaultTheme:string) => {
 
 const onkeyupEv = (ev:KeyboardEvent) => {
   console.log(" onkeyup " + ev.code)
-  /*if ((ev.altKey || ev.ctrlKey) && ev.code == 'KeyM') {
+  if ((ev.altKey || ev.ctrlKey) && ev.shiftKey && ev.code == 'KeyM') {
     
     isMobile.value = !isMobile.value
     document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
     //console.log('switched to mobile: ' + isMobile.value)
-  }*/
+  }
 
-  if ((ev.altKey || ev.ctrlKey) && ev.code == 'KeyM') {
+  if ((ev.altKey || ev.ctrlKey) && !ev.shiftKey && ev.code == 'KeyM') {
     highContrastState.value = !highContrastState.value
     updateTheme()
     console.log('switched to high contrast: ' + highContrastState.value)
@@ -180,6 +181,7 @@ const updateMobileStateByWinWidth = () => {
   } else {
     isMobile.value = false
   }
+  document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
   console.log("updateMobileStateByWinWidth: " + window.innerWidth + ":" + isMobile.value)
 }
 
@@ -189,14 +191,11 @@ onMounted(() => {
   //document.documentElement.setAttribute("data-theme", "light");
   highContrastState.value = 
     window.getComputedStyle(document.body).getPropertyValue('--high-contrast-enabled') == '1000'
-  
   updateTheme('light')
   updateMobileStateByWinWidth()
   window.addEventListener("resize", (ev) => {
     updateMobileStateByWinWidth()
-    document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
   })
-  document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
   document.addEventListener('keyup', onkeyupEv, true)
 
   const bUrl = useRuntimeConfig().app.baseURL

@@ -156,7 +156,7 @@
         
       </swiper-slide>
       <div class="swiper-main-button-prev"
-        v-if="!isMobile"
+        v-if="!mobileState"
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
@@ -164,7 +164,7 @@
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
-        v-if="!isMobile"
+        v-if="!mobileState"
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
@@ -387,7 +387,7 @@ const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
 
 
-const isMobile = ref(false)
+const isMobile = useState('mobile')
 
 const useTree = useState("tree");
 
@@ -1104,9 +1104,9 @@ const initSetEntries = (parentId:string, setId:string, els, arcs):number => {
       } else
       //TODO is this still needed: remove this
       if (eId == '1162575d-557e-46ca-ad5b-007d0bca144d' || eId == 'e03bfb27-baa3-4d05-aa80-83f8b93f8efe') {
-        console.error("ignore entry" + eId)
+        //console.error("ignore entry" + eId)
       } else if (eId == cover_id) {
-        console.error("ignore entry as used as cover: " + eId)
+        //console.log("ignore entry as used as cover: " + eId)
       } else {
 
       
@@ -1137,7 +1137,7 @@ const initSetEntries = (parentId:string, setId:string, els, arcs):number => {
     return setIdx
 }
 const initSubTree = (rootId:string, treeId: string) => {
-  console.log("initSubTree: " + treeId);
+  //console.log("initSubTree: " + treeId);
   showCount.value[rootId] = showCount.value[rootId] || MIN_SHOW_COUNT;
   showCount.value[treeId] = showCount.value[treeId] || MIN_SHOW_COUNT;
 
@@ -1166,7 +1166,7 @@ const initSubTree = (rootId:string, treeId: string) => {
       initSetBtns(childId, els_count)
     }
 
-    console.log(
+    /* console.log(
       "initSubTree: " +
         " Rid: " + 
         rootId + 
@@ -1176,7 +1176,7 @@ const initSubTree = (rootId:string, treeId: string) => {
         childId +
         
         " after sub tree build"
-    );
+    ); */
     //console.dir(navSlider.value);
   }
 
@@ -1185,12 +1185,12 @@ const initSubTree = (rootId:string, treeId: string) => {
 const initData = () => {
 
     
-    console.log("initData: " 
+    /* console.log("initData: " 
         + route.params.settype
         + ":" + settype.value
         + ":" + treeid.value
         + ":" + setid.value
-    )
+    ) */
     
     if (!useTree
         || !useTree.value 
@@ -1209,7 +1209,7 @@ const initData = () => {
         && useTree.value
         && useTree.value[settype.value]
         && useTree.value[settype.value][treeid.value]) {
-        console.log("use Tree state")
+        //console.log("use Tree state")
         currentTree.value = useTree.value[settype.value][treeid.value]
     } else {
         console.error("no use Tree state yet")
@@ -1223,7 +1223,7 @@ const initData = () => {
 
     if (setid.value) {
         parent_id.value = currentTree.value.up[setid.value]
-        console.log(" got parent_id for set: " + parent_id.value)
+        //console.log(" got parent_id for set: " + parent_id.value)
 
         path2root.value = []
         let colid = setid.value
@@ -1233,7 +1233,7 @@ const initData = () => {
         }
         path2root.value = path2root.value.reverse()
         
-        console.log(" got path2root for set: " + path2root.value)
+        //console.log(" got path2root for set: " + path2root.value)
         
     } else {
       parent_id.value = RID
@@ -1251,7 +1251,7 @@ onMounted(() => {
   /* TODO high contrast theme */
   document.documentElement.setAttribute("data-theme", highContrastState.value ? 'hc_light' : 'light')
   document.documentElement.setAttribute("lang", locale.value );
-  isMobile.value = (document.documentElement.getAttribute('data-layout') == "mobile")
+  //isMobile.value = (document.documentElement.getAttribute('data-layout') == "mobile")
   initData();
   
   /* SEO and Metadata */

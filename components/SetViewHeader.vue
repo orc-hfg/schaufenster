@@ -10,40 +10,7 @@
         @keyup.enter="$emit('clickedBack')">
           <IconsNavHome/>
       </NuxtLink>
-      <!--        
-      <NuxtLink class="navbar_set_link parent_link animate_up"
-          v-if="parentSetId !== treeid"
-          :class="{
-            showPath2Root: showPath2Parent,
-            hidden_move_up: hideNav || showInfo,
-            }"
-          :style="{width: showPath2Parent? getTitleWidth(parentSetId) : '24px'}"
-          @click="emit('parentClicked', parentSetId)"
-          @mouseover="setShowPath2Parent(true)"
-          @mouseleave="setShowPath2Parent(false)"
-          >
-          <span
-            :style="{width: showPath2Parent ? getTitleWidth(parentSetId) : '24px'}">
-            {{ showPath2Parent ? getColTitle(parentSetId) : '&nbsp;...' }}
-          </span>
-      </NuxtLink>
-      -->
-<!--
-      <NuxtLink class="navbar_set_link parent_link animate_up"
-          
-          :class="{
-            showPath2Root: true,
-            hidden_move_up: hideNav || showInfo || introRunning,
-            }"
-          :style="{width: getTitleWidth(treeid)}"
-          @click="emit('parentClicked', treeid)"
-          >
-          <span
-            :style="{width: getTitleWidth(treeid) }">
-            {{ getColTitle(treeid) }}
-          </span>
-      </NuxtLink>
--->
+
       <div class="link_wrapper"
         @mouseover="setShowPath2Root(true)"
         @mouseleave="setShowPath2Root(false)">
@@ -61,48 +28,6 @@
           </span>
         </NuxtLink>
       </div>
-
-      <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ setid" -->
-      <!--
-      <NuxtLink class="navbar_set_link parent_link animate_up"
-          v-if="activeSetId !== setid"
-          :class="{
-            showPath2Root: showPath2Root,
-            hidden_move_up: hideNav || showInfo || introRunning,
-
-            }"
-          :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}"
-          @click="emit('parentClicked', setid)"
-          @mouseover="setShowPath2Root(true)"
-          @mouseleave="setShowPath2Root(false)"
-          >
-          <span
-            :style="{width: showPath2Root? getTitleWidth(setid) : '24px'}">
-            {{ showPath2Root ? getColTitle(setid) : '&nbsp;...' }}
-          </span>
-      </NuxtLink>
-      -->
-      
-
-      <!-- :to="'/setview/'+settype+'/'+treeid+'/'+ parentSetId" -->
-      <!--
-      <NuxtLink class="navbar_set_link parent_link animate_up"
-        v-else-if="activeSetId == setid && parentSetId !== 'root'"
-        :class="{
-          showPath2Root: showPath2Root,
-          hidden_move_up: hideNav || showInfo || introRunning
-        }"
-        @click="emit('parentClicked', parentSetId)"
-        :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}"
-        @mouseover="setShowPath2Root(true)"
-        @mouseleave="setShowPath2Root(false)"
-        >
-        <span 
-          :style="{width: showPath2Root? getTitleWidth(parentSetId) : '24px'}">
-         {{showPath2Root ? getColTitle(parentSetId) : '&nbsp;...' }}
-        </span>
-      </NuxtLink>
-      -->
       
       <NuxtLink class="navbar_set_link animate_up"
         :class="{hidden_move_up: hideNav || showInfo || introRunning}"
@@ -116,8 +41,6 @@
         </span>
       </NuxtLink>
       
-          
-      <!-- <Transition :css="true" name="fade"> -->
         <NuxtLink
           v-if="!showInfo"
           tabindex="0"
@@ -139,12 +62,12 @@
           :style="infoBtnStyle">
           <IconsInfoClose/>
         </NuxtLink>
-      <!-- </Transition> -->
 
     </nav>
   </header>
 </template>
 <script setup lang="ts">
+import type { CSSProperties } from 'vue'
 const runtimeConfig = useRuntimeConfig()
 
 const SHOW_PATH2ROOT_DELAY = 500
@@ -153,7 +76,7 @@ const {
   getSetTypeColor
 } = DynFonts()
 
-const infoBtnStyle = ref({})
+const infoBtnStyle = ref({} as CSSProperties )
 
 const emit = defineEmits([
     'toggleShowInfo',
@@ -261,14 +184,17 @@ const getTextWidth = (text:string, font:string):number => {
   
 }
 
+const isMobile = useState('mobile')
+const FONT_SIZE_MOBILE = '500 16'
+const FONT_SIZE_DESKTOP = '500 20'
+const FONT_SIZE_SUFFIX = 'px Instrument Sans'
+const ADDIT_MOBILE = 15
+const ADDIT_DESKTOP = 10
 
 const getTitleWidth = (id:string): string => {
-  //const result = getColTitle(id).length * 24;
-  const isMobile = document.documentElement.getAttribute('data-layout') == 'mobile'
-  const fontSize = (isMobile ? '500 16' : '500 20')
-  const result = getTextWidth(getColTitle(id),fontSize + 'px Instrument Sans')
-  //return (result + 10) + 'px';
-  return (result + (isMobile ? 15 : 10)) + 'px';
+  const fontSize = (isMobile.value ? FONT_SIZE_MOBILE : FONT_SIZE_DESKTOP)
+  const result = getTextWidth(getColTitle(id),fontSize + FONT_SIZE_SUFFIX)
+  return (result + (isMobile.value ? ADDIT_MOBILE : ADDIT_DESKTOP)) + 'px';
 }
 
 onMounted(() => {

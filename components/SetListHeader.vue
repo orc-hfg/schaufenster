@@ -38,6 +38,7 @@
         </div>
 
         <NuxtLink class="navbar_link afilter"
+            v-if="!isKioskMode"
             :class="{hidden: hideNavBtns,
               active:showFilterView}"
               :tabindex="(hideNavBtns? '-1': '0')"
@@ -51,6 +52,7 @@
         </NuxtLink>
       
         <NuxtLink class="navbar_link areset"
+            v-if="!isKioskMode"
             :class="{hidden: hideNavBtns || filterCount == 0}"
             :tabindex="(hideNavBtns || filterCount == 0? '-1': '0')"
             @click="$emit('resetFilter')"
@@ -108,33 +110,37 @@ const props = defineProps([
     'hideNavBtns',
     'showFilterView'
 ])
-const isMobile = ref(false)
+const isMobile = useState('mobile')
 const isKioskMode = ref(false)
 
+const FONT_SIZE_MOBILE = 16
+const FONT_SIZE_DTOP = 20
+const FONT_SIZE_SUFFIX = 'px Instrument Sans'
+const canvas = ref(document.createElement("canvas"))
 
 const getTextWidth = (text:string):number => {
   // re-use canvas object for better performance
   try {
-    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+    //const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
 
-    const context = canvas.getContext("2d");
-    const fontSize = (isMobile.value ? '16' : '20')
-  
-    const SET_TYPE_TOGGLE_FONT= fontSize + 'px Instrument Sans'
-    context.font = SET_TYPE_TOGGLE_FONT;
-    const metrics = context.measureText(text);
-    return metrics.width;
+    const context = canvas.value.getContext("2d");
+    const fontSize = (isMobile.value ? FONT_SIZE_MOBILE : FONT_SIZE_DTOP)
+    context.font = fontSize + FONT_SIZE_SUFFIX
+    const metrics = context?.measureText(text);
+    return metrics?.width || 146;
   } catch (error) {
     console.error("getTextWidth: Error: " + error)
+    // TODO default width for mobile
     return 146;
   }
 }
 
-
+// css used vars for toggle background animation
+// filled with default sizes and texts
 const toggle_project_width = ref("146px")
 const toggle_diplom_width = ref("202px")
-const projects_label = ref('Projects')
-const diploms_label = ref('Diploma')
+const projects_label = ref(t('setlist.btn_title_toggle_project'))
+const diploms_label = ref(t('setlist.btn_title_toggle_diplom'))
 
 const updateStyle = () => {
   
@@ -143,7 +149,6 @@ const updateStyle = () => {
     return
   }
   
-  isMobile.value = document.documentElement.getAttribute('data-layout') == 'mobile'
   projects_label.value = isMobile.value ? t('setlist.btn_title_toggle_project_mobile') : t('setlist.btn_title_toggle_project')
   diploms_label.value = isMobile.value ?  t('setlist.btn_title_toggle_diplom_mobile') : t('setlist.btn_title_toggle_diplom')
   // after drawing, get real size
@@ -162,10 +167,8 @@ const updateStyle = () => {
     */
   },100)
   
-  const project_width = getTextWidth( projects_label.value ) + 
-    (isMobile ? 27 : 27)
-  const diplom_width = getTextWidth(diploms_label.value ) +
-    (isMobile ? 28 : 28) 
+  const project_width = getTextWidth( projects_label.value ) + 27
+  const diplom_width = getTextWidth(diploms_label.value ) + 28
   toggle_diplom_width.value = diplom_width + 'px'
   toggle_project_width.value = project_width + 'px'
 
@@ -179,12 +182,9 @@ const updateStyle = () => {
 }
 onMounted(() => {
   updateStyle()
-  window.addEventListener("resize", (ev) => {
-    updateStyle()
-  })
-
 })
 
+watch(isMobile, updateStyle)
 watch(locale, () => {
   console.log("locale changed: update style")
   updateStyle()
@@ -198,16 +198,6 @@ const switch2SetType = (type:string) => {
     emit('switch2settype', [type])
    } 
 }
-// const showArchive = ref(false)
-// const setShowArchiveLink = (val:boolean) => {
-//   if (val == true) {
-//     showArchive.value = true;
-//   } else {
-//     setTimeout(() => {
-//       showArchive.value = false;
-//     },3000)
-//   }
-// }
 </script>
 <style scoped>
 header {
