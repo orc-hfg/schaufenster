@@ -21,6 +21,7 @@
 
 .nav_close {
   height: 48px;
+  width: 48px;
   padding: 0;
   cursor: pointer;
   user-select: none
