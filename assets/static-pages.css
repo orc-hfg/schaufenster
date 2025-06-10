@@ -103,6 +103,7 @@ p, address {
   font-weight: 400; letter-spacing: 0.02rem;
   line-height: var(--font-body-line-height, 120%);
   margin-top: 0;
+  margin-bottom: var(--padding-container-bottom-M);
 }
 a,
 a:visited,
