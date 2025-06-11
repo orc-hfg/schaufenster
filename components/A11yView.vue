@@ -19,7 +19,7 @@
                     @click="changeContrast()"
                     >
                     <div class="hc_label">
-                        {{ $t('static_pages.accessibility.label') }}
+                        {{ $t('static_pages.a11y.label') }}
                     </div>
                 </div>
             </div >
@@ -30,75 +30,71 @@
         <div class="page_content">
             <!-- @click="doClose()"> -->
             
-            <h2>Erklärung zur Barrierefreiheit </h2>
+            <h2>{{ $t('static_pages.a11y.title_1') }}</h2>
             <div class="row two-cols">
                 <div class="col">
                     <p>
-                        Die Staatliche Hochschule für Gestaltung Karlsruhe ist bemüht, ihre Website https://hfg-karlsruhe.de und weitere Onlineangebote, die über diese Domain erreichbar sind, in Einklang mit § 10 Absatz 1 des Landesbehindertengleichstellungsgesetzes (L-BGG) barrierefrei zugänglich zu gestalten.
+                        {{ $t('static_pages.a11y.p1_1') }}
                     </p>        
                 </div>
                 <div class="col">
-                    <p>Diese Anwendung ist derzeit noch nicht vollständig mit § 10 Absatz 1 L-BGG vereinbar. Die Unvereinbarkeiten sind nachstehend aufgeführt. </p>
-                    <p>Stand: Juni 2025</p>
+                    <p>{{ $t('static_pages.a11y.p1_2') }}</p>
+                    <p>{{ $t('static_pages.a11y.p1_3') }}</p>
                 </div>
             </div>
             <div class="row two-cols">
                 <div class="col">
                     <h3>
-                        Nicht barrierefreie Inhalte        
+                        {{ $t('static_pages.a11y.title_2') }}        
                     </h3>
                     <p>
-                        Die nachstehend aufgeführten Inhalte sind aus den folgenden Gründen nicht barrierefrei:
+                        {{ $t('static_pages.a11y.p2_1') }}
                     </p>
                         <!-- ↑ Nochmal prüfen ↑ -->
                     <ul>
-                        <li>Die Alternativtexte beschreiben nicht immer den dargestellten Medieninhalt.</li>
-                        <li>Einige visuell wahrnehmbare Überschriften sind nicht mit dem HTML-Strukturelement „Überschrift“ ausgezeichnet.</li>
-                        <li>Die Lesbarkeit mancher Grafiken ist aufgrund geringer Kontrastverhältnisse nicht ausreichend. Für Sehbehinderte ist die Wahrnehmung in diesen Fällen erschwert.</li>
-                        <li>Die Tastaturnavigation ist nur teilweise möglich. Der Tastaturfokus ist teilweise nicht deutlich hervorgehoben.</li>
-                        <li>Manche Bedienelemente sind nicht ohne Maus nutzbar.</li>
-                        <li>Nicht alle gleichlautenden Bereiche einer Seite sind eindeutig unterscheidbar. Nicht alle Bedienelemente sind mit ihrem Sinn und Zweck für Personen ohne visuelle Wahrnehmung verständlich.</li>
-                        <li>Es wird keine Erläuterung in deutscher Gebärdensprache angeboten.</li>
-                        <li>Es wird keine Erläuterung in leichter Sprache angeboten.</li>
+                        <li>{{ $t('static_pages.a11y.p2_2') }}</li>
+                        <li>{{ $t('static_pages.a11y.p2_3') }}</li>
+                        <li>{{ $t('static_pages.a11y.p2_4') }}</li>
+                        <li>{{ $t('static_pages.a11y.p2_5') }}</li>
+                        <li>{{ $t('static_pages.a11y.p2_6') }}</li>
+                        <li>{{ $t('static_pages.a11y.p2_7') }}</li>
+                        <li>{{ $t('static_pages.a11y.p2_8') }}</li>
                     </ul>
                 </div>
                 <div class="col">
                     <h3>
-                        Rückmeldung und Kontaktangaben
+                        {{ $t('static_pages.a11y.title_3') }}
                     </h3>
                     <p>
-                        Wir möchten die Zugänglichkeit unserer Website für Menschen mit Behinderung kontinuierlich verbessern. Wenn Sie Barrieren auf unseren Webseiten melden wollen oder Informationen über die von § 10 Absatz 1 L-BGG ausgenommenen Inhalte einholen möchten, wenden Sie sich bitte per E-Mail oder Telefon an die zentrale Onlineredaktion:
+                        {{ $t('static_pages.a11y.p3_1') }}
                     </p>
                     <address>
-                        Staatliche Hochschule für Gestaltung Karlsruhe<br/>
-                        Presse- und Öffentlichkeitsarbeit<br/>
-                        Lorenzstraße 15, 76135 Karlsruhe<br/>
+                        {{ $t('static_pages.a11y.p3_2') }}<br/>
+                        {{ $t('static_pages.a11y.p3_3') }}<br/>
+                        {{ $t('static_pages.a11y.p3_4') }}<br/>
                         Tel.: +49 (0) 721 / 8203 2313<br/>
                         E-Mail: &#x70;&#x72;&#x65;&#x73;&#x73;&#x65;&#x40;&#x68;&#x66;&#x67;&#x2d;&#x6b;&#x61;&#x72;&#x6c;&#x73;&#x72;&#x75;&#x68;&#x65;&#x2e;&#x64;&#x65;
                     </address>
                     <h3>
-                        Schlichtungsverfahren
+                        {{ $t('static_pages.a11y.title_4') }}
                     </h3>
                     <p>
-                        Wenn Sie der Meinung sind, dass diese Webseite nicht barrierefrei zugänglich ist, wenden Sie sich bitte an die oben genannte Onlineredaktion.
-                    </p>
-                    <p>
-                        Falls wir Ihnen nicht oder nicht zufriedenstellend innerhalb von vier Wochen ab Zugang Ihrer Anfrage antworten, können Sie sich an die Schlichtungsstelle des Landeszentrums Barrierefreiheit (LZ-BARR) wenden. Die Schlichtungsstelle erreichen Sie wie folgt:
+                        {{ $t('static_pages.a11y.p4_1') }}
                     </p>
                     <address>
-                        Landeszentrum Barrierefreiheit<br/>
-                        Schlichtungsstelle <br/>
-                        Else-Josenhans-Straße 6<br/>
-                        70173 Stuttgart<br/>
-                        Telefon: 0711 123 39375<br/>
+                        {{ $t('static_pages.a11y.p4_2') }}<br/>
+                        {{ $t('static_pages.a11y.p4_3') }} <br/>
+                        {{ $t('static_pages.a11y.p4_4') }}<br/>
+                        {{ $t('static_pages.a11y.p4_5') }}<br/>
+                        Tel.: 0711 123 39375<br/>
                         E-Mail: &#x73;&#x63;&#x68;&#x6c;&#x69;&#x63;&#x68;&#x74;&#x75;&#x6e;&#x67;&#x40;&#x62;&#x61;&#x72;&#x72;&#x69;&#x65;&#x72;&#x65;&#x66;&#x72;&#x65;&#x69;&#x68;&#x65;&#x69;&#x74;&#x2e;&#x62;&#x77;&#x6c;&#x2e;&#x64;&#x65;<br/>
-                        Webseite: https://barrierefreiheit-bw.de/
+                        https://barrierefreiheit-bw.de/
                     </address>
                     <p>
-                        Das Schlichtungsverfahren ist unentgeltlich.
+                        {{ $t('static_pages.a11y.p4_6') }}
                     </p>
                     <p>
-                        Auf die Möglichkeit des Verbandsklagerechts nach § 12 Absatz 1 Satz 1 Nummer 4 L-BGG wird hingewiesen.
+                        {{ $t('static_pages.a11y.p4_7') }}
                     </p>       
                 </div>
             </div>
