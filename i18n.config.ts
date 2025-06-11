@@ -188,6 +188,31 @@ export default defineI18nConfig(() => ({
                     p4_6: "Das Schlichtungsverfahren ist unentgeltlich.",
                     p4_7: "Auf die Möglichkeit des Verbandsklagerechts nach § 12 Absatz 1 Satz 1 Nummer 4 L-BGG wird hingewiesen.",
                 },
+                imprint: {
+                    title_1: "Impressum",
+                    p1_1: "Staatliche Hochschule für Gestaltung Karlsruhe",
+                    p1_2: "Lorenzstraße 15",
+                    p1_3: "76135 Karlsruhe",
+                    p1_4: "Die Staatliche Hochschule für Gestaltung Karlsruhe ist eine Körperschaft des Öffentlichen Rechts. In Rechts- und Verwaltungsangelegenheiten wird der Rektor durch den Kanzler Thomas Fröhlich vertreten.",
+                    title_2: "Zuständige Aufsichtsbehörde",
+                    p2_1: "Ministerium für Wissenschaft, Forschung und Kunst Baden-Württemberg",
+                    p2_2: "Postfach 10 34 53",
+                    p2_3: "70029 Stuttgart",
+                    title_3: "Inhaltlich Verantwortlicher gemäß §55 RStV",
+                    p3_1: "Thomas Fröhlich, Kanzler",
+                    title_4: "Urheberrechtshinweise",
+                    p4_1: "Die Inhalte dieser Website (Texte, Bilder, Ton- und Film-Dokumente etc.) sind urheberrechtlich geschützt. Die Vervielfältigung oder Verbreitung der auf dieser Seite bereit gestellten Informationen bedarf der vorherigen schriftlichen Genehmigung durch die Staatliche Hochschule für Gestaltung Karlsruhe. Ausnahmen sind Inhalte, für die eine Lizenz angegeben ist, dort gilt die entsprechende Lizenz.",
+                    title_5: "Haftungsausschluss",
+                    p5_1: "Die Inhalte, die auf dieser Website gezeigt werden, wurden von Angehörigen der Hochschule für Gestaltung Karlsruhe erstellt und unterliegen der individuellen Verantwortung der jeweiligen Autoren. Eine redaktionelle Überarbeitung der Inhalte ist nicht vorgesehen. Eine Garantie für die Richtigkeit, Vollständigkeit und Aktualität der Angaben kann nicht übernommen werden. Eine Haftung durch die Staatlichen Hochschule für Gestaltung Karlsruhe wird folglich ausgeschlossen. Ebenfalls ausgeschlossen ist die Haftung für Links zu externen Websites. Für den Inhalt der verlinkten Webseiten sind ausschließlich die jeweiligen Anbieter*innen verantwortlich.",
+                    title_6: "Über diese Website",
+                    title_7: "Konzeption",
+                    p7_1: "Open Resource Center der HfG Karlsruhe mit Felix Plachtzik, Marcel Strauß und Alexander Liebrich, 2024/2025.",
+                    title_8: "Design",
+                    p8_1: "Felix Plachtzik",
+                    p8_2: "Marcel Strauß",
+                    title_9: "Programmierung",
+                    p9_1: "Alexander Liebrich, Open Resource Center",
+                }
             }
 
 
@@ -379,12 +404,28 @@ export default defineI18nConfig(() => ({
                     p4_6: "The resolution procedure is free of charge.",
                     p4_7: "The possibility of class action proceedings pursuant to § 12 paragraph 1 sentence 1 point 4 L-BGG is mentioned.",
                 },
-                impressum: {
-                    
-                },
-                datenschutz: {
-
-                },
+                imprint: {
+                    title_1: "Imprint",
+                    p1_1: "Karlsruhe University of Arts and Design",
+                    p1_2: "Lorenzstraße 15",
+                    p1_3: "76135 Karlsruhe",
+                    p1_4: "Karlsruhe University of Arts and Design is a public body. In legal and administrative matters, the Rector is represented by the Chancellor.",
+                    title_2: "Supervisory authority:",
+                    p2_1: "Ministerium für Wissenschaft, Forschung und Kunst Baden-Württemberg",
+                    p2_2: "Postfach 10 34 53",
+                    p2_3: "70029 Stuttgart",
+                    title_3: "Responsible for content according to §55 RStV",
+                    p3_1: "Thomas Fröhlich, Chancellor",
+                    title_4: "Copyright",
+                    p4_1: "The content on this website (texts, images, sound and film documents etc.) is protected by copyright. The copying and/or distribution of the content of this website is only allowed in the case of prior, written permission by Karlsruhe University of Arts and Design. Exceptions are content for which a license is specified, there the corresponding license applies.",
+                    title_5: "Disclaimer",
+                    p5_1: "Karlsruhe University of Arts and Design does not accept responsibility for the topicality, correctness and completeness of the information provided on the website. This also applies to the content of external websites linked to this site via direct and indirect hyperlinks and which can not be influenced by Karlsruhe University of Arts and Design. Study courses and other facilities are themselves responsible for offers submitted on their pages.",
+                    title_6: "About this website",
+                    title_7: "Concept",
+                    p7_1: "Open Resource Center of the Karlsruhe University of Arts and Design with Felix Plachtzik, Marcel Strauß and Alexander Liebrich, 2024/2025.",
+                    title_8: "Design",
+                    title_9: "Programming",
+                }
             }
 
             
