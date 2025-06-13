@@ -395,15 +395,17 @@ const setMainSwiper = (swiper: Swiper) => {
   left: 0px;
   width: 100vw;
   background-color: var(--Colors-background-default);
-  /* HH Gibt es einen bestimmten Grund, warum das Element nach unten versetzt ist 
-  * und seine Höhe mit calc() berechnet wird? Es sorgt für fehlerhafte Darstellung in Safari.
-  */
-  /* top: 112px;
+  top: 112px;
   height: calc(100vh - 112px - 240px);
-  overflow-y: visible; */
-  top: 0;
-  height: 100%;
+  /* HH Auf älteren Safari-Versionen (tested 15.6.1) wird "overflow-y" nicht richtig interpretiert.
+   * Dagegen scheint "overflow: visible" problemlos zu funktionieren. 
+   * –> Sind Seiteneffekte wegen "overflow: visible" zu befürchten?
+   * (Danach "overflow-x: hidden" zu ergänzen, führt leider wieder zu fehlerhafter Daratellung.)
+   * Info: Über die Klasse ".swiper" bekommt das Element "overflow: hidden" zugewiesen. Vermutlich entsteht daraus ein Konflikt.
+  */
+  overflow: visible;
 }
+
 .filter_blured {
   filter: blur(25px);
 }
