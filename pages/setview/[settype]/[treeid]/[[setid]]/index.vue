@@ -2266,6 +2266,11 @@ progress::-webkit-progress-value {
   position:relative;
   top:50%;
   text-decoration:none;
+  background: var(--Colors-background-default);
+}
+
+.btn_pdf:hover {
+    background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
 }
 .btn_pdf svg {
   width: 20px;
