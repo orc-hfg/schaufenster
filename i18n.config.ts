@@ -376,6 +376,13 @@ export default defineI18nConfig(() => ({
                     role5: "Software Developer",
                     contact2: "Contact: ",
                 },
+                accessibility: {
+                    label: "Toggle high contrast mode",
+                    h1: "Accessibility",
+                },
+                impressum: {
+                    
+                },
                 a11y: {
                     label: "Toggle high contrast mode",
                     title_1: "Accessibility Statement",
