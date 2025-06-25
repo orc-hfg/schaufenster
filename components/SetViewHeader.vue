@@ -167,21 +167,23 @@ const getColTitle = (id: string): string => {
     return result
 }
 
+
+const canvas = ref(document && document.createElement("canvas"))
+
 const getTextWidth = (text:string, font:string):number => {
   // re-use canvas object for better performance
   try {
-    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
-  //const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  context.font = font;
-  const metrics = context.measureText(text);
-  console.log("width: " + text + " : " + metrics.width)
-  return metrics.width;
+    canvas.value = canvas.value || document.createElement("canvas") 
+    //const canvas = document.createElement("canvas");
+    const context = canvas.value.getContext("2d");
+    context.font = font;
+    const metrics = context.measureText(text);
+    console.log("width: " + text + " : " + metrics.width)
+    return metrics.width;
   } catch (error) {
     console.error("getTextWidth: Error: " + error)
     return 24;
-  }
-  
+  }  
 }
 
 const isMobile = useState('mobile')

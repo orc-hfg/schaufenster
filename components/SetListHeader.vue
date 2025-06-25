@@ -116,11 +116,12 @@ const isKioskMode = ref(false)
 const FONT_SIZE_MOBILE = 16
 const FONT_SIZE_DTOP = 20
 const FONT_SIZE_SUFFIX = 'px Instrument Sans'
-const canvas = ref(document.createElement("canvas"))
+const canvas = ref(document && document.createElement("canvas"))
 
 const getTextWidth = (text:string):number => {
   // re-use canvas object for better performance
   try {
+    canvas.value = canvas.value || document.createElement("canvas") 
     //const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
 
     const context = canvas.value.getContext("2d");
@@ -129,7 +130,7 @@ const getTextWidth = (text:string):number => {
     const metrics = context?.measureText(text);
     return metrics?.width || 146;
   } catch (error) {
-    console.error("getTextWidth: Error: " + error)
+    console.error("getTextWidth: Error: ", error)
     // TODO default width for mobile
     return 146;
   }
