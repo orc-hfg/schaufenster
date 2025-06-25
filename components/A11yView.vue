@@ -8,23 +8,22 @@
                 <NuxtLink 
                     tabindex="0"
                     @keyup.enter="doClose()"
-                    @click="doClose()" class="nav_close">
+                    @click="doClose()" 
+                    class="nav_close">
                     <IconsNavHome/>
                 </NuxtLink>
             </nav>
             <div class="wrapper_center">
                 <div class="wrapper_dropdown">
                     <div class="hc_selector"
-                    tabindex="0"
+                    tabindex="0"                    
+                    @keyup.enter="changeConstrast()"
                     @click="changeContrast()"
                     >
-                    <div class="hc_label">
-                        {{ $t('static_pages.accessibility.label') }}
+                        <IconsHighContrast/>
                     </div>
                 </div>
             </div >
-            
-        </div>    
         </header>
 
         <div class="page_content">
@@ -152,7 +151,7 @@ onMounted(() => {
     /* border: 1px solid green; */
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: right;
     gap: var(--margin-navbar-institution-logo-right, 10px);
 }
 [data-layout="mobile"] {
