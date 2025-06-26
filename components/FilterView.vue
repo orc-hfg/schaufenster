@@ -477,7 +477,7 @@ const highContrastState = useState('isHighContrast')
             tabindex="0"
             @click="resetFilter()"
             @keyup.enter="resetFilter()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M9 17L4 12L9 7" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M20 18V16C20 14.9391 19.5786 13.9217 18.8284 13.1716C18.0783 12.4214 17.0609 12 16 12H4" stroke="#2C2C2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -880,7 +880,8 @@ nav {
 .wrapper_left {
   display: flex;
   justify-content: start;
-  height: 50px; width: 50px;
+  height: 50px; 
+  width: 50px;
   opacity: 1;
   transition: all 500ms ease-out;
 }
@@ -924,24 +925,75 @@ nav {
 }
 
 [data-layout="mobile"] {
+  .btn_logo {
+    width: var(--dimension-button-height-M);
+    height: var(--dimension-button-height-M);
+    gap:0;
+    padding:0;  
+  }
+  
+  svg.logo {
+    width: var(--dimension-button-height-M);
+    height: var(--dimension-button-height-M);
+  }
   .wrapper_mid {
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
+    gap: var(--spacing-between-items-M);
   }
   .input_wrapper {
     order: 3;
-    width: calc(100% + var(--dimension-button-height-M));
-    margin-left: calc(-1 * var(--dimension-button-height-M));
+    /* width: calc(100% + var(--dimension-button-height-M)); */
+    /* margin-left: calc(-1 * var(--dimension-button-height-M)); */
+    /* margin-top: var(--spacing-between-items-M); */
+    width: 100%;
+    margin: 0 var(--spacing-between-items-M);
     .filter_text_input {
       display: block;
       width: 100%;
       box-sizing: border-box;
     }
   }
+
+  .wrapper_left {
+    position: absolute;
+    width: var(--dimension-button-height-M);
+    height: var(--dimension-button-height-M);
+  }
+
+  /* HH Umschalter einblenden */
+  .content_toggle {
+    display: flex;
+  }
+  /* HH Content positionieren und beim Umschalten animieren */
+  .wrapper_filter,
+  .wrapper_projects {
+    left: calc(0vw + 24px);
+    width: calc(100vw - 48px);
+    gap: 0;
+    transition: transform 200ms ease-out;
+  }
+  .wrapper_filter.mobile_hidden {
+    transform: translateX(-100vw);
+  }
+  .wrapper_projects.mobile_hidden {
+    transform: translateX(100vw);
+  }
+  .btn_apply {
+    /* margin-left: calc(100vw/3  - var(--dimension-button-height-M) - (2 * var(--spacing-navbar-between-items)) ); */
+  }
+
+  .btn_apply .label_filter_count {
+  width: 2.2em;
+  text-align: left;
+  }
+
   .btn_close_label {
     display: none;
   }
+  
+
 }
 
 .btn_logo {
@@ -974,17 +1026,35 @@ nav {
 }
 
 .btn_apply {
-  border: none;
+cursor: pointer;
+  user-select: none;
+
+  display: flex;
+  padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
+  justify-content: center;
+  align-items: center;
+  /* gap: var(--spacing-navbar-between-items, 4px); */
+  gap: var(--spacing-between-items, 12px);
+
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
+
   color: var(--Colors-filter-chip-text-default, #2C2C2C);
   padding: var(--padding-item-vertical-M, 12px) 0;
+
+  
 }
 /* HH vermeiden, dass der header "springt", wenn sich die Zahl in filter_count verändert */
 .btn_apply .label {
   display: flex;
   gap: var(--padding-item-horizontal-S);
+  margin-left: var(--padding-item-horizontal-M);
+  height: calc((var(--dimension-button-height-M, 48px) / 2) - 3px);
+  line-height: 1;
+  
 }
 .btn_apply .label_filter_count {
-  width: 3em;
+  width: 2.2em;
   text-align: left;
 }
 
@@ -1004,7 +1074,8 @@ nav {
 
   color: var(--Colors-filter-chip-text-default, #2C2C2C);
 }
-.btn_close:hover {
+.btn_close:hover,
+.btn_apply:hover {
   background: var(--Colors-filter-chip-fill-hover, #E7E6E1);
 }
 
@@ -1152,28 +1223,6 @@ nav {
 .content_toggle .active {
   color: var(--Colors-filter-chip-text-active);
   background-color: transparent;
-}
-
-/* HH Steuerung für mobile */
-[data-layout="mobile"] {
-  /* HH Umschalter einblenden */
-  .content_toggle {
-    display: flex;
-  }
-  /* HH Content positionieren und beim Umschalten animieren */
-  .wrapper_filter,
-  .wrapper_projects {
-    left: calc(0vw + 24px);
-    width: calc(100vw - 48px);
-    gap: 0;
-    transition: transform 200ms ease-out;
-  }
-  .wrapper_filter.mobile_hidden {
-    transform: translateX(-100vw);
-  }
-  .wrapper_projects.mobile_hidden {
-    transform: translateX(100vw);
-  }
 }
 
 .meta_key_filter,
