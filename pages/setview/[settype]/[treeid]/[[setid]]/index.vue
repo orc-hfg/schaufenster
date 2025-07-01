@@ -1757,9 +1757,9 @@ flex-shrink: 0;
   
 
   display: flex;
-  width: calc(100% - 192px);
-  width: calc(100% - 212px);
-  
+  /* width: calc(100% - 192px);
+  width: calc(100% - 212px); */
+  width: calc(100% - 156px);
   height: 24px;
   padding: 12px;
   align-items: center;
