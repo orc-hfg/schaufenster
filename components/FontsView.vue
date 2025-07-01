@@ -61,6 +61,7 @@
             <br>
             <br/>
             <h2 class="font_test"
+                :class="props.setType"
                 :style="font_style">
                 ABCDEFGHIJKLMNOPQRSTUVWXYZ
                 <br/>
@@ -99,7 +100,7 @@ const {
     font_list,
     font_selected,
     getPixelSizedStyle,
-    mergeSetTypeColor
+    // mergeSetTypeColor
 } = DynFonts()
 
 //TODO css variable for animation timings
@@ -117,7 +118,7 @@ const selector_open = ref(false)
 // HH: @broggn, bitte font-size und line-height an desktop/mobile anpassen
 const updateFont = () => {
     font_style.value = getPixelSizedStyle(210,240)
-    mergeSetTypeColor(props.setType, font_style.value, 'dark')
+    // mergeSetTypeColor(props.setType, font_style.value, 'dark')
 }
 
 
@@ -389,6 +390,13 @@ nav a svg {
 .font_test {
     line-break: anywhere;
     margin-block: 0px;
+}
+
+.font_test.diplom {
+    color: var(--Colors-fonts-view);
+}
+.font_test.projekt {
+    color:white;
 }
 
 

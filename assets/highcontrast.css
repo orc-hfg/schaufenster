@@ -76,11 +76,15 @@
 
 
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
+--Colors-fonts-view: #FF7C1C;
 }
 
 
 /* colors high contrast dark */
 [data-theme="hc_dark"] {
+
+--Primitives-color-hc-identity-Signal-Red: #FF7C1C;
+
 --Colors-background-default: var(--Primitives-color-greys-ORCBlack);
 --Colors-background-video: var(--Primitives-color-greys-Black);
 --Colors-background-audio: var(--Primitives-color-greys-Black);
