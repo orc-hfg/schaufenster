@@ -1145,16 +1145,15 @@ nav {
 
   border: 1px solid var(--Colors-filter-chip-fill-outline);
   position: fixed;
-  bottom: 32px;
+  bottom: var(--margin-btmbar-main-button);
   left: 50%;
   transform: translateX(-50%);
   justify-content: center;
   cursor: pointer;
   background-color: var(--Colors-background-default);
   z-index: 20;
-  box-shadow: 0px 0px 34px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px var(--dimension-icon-size-M) var(--Colors-text-secondary);
   overflow: hidden;
-  
   &::before {
     content: '';
     position: absolute;
@@ -1171,15 +1170,16 @@ nav {
     transform: translateX(100%);
   }
 }
-.content_toggle > * {
-  padding: 12px;
-  height: 56px;
-  width: 148px;
+.content_toggle button {
+  height: var(--dimension-button-height-M);
+  width: calc(var(--dimension-button-height-M) * 3);
   position: relative;
   z-index: 1;
   transition: color 0.3s ease;
+  font-size: var(--font-button-font-size);
+  line-height: 1;
 }
-.content_toggle .active {
+.content_toggle button.active {
   color: var(--Colors-filter-chip-text-active);
   background-color: transparent;
 }
