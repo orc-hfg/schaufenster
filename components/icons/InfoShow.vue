@@ -19,7 +19,6 @@
     
 }
 svg {
-    
     /* stroke: var(--Colors-text-primary-inverted, #FFF);; */
     fill: var(--Colors-text-primary-inverted, #FFF);
 }
@@ -27,5 +26,14 @@ path {
     /* background-color: #000 ; */
     stroke: var(--Colors-text-primary-inverted, #FFF);
     fill: var(--Colors-text-primary-inverted, #FFF);
+}
+
+[data-layout="mobile"] {
+  .icon {
+    padding-right: 0;
+    padding-left: 0;
+    height: var(--font-button-line-height, 18px);
+    width: var(--font-button-line-height, 18px);
+  }
 }
 </style>
