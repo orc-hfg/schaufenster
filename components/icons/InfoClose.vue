@@ -1,6 +1,6 @@
 <template>
     <div class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" 
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20" 
             fill="none">
             <title> {{$t('setview.btn_title_nav_info_hide')}}</title>
             <path fill-rule="evenodd" clip-rule="evenodd"
@@ -23,6 +23,18 @@
 svg, path {
     stroke: var(--Colors-text-primary-inverted, #FFF);
     fill: var(--Colors-text-primary-inverted, #FFF);
+}
+
+[data-layout="mobile"] {
+  .icon {
+    padding-right: 0;
+    padding-left: 0;
+    height: var(--font-button-line-height, 18px);
+    width: var(--font-button-line-height, 18px);
+  }
+  .icon svg {
+    height: var(--font-button-line-height, 24px);
+  }
 }
 
 </style>
