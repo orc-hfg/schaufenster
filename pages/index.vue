@@ -17,13 +17,23 @@
         </NuxtLink>
       </nav>
     </header>
-    <div class="intro_content">
+    <div v-if="!isKiosk" class="intro_content">
       <h1 v-for="idx in [1,2,3,4,5]"
         class="intro_line"
         :class="{hidden: !showContent }"
-        :style="getFontStyle(idx)"
+        :style="lineStyles[idx]"
         >
         {{ $t('intro.title' + idx) }}
+      </h1>
+    </div>
+
+    <div v-else class="intro_content">
+      <h1 v-for="(tline, idx) in kioskIntroTextLine" :key="idx"
+        class="intro_line"
+        :class="{hidden: !showContent }"
+        :style="lineStyles[idx]"
+        >
+        {{ tline }}
       </h1>
     </div>
   </div>
@@ -33,6 +43,17 @@ const SHOW_CONTENT_DELAY = 200;
 const SHOW_LIST_DELAY = 5000;
 const TITLE_ENTER_DELAY_PER_LINE = 50;
 const TITLE_ENTER_DURATION = 300;
+
+const SCR_SIZES = [
+  { w: 600, h: 512, vw: 12, vh: 12 },
+  { w: 800, h: 768, vw: 12, vh: 12 },
+  { w: 1300, h: 1280, vw: 16, vh: 16 },
+  { w: 1700, h: 1680, vw: 18, vh: 18 },
+  { w: 2100, h: 2048, vw: 20, vh: 20 },
+  { w: 16384, h: 16384, vw: 22, vh: 22 },
+]
+
+const lineStyles = ref([] as object[])
  
 const router = useRouter()
 const {
@@ -46,49 +67,79 @@ const {
   selectRandomFont,
   getViewSizedStyle
 } = DynFonts()
+
 const showContent = ref(false)
-const font_style = ref({})
+const isKiosk = ref(false)
+const kioskIntroTextLine = ref([] as string[])
 
 const switchPage = () => {
   const config = useRuntimeConfig()
   if (config.public.kioskSetId) {
+    isKiosk.value = true
     const kioskId = config.public.kioskSetId
     const path = '/setview/projekt/' 
       + kioskId
       + '/' 
       + kioskId
     router.push(path)
+    kioskIntroTextLine.value = config.public.kioskIntroTextLines as string[]
   } else if (config.public.kioskForestSetId) {
     router.push('/setlist/' + MATCH_PROJECTS)
+    
   } else {
     router.push('/setlist/' + MATCH_DIPLOM)
   }
   
 }
+
+
 const getFontStyle = (idx) => {
-  let vw = 18
+  let vw = 12, vh = 12
   if (window && window.innerWidth) {
     const iw = window.innerWidth
-    if (iw < 768) vw = 12
-    else if (iw < 1280) vw = 14
-    else if (iw > 2048) vw = 22
+    for (let idx =0; idx < SCR_SIZES.length; idx++) {
+      if (iw > SCR_SIZES[idx].w) {
+        vw = SCR_SIZES[idx].vw
+        vh = SCR_SIZES[idx].vh
+      }
+    }
   }
   
-  const fs = getViewSizedStyle(vw,20)
+  const fs = getViewSizedStyle(vw,vh)
   fs.transitionDelay = (idx * TITLE_ENTER_DELAY_PER_LINE) + 'ms'
   fs.transitionDuration = TITLE_ENTER_DURATION + 'ms'
   //i.fs['line-height'] = fs['line-height'] * 1.1;
   return fs;
 }
+
+
+const initKiosk = () => {
+  const config = useRuntimeConfig()
+  if (config.public.kioskSetId) {
+    kioskIntroTextLine.value = config.public.kioskIntroTextLines as string[]
+    isKiosk.value = true
+  } else if (config.public.kioskForestSetId) {
+    kioskIntroTextLine.value = config.public.kioskIntroTextLines as string[]
+    isKiosk.value = true
+  } else {
+    isKiosk.value = false
+  }
+}
+
+
 onMounted(() => {
+  initKiosk()
   selectRandomFont()
-  font_style.value = getViewSizedStyle(14,14)
-  
-  document.documentElement.setAttribute("data-theme", "dark");
+  // build text line styles
+  for (let i = 0; i < 6; i++) {
+    lineStyles.value[i] = getFontStyle(i)
+  }
+  document.documentElement.setAttribute("data-theme", "dark");  
+  // animate in text lines
   setTimeout(() => {
     showContent.value=true
   }, SHOW_CONTENT_DELAY)
-  
+  // auto switch page
   setTimeout(switchPage,SHOW_LIST_DELAY)
 })
 onBeforeUnmount(() => {
@@ -98,9 +149,10 @@ onBeforeRouteUpdate(() => {
   
 })
 onBeforeRouteLeave(() => {
-  setTimeout(() => {
-    showContent.value = false
-  },200)
+  //setTimeout(() => {
+  // animate out text lines
+  showContent.value = false
+  //},200)
 })
 </script>
   
