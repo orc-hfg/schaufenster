@@ -1,6 +1,6 @@
 <template>
     <div class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="4" height="24" viewBox="0 0 4 24" fill="none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="4" viewBox="0 0 4 24" fill="none">
             <title> {{$t('setview.btn_title_nav_info_show')}}</title>
             <path d="M0.719344 23.5205V7.20047H3.27934V23.5205H0.719344ZM0.527344 3.48847V0.480469H3.47134V3.48847H0.527344Z" fill="white"/>
         </svg>
@@ -21,6 +21,7 @@
 svg {
     /* stroke: var(--Colors-text-primary-inverted, #FFF);; */
     fill: var(--Colors-text-primary-inverted, #FFF);
+    height: var(--font-button-line-height);
 }
 path {
     /* background-color: #000 ; */
