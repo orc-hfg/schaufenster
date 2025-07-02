@@ -142,6 +142,23 @@ export default defineI18nConfig(() => ({
                     role5: "Softwareentwicker",
                     contact2: "Kontakt",
                 },
+                kiosk_about: {
+                    title1: "Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.",
+                    p1: "Diese virtuelle Präsentation zeigt alle von den Lehrenden der Hochschule für Gestaltung Karlsruhe (HfG) für die Preise der Fördergesellschaft ZKM/HfG 2025 nominierten Studierendenprojekte. Die Preisverleihung findet im Rahmen des Rundgangs am 24. Juli an der HfG statt. Einige der nominierten Projekte sind beim Rundgang ausgestellt. Die Projektdaten der virtuellen Präsentation stammen aus dem digitalen Archiv der HfG.",
+                    contact: "Kontakt für Einreichungen: ",
+                    more_info: "Mehr Informationen zum Studium an der HfG: ",
+                    title2: "Das Typo-Feature",
+                    p2_1: "Schriftgestaltung hat an der HfG eine lange Tradition. Mit dem Typo Feature – den großen Titelschriften, deren Font zufällig wechselt – geben wir Studierenden die Möglichkeit, von ihnen gestaltete Schriften auf Schaufenster zu präsentieren.",
+                    title3: "Über diese Website",
+                    p3_1: "Diese Webseite ist die Kiosk-Version von Schaufenster. Schaufenster wurde 2024/2025 vom Team des HfG Open Resource Center mit Unterstützung durch die Stiftung Innovation in der Hochschullehre und in Zusammenarbeit mit den Designern Marcel Strauß und Felix Plachtzik entwickelt.",
+                    title4: "Das Open Resource Center der HfG",
+                    role1: "Projektleiterin",
+                    role2: "Koordinatorin",
+                    role3: "Digital Archivists",
+                    role4: "Archival Curators",
+                    role5: "Softwareentwicker",
+                    contact2: "Kontakt",
+                },
                 accessibility: {
                     label: "Hochkontrastmodus ein- und ausblenden",
                     h1: "Barrierefreiheit",
@@ -273,10 +290,27 @@ export default defineI18nConfig(() => ({
 
             // static pages: about, impressum, Datenschutz
             static_pages: {
-                    about: {
+                about: {
                     title1: "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
                     p1_1: "Additionally, all projects can  be found and researched in more detail in the HfG project archive database at ",
                     p1_2: "Any member of the university is invited to propose any project for publication on Schaufenster, provided that the project has been submitted to the project archive database beforehand. Submissions are formally checked to ensure that the necessary metadata have been provided. In the case of graduation projects, graduates can decide whether they wish to publish their pojects on Schaufenster before they get archived for the long-term.",
+                    contact: "Contact for submissions: ",
+                    more_info: "More information about studying at the HfG: ",
+                    title2: "The Typo-Feature",
+                    p2_1: "Typeface design has a long tradition at the HfG. With the Typo Feature, i.e. the large title fonts whose typeface changes randomly, we give students the opportunity to feature their creations on Schaufenster. New submissions are welcome!",
+                    title3: "About this website",
+                    p3_1: "This website was developed in 2024 by HfG’s Open Resource Center (ORC), funded by “Stiftung Innovation in der Hochschullehre”, together with the designers Marcel Strauß and Felix Plachtzik.",
+                    title4: "The Open Resource Center of the HfG",
+                    role1: "Head of Project",
+                    role2: "Project Coordinator",
+                    role3: "Digital Archivists",
+                    role4: "Archival Curators",
+                    role5: "Software Developer",
+                    contact2: "Contact: ",
+                },
+                kiosk_about: {
+                    title1: "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
+                    p1: "TODO en content",
                     contact: "Contact for submissions: ",
                     more_info: "More information about studying at the HfG: ",
                     title2: "The Typo-Feature",

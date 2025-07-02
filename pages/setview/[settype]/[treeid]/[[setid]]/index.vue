@@ -167,7 +167,7 @@
         
       </swiper-slide>
       <div class="swiper-main-button-prev"
-        v-if="!mobileState"
+        v-if="!isMobile"
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverLeft == false || meta_info_ani || activeEntryIndex == 0 }"
         tabindex="0"
@@ -176,7 +176,7 @@
         <IconsSliderArrowLeft/>
       </div>
       <div class="swiper-main-button-next"
-        v-if="!mobileState"
+        v-if="!isMobile"
         role="link"
         :class="{'swiper-button-disabled': swiperNavBtnHoverRight == false || meta_info_ani || activeEntryIndex >= (entries.length-1) }"
         tabindex="0"
@@ -188,7 +188,7 @@
 
 <!-- TODO mobile theme: layout and animation meta-data -->
     <EntryAndSetInfo
-      v-if="currentTree && currentTree.colTitlesMap &&  !entries[activeEntryIndex].isSubSet"
+      v-if="currentTree && currentTree.colTitlesMap &&  !entries[activeEntryIndex]?.isSubSet"
       :class="{hidden: !showInfo}"
       :active-entry-id="activeEntryId"
       :active-set-id="activeSetId"
@@ -367,8 +367,10 @@
       <IconsMute :isMute="av_state_mute"
       />
     </div>
-    <div class="av_progress_cont" tabindex="-1" role="none" aria-label="">
-      <progress id="av_progress" tabindex="0" aria-label="Progress" role="progressbar" value="0" min="0" @click="avProgressClicked">
+    <div class="av_progress_cont" tabindex="-1" role="none" aria-label=""
+      @keyup.space="console.error('called enter'); avProgressForward();">
+      <progress id="av_progress" tabindex="0" aria-label="Progress" role="progressbar" value="0" min="0" @click="avProgressClicked"
+        >
           <!-- <span id="av_progress_bar"></span> -->
       </progress>
     </div>
@@ -578,6 +580,12 @@ const avProgressClicked = (ev:PointerEvent) => {
   avel.currentTime = pos * avel.duration;
 }
 
+const avProgressForward = () => {
+  const entryId = activeEntryId.value
+  const avel = document.getElementById('slide-audio-'+ entryId) || document.getElementById('slide-video-'+ entryId)
+  
+  avel.currentTime = avel.currentTime + 5;
+}
 const getAbbrevColTitle = (setid: string): string => {
     
     if (!currentTree.value || !currentTree.value.colTitlesMap) {
@@ -585,7 +593,7 @@ const getAbbrevColTitle = (setid: string): string => {
     }
     const title = currentTree.value.colTitlesMap[setid]
     const max = runtimeConfig.public.SET_VIEW_PROJECT_TITLE_MAX_LENGTH
-    if (title.length > max) {
+    if (title && title.length > max) {
       return title.substring(0, max) + '...'
     }
     return title
@@ -691,24 +699,33 @@ const hasPreview = (entryId: string): boolean => {
          entryId in currentTree.value.previewsVideo;
 }
 
+const buildPreviewQuery = () => {
+  if (useRuntimeConfig().public.userToken) {
+    //console.log("use Token Query")
+    return '?tk=' + useRuntimeConfig().public.userToken
+  }
+}
 const previewUrl = (eId: string): string => {
   const pid = currentTree.value.previews[eId]?.id
-  return apiBaseUrl + 'previews/' + pid + '/data-stream'
+  //TODO kiosk token auth
+  return apiBaseUrl + 'previews/' + pid + '/data-stream' + buildPreviewQuery()
 }
 const previewLargeUrl = (eId: string): string => {
   const pid = currentTree.value.previewsLarge[eId]?.id
-  return apiBaseUrl + 'previews/' + pid + '/data-stream'
+  //TODO kiosk token auth
+  return apiBaseUrl + 'previews/' + pid + '/data-stream' + buildPreviewQuery()
 }
 const getDocumentLink = (eId: string): string => {
-  //return apiBaseUrl + 'media-entry/' + eId + '/media-file'///data-stream'
   const fId = currentTree.value.entries_files[eId]?.id
-  return apiBaseUrl + 'media-file/' + fId + '/data-stream'
+  //TODO kiosk token auth
+  return apiBaseUrl + 'media-file/' + fId + '/data-stream' + buildPreviewQuery()
 }
 
 const previewAudioUrls = (eId: string): string[] => {
   const urlList = [] as string[]
   currentTree.value.previewsAudio[eId].forEach(preview => {
-    const url = apiBaseUrl + 'previews/' + preview.id + '/data-stream'
+    //TODO kiosk token auth
+    const url = apiBaseUrl + 'previews/' + preview.id + '/data-stream' + buildPreviewQuery()
     urlList.push(url)
   });
   return urlList;
@@ -716,7 +733,8 @@ const previewAudioUrls = (eId: string): string[] => {
 const previewVideoUrls = (eId: string): string[] => {
   const urlList = [] as string[]
   currentTree.value.previewsVideo[eId].forEach(preview => {
-    const url = apiBaseUrl + 'previews/' + preview.id + '/data-stream'
+    //TODO kiosk token auth
+    const url = apiBaseUrl + 'previews/' + preview.id + '/data-stream' + buildPreviewQuery()
     urlList.push(url)
   });
   return urlList;
@@ -1283,8 +1301,8 @@ onMounted(() => {
   useSeoMeta({
     title: currentTree.value.colTitlesMap[setid.value],
     ogTitle: currentTree.value.colTitlesMap[setid.value],
-    description: currentTree.value.cols_meta_data[setid.value]['madek_core:description'].string,
-    ogDescription: currentTree.value.cols_meta_data[setid.value]['madek_core:description'].string,
+    description: currentTree.value.cols_meta_data[setid.value] && currentTree.value.cols_meta_data[setid.value]['madek_core:description']?.string,
+    ogDescription: currentTree.value.cols_meta_data[setid.value] && currentTree.value.cols_meta_data[setid.value]['madek_core:description']?.string,
   })
 
   // intro show title animation
@@ -2214,7 +2232,7 @@ progress::-webkit-progress-value {
     /* top: 0px; */
     /* top: var(--margin-entry-info-title-top); */
     /* height: calc(100vh - 68px); */
-    height: auto;
+    /* height: auto; */
 
     /* border: 1px solid blue; */
   }

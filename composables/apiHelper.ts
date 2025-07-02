@@ -7,7 +7,8 @@ export const apiHelper = (baseUrl?: string) => {
     
     const getNewConfig = (baseUrl?:string) => {
       const config = {
-        baseUrl: baseUrl || 'https://staging.madek.hfg-karlsruhe.de'
+        baseUrl: baseUrl || 'https://madek.hfg-karlsruhe.de'
+        //baseUrl: baseUrl || 'https://staging.madek.hfg-karlsruhe.de'
         //baseUrl: baseUrl || 'https://dev.madek.hfg-karlsruhe.de'
         //baseUrl: baseUrl || 'http://localhost:8080'
         //baseUrl: baseUrl || 'http://localhost:3104'

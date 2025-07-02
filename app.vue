@@ -57,7 +57,7 @@ const APP_DEFAULT_LOCAL = 'de'
 if (import.meta.server) { 
   console.log("import meta server")
   const config = useRuntimeConfig()
-  initApi(config.public.apiBaseUrl)
+  initApi(config.public.apiBaseUrl, config.public.userToken)
   if (config.public.kioskForestSetId) {
     console.log("init root set")
     const treesData = await initKioskForest(config.public.kioskForestSetId)
@@ -80,6 +80,7 @@ const setlistLastSlideState = useState("setlistLastSlideState",() => { return -1
 if (import.meta.client) {
   console.log(" is client ")
   selectRandomFont()
+  
 }
 
 

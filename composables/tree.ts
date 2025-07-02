@@ -1,3 +1,4 @@
+//import { RequestParams } from './../generated/http-client';
 import { Api } from '~/generated/API_fetch_xeio';
 
 import {
@@ -231,10 +232,10 @@ export const treeHelper = () => {
   const MK_LICENCE = 'rights:licence'
   const MK_CREATOR = 'media_object:creator_of_media_object'
 
-  const MK_GRADUATE_TYPE = 'institution:​graduation-project-type'
+  const MK_GRADUATE_TYPE = 'institution:graduation-project-type'
   
   
-  const MK_DEPARTMENTS = 'institution:​field_of_study'
+  const MK_DEPARTMENTS = 'institution:field_of_study'
 
   let apiH = {} as Api<unknown>
   const useTree = useState("tree");
@@ -426,38 +427,44 @@ export const treeHelper = () => {
     const result = {};
     //console.log("buildMDRelatedMap: resp data:")
     //console.dir(resp_data)
-    for await (const mdMap of resp_data) {
-    //resp_data.forEach((mdMap) => {
-      const md = mdMap["meta-data"];
+    try {
 
-      const md_key = md.meta_key_id;
+      for await (const mdMap of resp_data) {
+        const md = mdMap["meta-data"];
 
-      result[md_key] = md;
+        const md_key = md.meta_key_id;
 
-      // TODO filter only relevant data
+        result[md_key] = md;
 
-      if (md.type == MD_TYPE_PEOPLE) {
-        result[md_key].selectedPeople = mdMap[MD_PEOPLE];
-      } else if (md.type == MD_TYPE_KEYWORDS) {
-        result[md_key].selectedKeywords = mdMap[MD_KEYWORDS];
-      } else if (md.type == MD_TYPE_ROLES) {
-        result[md_key].selectedRoles = [];
-        const md_role_data = (await apiH.api.metaDataDetail(md.id)).data
-        const md_role_ids = md_role_data.value
-        //console.log("got roles data: " + md_role_data + " ids: "+ md_role_ids)
-        for await (const role_item of md_role_ids) {
-            const md_role_id = role_item.id
-            //console.log(" got md role id " + md_role_id)
-            const roleData = (await apiH.api.metaDataRoleDetail(md_role_id)).data
-            //console.log("got md role data: " + JSON.stringify(roleData))
-            const pData = (await apiH.api.peopleDetail(roleData.person_id)).data
-            //console.log("got md role person data: " + JSON.stringify(pData))
-            roleData.person = pData
-            result[md_key].selectedRoles.push(roleData)  
+        // TODO filter only relevant data
+
+        if (md.type == MD_TYPE_PEOPLE) {
+          result[md_key].selectedPeople = mdMap[MD_PEOPLE];
+        } else if (md.type == MD_TYPE_KEYWORDS) {
+          result[md_key].selectedKeywords = mdMap[MD_KEYWORDS];
+        } else if (md.type == MD_TYPE_ROLES) {
+          result[md_key].selectedRoles = [];
+          const md_role_data = (await apiH.api.metaDataDetail(md.id, requestParams.value)).data
+          const md_role_ids = md_role_data.value
+          //console.log("got roles data: " + md_role_data + " ids: "+ md_role_ids)
+          for await (const role_item of md_role_ids) {
+              const md_role_id = role_item.id
+              //console.log(" got md role id " + md_role_id)
+              const roleData = (await apiH.api.metaDataRoleDetail(md_role_id, requestParams.value)).data
+              //console.log("got md role data: " + JSON.stringify(roleData))
+              const pData = (await apiH.api.peopleDetail(roleData.person_id, requestParams.value)).data
+              //console.log("got md role person data: " + JSON.stringify(pData))
+              roleData.person = pData
+              result[md_key].selectedRoles.push(roleData)  
+          }
         }
       }
+    
+    } catch(error) {
+      console.error("buildMDRelatedMap: could not build md related map: ", error)
     }
     //console.log("buildMDRelatedMap: result ")
+    //console.dir(result)
     //console.dir(result['madek_core:title'])
     //console.dir(result['creative_work:other_creative_participants'])
     return result;
@@ -467,6 +474,7 @@ export const treeHelper = () => {
     const authors = [] as string[];
     if (
       mdMap[mkey] &&
+      mdMap[mkey].selectedPeople &&
       mdMap[mkey].selectedPeople
     ) {
       mdMap[mkey].selectedPeople.forEach((element) => {
@@ -481,7 +489,8 @@ export const treeHelper = () => {
     const authors = [] as string[];
     if (
       mdMap[mkey] &&
-      mdMap[mkey].selectedRoles
+      mdMap[mkey].selectedRoles && 
+      mdMap[mkey].selectedRoles.length
     ) {
       mdMap[mkey].selectedRoles.forEach((element) => {
         const role = element.person.first_name + " " + (element.person.last_name || "");
@@ -499,7 +508,7 @@ export const treeHelper = () => {
     //console.log("buildEntryMetaData: " + entryId)
 
     try {
-      const resp_previews = (await apiH.api.mediaEntryPreviewDetail(entryId))
+      const resp_previews = (await apiH.api.mediaEntryPreviewDetail(entryId, {}, requestParams.value))
         .data;
       // get latest video preview image
       resp_previews
@@ -541,23 +550,33 @@ export const treeHelper = () => {
     }
 
     try {
-      const resp = (await apiH.api.mediaEntryMetaDataRelatedDetail(entryId, {}))
-        .data;
-    //console.log("buildEntryMetaData: " +  entryId + " got meta data. "
-    //+ " md" + JSON.stringify(resp)
-    //+ "loading: " + state.loading);
-
+      const response = await apiH.api.mediaEntryMetaDataRelatedDetail(entryId, {}, requestParams.value)
+        
+      /*console.log("buildEntryMetaData: " +  entryId + " got meta data. " 
+        + " status: " + response.status
+        + " statusText: " + response.statusText
+      );*/
     
-      const mdMap = (await buildMDRelatedMap(resp)) as unknown as iGenMetaData;
+      if (response.status == 200) {
 
-      tree.entryTitlesMap[entryId] = mdMap[MK_TITLE].string;
-      tree.entries_authors[entryId] = getMDPeopleNameList(mdMap, MK_AUTHORS);
-      
-      
+        const mdMap = (await buildMDRelatedMap(response.data)) as unknown as iGenMetaData;
 
-      tree.entries_meta_data[entryId] = mdMap;
+        tree.entryTitlesMap[entryId] = mdMap[MK_TITLE].string;
+        tree.entries_authors[entryId] = getMDPeopleNameList(mdMap, MK_AUTHORS);
+        tree.entries_meta_data[entryId] = mdMap;
+
+        /*console.log("buildEntryMetaData: " +  entryId + " stored meta data. "
+          //+ " md" + JSON.stringify(mdMap)
+        );*/
+      } else {
+        console.log("buildEntryMetaData: " +  entryId + " failed get meta data. " 
+        + " status: " + response.status
+        + " statusText: " + response.statusText
+      );
+      }
+      
     } catch(error) {
-      console.error("Error: " + error + ":" + error.stack)
+      console.error("Could not get entry meta data : " + entryId + ":" + error.status)
       
     }
   };
@@ -580,21 +599,32 @@ export const treeHelper = () => {
     //  + " sorting: " + sorting + " query-order: " + sorting_order)
       
     const entry_query = {
-      public_get_metadata_and_previews: true,
+      // TODO kiosk with auth token
+      //public_get_metadata_and_previews: true,
+      //me_get_metadata_and_previews: true,
       collection_id: treeNode.collection.id,
       full_data: true,
       order: sorting_order,
-      related_meta_data: true,
+      //related_meta_data: true,
       //related_previews: true,
       //related_files: true,
     };
+
+    if (requestParams.value.headers?.keys) {
+      entry_query.me_get_metadata_and_previews = true
+    } else {
+      entry_query.public_get_metadata_and_previews = true
+    }
     state.loading++;
-    const entries_resp = (await apiH.api.mediaEntriesList(entry_query)).data;
-    //const entries_resp =  (await apiH.api.mediaEntriesRelatedDataList(entry_query)).data;
+    const entries_resp = (await apiH.api.mediaEntriesList(entry_query, requestParams.value)).data;
+    //const entries_resp =  (await apiH.api.mediaEntriesRelatedDataList(entry_query, requestParams.value)).data;
     state.loading--;
     const arcs = entries_resp.col_arcs;
     const entries = entries_resp.media_entries;
-
+    console.log("buildSubTreeEntries: arcs vs entries"
+      + treeNode.collection.id + " : ",
+       arcs?.length, entries.length)
+    
     treeNode.arcs = arcs || [];
     treeNode.entries = treeNode.entries || {};
 
@@ -603,18 +633,24 @@ export const treeHelper = () => {
       + " loading: " + state.loading) */
 
     if (!arcs?.length) {
-      /* console.log("buildSubTreeEntries: "
+      console.log("buildSubTreeEntries: "
           + treeNode.collection.id + ":"
-          + "ABORT: No entries in set") */
+          + "ABORT: No entries in set")
       return;
     }
     let coverArc = undefined;
-    const coverArcC = arcs?.find((e) => e.cover == true);
+    const coverArcC = arcs?.find((e) => { return e.cover == true || e.cover == "true" });
     const coverArcH = arcs?.find((e) => e.highlight == true);
     const coverArcP = arcs?.find((e) => e.position == 0);
     const coverArcF = arcs?.find((e) => typeof e !== "undefined");
     coverArc = coverArcC || coverArcH || coverArcP || coverArcF;
-
+    console.log("buildSubTreeEntries:" 
+      + "\n set id " + treeNode.collection.id
+      + "\n set cover: " + coverArcC?.media_entry_id
+      + "\n highlight: " + coverArcH?.media_entry_id
+      + "\n position=0: " + coverArcP?.media_entry_id
+      + "\n first: " + coverArcF?.media_entry_id
+      + "\n result: "+ coverArc?.media_entry_id)
     /* console.log("buildSubTreeEntries: "
       + treeNode.collection.id + ":"
       + " found set cover: " 
@@ -623,15 +659,17 @@ export const treeHelper = () => {
     treeNode.coverId = coverArc?.media_entry_id;
 
     for await (const entry of entries) {
-      if (entry.get_metadata_and_previews == true) {
+      if (true //entry.get_metadata_and_previews == true
+          
+      ) {
         treeNode.entries[entry.id] = entry;
         await buildEntryMetaData(tree, treeNode, entry.id);
 
         if (entry.get_full_size == true) {
           try {
-            const mf = (await apiH.api.mediaEntryMediaFileDetail(entry.id)).data
+            const mf = (await apiH.api.mediaEntryMediaFileDetail(entry.id, requestParams.value)).data
             if (mf.media_type == 'document') {
-              console.error("got doc and download allowed");
+              //console.error("got doc and download allowed");
               //treeNode.entries[entry.id].media_type_doc = true
               tree.entries_doc_type[entry.id] = true
               tree.entries_files[entry.id] = mf
@@ -645,7 +683,8 @@ export const treeHelper = () => {
         console.error(
           "buildSubTreeEntries: hidden entry: " +
             entry.id +
-            ":" +
+            ": in tree: " +
+            tree.col_id + " : "+
             entry.get_metadata_and_previews
         );
       }
@@ -673,7 +712,7 @@ export const treeHelper = () => {
 
     //state.loading++;
     const ccas_resp_data = await (
-      await apiH.api.collectionCollectionArcsList({ parent_id: parent_id })
+      await apiH.api.collectionCollectionArcsList({ parent_id: parent_id }, requestParams.value)
     ).data;
     //state.loading--;
     const ccas = ccas_resp_data["collection-collection-arcs"];
@@ -774,78 +813,89 @@ export const treeHelper = () => {
       return;
     }
 
-    const resp_data = await (
-      await apiH.api.collectionMetaDataRelatedDetail(clientId, {})
-    ).data;
-    const mdMap = (await buildMDRelatedMap(resp_data));
-    
-    const tree = state.treeMapper[treeType][treeId]
-
-    // for the filters
-    tree.cols_meta_data =
-      tree.cols_meta_data || {};
-    tree.cols_meta_data[clientId] = mdMap;
-
-    for (const metaKey in mdMap) {
+    const response = await apiH.api.collectionMetaDataRelatedDetail(clientId, {}, requestParams.value)
+    console.log("buildCollectionMetaData: get meta data for set: " + clientId + " status: " + response.status)
+    if (response.status == 200) {
       
-      const md = mdMap[metaKey];
-      if (metaKey == MK_TITLE) {
-        tree.colTitlesMap[clientId] = md.string;
-      } else if (metaKey == MK_AUTHORS) {
-        tree.cols_authors[clientId] = getMDPeopleNameList(mdMap, MK_AUTHORS)
-      } else if (metaKey == MK_PARTICIPANTS) {
-        tree.cols_participants[clientId] = getMDRolesNameList(mdMap, MK_PARTICIPANTS)
-        //console.log("got participants: " + tree.cols_participants[clientId])
-      } else if (metaKey == MK_SEMESTER) {
-        const sy = md.selectedKeywords[0].term.split('/')[0]
-        const sem = sy.split(' ')[0]
-          .replace('Sommersemester','SoSe')
-          .replace('Wintersemester','WiSe')
-        const year = sy.split(' ')[1]
-        tree.cols_semesters[clientId] = year + ' ' + sem
-      }
+      const resp_data = response.data // await (response).data;
+      
+      const mdMap = (await buildMDRelatedMap(resp_data));
+      
+      const tree = state.treeMapper[treeType][treeId]
 
-      if (md.selectedKeywords && md.selectedKeywords.length) {
-        tree.colKeywordMap[metaKey] =
-        tree.colKeywordMap[metaKey] || {};
-        for (const kw of md.selectedKeywords) {
-          tree.colKeywordMap[metaKey][kw.id]
-            = tree.colKeywordMap[metaKey][kw.id]
-            || { name: kw.term, col_ids: [] };
-          tree.colKeywordMap[metaKey][kw.id].col_ids.push(clientId);
+      // for the filters
+      tree.cols_meta_data =
+        tree.cols_meta_data || {};
+      tree.cols_meta_data[clientId] = mdMap;
+
+      console.log("buildCollectionMetaData: stored meta data for set: " + clientId)
+      
+      
+      for (const metaKey in mdMap) {
+        
+        const md = mdMap[metaKey];
+        if (metaKey == MK_TITLE) {
+          tree.colTitlesMap[clientId] = md.string;
+        } else if (metaKey == MK_AUTHORS) {
+          tree.cols_authors[clientId] = getMDPeopleNameList(mdMap, MK_AUTHORS)
+        } else if (metaKey == MK_PARTICIPANTS) {
+          tree.cols_participants[clientId] = getMDRolesNameList(mdMap, MK_PARTICIPANTS)
+          //console.log("got participants: " + tree.cols_participants[clientId])
+        } else if (metaKey == MK_SEMESTER) {
+          const sy = md.selectedKeywords[0].term.split('/')[0]
+          const sem = sy.split(' ')[0]
+            .replace('Sommersemester','SoSe')
+            .replace('Wintersemester','WiSe')
+          const year = sy.split(' ')[1]
+          tree.cols_semesters[clientId] = year + ' ' + sem
+        }
+
+        if (md.selectedKeywords && md.selectedKeywords.length) {
+          tree.colKeywordMap[metaKey] =
+          tree.colKeywordMap[metaKey] || {};
+          for (const kw of md.selectedKeywords) {
+            tree.colKeywordMap[metaKey][kw.id]
+              = tree.colKeywordMap[metaKey][kw.id]
+              || { name: kw.term, col_ids: [] };
+            tree.colKeywordMap[metaKey][kw.id].col_ids.push(clientId);
+          }
+        }
+
+        if (md.selectedPeople && md.selectedPeople.length) {
+          tree.colPeopleMap[metaKey] =
+          tree.colPeopleMap[metaKey] || {};
+          for (const p of md.selectedPeople) {
+            tree.colPeopleMap[metaKey][p.id]
+            = tree.colPeopleMap[metaKey][p.id] || {
+              name: p.searchable,
+              col_ids: [],
+            };
+            tree.colPeopleMap[metaKey][p.id].col_ids.push(clientId);
+          }
+        }
+
+        if (md.selectedRoles && md.selectedRoles.length) {
+          tree.colRolesMap[metaKey] =
+          tree.colRolesMap[metaKey] || {};
+          for (const role of md.selectedRoles) {
+            const prid = role.person.id
+            //console.log("got role person: "+ prid)
+            tree.colRolesMap[metaKey][prid] 
+            = tree.colRolesMap[metaKey][prid] || {
+              name: role.person.first_name + " " + role.person.last_name,
+              col_ids: [],
+              role: role,
+              person: role.person
+            };
+            tree.colRolesMap[metaKey][prid].col_ids.push(clientId);
+          }
         }
       }
 
-      if (md.selectedPeople && md.selectedPeople.length) {
-        tree.colPeopleMap[metaKey] =
-        tree.colPeopleMap[metaKey] || {};
-        for (const p of md.selectedPeople) {
-          tree.colPeopleMap[metaKey][p.id]
-           = tree.colPeopleMap[metaKey][p.id] || {
-            name: p.searchable,
-            col_ids: [],
-          };
-          tree.colPeopleMap[metaKey][p.id].col_ids.push(clientId);
-        }
-      }
-
-      if (md.selectedRoles && md.selectedRoles.length) {
-        tree.colRolesMap[metaKey] =
-        tree.colRolesMap[metaKey] || {};
-        for (const role of md.selectedRoles) {
-          const prid = role.person.id
-          //console.log("got role person: "+ prid)
-          tree.colRolesMap[metaKey][prid] 
-          = tree.colRolesMap[metaKey][prid] || {
-            name: role.person.first_name + " " + role.person.last_name,
-            col_ids: [],
-            role: role,
-            person: role.person
-          };
-          tree.colRolesMap[metaKey][prid].col_ids.push(clientId);
-        }
-      }
+    } else {
+      console.error("could not get col meta data " + response.status)
     }
+    
   };
 
   const buildTreeMetaData = async (treeType: string, treeId: string) => {
@@ -863,7 +913,16 @@ export const treeHelper = () => {
         const treeNode =
           state.treeMapper[treeType][treeId].edges[parentId][clientId];
         await buildSubTreeEntries(tree, treeNode);
-        await buildCollectionMetaData(treeType, treeId, parentId, clientId);
+        if (treeNode.arcs.length == 0) {
+          delete state.treeMapper[treeType][treeId].edges[parentId][clientId];
+          console.error("buildTreeMetaData: removed empty set : " + clientId + ":" + state.treeMapper[treeType][treeId].edges[parentId][clientId])
+        }
+        try {
+          await buildCollectionMetaData(treeType, treeId, parentId, clientId);
+        } catch(error) {
+          console.error("Could not build col meta data for set ", clientId, error.status || error)
+        }
+        
       }
     }
   };
@@ -904,11 +963,19 @@ export const treeHelper = () => {
   const fetch_cols_all = async () => {
     const cols_query = {
       full_data: true,
-      public_get_metadata_and_previews: true,
+      //TODO kiosk with auth token
+      //public_get_metadata_and_previews: true,
       page: 0,
       size: 10000,
     };
-    const cols_data = (await apiH.api.collectionsList(cols_query))
+    if (requestParams.value &&
+        requestParams.value.headers && 
+        requestParams.value.headers?.keys) {
+      //cols_query.me_get_metadata_and_previews = true
+    } else {
+      //cols_query.public_get_metadata_and_previews = true
+    }
+    const cols_data = (await apiH.api.collectionsList(cols_query, requestParams.value))
       .data as CollectionsListData;
 
     cols_data.collections.forEach((colEl: CollectionDetailData) => {
@@ -937,9 +1004,9 @@ export const treeHelper = () => {
 
     for (const colId in CHILD_IDS_SCHAUFENSTER) {
       await initTree(treeType, colId)
-      console.log("finished build tree and meta_data " + colId + " as " + treeType);
+      //console.log("finished build tree and meta_data " + colId + " as " + treeType);
     }
-    console.log("finished build tree all ");
+    //console.log("finished build tree all ");
     useTree.value = state.treeMapper;
     //console.dir(state.treeMapper)
   };
@@ -948,9 +1015,11 @@ export const treeHelper = () => {
   const DATA_COL_COL_ARC = "collection-collection-arcs"
   const CHILD_IDS_SCHAUFENSTER = {} as {[key:string]: string};
 
+  const requestParams = ref({} as RequestParams)
+
   const buildRootChildList = async (root_set_id:string) => {
     const ccas_resp_data = await (
-      await apiH.api.collectionCollectionArcsList({ parent_id: root_set_id })
+      await apiH.api.collectionCollectionArcsList({ parent_id: root_set_id }, requestParams.value)
     ).data;
     
     const ccas = ccas_resp_data[DATA_COL_COL_ARC];
@@ -967,7 +1036,6 @@ export const treeHelper = () => {
         CHILD_IDS_SCHAUFENSTER[cid] = cid
         console.log("initTree: schaufenster col " + cid + ":" + col?.id)
       }
-      
     }   
     console.log("buildRootChildList: schaufenster col count:" 
      + Object.keys(CHILD_IDS_SCHAUFENSTER).length)
@@ -975,8 +1043,13 @@ export const treeHelper = () => {
   }
 
 
-  const initApi = (apiBaseUrl:string) => {
+  const initApi = (apiBaseUrl:string, token: string) => {
     apiH = getNewApi(getNewConfig(apiBaseUrl))
+    if (token) {
+      requestParams.value.headers = {
+        Authorization: 'token ' + token
+      }
+    }
   }
 
 
@@ -1050,8 +1123,7 @@ export const treeHelper = () => {
         collectionsAll.size +
         " Project: " +
         Object.keys(state.treeMapper[MATCH_PROJECTS]).length
-        //+ " Diplom: " +
-        //Object.keys(state.treeMapper[MATCH_DIPLOM]).length 
+        
     );
 
     return state.treeMapper;

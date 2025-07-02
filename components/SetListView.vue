@@ -252,8 +252,16 @@ const hasPreview = (id:string):boolean => {
   return true
 }
 
+const buildPreviewQuery = () => {
+  if (useRuntimeConfig().public.userToken) {
+    //console.log("use Token Query")
+    return '?tk=' + useRuntimeConfig().public.userToken
+  }
+}
+
 const previewLargeUrl = (treeId: string): string => {
   let eId = props.useTree[props.settype][treeId]?.edges[RID][treeId].coverId
+  if (!eId) console.error("previewLargeUrl: cover id for set id: " ,eId,treeId)
   if (!eId) {
     for (const child_id in props.useTree[props.settype][treeId]?.edges[treeId]) {
       eId = props.useTree[props.settype][treeId]?.edges[treeId][child_id].coverId
@@ -263,7 +271,8 @@ const previewLargeUrl = (treeId: string): string => {
     }
   }
   const pid = props.useTree[props.settype][treeId]?.previewsLarge[eId]?.id;
-  return apiBaseUrl + "previews/" + pid + "/data-stream";
+  //TODO kiosk token auth
+  return apiBaseUrl + "previews/" + pid + "/data-stream" + buildPreviewQuery()
 };
 
 const setlistLastSlideState = useState("setlistLastSlideState")

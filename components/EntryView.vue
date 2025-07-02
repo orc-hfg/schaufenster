@@ -46,17 +46,26 @@ const props = defineProps(['currentTree', 'entry'])
 const { apiConfig } = apiHelper()
 const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
 
+const buildPreviewQuery = () => {
+  if (useRuntimeConfig().public.userToken) {
+    return '?tk=' + useRuntimeConfig().public.userToken
+  }
+}
+
 const previewUrl4Entry = (eId: string): string => {
-  return apiBaseUrl + 'media-entry/' + eId + '/preview/data-stream'
+    //TODO kiosk token auth
+  return apiBaseUrl + 'media-entry/' + eId + '/preview/data-stream' + buildPreviewQuery()
 }
 
 const previewUrl = (eId: string): string => {
+    //TODO kiosk token auth
   const pid = props.currentTree.previews[eId]?.id
-  return apiBaseUrl + 'previews/' + pid + '/data-stream'
+  return apiBaseUrl + 'previews/' + pid + '/data-stream' + buildPreviewQuery()
 }
 const previewLargeUrl = (eId: string): string => {
+    //TODO kiosk token auth
   const pid = props.currentTree.previewsLarge[eId]?.id
-  return apiBaseUrl + 'previews/' + pid + '/data-stream'
+  return apiBaseUrl + 'previews/' + pid + '/data-stream' + buildPreviewQuery()
 }
 
 </script>

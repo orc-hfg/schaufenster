@@ -3,7 +3,11 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   debug: false,
-  modules: ["@nuxtjs/i18n", "nuxt-swiper", "@pinia/nuxt"],
+  modules: [
+    "@nuxtjs/i18n",
+    "nuxt-swiper",
+    "@pinia/nuxt",
+    '@plutotcool/nuxt-password-protect'],
   appConfig: {
     apiBaseUrl: process.env.NUXT_APP_API_BASE_URL || 'https://staging.madek.hfg-karlsruhe.de',
     apiPath: process.env.NUXT_APP_API_PATH || '/api-v2/',
@@ -46,6 +50,32 @@ export default defineNuxtConfig({
       useCookie: false,
     }
   },
+   
+  passwordProtect: {
+    password: process.env.PASSWORD_PROTECT || undefined, // || 'Nominierungen2025',
+    secret: process.env.PASSWORD_PROTECT_SECRET || 'pFPfKk9+uSF3Ub33MxKn894vcVA1bvXW6QngOQvUFe7T1wm+/+kzZg==',
+    //include: ['setlist', 'setview'],
+    exclude: [
+      //'public',
+      //'/public',
+      //'/nominierungen/public',
+      //'nominierungen/public',
+      'error', 
+      //'hfg-logo.svg',
+      'public/hfg-logo_dashes.svg'
+    ],
+    template: {
+      lang: 'de',
+      title: 'Anmeldung',
+      message: '',
+      errorMessage: 'Zugangsdaten nicht korrekt.',
+      loadingMessage: 'Bitte warten...',
+      inputLabel: 'Passwort',
+      submitLabel: 'Anmelden',
+      logo: 'public/favicon-32x32.png',
+      icon: 'public/favicon-32x32.png'
+    }
+  },
   $production: {
     app: {
       baseURL: process.env.NUXT_APP_BASE_URL || '/schaufenster',
@@ -79,6 +109,7 @@ export default defineNuxtConfig({
     public: {
       apiBaseUrl: process.env.NUXT_APP_API_BASE_URL || 'https://staging.madek.hfg-karlsruhe.de',
       apiPath: process.env.NUXT_APP_API_PATH || '/api-v2/',
+      userToken: process.env.NUXT_APP_USER_TOKEN || undefined, //'9MGMWSKV72E5KMB4HCSPYAAJYBFZ18A9',
       rootSetId: process.env.NUXT_APP_ROOT_SET_ID || '75a2d948-fefa-405f-b8c4-40d7de7c0ddf',
       kioskForestSetId: process.env.NUXT_APP_KIOSK_SET_LIST_ID || 
         //'f9519557-5a60-4f5e-8fb4-a39e7ef3f6fb',
@@ -87,6 +118,22 @@ export default defineNuxtConfig({
         //'f9519557-5a60-4f5e-8fb4-a39e7ef3f6fb',
         undefined, 
         // '389b9eae-6a69-4578-a0b8-b3ef1027317c',
+      kioskIntroTextLines: process.env.NUXT_APP_KIOSK_INTRO_TEXT_LINES?.split('::') || [
+        'Nominierungen',
+        'der',
+        'Förder-',
+        'gesellschaft',
+        'ZKM/HfG',
+        
+      ],
+      kiosk: {
+        infoH1: process.env.NUXT_APP_KIOSK_INFO_H_1,
+        infoP1: process.env.NUXT_APP_KIOSK_INFO_P_1,
+        infoH2: process.env.NUXT_APP_KIOSK_INFO_H_2,
+        infoP2: process.env.NUXT_APP_KIOSK_INFO_P_2,
+        infoH3: process.env.NUXT_APP_KIOSK_INFO_H_3,
+        infoP3: process.env.NUXT_APP_KIOSK_INFO_P_3,
+      },
       MAX_PROJECT_COUNT: 1024,
       SET_VIEW_PROJECT_TITLE_MAX_LENGTH: 50
     }

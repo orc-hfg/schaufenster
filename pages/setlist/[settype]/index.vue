@@ -63,8 +63,12 @@
         :set-type="settype"
         @on-close="showMenuView = true; showFontsView = false;"/>
     </Transition>
-    <Transition name="fade">
+    <Transition name="fade" v-if="!isKiosk">
       <AboutView v-if="showAboutView"
+        @on-close="showAboutView = false; showMenuView = true"/>
+    </Transition>
+    <Transition name="fade" v-if="isKiosk">
+      <KioskAboutView v-if="showAboutView"
         @on-close="showAboutView = false; showMenuView = true"/>
     </Transition>
     <Transition name="fade">
@@ -138,7 +142,7 @@ const colCount = ref(COL_COUNT_INDEX)
 const intro_info = ref('')
 const intro_info2 = ref('')
 const HIDE_INTRO_INFO_DELAY = 2000
-
+const isKiosk = ref(false)
 
 export interface iTreeSlide {
   year:string,
@@ -264,64 +268,71 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   nextYearList.value = []
   sortedTrees.forEach((tree) => {
     
-    tree.year = tree.cols_semesters[tree.col_id] as string
-    pdate = tree.year
-    if (tree.year !== yearlast) {
-      yearlast = tree.year
-      nextYearList.value.push(slideList.value.length)
-    }
-    
-    const eId = tree.edges[RID][tree.col_id].coverId
-    const w = (tree.previews[eId] ? tree.previews[eId].width : 1)
-    const h = (tree.previews[eId] ? tree.previews[eId].height : 1)
-    const wh = w / h;
-    const tpi = Math.floor(Math.random() * TREE_PLACEMENT_CLASSES.length)
-    tree.previewPlacement = TREE_PLACEMENT_CLASSES[tpi]
-    
-    tree.previewstyle = {}
-
-    if (wh > 1) {
-      //querformat
-      tree.previewDirection = 'hor'
-      
-      
-      tree.previewstyle['width'] = getRandom(80,20) + '%'
-        
-      if (tree.previewPlacement == 'right_top'
-        || tree.previewPlacement == 'right_btm'
-      ) {
-        const val = getRandom(-20,20)
-        tree.previewstyle['width'] = 100 + val + '%'
-        tree.previewstyle['right'] = val + '%'
-        
-      }
-      else {
-
-      }
+    if (!tree.edges[RID][tree.col_id] || 
+      !tree.edges[RID][tree.col_id].arcs) {
+        console.error("ingore empty or hidden set " + tree.col_id)
     } else {
-      tree.previewDirection = 'ver'
 
-      tree.previewstyle['height'] = getRandom(80,20) + '%'
-    }
     
-    /*
-    console.log("preview wh: " + wh 
-    + " placement: " + tree.previewPlacement
-    + " style " + JSON.stringify(tree.previewstyle))
-    */
-    
-    tl.push(tree)
-    ti++
-    if (ti >= colCount.value) {
-      slideList.value.push({
-        year: tree.year,
-        trees: tl
-      } as iTreeSlide)
+      tree.year = tree.cols_semesters[tree.col_id] as string
+      pdate = tree.year
+      if (tree.year !== yearlast) {
+        yearlast = tree.year
+        nextYearList.value.push(slideList.value.length)
+      }
       
-      tl = []
-      ti = 0
+      const eId = tree.edges[RID][tree.col_id].coverId
+      const w = (tree.previews[eId] ? tree.previews[eId].width : 1)
+      const h = (tree.previews[eId] ? tree.previews[eId].height : 1)
+      const wh = w / h;
+      const tpi = Math.floor(Math.random() * TREE_PLACEMENT_CLASSES.length)
+      tree.previewPlacement = TREE_PLACEMENT_CLASSES[tpi]
+      
+      tree.previewstyle = {}
+
+      if (wh > 1) {
+        //querformat
+        tree.previewDirection = 'hor'
+        
+        
+        tree.previewstyle['width'] = getRandom(80,20) + '%'
+          
+        if (tree.previewPlacement == 'right_top'
+          || tree.previewPlacement == 'right_btm'
+        ) {
+          const val = getRandom(-20,20)
+          tree.previewstyle['width'] = 100 + val + '%'
+          tree.previewstyle['right'] = val + '%'
+          
+        }
+        else {
+
+        }
+      } else {
+        tree.previewDirection = 'ver'
+
+        tree.previewstyle['height'] = getRandom(80,20) + '%'
+      }
+      
+      /*
+      console.log("preview wh: " + wh 
+      + " placement: " + tree.previewPlacement
+      + " style " + JSON.stringify(tree.previewstyle))
+      */
+      
+      tl.push(tree)
+      ti++
+      if (ti >= colCount.value) {
+        slideList.value.push({
+          year: tree.year,
+          trees: tl
+        } as iTreeSlide)
+        
+        tl = []
+        ti = 0
+      }
     }
-  
+    
   })
   if (tl.length) {
     
@@ -443,7 +454,8 @@ updateSetType();
 onMounted(() => {
   
   updateSetType();
-  
+  isKiosk.value = useRuntimeConfig().public.kioskSetId?.length > 0 || useRuntimeConfig().public.kioskForestSetId?.length > 0
+
   document.documentElement.setAttribute("lang", locale.value );
 
   /* Metadata & SEO */
