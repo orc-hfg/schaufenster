@@ -1557,12 +1557,7 @@ const handleMouseLeave = () => {
   transition: all 300ms ease-in;
   transition-delay: 150ms;
 }
-[data-layout="mobile"] {
-  .btn_bottom_nav_toggle {
-    bottom: 0px;
-    margin-bottom: calc(calc(var(--bottom-nav-height)/2) - calc(var(--bottom-nav-toggle-height)/2));
-  }
-}
+
 .bottom_nav.hidden {
   /* opacity: 0;
   width: 0px;
@@ -1592,6 +1587,12 @@ const handleMouseLeave = () => {
   align-items: center;
 }
 
+[data-layout="mobile"] {
+  .btn_bottom_nav_toggle {
+
+    margin-bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
+  }
+}
 
 
 .swiper_main.hidden .main_preview {
