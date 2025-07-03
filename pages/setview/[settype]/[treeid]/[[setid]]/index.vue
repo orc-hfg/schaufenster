@@ -1607,6 +1607,12 @@ const handleMouseLeave = () => {
   align-items: center;
 }
 
+/* [data-layout="mobile"] {
+  .btn_bottom_nav_toggle {
+
+    margin-bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
+  }
+} */
 
 
 .swiper_main.hidden .main_preview {
@@ -2235,7 +2241,10 @@ progress::-webkit-progress-value {
     /* top: 0px; */
     /* top: var(--margin-entry-info-title-top); */
     /* height: calc(100vh - 68px); */
-    /* height: auto; */
+
+    /* HH height: auto scheint auch zu funktionieren, 
+    nicht sicher welche die bessere Lösung ist. */
+    height: fit-content;
 
     /* border: 1px solid blue; */
   }
