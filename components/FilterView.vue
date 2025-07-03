@@ -601,10 +601,10 @@ const highContrastState = useState('isHighContrast')
                 </button>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_PARTICIPANTS)"
               :show-all="showAll[MK_PARTICIPANTS]"
-              :count="getTagCount(MK_PARTICIPANTS)"/>
+              :count="getTagCount(MK_PARTICIPANTS)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
