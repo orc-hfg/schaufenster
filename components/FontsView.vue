@@ -239,6 +239,9 @@ nav a svg {
 .font_dropper {
     height: 24px;
 }
+.font_dropper svg path {
+    stroke: var(--Colors-text-primary, #FFF);
+}
 
 .font_options {
     position: absolute;

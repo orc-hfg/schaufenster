@@ -539,6 +539,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t('meta_info.label_project_keywords') }}
+            <IconsChevronUpDown :show-up="showAll[MK_KEYWORDS]"/>
           </div>
           <template v-if="hasFilterResults(MK_KEYWORDS)">
             <div class="filter_cloud"
@@ -559,10 +560,10 @@ const highContrastState = useState('isHighContrast')
                 </button>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
               :show-all="showAll[MK_KEYWORDS]"
-              :count="getTagCount(MK_KEYWORDS)"/>
+              :count="getTagCount(MK_KEYWORDS)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -578,6 +579,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t('meta_info.label_project_authors') }}
+            <IconsChevronUpDown :show-up="showAll[MK_AUTHORS]"/>
           </div>
           <template v-if="hasFilterResults(MK_AUTHORS)">
             <div class="filter_cloud"
@@ -598,10 +600,10 @@ const highContrastState = useState('isHighContrast')
                 </button>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_AUTHORS)"
               :show-all="showAll[MK_AUTHORS]"
-              :count="getTagCount(MK_AUTHORS)"/>
+              :count="getTagCount(MK_AUTHORS)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -617,6 +619,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t('meta_info.label_project_participants') }}
+            <IconsChevronUpDown :show-up="showAll[MK_PARTICIPANTS]"/>
           </div>
           <template v-if="hasFilterResults(MK_PARTICIPANTS)">
             <div class="filter_cloud"
@@ -655,6 +658,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t('meta_info.label_project_program_of_study') }}
+            <IconsChevronUpDown :show-up="showAll[MK_PROGRAM_OF_STUDY]"/>
           </div>
           <template v-if="hasFilterResults(MK_PROGRAM_OF_STUDY)">
             <div class="filter_cloud"
@@ -675,10 +679,10 @@ const highContrastState = useState('isHighContrast')
                 </button>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_PROGRAM_OF_STUDY)"
               :show-all="showAll[MK_PROGRAM_OF_STUDY]"
-              :count="getTagCount(MK_PROGRAM_OF_STUDY)"/>
+              :count="getTagCount(MK_PROGRAM_OF_STUDY)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -694,6 +698,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t('meta_info.label_project_category') }}
+            <IconsChevronUpDown :show-up="showAll[MK_PROJECT_TYPE]"/>
           </div>
           <template v-if="hasFilterResults(MK_PROJECT_TYPE)">
             <div class="filter_cloud"
@@ -714,10 +719,10 @@ const highContrastState = useState('isHighContrast')
                 </button>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_PROJECT_TYPE)"
               :show-all="showAll[MK_PROJECT_TYPE]"
-              :count="getTagCount(MK_PROJECT_TYPE)"/>
+              :count="getTagCount(MK_PROJECT_TYPE)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -732,6 +737,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t('meta_info.label_project_leader') }}
+            <IconsChevronUpDown :show-up="showAll[MK_PROJECT_LEADER]"/>
           </div>
           <template v-if="hasFilterResults(MK_PROJECT_LEADER)">
             <div class="filter_cloud"
@@ -752,10 +758,10 @@ const highContrastState = useState('isHighContrast')
                 </button>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_PROJECT_LEADER)"
               :show-all="showAll[MK_PROJECT_LEADER]"
-              :count="getTagCount(MK_PROJECT_LEADER)"/>
+              :count="getTagCount(MK_PROJECT_LEADER)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -771,6 +777,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t('meta_info.label_project_semester') }}
+            <IconsChevronUpDown :show-up="showAll[MK_SEMESTER]"/>
           </div>
           <template v-if="hasFilterResults(MK_SEMESTER)">
             <div class="filter_cloud"
@@ -791,10 +798,10 @@ const highContrastState = useState('isHighContrast')
                 </button>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_SEMESTER)"
               :show-all="showAll[MK_SEMESTER]"
-              :count="getTagCount(MK_SEMESTER)"/>
+              :count="getTagCount(MK_SEMESTER)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -1211,7 +1218,7 @@ nav {
 
 
 .filter_headline {  
-  flex-direction: column;
+  flex-direction: row;
  
   display: flex;
   align-items: flex-start;
@@ -1223,8 +1230,18 @@ nav {
 
   /* padding-bottom: var(--padding-item-vertical-L); */
   height: 36px;
+  cursor: pointer;
 }
-
+.filter_headline svg {
+  width: 24px;
+  height: 24px;
+  color: var(--Colors-text-secondary, #CAC9C2) !important;
+  stroke: var(--Colors-text-secondary, #CAC9C2) !important; 
+}
+.filter_headline svg path {
+  color: var(--Colors-text-secondary, #CAC9C2) !important;
+  stroke: var(--Colors-text-secondary, #CAC9C2) !important; 
+}
 
 
 
