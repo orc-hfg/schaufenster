@@ -1068,7 +1068,7 @@ cursor: pointer;
   float: left;
   padding-bottom: var(--padding-item-vertical-S);
   margin-bottom: calc(var(--padding-container-bottom-L) + var(--padding-container-bottom-M));
-  border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
+  /* border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2); */
 }
 
 
