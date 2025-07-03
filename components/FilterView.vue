@@ -531,44 +531,6 @@ const highContrastState = useState('isHighContrast')
 
         <!-- HH Können statt den filter-translations die meta_info-translations verwendet werden? Redundanz vermeiden. -->
 
-        <!-- MK_KEYWORDS -->
-        <div class="meta_key_filter">
-          <div class="filter_headline"
-            @click="toggleShowAll(MK_KEYWORDS)"
-            @keyup.enter="toggleShowAll(MK_KEYWORDS)"
-            role="button"
-            tabIndex="0">
-            {{ $t('meta_info.label_project_keywords') }}
-            <IconsChevronUpDown :show-up="showAll[MK_KEYWORDS]"/>
-          </div>
-          <template v-if="hasFilterResults(MK_KEYWORDS)">
-            <div class="filter_cloud"
-              :id=" 'filter_cloud_' + MK_KEYWORDS "
-              :style="getShowAllStyle(MK_KEYWORDS)"
-              :class="{hide_all:!showAll[MK_KEYWORDS]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_KEYWORDS)">
-                <button class="keyword_item"
-                :tabindex="(!showAll[MK_KEYWORDS]? '-1' : '0')"  
-                @click="clickedKeyword(globalMap[MK_KEYWORDS][itemId])"
-                  v-if="!isHideIfNotSubString(globalMap[MK_KEYWORDS][itemId][0].name)
-                    && getFilteredCount(MK_KEYWORDS, itemId) > 0"
-                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, globalMap[MK_KEYWORDS][itemId][0])"
-                  >
-                  {{ globalMap[MK_KEYWORDS][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, itemId) }}</span>
-                </button>
-              </div>
-            </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
-              :show-all="showAll[MK_KEYWORDS]"
-              :count="getTagCount(MK_KEYWORDS)"/> -->
-          </template>
-          <div v-else class="filter_cloud_no_results">
-            {{ $t('filter.no_results') }}
-          </div>
-        </div>
         
 
         <!-- MK_AUTHORS -->
@@ -807,8 +769,46 @@ const highContrastState = useState('isHighContrast')
             {{ $t('filter.no_results') }}
           </div>
         </div>
-        
 
+
+        <!-- MK_KEYWORDS -->
+        <div class="meta_key_filter">
+          <div class="filter_headline"
+            @click="toggleShowAll(MK_KEYWORDS)"
+            @keyup.enter="toggleShowAll(MK_KEYWORDS)"
+            role="button"
+            tabIndex="0">
+            {{ $t('meta_info.label_project_keywords') }}
+            <IconsChevronUpDown :show-up="showAll[MK_KEYWORDS]"/>
+          </div>
+          <template v-if="hasFilterResults(MK_KEYWORDS)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + MK_KEYWORDS "
+              :style="getShowAllStyle(MK_KEYWORDS)"
+              :class="{hide_all:!showAll[MK_KEYWORDS]}">
+              <div class="filter_cloud_item"
+                v-for="itemId in getSortedFilterItemKeys(MK_KEYWORDS)">
+                <button class="keyword_item"
+                :tabindex="(!showAll[MK_KEYWORDS]? '-1' : '0')"  
+                @click="clickedKeyword(globalMap[MK_KEYWORDS][itemId])"
+                  v-if="!isHideIfNotSubString(globalMap[MK_KEYWORDS][itemId][0].name)
+                    && getFilteredCount(MK_KEYWORDS, itemId) > 0"
+                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, globalMap[MK_KEYWORDS][itemId][0])"
+                  >
+                  {{ globalMap[MK_KEYWORDS][itemId][0].name }}
+                  <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, itemId) }}</span>
+                </button>
+              </div>
+            </div>
+            <!-- <FilterViewShowBtn
+              @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
+              :show-all="showAll[MK_KEYWORDS]"
+              :count="getTagCount(MK_KEYWORDS)"/> -->
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
+          </div>
+        </div>
 
       </div>
 
