@@ -50,6 +50,7 @@ const buildPreviewQuery = () => {
   if (useRuntimeConfig().public.userToken) {
     return '?tk=' + useRuntimeConfig().public.userToken
   }
+  return ''
 }
 
 const previewUrl4Entry = (eId: string): string => {

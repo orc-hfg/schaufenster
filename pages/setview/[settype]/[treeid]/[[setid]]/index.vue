@@ -704,6 +704,7 @@ const buildPreviewQuery = () => {
     //console.log("use Token Query")
     return '?tk=' + useRuntimeConfig().public.userToken
   }
+  return ''
 }
 const previewUrl = (eId: string): string => {
   const pid = currentTree.value.previews[eId]?.id

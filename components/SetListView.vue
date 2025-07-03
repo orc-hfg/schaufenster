@@ -257,6 +257,7 @@ const buildPreviewQuery = () => {
     //console.log("use Token Query")
     return '?tk=' + useRuntimeConfig().public.userToken
   }
+  return ''
 }
 
 const previewLargeUrl = (treeId: string): string => {
