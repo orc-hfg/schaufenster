@@ -1586,7 +1586,12 @@ const handleMouseLeave = () => {
   transition: all 300ms ease-out;
 }
 .btn_bottom_nav_toggle {
-  position: absolute;
+  /* HH "position: fixed" statt "position: absolute" positioniert das Element richtig, 
+  scheinbar ist keine weitere Anpassung für mobile nötig.
+  Der Grund ist mir nicht ganz klar, vielleicht weil auch der parent container
+  (setview_page) position: fixed ist? */
+  position: fixed;
+
   left: var(--bottom-nav-padding);
   width: var(--bottom-nav-toggle-height);
   height: var(--bottom-nav-toggle-height);
@@ -1606,13 +1611,6 @@ const handleMouseLeave = () => {
   justify-content: center;
   align-items: center;
 }
-
-/* [data-layout="mobile"] {
-  .btn_bottom_nav_toggle {
-
-    margin-bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
-  }
-} */
 
 
 .swiper_main.hidden .main_preview {
