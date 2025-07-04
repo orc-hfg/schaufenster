@@ -38,7 +38,7 @@
         </div>
 
         <NuxtLink class="navbar_link afilter"
-            v-if="!isKioskMode"
+            
             :class="{hidden: hideNavBtns,
               active:showFilterView}"
               :tabindex="(hideNavBtns? '-1': '0')"

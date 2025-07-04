@@ -269,7 +269,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   sortedTrees.forEach((tree) => {
     
     if (!tree.edges[RID][tree.col_id] || 
-      !tree.edges[RID][tree.col_id].arcs) {
+      (!tree.edges[RID][tree.col_id].arcs && !tree.edges[tree.col_id] )) {
         console.error("ingore empty or hidden set " + tree.col_id)
     } else {
 

@@ -594,9 +594,10 @@ export const treeHelper = () => {
     //"manual ASC" "manual_asc"
     //"manual DESC" "manual_desc"
     const sorting_order = sorting.replace('created_at ','').replace(' ','_').toLowerCase()
-    //console.log("buildSubTreeEntries: "
-    //  + " col.id "+ treeNode.collection.id 
-    //  + " sorting: " + sorting + " query-order: " + sorting_order)
+    console.log("buildSubTreeEntries: "
+      + " col.id "+ treeNode.collection.id 
+      + " sorting: " + sorting 
+      + " query-order: " + sorting_order)
       
     const entry_query = {
       // TODO kiosk with auth token
@@ -611,19 +612,23 @@ export const treeHelper = () => {
     };
 
     if (requestParams.value.headers?.keys) {
-      entry_query.me_get_metadata_and_previews = true
+      //entry_query.me_get_metadata_and_previews = true
     } else {
-      entry_query.public_get_metadata_and_previews = true
+      //entry_query.public_get_metadata_and_previews = true
     }
-    state.loading++;
+
     const entries_resp = (await apiH.api.mediaEntriesList(entry_query, requestParams.value)).data;
-    //const entries_resp =  (await apiH.api.mediaEntriesRelatedDataList(entry_query, requestParams.value)).data;
-    state.loading--;
+
+    const cmes = (await apiH.api.collectionMediaEntryArcsList({
+      collection_id: treeNode.collection.id
+    },requestParams.value)).data['collection-media-entry-arcs']
+
     const arcs = entries_resp.col_arcs;
     const entries = entries_resp.media_entries;
-    console.log("buildSubTreeEntries: arcs vs entries"
+    console.log("buildSubTreeEntries: arcs vs entries vs cmes: "
       + treeNode.collection.id + " : ",
-       arcs?.length, entries.length)
+       arcs?.length, entries.length, cmes.length)
+  
     
     treeNode.arcs = arcs || [];
     treeNode.entries = treeNode.entries || {};
@@ -636,7 +641,7 @@ export const treeHelper = () => {
       console.log("buildSubTreeEntries: "
           + treeNode.collection.id + ":"
           + "ABORT: No entries in set")
-      return;
+      //return;
     }
     let coverArc = undefined;
     const coverArcC = arcs?.find((e) => { return e.cover == true || e.cover == "true" });
@@ -814,7 +819,7 @@ export const treeHelper = () => {
     }
 
     const response = await apiH.api.collectionMetaDataRelatedDetail(clientId, {}, requestParams.value)
-    console.log("buildCollectionMetaData: get meta data for set: " + clientId + " status: " + response.status)
+    //console.log("buildCollectionMetaData: get meta data for set: " + clientId + " status: " + response.status)
     if (response.status == 200) {
       
       const resp_data = response.data // await (response).data;
@@ -914,8 +919,8 @@ export const treeHelper = () => {
           state.treeMapper[treeType][treeId].edges[parentId][clientId];
         await buildSubTreeEntries(tree, treeNode);
         if (treeNode.arcs.length == 0) {
-          delete state.treeMapper[treeType][treeId].edges[parentId][clientId];
-          console.error("buildTreeMetaData: removed empty set : " + clientId + ":" + state.treeMapper[treeType][treeId].edges[parentId][clientId])
+          //delete state.treeMapper[treeType][treeId].edges[parentId][clientId];
+          console.error("buildTreeMetaData: not removed empty set : " + clientId + ":" + state.treeMapper[treeType][treeId].edges[parentId][clientId])
         }
         try {
           await buildCollectionMetaData(treeType, treeId, parentId, clientId);
