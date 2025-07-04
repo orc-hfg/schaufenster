@@ -85,10 +85,10 @@ string[] => {
     const itemVal = globalMap.value[metaKey][item]
     result[itemVal[0].id] = itemVal
   }
-  console.log("sorted result: ")
-  console.dir(result)
+  //console.log("sorted result: ")
+  //console.dir(result)
   const keys = Object.keys(result).sort((a,b) => globalMap.value[metaKey][a][0].name.localeCompare(globalMap.value[metaKey][b][0].name))
-  console.dir(keys)
+  //console.dir(keys)
   //.keys.sort((a,b) => { a.name > b.name ? 1 : -1 })
    //return globalMap.value[metaKey]
    return keys
@@ -182,8 +182,15 @@ const updateFilteredCounts = () => {
   });
 
   selectedFilterCount.value = getFilterCount(newFiltersTitle.value, newFiltersMap.value)
-
+  
   updateShowAll()
+
+  setTimeout(() => {
+    ALL_META_KEYS.forEach(meta_key => {
+        updateFilterHeight(meta_key)
+    })
+  },100)
+
   console.log("filtered count map: ")
   console.dir(countMap.value)
 }
@@ -213,7 +220,9 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
       newFiltersMap.value[type][id] = data
       console.log("clickedFilter: filter for data: " + JSON.stringify(data))
   }
+  updateFilterHeight(kwInfo[0].meta_key)
   updateFilteredCounts()
+  updateFilterHeight(kwInfo[0].meta_key)
 }
 
 const clickedKeyword = (kwInfo) => {
@@ -290,12 +299,13 @@ const getTagCount = (meta_key: string): number => {
 const toggleShowAll = (meta_key:string) => {
   showAll.value[meta_key] = !showAll.value[meta_key]
 }
-const getFilterTagClass = (type:string, meta_key: string, filterInfo) => {
-  getShowAll(type, meta_key, filterInfo.id)
+const getFilterTagClass = (type:string, meta_key: string, filterId:string) => {
+  const filterInfo = globalMap.value[meta_key][filterId][0]
+  getShowAll(type, meta_key, filterId)
   return {
-    selected: isSelected(type, filterInfo.id),
+    selected: isSelected(type, filterId),
     preselected: isSubString(filterInfo.name),
-    disabled: getFilteredCount(meta_key, filterInfo.id) == 0
+    disabled: getFilteredCount(meta_key, filterId) == 0
   }
 }
 
@@ -309,6 +319,7 @@ const updateShowAll = () => {
         console.log("updateShowAll: " + filterInfo.meta_key)
         console.dir(filterInfo)
         showAll.value[filterInfo.meta_key] = true
+        //updateFilterHeight(filterInfo.meta_key)
       }
   }
   console.log("updateShowAll: ")
@@ -323,6 +334,30 @@ const hasFilterResults = (meta_key: string): boolean => {
   }
   return false;
 }
+
+const ALL_META_KEYS = [MK_AUTHORS,
+   MK_KEYWORDS,
+   MK_PARTICIPANTS,
+   MK_PROGRAM_OF_STUDY,
+   MK_PROJECT_LEADER,
+   MK_PROJECT_TYPE,
+   MK_SEMESTER];
+
+
+const getFilterHeight = (metaKey:string) => {
+  //const fc_elem = document.getElementById('filter_cloud_' + metaKey)
+  const elId = 'filter_cloud_content_' + metaKey
+  const fc_elem = document.getElementById(elId)
+  const height = fc_elem?.getBoundingClientRect().height || 54 //164
+  console.log("getFilterHeight: " + elId + " : " + height)
+  return height
+}
+
+
+const updateFilterHeight = (metaKey:string) => {
+  showAllHeight.value[metaKey] = getFilterHeight(metaKey) + 'px';
+}
+
 
 onMounted(() => {
 
@@ -347,41 +382,20 @@ onMounted(() => {
   //console.error("filter map new: " + JSON.stringify(newFiltersMap.value))
 
   initTreeType();
-
-  [MK_AUTHORS,
-   MK_KEYWORDS,
-   MK_PARTICIPANTS,
-   MK_PROGRAM_OF_STUDY,
-   MK_PROJECT_LEADER,
-   MK_PROJECT_TYPE,
-   MK_SEMESTER].forEach(meta_key => {
+/*
+  ALL_META_KEYS.forEach(meta_key => {
     showAll.value[meta_key] = true
    });
-
+*/
    setTimeout(() => {
 
-    [MK_AUTHORS,
-      MK_KEYWORDS,
-      MK_PARTICIPANTS,
-      MK_PROGRAM_OF_STUDY,
-      MK_PROJECT_LEADER,
-      MK_PROJECT_TYPE,
-      MK_SEMESTER].forEach(meta_key => {
-
-        const fc_elem = document.getElementById('filter_cloud_' + meta_key)
-        const height = fc_elem?.getBoundingClientRect().height || 54 //164
-        showAllHeight.value[meta_key] = height + 'px';
+    ALL_META_KEYS.forEach(meta_key => {
+        updateFilterHeight(meta_key)
     })
     console.log("got show heights: " + JSON.stringify(showAllHeight.value))
 
       setTimeout(() => {
-        [MK_AUTHORS,
-          MK_KEYWORDS,
-          MK_PARTICIPANTS,
-          MK_PROGRAM_OF_STUDY,
-          MK_PROJECT_LEADER,
-          MK_PROJECT_TYPE,
-          MK_SEMESTER].forEach(meta_key => {
+        ALL_META_KEYS.forEach(meta_key => {
             showAll.value[meta_key] = false
         });
 
@@ -416,8 +430,10 @@ const switch2SetView = (tree_col_id: string) => {
 
 const getShowAllStyle = (meta_key) => {
   if (!showAll.value[meta_key]) {
+    // use default height var
     return { height: 'var(--dimension-filter-cloud-height)'}
   } 
+
   return {height: showAllHeight.value[meta_key]}
 }
 
@@ -465,11 +481,6 @@ const highContrastState = useState('isHighContrast')
 
           <!-- slightly different construction */ -->
           <div class="input_wrapper">
-            <!-- <label 
-              id="filter_text_input_label"
-              for="filter_text_input">
-                 {{ $t('filter.input_label')}}
-            </label> -->
             <input
               id="filter_text_input"
               class="filter_text_input"
@@ -548,18 +559,23 @@ const highContrastState = useState('isHighContrast')
               :id=" 'filter_cloud_' + MK_AUTHORS "
               :style="getShowAllStyle(MK_AUTHORS)"
               :class="{hide_all:!showAll[MK_AUTHORS]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_AUTHORS)">
-                <button class="keyword_item"
-                  :tabindex="(!showAll[MK_AUTHORS]? '-1' : '0')"
-                  @click="clickedPeople(globalMap[MK_AUTHORS][itemId])"
-                  v-if="!isHideIfNotSubString(globalMap[MK_AUTHORS][itemId][0].name)
-                    && getFilteredCount(MK_AUTHORS, itemId) > 0"
-                  :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, globalMap[MK_AUTHORS][itemId][0])"
-                  >
-                  {{ globalMap[MK_AUTHORS][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_AUTHORS, itemId) }}</span>
-                </button>
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + MK_AUTHORS ">
+
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(MK_AUTHORS)">
+                  <button class="keyword_item"
+                    :tabindex="(!showAll[MK_AUTHORS]? '-1' : '0')"
+                    @click="clickedPeople(globalMap[MK_AUTHORS][itemId])"
+                    v-if="!isHideIfNotSubString(globalMap[MK_AUTHORS][itemId][0].name)
+                      && getFilteredCount(MK_AUTHORS, itemId) > 0"
+                    :class="getFilterTagClass(FILTERS_PEOPLE, MK_AUTHORS, itemId)"
+                    >
+                    {{ globalMap[MK_AUTHORS][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_AUTHORS, itemId) }}</span>
+                  </button>
+                </div>
+
               </div>
             </div>
             <!-- <FilterViewShowBtn
@@ -588,23 +604,26 @@ const highContrastState = useState('isHighContrast')
               :id=" 'filter_cloud_' + MK_PARTICIPANTS "
               :style="getShowAllStyle(MK_PARTICIPANTS)"
               :class="{hide_all:!showAll[MK_PARTICIPANTS]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_PARTICIPANTS)">
-                <button class="keyword_item"
-                  :tabindex="(!showAll[MK_PARTICIPANTS]? '-1' : '0')"
-                  @click="clickedRole(globalMap[MK_PARTICIPANTS][itemId])"
-                  v-if="!isHideIfNotSubString(globalMap[MK_PARTICIPANTS][itemId][0].name)
-                    && getFilteredCount(MK_PARTICIPANTS, itemId) > 0"
-                  :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, globalMap[MK_PARTICIPANTS][itemId][0])">
-                  {{ globalMap[MK_PARTICIPANTS][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, itemId) }}</span>
-                </button>
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + MK_PARTICIPANTS ">
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(MK_PARTICIPANTS)">
+                  <button class="keyword_item"
+                    :tabindex="(!showAll[MK_PARTICIPANTS]? '-1' : '0')"
+                    @click="clickedRole(globalMap[MK_PARTICIPANTS][itemId])"
+                    v-if="!isHideIfNotSubString(globalMap[MK_PARTICIPANTS][itemId][0].name)
+                      && getFilteredCount(MK_PARTICIPANTS, itemId) > 0"
+                    :class="getFilterTagClass(FILTERS_ROLES, MK_PARTICIPANTS, itemId)">
+                    {{ globalMap[MK_PARTICIPANTS][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_PARTICIPANTS, itemId) }}</span>
+                  </button>
+                </div>
               </div>
             </div>
-            <FilterViewShowBtn
+            <!-- <FilterViewShowBtn
               @toggle-show-all="toggleShowAll(MK_PARTICIPANTS)"
               :show-all="showAll[MK_PARTICIPANTS]"
-              :count="getTagCount(MK_PARTICIPANTS)"/>
+              :count="getTagCount(MK_PARTICIPANTS)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
@@ -627,18 +646,21 @@ const highContrastState = useState('isHighContrast')
               :id=" 'filter_cloud_' + MK_PROGRAM_OF_STUDY "
               :style="getShowAllStyle(MK_PROGRAM_OF_STUDY)"
               :class="{hide_all:!showAll[MK_PROGRAM_OF_STUDY]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_PROGRAM_OF_STUDY)">
-                <button class="keyword_item"
-                  :tabindex="(!showAll[MK_PROGRAM_OF_STUDY]? '-1' : '0')"
-                  @click="clickedKeyword( globalMap[MK_PROGRAM_OF_STUDY][itemId])"
-                  v-if="!isHideIfNotSubString( globalMap[MK_PROGRAM_OF_STUDY][itemId][0].name)
-                    && getFilteredCount(MK_PROGRAM_OF_STUDY, itemId)"
-                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY,  globalMap[MK_PROGRAM_OF_STUDY][itemId][0])"
-                    >
-                   {{ globalMap[MK_PROGRAM_OF_STUDY][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_PROGRAM_OF_STUDY, itemId) }}</span>
-                </button>
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + MK_PROGRAM_OF_STUDY ">
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(MK_PROGRAM_OF_STUDY)">
+                  <button class="keyword_item"
+                    :tabindex="(!showAll[MK_PROGRAM_OF_STUDY]? '-1' : '0')"
+                    @click="clickedKeyword( globalMap[MK_PROGRAM_OF_STUDY][itemId])"
+                    v-if="!isHideIfNotSubString( globalMap[MK_PROGRAM_OF_STUDY][itemId][0].name)
+                      && getFilteredCount(MK_PROGRAM_OF_STUDY, itemId)"
+                    :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROGRAM_OF_STUDY, itemId)"
+                      >
+                    {{ globalMap[MK_PROGRAM_OF_STUDY][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_PROGRAM_OF_STUDY, itemId) }}</span>
+                  </button>
+                </div>
               </div>
             </div>
             <!-- <FilterViewShowBtn
@@ -667,18 +689,21 @@ const highContrastState = useState('isHighContrast')
               :id=" 'filter_cloud_' + MK_PROJECT_TYPE "
               :style="getShowAllStyle(MK_PROJECT_TYPE)"
               :class="{hide_all:!showAll[MK_PROJECT_TYPE]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_PROJECT_TYPE)">
-                <button class="keyword_item"
-                  :tabindex="(!showAll[MK_PROJECT_TYPE]? '-1' : '0')"
-                  @click="clickedKeyword(globalMap[MK_PROJECT_TYPE][itemId])"
-                  v-if="!isHideIfNotSubString(globalMap[MK_PROJECT_TYPE][itemId][0].name)
-                    && getFilteredCount(MK_PROJECT_TYPE,itemId) > 0"
-                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, globalMap[MK_PROJECT_TYPE][itemId][0])"
-                    >
-                  {{ globalMap[MK_PROJECT_TYPE][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_PROJECT_TYPE,itemId) }}</span>
-                </button>
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + MK_PROJECT_TYPE ">
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(MK_PROJECT_TYPE)">
+                  <button class="keyword_item"
+                    :tabindex="(!showAll[MK_PROJECT_TYPE]? '-1' : '0')"
+                    @click="clickedKeyword(globalMap[MK_PROJECT_TYPE][itemId])"
+                    v-if="!isHideIfNotSubString(globalMap[MK_PROJECT_TYPE][itemId][0].name)
+                      && getFilteredCount(MK_PROJECT_TYPE,itemId) > 0"
+                    :class="getFilterTagClass(FILTERS_KEYWORD, MK_PROJECT_TYPE, itemId)"
+                      >
+                    {{ globalMap[MK_PROJECT_TYPE][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_PROJECT_TYPE,itemId) }}</span>
+                  </button>
+                </div>
               </div>
             </div>
             <!-- <FilterViewShowBtn
@@ -706,18 +731,21 @@ const highContrastState = useState('isHighContrast')
               :id=" 'filter_cloud_' + MK_PROJECT_LEADER "
               :style="getShowAllStyle(MK_PROJECT_LEADER)"
               :class="{hide_all:!showAll[MK_PROJECT_LEADER]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_PROJECT_LEADER)">
-                <button class="keyword_item"
-                  :tabindex="(!showAll[MK_PROJECT_LEADER]? '-1' : '0')"
-                  @click="clickedPeople(globalMap[MK_PROJECT_LEADER][itemId])"
-                  v-if="!isHideIfNotSubString(globalMap[MK_PROJECT_LEADER][itemId][0].name)
-                    && getFilteredCount(MK_PROJECT_LEADER, itemId) > 0"
-                  :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, globalMap[MK_PROJECT_LEADER][itemId][0])"
-                    >
-                  {{ globalMap[MK_PROJECT_LEADER][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_PROJECT_LEADER, itemId) }}</span>
-                </button>
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + MK_PROJECT_LEADER ">
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(MK_PROJECT_LEADER)">
+                  <button class="keyword_item"
+                    :tabindex="(!showAll[MK_PROJECT_LEADER]? '-1' : '0')"
+                    @click="clickedPeople(globalMap[MK_PROJECT_LEADER][itemId])"
+                    v-if="!isHideIfNotSubString(globalMap[MK_PROJECT_LEADER][itemId][0].name)
+                      && getFilteredCount(MK_PROJECT_LEADER, itemId) > 0"
+                    :class="getFilterTagClass(FILTERS_PEOPLE, MK_PROJECT_LEADER, itemId)"
+                      >
+                    {{ globalMap[MK_PROJECT_LEADER][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_PROJECT_LEADER, itemId) }}</span>
+                  </button>
+                </div>
               </div>
             </div>
             <!-- <FilterViewShowBtn
@@ -746,18 +774,21 @@ const highContrastState = useState('isHighContrast')
               :id=" 'filter_cloud_' + MK_SEMESTER "
               :style="getShowAllStyle(MK_SEMESTER)"
               :class="{hide_all:!showAll[MK_SEMESTER]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_SEMESTER)">
-                <button class="keyword_item"
-                  :tabindex="(!showAll[MK_SEMESTER]? '-1' : '0')"
-                  @click="clickedFilter(FILTERS_KEYWORD, globalMap[MK_SEMESTER][itemId])"
-                  v-if="!isHideIfNotSubString(globalMap[MK_SEMESTER][itemId][0].name)
-                    && getFilteredCount(MK_SEMESTER, itemId) > 0"
-                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, globalMap[MK_SEMESTER][itemId][0])"
-                    >
-                  {{ globalMap[MK_SEMESTER][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_SEMESTER, itemId) }}</span>
-                </button>
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + MK_AUTHORS ">
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(MK_SEMESTER)">
+                  <button class="keyword_item"
+                    :tabindex="(!showAll[MK_SEMESTER]? '-1' : '0')"
+                    @click="clickedFilter(FILTERS_KEYWORD, globalMap[MK_SEMESTER][itemId])"
+                    v-if="!isHideIfNotSubString(globalMap[MK_SEMESTER][itemId][0].name)
+                      && getFilteredCount(MK_SEMESTER, itemId) > 0"
+                    :class="getFilterTagClass(FILTERS_KEYWORD, MK_SEMESTER, itemId)"
+                      >
+                    {{ globalMap[MK_SEMESTER][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_SEMESTER, itemId) }}</span>
+                  </button>
+                </div>
               </div>
             </div>
             <!-- <FilterViewShowBtn
@@ -786,18 +817,21 @@ const highContrastState = useState('isHighContrast')
               :id=" 'filter_cloud_' + MK_KEYWORDS "
               :style="getShowAllStyle(MK_KEYWORDS)"
               :class="{hide_all:!showAll[MK_KEYWORDS]}">
-              <div class="filter_cloud_item"
-                v-for="itemId in getSortedFilterItemKeys(MK_KEYWORDS)">
-                <button class="keyword_item"
-                :tabindex="(!showAll[MK_KEYWORDS]? '-1' : '0')"  
-                @click="clickedKeyword(globalMap[MK_KEYWORDS][itemId])"
-                  v-if="!isHideIfNotSubString(globalMap[MK_KEYWORDS][itemId][0].name)
-                    && getFilteredCount(MK_KEYWORDS, itemId) > 0"
-                  :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, globalMap[MK_KEYWORDS][itemId][0])"
-                  >
-                  {{ globalMap[MK_KEYWORDS][itemId][0].name }}
-                  <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, itemId) }}</span>
-                </button>
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + MK_KEYWORDS ">
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(MK_KEYWORDS)">
+                  <button class="keyword_item"
+                  :tabindex="(!showAll[MK_KEYWORDS]? '-1' : '0')"  
+                  @click="clickedKeyword(globalMap[MK_KEYWORDS][itemId])"
+                    v-if="!isHideIfNotSubString(globalMap[MK_KEYWORDS][itemId][0].name)
+                      && getFilteredCount(MK_KEYWORDS, itemId) > 0"
+                    :class="getFilterTagClass(FILTERS_KEYWORD, MK_KEYWORDS, itemId)"
+                    >
+                    {{ globalMap[MK_KEYWORDS][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(MK_KEYWORDS, itemId) }}</span>
+                  </button>
+                </div>
               </div>
             </div>
             <!-- <FilterViewShowBtn
@@ -1272,6 +1306,18 @@ nav {
   display: none;
 }
 
+.filter_cloud_content {
+  display: flex;
+  
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: var(--spacing-between-items-S, 4px);
+  align-self: stretch;
+  flex-wrap: wrap;
+  overflow: hidden;
+  height: auto;
+  transition: all 300ms ease-out;
+}
 .btn_show_all {
   z-index: 10;
   display: flex;
