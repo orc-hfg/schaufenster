@@ -220,7 +220,7 @@ const clickedFilter = (type:string, kwInfo:object[]) => {
       newFiltersMap.value[type][id] = data
       console.log("clickedFilter: filter for data: " + JSON.stringify(data))
   }
-  updateFilterHeight(kwInfo[0].meta_key)
+
   updateFilteredCounts()
   updateFilterHeight(kwInfo[0].meta_key)
 }
@@ -572,6 +572,7 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t(META_KEY_FILTER_TITLES[idx]) }}
+            {{ META_KEY_FILTER_TYPES[idx] }}
             <IconsChevronUpDown :show-up="showAll[metaKey]"/>
           </div>
           <template v-if="hasFilterResults(metaKey)">
@@ -585,7 +586,7 @@ const highContrastState = useState('isHighContrast')
                   v-for="itemId in getSortedFilterItemKeys(metaKey)">
                   <button class="keyword_item"
                     :tabindex="(!showAll[metaKey]? '-1' : '0')"
-                    @click="clickedRole(globalMap[metaKey][itemId])"
+                    @click="clickedFilter(META_KEY_FILTER_TYPES[idx],globalMap[metaKey][itemId])"
                     v-if="!isHideIfNotSubString(globalMap[metaKey][itemId][0].name)
                       && getFilteredCount(metaKey, itemId) > 0"
                     :class="getFilterTagClass(META_KEY_FILTER_TYPES[idx], metaKey, itemId)">
