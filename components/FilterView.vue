@@ -335,14 +335,35 @@ const hasFilterResults = (meta_key: string): boolean => {
   return false;
 }
 
-const ALL_META_KEYS = [MK_AUTHORS,
-   MK_KEYWORDS,
-   MK_PARTICIPANTS,
-   MK_PROGRAM_OF_STUDY,
-   MK_PROJECT_LEADER,
-   MK_PROJECT_TYPE,
-   MK_SEMESTER];
+const ALL_META_KEYS = [
+  MK_AUTHORS,
+  MK_PARTICIPANTS,
+  MK_PROGRAM_OF_STUDY,
+  MK_PROJECT_TYPE,
+  MK_PROJECT_LEADER,
+  MK_SEMESTER,
+  MK_KEYWORDS,
+];
 
+const META_KEY_FILTER_TYPES = [
+  FILTERS_PEOPLE,
+  FILTERS_ROLES,
+  FILTERS_KEYWORD,
+  FILTERS_KEYWORD,
+  FILTERS_PEOPLE,
+  FILTERS_KEYWORD,
+  FILTERS_KEYWORD
+]
+
+const META_KEY_FILTER_TITLES = [
+  'meta_info.label_project_authors',
+  'meta_info.label_project_participants',
+  'meta_info.label_project_program_of_study',
+  'meta_info.label_project_category',
+  'meta_info.label_project_leader',
+  'meta_info.label_project_semester',
+  'meta_info.label_project_keywords'
+]
 
 const getFilterHeight = (metaKey:string) => {
   //const fc_elem = document.getElementById('filter_cloud_' + metaKey)
@@ -542,9 +563,48 @@ const highContrastState = useState('isHighContrast')
 
         <!-- HH Können statt den filter-translations die meta_info-translations verwendet werden? Redundanz vermeiden. -->
 
+        <div
+          v-for="(metaKey,idx) in ALL_META_KEYS"
+          class="meta_key_filter">
+          <div class="filter_headline"
+            @click="toggleShowAll(metaKey)"
+            @keyup.enter="toggleShowAll(metaKey)"
+            role="button"
+            tabIndex="0">
+            {{ $t(META_KEY_FILTER_TITLES[idx]) }}
+            <IconsChevronUpDown :show-up="showAll[metaKey]"/>
+          </div>
+          <template v-if="hasFilterResults(metaKey)">
+            <div class="filter_cloud"
+              :id=" 'filter_cloud_' + metaKey "
+              :style="getShowAllStyle(metaKey)"
+              :class="{hide_all:!showAll[metaKey]}">
+              <div class="filter_cloud_content"
+                :id=" 'filter_cloud_content_' + metaKey ">
+                <div class="filter_cloud_item"
+                  v-for="itemId in getSortedFilterItemKeys(metaKey)">
+                  <button class="keyword_item"
+                    :tabindex="(!showAll[metaKey]? '-1' : '0')"
+                    @click="clickedRole(globalMap[metaKey][itemId])"
+                    v-if="!isHideIfNotSubString(globalMap[metaKey][itemId][0].name)
+                      && getFilteredCount(metaKey, itemId) > 0"
+                    :class="getFilterTagClass(META_KEY_FILTER_TYPES[idx], metaKey, itemId)">
+                    {{ globalMap[metaKey][itemId][0].name }}
+                    <span class="filter_count">{{ getFilteredCount(metaKey, itemId) }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </template>
+          <div v-else class="filter_cloud_no_results">
+            {{ $t('filter.no_results') }}
+          </div>
+
+        </div>
         
 
-        <!-- MK_AUTHORS -->
+        <!-- MK_AUTHORS
         <div class="tree_filter_people">
           <div class="filter_headline"
             @click="toggleShowAll(MK_AUTHORS)"
@@ -578,18 +638,14 @@ const highContrastState = useState('isHighContrast')
 
               </div>
             </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_AUTHORS)"
-              :show-all="showAll[MK_AUTHORS]"
-              :count="getTagCount(MK_AUTHORS)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
         </div>
-        
+        -->
 
-        <!-- MK_PARTICIPANTS -->
+        <!-- MK_PARTICIPANTS
         <div class="tree_filter_people">
           <div class="filter_headline"
             @click="toggleShowAll(MK_PARTICIPANTS)"
@@ -620,18 +676,13 @@ const highContrastState = useState('isHighContrast')
                 </div>
               </div>
             </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PARTICIPANTS)"
-              :show-all="showAll[MK_PARTICIPANTS]"
-              :count="getTagCount(MK_PARTICIPANTS)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
-        </div>
+        </div>-->
         
-
-        <!-- MK_PROGRAM_OF_STUDY -->
+        <!-- MK_PROGRAM_OF_STUDY
         <div class="meta_key_filter">
           <div class="filter_headline"
             @click="toggleShowAll(MK_PROGRAM_OF_STUDY)"
@@ -663,18 +714,13 @@ const highContrastState = useState('isHighContrast')
                 </div>
               </div>
             </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PROGRAM_OF_STUDY)"
-              :show-all="showAll[MK_PROGRAM_OF_STUDY]"
-              :count="getTagCount(MK_PROGRAM_OF_STUDY)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
-        </div>
+        </div>-->
         
-
-        <!-- MK_PROJECT_CATEGORY -->
+        <!-- MK_PROJECT_CATEGORY
         <div class="meta_key_filter">
           <div class="filter_headline"
             @click="toggleShowAll(MK_PROJECT_TYPE)"
@@ -706,17 +752,13 @@ const highContrastState = useState('isHighContrast')
                 </div>
               </div>
             </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PROJECT_TYPE)"
-              :show-all="showAll[MK_PROJECT_TYPE]"
-              :count="getTagCount(MK_PROJECT_TYPE)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
-        </div>
+        </div>-->
         
-        <!-- MK_PROJECT_LEADER -->
+        <!-- MK_PROJECT_LEADER
         <div class="meta_key_filter">
           <div class="filter_headline"
             @click="toggleShowAll(MK_PROJECT_LEADER)"
@@ -748,18 +790,13 @@ const highContrastState = useState('isHighContrast')
                 </div>
               </div>
             </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_PROJECT_LEADER)"
-              :show-all="showAll[MK_PROJECT_LEADER]"
-              :count="getTagCount(MK_PROJECT_LEADER)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
-        </div>
+        </div>-->
         
-
-        <!-- MK_SEMESTER -->
+        <!-- MK_SEMESTER
         <div class="meta_key_filter">
           <div class="filter_headline"
             @click="toggleShowAll(MK_SEMESTER)"
@@ -775,7 +812,7 @@ const highContrastState = useState('isHighContrast')
               :style="getShowAllStyle(MK_SEMESTER)"
               :class="{hide_all:!showAll[MK_SEMESTER]}">
               <div class="filter_cloud_content"
-                :id=" 'filter_cloud_content_' + MK_AUTHORS ">
+                :id=" 'filter_cloud_content_' + MK_SEMESTER ">
                 <div class="filter_cloud_item"
                   v-for="itemId in getSortedFilterItemKeys(MK_SEMESTER)">
                   <button class="keyword_item"
@@ -791,18 +828,13 @@ const highContrastState = useState('isHighContrast')
                 </div>
               </div>
             </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_SEMESTER)"
-              :show-all="showAll[MK_SEMESTER]"
-              :count="getTagCount(MK_SEMESTER)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
-        </div>
+        </div>-->
 
-
-        <!-- MK_KEYWORDS -->
+        <!-- MK_KEYWORDS
         <div class="meta_key_filter">
           <div class="filter_headline"
             @click="toggleShowAll(MK_KEYWORDS)"
@@ -834,15 +866,11 @@ const highContrastState = useState('isHighContrast')
                 </div>
               </div>
             </div>
-            <!-- <FilterViewShowBtn
-              @toggle-show-all="toggleShowAll(MK_KEYWORDS)"
-              :show-all="showAll[MK_KEYWORDS]"
-              :count="getTagCount(MK_KEYWORDS)"/> -->
           </template>
           <div v-else class="filter_cloud_no_results">
             {{ $t('filter.no_results') }}
           </div>
-        </div>
+        </div>-->
 
       </div>
 
