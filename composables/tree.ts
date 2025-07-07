@@ -504,7 +504,7 @@ export const treeHelper = () => {
     tree: iTree,
     treeNode: iTreeNode,
     entryId: string
-  ) => {
+  ): Promise<boolean> => {
     //console.log("buildEntryMetaData: " + entryId)
 
     try {
@@ -570,15 +570,17 @@ export const treeHelper = () => {
         );*/
       } else {
         console.log("buildEntryMetaData: " +  entryId + " failed get meta data. " 
-        + " status: " + response.status
-        + " statusText: " + response.statusText
-      );
+          + " status: " + response.status
+          + " statusText: " + response.statusText
+        );
+        return false
       }
       
     } catch(error) {
       console.error("Could not get entry meta data : " + entryId + ":" + error.status)
-      
+      return false
     }
+    return true
   };
 
   const buildSubTreeEntries = async (tree: iTree, treeNode: iTreeNode) => {
@@ -611,8 +613,9 @@ export const treeHelper = () => {
       //related_files: true,
     };
 
-    if (requestParams.value.headers?.keys) {
-      //entry_query.me_get_metadata_and_previews = true
+    //entry_query.me_get_metadata_and_previews = true
+    if (requestParams.value.headers) {
+      entry_query.me_get_metadata_and_previews = true
     } else {
       //entry_query.public_get_metadata_and_previews = true
     }
@@ -664,35 +667,34 @@ export const treeHelper = () => {
     treeNode.coverId = coverArc?.media_entry_id;
 
     for await (const entry of entries) {
-      if (true //entry.get_metadata_and_previews == true
-          
-      ) {
-        treeNode.entries[entry.id] = entry;
-        await buildEntryMetaData(tree, treeNode, entry.id);
-
-        if (entry.get_full_size == true) {
-          try {
-            const mf = (await apiH.api.mediaEntryMediaFileDetail(entry.id, requestParams.value)).data
-            if (mf.media_type == 'document') {
-              //console.error("got doc and download allowed");
-              //treeNode.entries[entry.id].media_type_doc = true
-              tree.entries_doc_type[entry.id] = true
-              tree.entries_files[entry.id] = mf
+      
+        const result = await buildEntryMetaData(tree, treeNode, entry.id);
+        if (result == true) {
+          treeNode.entries[entry.id] = entry;
+       
+          // TODO kiosk user auth -> it is not in the entry
+          if (entry.get_full_size == true) {
+            try {
+              const mf = (await apiH.api.mediaEntryMediaFileDetail(entry.id, requestParams.value)).data
+              if (mf.media_type == 'document') {
+                //console.error("got doc and download allowed");
+                //treeNode.entries[entry.id].media_type_doc = true
+                tree.entries_doc_type[entry.id] = true
+                tree.entries_files[entry.id] = mf
+              }
+            } catch(error) {
+              console.error("could not get me file data", error)
             }
-          } catch(error) {
-            console.error("could not get me file data", error)
           }
-          
+        } else {
+          console.error(
+            "buildSubTreeEntries: hidden entry: " +
+              entry.id +
+              ": in tree: " +
+              tree.col_id + " : "+
+              entry.get_metadata_and_previews
+          );
         }
-      } else {
-        console.error(
-          "buildSubTreeEntries: hidden entry: " +
-            entry.id +
-            ": in tree: " +
-            tree.col_id + " : "+
-            entry.get_metadata_and_previews
-        );
-      }
     }
     //console.log("buildSubTreeEntries: col: " + treeNode.collection.id + " added count: " + entries.length)
   };
