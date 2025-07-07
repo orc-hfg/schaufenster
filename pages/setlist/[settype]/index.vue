@@ -238,7 +238,8 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     const tree = trees_map[treeId]
     sortedTrees.push(tree)
   }
-  sortedTrees.sort((a,b) => { 
+
+  const sortBySemester = (a,b) => { 
     const kwa = (a.cols_semesters[a.col_id] || '') as string
     const kwb = new String(b.cols_semesters[b.col_id] || '')
 
@@ -258,7 +259,21 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     const byear = new Date(Date.parse(bdate)).getFullYear()
     return byear - ayear
     */
-  })
+  }
+  if (useRuntimeConfig().public.kioskSetId?.length > 0 || useRuntimeConfig().public.kioskForestSetId?.length > 0) {
+    sortedTrees.sort((a,b) => {
+      const kwa = (a.colTitlesMap[a.col_id] || '')
+      const kwb = (b.colTitlesMap[b.col_id] || '')
+      const result = kwa.localeCompare(kwb)
+      return result
+    })
+  } else {
+    sortedTrees.sort(sortBySemester)
+  }
+  console.error("sorted trees")
+  console.dir(sortedTrees)
+  // random if settype projekt
+
   filteredSortedTrees.value = sortedTrees
   slideList.value = []
   let ti = 0;
