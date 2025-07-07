@@ -262,7 +262,7 @@ const buildPreviewQuery = () => {
 
 const previewLargeUrl = (treeId: string): string => {
   let eId = props.useTree[props.settype][treeId]?.edges[RID][treeId].coverId
-  if (!eId) console.error("previewLargeUrl: cover id for set id: " ,eId,treeId)
+  //if (!eId) console.error("previewLargeUrl: cover id for set id: " ,eId,treeId)
   if (!eId) {
     for (const child_id in props.useTree[props.settype][treeId]?.edges[treeId]) {
       eId = props.useTree[props.settype][treeId]?.edges[treeId][child_id].coverId
