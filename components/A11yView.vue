@@ -19,6 +19,7 @@
                     tabindex="0"
                     @keyup.enter="changeContrast()"
                     @click="changeContrast()"
+                    role="link"
                     >
                      <IconsHighContrast/>
                     </div>
