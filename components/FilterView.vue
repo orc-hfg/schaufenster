@@ -572,7 +572,6 @@ const highContrastState = useState('isHighContrast')
             role="button"
             tabIndex="0">
             {{ $t(META_KEY_FILTER_TITLES[idx]) }}
-            {{ META_KEY_FILTER_TYPES[idx] }}
             <IconsChevronUpDown :show-up="showAll[metaKey]"/>
           </div>
           <template v-if="hasFilterResults(metaKey)">
