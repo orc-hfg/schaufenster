@@ -673,7 +673,7 @@ export const treeHelper = () => {
           treeNode.entries[entry.id] = entry;
        
           // TODO kiosk user auth -> it is not in the entry
-          if (entry.get_full_size == true) {
+          //if (entry.get_full_size == true) {
             try {
               const mf = (await apiH.api.mediaEntryMediaFileDetail(entry.id, requestParams.value)).data
               if (mf.media_type == 'document') {
@@ -685,7 +685,7 @@ export const treeHelper = () => {
             } catch(error) {
               console.error("could not get me file data", error)
             }
-          }
+          //}
         } else {
           console.error(
             "buildSubTreeEntries: hidden entry: " +
