@@ -269,7 +269,7 @@
             
             <div v-if="currentTree.previewsAudio[el.entry_id]"
               class="nav_preview_audio"
-              :class="{nav_preview_audio_highlight: el.entry_id == activeEntryId}">
+              :class="{nav_preview_audio_highlight: el.entry_id == activeEntryId && el.collection_id == activeSetId}">
               audio
             </div>
             <!-- TODO get abbrev title, calc title width -->
@@ -441,8 +441,10 @@ const entryInfoScrollPosChanged = (pos) => {
 }
 
 const isNavSlideHighlight = (el:iNavSlide) => {
-  const result = (el.entry_id == activeEntryId.value)
-    
+  const result = (
+    el.entry_id == activeEntryId.value
+    && el.collection_id == activeSetId.value
+  )
   return result
 }
 const toggleShowBottomNav = () => {
