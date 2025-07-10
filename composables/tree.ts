@@ -418,11 +418,6 @@ export const treeHelper = () => {
     return filteredTreeList;
   };
 
-  // watch(() => state.loading, () => {
-  //   console.error("TREE: loading: " + state.loading)
-  //   //useTree.value = state.treeMapper
-  // })
-
   const buildMDRelatedMap = async (resp_data):Promise<iGenMetaData> => {
     const result = {};
     //console.log("buildMDRelatedMap: resp data:")
@@ -500,6 +495,10 @@ export const treeHelper = () => {
     return authors
   }
 
+  //const PREVIEW_LARGE_SIZE = 'x_large'
+  const PREVIEW_LARGE_SIZE = 'maximum'
+  const PREVIEW_SMALL_SIZE = 'small'
+  
   const buildEntryMetaData = async (
     tree: iTree,
     treeNode: iTreeNode,
@@ -517,10 +516,10 @@ export const treeHelper = () => {
         })
         .forEach((preview) => {
           if (preview.media_type == "image") {
-            if (preview.thumbnail == "small") {
+            if (preview.thumbnail == PREVIEW_SMALL_SIZE) {
               tree.previews[entryId] = preview;
               //console.error("found entry with image small " + entryId)
-            } else if (preview.thumbnail == "x_large") {
+            } else if (preview.thumbnail == PREVIEW_LARGE_SIZE) {
               tree.previewsLarge[entryId] = preview;
               //console.error("found entry with image large" + entryId)
             }
