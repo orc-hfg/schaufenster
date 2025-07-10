@@ -53,24 +53,52 @@ const {
 
 const APP_DEFAULT_LOCAL = 'de'
 
+import fs from 'fs'
+const TREE_DATA_FILE = 'tree_data.json'
+
 
 if (import.meta.server) { 
   console.log("import meta server")
   const config = useRuntimeConfig()
   initApi(config.public.apiBaseUrl, config.public.userToken)
-  if (config.public.kioskForestSetId) {
-    console.log("init root set")
-    const treesData = await initKioskForest(config.public.kioskForestSetId)
-    useTree.value = treesData
+  if (config.public.useCachedData) {
+      try {
+        const data = await fs.promises.readFile(TREE_DATA_FILE, 'utf-8')
+        console.log("read cached tree data")
+        useTree.value = JSON.parse(data)
+
+      } catch(error) {
+        console.error('Cloud not load cached tree data', error)
+      }
+      console.log("loaded cached tree data")
   }
-  else if (config.public.kioskSetId) {
-    console.log("init kiosk set")
-    const treesData = await initTree(MATCH_PROJECTS, config.public.kioskSetId)
-    //useTree.value = treesData
-  } else {
-    console.log("init root set")
-    const treesData = await initForest(config.public.rootSetId)
-    useTree.value = treesData
+  
+  
+  if (!useTree.value) {
+    console.log("build new tree data")
+  
+    if (config.public.kioskForestSetId) {
+      console.log("init root set")
+      const treesData = await initKioskForest(config.public.kioskForestSetId)
+      useTree.value = treesData
+    }
+    else if (config.public.kioskSetId) {
+      console.log("init kiosk set")
+      const treesData = await initTree(MATCH_PROJECTS, config.public.kioskSetId)
+      //useTree.value = treesData
+    } else {
+      console.log("init root set")
+      const treesData = await initForest(config.public.rootSetId)
+      useTree.value = treesData
+    }
+    if (config.public.useCachedData) {
+      const treeSource = JSON.stringify(useTree.value)
+      fs.writeFile(TREE_DATA_FILE, treeSource,'utf-8', (err) => {
+        //if (err) console.error('Could not write tree data', err)
+        console.log('Written tree to disk')
+      })
+  
+    }
   }
   
 }
