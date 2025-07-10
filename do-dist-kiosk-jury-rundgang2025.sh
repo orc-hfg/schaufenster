@@ -13,6 +13,7 @@ export NUXT_APP_KIOSK_INFO_H_3="Über diese Website"
 export NUXT_APP_KIOSK_INFO_P_3="Diese Webseite ist die Kiosk-Version von Schaufenster. Schaufenster wurde 2024/2025 vom Team des HfG Open Resource Center mit Unterstützung durch die Stiftung Innovation in der Hochschullehre und in Zusammenarbeit mit den Designern Marcel Strauß und Felix Plachtzik entwickelt."
 #export NUXT_APP_SWR_TTL=2592000
 export NUXT_APP_USE_CACHED_DATA=1
+export NUXT_APP_USE_CACHE_FILE='/home/madek/sf_kiosk_nom2025_tree_data.json'
 #npm run dev
 
 npm run build

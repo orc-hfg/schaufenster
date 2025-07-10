@@ -62,13 +62,14 @@ if (import.meta.server) {
   const config = useRuntimeConfig()
   initApi(config.public.apiBaseUrl, config.public.userToken)
   if (config.public.useCachedData) {
+      const filePath = config.public.useCacheFile || TREE_DATA_FILE
       try {
-        const data = await fs.promises.readFile(TREE_DATA_FILE, 'utf-8')
-        console.log("read cached tree data")
+        const data = await fs.promises.readFile(filePath, 'utf-8')
+        console.log("read cached tree data from: " + filePath)
         useTree.value = JSON.parse(data)
 
       } catch(error) {
-        console.error('Cloud not load cached tree data', error)
+        console.error('Cloud not load cached tree data from ' + filePath, error)
       }
       console.log("loaded cached tree data")
   }
@@ -93,9 +94,10 @@ if (import.meta.server) {
     }
     if (config.public.useCachedData) {
       const treeSource = JSON.stringify(useTree.value)
-      fs.writeFile(TREE_DATA_FILE, treeSource,'utf-8', (err) => {
+      const filePath = config.public.useCacheFile || TREE_DATA_FILE
+      fs.writeFile(filePath, treeSource,'utf-8', (err) => {
         //if (err) console.error('Could not write tree data', err)
-        console.log('Written tree to disk')
+        console.log('Written tree to disk: ' + filePath)
       })
   
     }
