@@ -54,7 +54,7 @@ const {
 const APP_DEFAULT_LOCAL = 'de'
 
 import fs from 'fs'
-const TREE_DATA_FILE = 'tree_data.json'
+const TREE_DATA_FILE = '/tmp/tree_data.json'
 
 
 if (import.meta.server) { 
