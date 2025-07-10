@@ -271,7 +271,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     sortedTrees.sort(sortBySemester)
   }
   console.error("sorted trees")
-  console.dir(sortedTrees)
+  //console.dir(sortedTrees)
   // random if settype projekt
 
   filteredSortedTrees.value = sortedTrees
@@ -360,7 +360,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   
   console.log(" trees map: " + Object.keys(trees_map).length)
   console.log(" slide list: " + slideList.value.length)
-  console.dir(slideList)
+  //console.dir(slideList.value)
 }
 
 
