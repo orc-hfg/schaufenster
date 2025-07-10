@@ -271,7 +271,8 @@ const previewLargeUrl = (treeId: string): string => {
       }
     }
   }
-  const pid = props.useTree[props.settype][treeId]?.previewsLarge[eId]?.id;
+  //const pid = props.useTree[props.settype][treeId]?.previewsLarge[eId]?.id;
+  const pid = props.useTree[props.settype][treeId]?.previewsMedium[eId]?.id;
   //TODO kiosk token auth
   return apiBaseUrl + "previews/" + pid + "/data-stream" + buildPreviewQuery()
 };

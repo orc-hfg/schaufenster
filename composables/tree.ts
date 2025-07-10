@@ -91,6 +91,9 @@ export interface iTree {
   previews: {
     [key: string]: iPreview;
   };
+  previewsMedium: {
+    [key: string]: iPreview;
+  }
   previewsLarge: {
     [key: string]: iPreview;
   };
@@ -266,6 +269,7 @@ export const treeHelper = () => {
         entries_authors: {},
 
         previews: {},
+        previewsMedium: {},
         previewsLarge: {},
         previewsAudio: {},
         previewsVideo: {},
@@ -495,7 +499,7 @@ export const treeHelper = () => {
     return authors
   }
 
-  //const PREVIEW_LARGE_SIZE = 'x_large'
+  const PREVIEW_MEDIUM_SIZE = 'x_large'
   const PREVIEW_LARGE_SIZE = 'maximum'
   const PREVIEW_SMALL_SIZE = 'small'
   
@@ -519,6 +523,9 @@ export const treeHelper = () => {
             if (preview.thumbnail == PREVIEW_SMALL_SIZE) {
               tree.previews[entryId] = preview;
               //console.error("found entry with image small " + entryId)
+            } else if (preview.thumbnail == PREVIEW_MEDIUM_SIZE) {
+              tree.previewsMedium[entryId] = preview;
+              console.error("found entry with preview medium" + entryId)
             } else if (preview.thumbnail == PREVIEW_LARGE_SIZE) {
               tree.previewsLarge[entryId] = preview;
               //console.error("found entry with image large" + entryId)

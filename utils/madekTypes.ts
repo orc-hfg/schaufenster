@@ -74,8 +74,8 @@ export interface iAppSettings {
     thumbnail: string
     media_type: string
     media_file_id: string
-    width: number
-    height: number
+    width?: number | null | undefined
+    height?: number | null | undefined
   }
  
   export interface iMediaFile {
