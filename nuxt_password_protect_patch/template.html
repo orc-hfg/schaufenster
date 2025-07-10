@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- $meta -->
+    <style>
+      :root {
+        --white: #FFFFFF;
+        --black: #000000;
+        --background-color-light: #f1f1f1;
+        --text: #383838;
+        --text-inverted: var(--background-color-light);
+        --border-color: #b2b2b2;
+        --orc-orange: #FF4D00;
+        --orc-orange-dimmed: #E54500;
+      }
+      body {
+        background-color: var(--background-color-light);
+        min-height: 100dvh;
+        font-family: 'Helvetica', sans-serif;
+        color: var(--text);
+        padding: 50px;
+        margin: 0;
+        display: flex;
+        box-sizing: border-box;
+      }
+
+      main {
+        width: 100%;
+        max-width: 350px;
+        margin: auto;
+        padding-bottom: 50px;
+      }
+
+      form {
+        width: 100%;
+        border: 1px solid var(--border-color);
+        border-radius: 0;
+        top: 50%;
+        left: 50%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      h1 {
+        font-size: 30px;
+        font-weight: 400;
+        margin-bottom: 25px;
+        text-align: center;
+      }
+
+      p {
+        text-align: center;
+        font-size: 16px;
+        margin: 0;
+      }
+
+      input {
+        width: 100%;
+        outline: none;
+        background: transparent;
+        appearance: none;
+        border: 1px solid var(--border-color);
+        border-radius: 0;
+        display: block;
+        margin: 25px 0 10px 0;
+        padding: 15px;
+        box-sizing: border-box;
+        font-family: 'Helvetica', sans-serif;
+        font-size: 16px;
+        transition: border-color .2s, color .2s;
+      }
+
+      input::placeholder {
+        color: #666;
+        text-align: center;
+      }
+
+      input:focus {
+        border-color: var(--black);
+      }
+
+      input:invalid {
+        border-color: var(--orc-orange);
+      }
+
+      input:invalid::placeholder {
+        color: var(--orc-orange);
+      }
+
+      button {
+        background-color: var(--orc-orange);
+        outline: none;
+        appearance: none;
+        border: none;
+        width: 100%;
+        padding: 15px;
+        border-radius: 0;
+        font-family: 'Helvetica', sans-serif;
+        font-size: 16px;
+        display: block;
+        color: var(--text-inverted);
+        cursor: pointer;
+        transition: background-color .2s, color .2s;
+      }
+
+      button:hover, button:focus-visible {
+        background-color: var(--orc-orange-dimmed);
+      }
+
+      button[disabled], input[disabled] {
+        background-color: var(--border-color);
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      svg, img {
+        width: 100%;
+        max-width: 100px;
+        height: fit-content;
+        margin: 0 auto 15px auto;
+        object-fit: contain;
+        display: block;
+        filter: invert(1);
+        opacity: .8;
+      }
+      @media (max-width: 470px) {
+        body {
+          padding: 10px;
+        }
+        main {
+          max-width: 100%;
+          padding: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- <img alt="" src="public/hfg-logo_dashes.svg"> -->
+      <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2" viewBox="0 0 225 80"><path d="m16183200 506880-819200 1673500h239900l811400-1672980 84700-520h-316800Zm-1735800 0-818700 1673500h252200l811400-1673500h-244900Zm-2603800 0-818700 1673500h252200l811900-1673500h-245400Zm-867500 0-818800 1673500h252300l811400-1673500h-244900Zm2330100 559180-819000 1673240h252400l811600-1673240h-245000Zm1735500 0-819000 1673240h252200l811700-1673240h-244900Zm-2603600 0-818700 1673240h252200l811700-1673240h-245200Z" style="fill:#fff" transform="matrix(3.54331e-05,0,0,3.54331e-05,-359.905,-17.9603)"/></svg>
+      <form method="post">
+        <h1></h1>
+        <p></p>
+        <input type="password" name="password"/>
+        <button type="submit" disabled></button>
+      </form>
+    </main>
+
+    <script>
+      (({
+        lang,
+        metaTitle,
+        logo,
+        title,
+        message,
+        errorMessage,
+        loadingMessage,
+        inputLabel,
+        submitLabel
+      }) => {
+        const inputElement = document.querySelector('input')
+        const submitElement = document.querySelector('button')
+
+        document.documentElement.setAttribute('lang', lang)
+        document.querySelector('title').textContent = metaTitle
+        //document.querySelector('img').src = logo
+        document.querySelector('h1').textContent = title
+        document.querySelector('p').textContent = message
+
+        inputElement.placeholder = inputLabel
+        submitElement.textContent = submitLabel
+
+        inputElement.addEventListener('input', () => {
+          inputElement.setCustomValidity('')
+          inputElement.placeholder = inputLabel
+          submitElement.disabled = !inputElement.value
+        })
+
+        document.querySelector('form').addEventListener('submit', async (event) => {
+          event.preventDefault()
+
+          if (submitElement.disabled) {
+            return
+          }
+
+          inputElement.disabled = true
+          submitElement.disabled = true
+          submitElement.textContent = loadingMessage
+
+          let response
+
+          try {
+            const body = JSON.stringify({ password: inputElement.value })
+
+            const [authenticationResponse] = await Promise.all([
+              fetch(location.pathname, {
+                body,
+                method: 'post',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': body.length
+                }
+              }),
+              new Promise(resolve => setTimeout(resolve, 200))
+            ])
+
+            response = authenticationResponse
+          } catch (error) {
+            console.error(error)
+          }
+
+          if (!response?.ok) {
+            inputElement.setCustomValidity(errorMessage)
+            inputElement.disabled = false
+            inputElement.value = ''
+            inputElement.placeholder = errorMessage
+            submitElement.textContent = submitLabel
+            inputElement.focus()
+          } else {
+            location.reload()
+          }
+        })
+      })($config)
+    </script>
+  </body>
+</html>
