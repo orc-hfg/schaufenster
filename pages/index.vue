@@ -177,6 +177,7 @@ onBeforeRouteLeave(() => {
   }
   .home_link {
     padding: 0px;
+    width: 48px;
     height: 48px;
     user-select: none;
     transition: transform 300ms ease-out;
