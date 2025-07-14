@@ -1,5 +1,4 @@
 <template>
-  <!-- <title>{{ $t('page_metadata.page_title')}}</title> -->
   <div class="setlist_page">
     <SetListHeader
       :settype="settype"
@@ -270,7 +269,7 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
   } else {
     sortedTrees.sort(sortBySemester)
   }
-  console.error("sorted trees")
+  //console.error("sorted trees")
   //console.dir(sortedTrees)
   // random if settype projekt
 
