@@ -1,5 +1,8 @@
 <template>
   <div class="setview_page"
+    :class="{
+        info_active: showInfo
+      }"
     @keyup.i="toggleShowInfo()" >
   <!-- TODO mobile theme: different layout meta-data (animations); -->
   <!-- TODO high contrast theme -->
@@ -1376,9 +1379,6 @@ const handleMouseLeave = () => {
 }
 
 .swiper_main {
-  /* HH to correctly position prev-nex-arrows */
-  --margin-top-swiper: 80px;
-
   position: relative;
   left: 0px;
   width: 100%;
@@ -1464,7 +1464,7 @@ const handleMouseLeave = () => {
  */
 .nozoom .image_slide {
   height: calc(100vh - 260px);
-  margin-top: var(--margin-top-swiper);
+  margin-top: var(--margin-swiper-top);
 }
 .info_active .image_slide,
 .info_active .video_slide,
@@ -1476,7 +1476,7 @@ const handleMouseLeave = () => {
 }
 .nozoom .video_slide {
   height: calc(100vh - 260px);
-  margin-top: var(--margin-top-swiper);
+  margin-top: var(--margin-swiper-top);
 }
 
 /* HH Ansatz mit transform: scale() und Animationen hat nicht geklappt:
@@ -1879,7 +1879,7 @@ progress::-webkit-progress-value {
 /* vertical */
 .nozoom .swiper-main-button-prev,
 .nozoom .swiper-main-button-next { 
-  top: calc(50% - var(--margin-top-swiper));
+  top: calc(50% - var(--margin-swiper-top));
   margin-top: calc(var(--btn-prev-next-half-size) * -1);
 }
 .zoom .swiper-main-button-prev,
@@ -2197,7 +2197,7 @@ progress::-webkit-progress-value {
 }
 .entry_info_title.move_up_hidden {
   transition: transform 300ms ease-out, opacity 300ms ease-out;
-  transform: translateY(-6em);
+  transform: translateY(-200px);
   opacity: 0;
 }
 
@@ -2218,74 +2218,7 @@ progress::-webkit-progress-value {
   backdrop-filter: blur(0px);
 }
 
-[data-layout="mobile"] {
-  .setview_page {
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* TODO scrollbar hide */
-    scrollbar-width: 0px;
-  }
-  .setview_page::-webkit-scrollbar {
-    visibility: hidden;
-  }
 
-  .entry_info_title {
-    position: relative;
-    /* border: 1px solid red; */
-    top: calc(var(--margin-entry-info-title-top) * 2);
-    margin-bottom: 1em;
-  }
-  .swiper_main {
-    position: relative;
-    /* top: 0px; */
-    /* top: var(--margin-entry-info-title-top); */
-    /* height: calc(100vh - 68px); */
-    /* height: auto; */
-
-    /* border: 1px solid blue; */
-  }
-  .swiper_main.info_active {
-    top: calc(var(--margin-entry-info-title-top) * 2);
-    transition: all 300ms ease-out;
-  }
-  .image_slide {
-    /* border: 1px solid black; */
-  }
-  .nozoom .image_slide,
-  .nozoom .video_slide,
-  .nozoom .audio_slide {
-    margin-top: 0;
-    /* margin-top: var(--margin-entry-info-title-top); */
-  }
-  .info_active .image_slide,
-  .info_active .video_slide,
-  .info_active .audio_slide {
-    width: 100%;
-    height: 50vh;
-    /* margin-top: calc(var(--margin-entry-info-title-top) * 1.5); */
-    margin-left: 0%;    
-  }
-
-  
-  .entry_info {
-    z-index: 20;
-    /* border: 1px solid green; */
-    position: relative;
-    /* HH hier top statt margin-top, ansonsten Kollision mit entry_info.hidden */
-    top: calc(var(--margin-entry-info-title-top) * 3);
-    margin-bottom: calc(var(--margin-entry-info-title-top) * 2);
-    left: 24px;
-    width: calc(100vw - 48px);
-    height: fit-content;
-    background: transparent;
-  }
-  .entry_info.hidden {
-    transform: translateY(50vh);
-    height: 0px;
-    transition: all 600ms ease-in-out;
-  }
-
-}
 
 .btn_pdf {
   display:inline-flex;
@@ -2303,4 +2236,117 @@ progress::-webkit-progress-value {
   height: 20px;
   padding: 4px 0px;
 }
+
+
+
+
+[data-layout="mobile"] {
+   .setview_page {
+    scrollbar-width: none;
+    scrollbar-color: transparent transparent;
+  }
+  .setview_page::-webkit-scrollbar {
+    display: none;
+    visibility: hidden;
+  }
+  /* Wenn die Info-Box aktiv ist, darf vertikal gescrollt werden. */
+  .setview_page.info_active {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  
+  .swiper_main {
+    top: var(--margin-swiper-top);
+    transition: height 300ms linear, top 150ms linear 150ms;
+  }
+  /* Im Zoom-Modus wird der Swiper-Container nach oben geschoben und nimmt die volle Höhe ein. */
+  .swiper_main.zoom {
+    top: 0;
+    /* Höhe des Viewports mit dvh, um Bedienelemente von mobilen Browsern zu kompensieren. */
+    height: 100dvh;
+    /* Es ändern sich gleichzeitig Höhe und Top-Abstand, daraus resultiert eine 
+     * unschöne Animation; Versuch, mit versetzten Transitions zu kompensieren. */
+    transition: height 300ms linear, top 150ms linear 150ms;
+  }
+  /* Wenn die Info-Box aktiv ist, wird die Höhe des Swiper-Containers angepasst. 
+   * Von oben braucht er dann mehr Abstand wegen entry_info_title. 
+   * Wenn von Zoom her kommend, bekommt .swiper beide Klassen, info_active und zoom.
+   * Weil .zoom "top" verändert, muss auch "top" hier explizit gesetzt werden. */
+  .swiper_main.info_active,
+  .swiper_main.info_active.zoom {
+    top: var(--margin-swiper-top);
+    height: 40vh;
+  }
+
+
+  /* Der Titel kann unterschiedlich hoch werden, je nach dem, wie viele Zeilen er benötigt.
+   * Mit dieser Methode brauchen wir keine zusätzlichen Variablen für seine Höhe.
+   * Der relative Container drückt den Swiper einfach nach unten, 
+   * und zwar immer so weit, wie es gemäß seiner Höhe eben sein muss.
+   * Max-height kann per transition animiert werden. */
+  .entry_info_title {
+    position: relative;
+    max-height: 500px;
+    top: var(--margin-entry-info-title-top);
+    height: auto;
+    overflow: hidden;
+    transition: all 300ms linear;
+    opacity: 1;
+  }
+  .entry_info_title.move_up_hidden {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 300ms linear;
+  }
+  
+  
+  .image_slide,
+  .video_slide,
+  .audio_slide {
+    max-height: 100%;
+  }
+  .nozoom .image_slide,
+  .nozoom .video_slide,
+  .nozoom .audio_slide {
+    margin-top: 0;
+    max-height: 65vh;
+  }
+  .info_active .image_slide,
+  .info_active .video_slide,
+  .info_active .audio_slide {
+    width: 100%;
+    height: 40vh;
+    margin: 0;
+  }
+
+
+  .entry_info {
+    position: relative;
+    top: var(--margin-swiper-top);
+    left: 0;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--padding-item-vertical-M) var(--padding-item-horizontal-M);
+    background: transparent;
+    /* overflow ist wichtig, damit der Inhalt vollständig sichtbar ist und der Container nicht in sich scrollt. */
+    overflow: visible;
+    transition: all 300ms ease-out;
+  }
+  /* Auf manchen Geräten wird der Container unten abgeschnitten, aber padding wirkt sich 
+   * nicht konsistent auf allen Geräten aus; auch padding auf .entry_info_panel nicht.
+   * Das Pseudo-Element kompensiert dies. */
+  .entry_info:after {
+    content: "";
+    display: block;
+    height: var(--padding-container-bottom-XL);
+  }
+  .entry_info.hidden {
+    transform: translateY(50vh);
+    transition: all 300ms ease-in;
+  }
+
+}
+
 </style>

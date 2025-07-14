@@ -373,14 +373,14 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
   align-items: flex-start;
   gap: var(--spacing-meta-info-between-sections, 80px);
   flex-shrink: 0;
-  margin-bottom: 5rem;
+  margin-bottom: var(--padding-container-bottom-L);
 }
 
 [data-layout="mobile"] {
   .entry_info_panel {
     width: 100%;
     margin:0;
-    padding: 0;
+    box-sizing: border-box;
   }
 }
 

@@ -233,6 +233,8 @@
   --margin-btmbar-endofsets:40px;/*TODO*/
   
   --margin-headermargin:12px;/*TODO*/
+
+  --margin-swiper-top: 80px;
   --margin-entry-info-title-top: 40px;
 
   --margin-navbar-institution-logo-right:10px;
@@ -319,7 +321,9 @@
   --margin-btmbar-end-of-sets:40px;
 
   --margin-header-margin:12px;
-  --margin-entry-info-title-top: 38px;
+
+  --margin-swiper-top: 80px;
+  --margin-entry-info-title-top: 48px;
   
   --margin-navbar-institution-logo-right:10px;
 
