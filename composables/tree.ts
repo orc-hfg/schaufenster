@@ -525,7 +525,7 @@ export const treeHelper = () => {
               //console.error("found entry with image small " + entryId)
             } else if (preview.thumbnail == PREVIEW_MEDIUM_SIZE) {
               tree.previewsMedium[entryId] = preview;
-              console.error("found entry with preview medium" + entryId)
+              //console.error("found entry with preview medium" + entryId)
             } else if (preview.thumbnail == PREVIEW_LARGE_SIZE) {
               tree.previewsLarge[entryId] = preview;
               //console.error("found entry with image large" + entryId)
