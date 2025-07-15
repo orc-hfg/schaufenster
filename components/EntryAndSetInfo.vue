@@ -13,175 +13,168 @@
       @wheel="scrolled"
       v-else>
   
-      <div class="section_entry">
-        <div class="meta_info top_gap">
-          <br/>  
-          <br/>
-        </div>
-  
-        <MetaDatumView
-          v-if="isShowParentSetTitle() && isShowLocale(currentTree.cols_meta_data[parentSetId]['madek_core:title_en'])"
-          :title="$t('meta_info.label_project_parent_title')"
-          :md="currentTree.cols_meta_data[parentSetId]['madek_core:title_en']"/>
-        <MetaDatumView
-          v-else-if="isShowParentSetTitle()"
-          :title="$t('meta_info.label_project_parent_title')"
-          :md="currentTree.cols_meta_data[parentSetId]['madek_core:title']"/>
+      <MetaDatumView
+        v-if="isShowParentSetTitle() && isShowLocale(currentTree.cols_meta_data[parentSetId]['madek_core:title_en'])"
+        :title="$t('meta_info.label_project_parent_title')"
+        :md="currentTree.cols_meta_data[parentSetId]['madek_core:title_en']"/>
+      <MetaDatumView
+        v-else-if="isShowParentSetTitle()"
+        :title="$t('meta_info.label_project_parent_title')"
+        :md="currentTree.cols_meta_data[parentSetId]['madek_core:title']"/>
 
-        <MetaDatumView
-          v-if="isShowLocale(currentTree.cols_meta_data[parentSetId]['creative_work:project_subtitle_en'])"
-          :title="$t('meta_info.label_project_subtitle')"
-          :md="currentTree.cols_meta_data[parentSetId]['creative_work:project_subtitle_en']"/>
-        <MetaDatumView
-          v-else
-          :title="$t('meta_info.label_project_subtitle')"
-          :md="currentTree.cols_meta_data[parentSetId]['madek_core:subtitle']"/>
+      <MetaDatumView
+        v-if="isShowLocale(currentTree.cols_meta_data[parentSetId]['creative_work:project_subtitle_en'])"
+        :title="$t('meta_info.label_project_subtitle')"
+        :md="currentTree.cols_meta_data[parentSetId]['creative_work:project_subtitle_en']"/>
+      <MetaDatumView
+        v-else
+        :title="$t('meta_info.label_project_subtitle')"
+        :md="currentTree.cols_meta_data[parentSetId]['madek_core:subtitle']"/>
 
-        <MetaDatumView
-          :title="$t('meta_info.label_project_authors')"
-          :is-selectable="true"
-          :md="currentTree.cols_meta_data[parentSetId]['madek_core:authors']"
-          meta-key="madek_core:authors"
-          @add-filter="addFilter"/>
-  
-        <MetaDatumView
-          v-if="isShowLocale(currentTree.cols_meta_data[parentSetId]['creative_work:description_en'])"
-          :title="$t('meta_info.label_project_description')"
-          :md="currentTree.cols_meta_data[parentSetId]['creative_work:description_en']"/>
-        <MetaDatumView
-          v-else:
-          :title="$t('meta_info.label_project_description')"
-          :md="currentTree.cols_meta_data[parentSetId]['madek_core:description']"/>
-
-        <!-- HH Beschreibung des current Sets unter Bedingungen zusätzlich anzeigen -->
-        <MetaDatumView
-          v-if="isShowCurrentSetDescription() && isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:description_en'])"
-          :title="getCurrentSetDescriptionTitle('en')"
-          :md="currentTree.cols_meta_data[activeSetId]['creative_work:description_en']"/>
-        <MetaDatumView
-          v-else-if="isShowCurrentSetDescription()"
-          :title="getCurrentSetDescriptionTitle()"
-          :md="currentTree.cols_meta_data[activeSetId]['madek_core:description']"/>
-  
-        <MetaDatumView
-          v-if="isShowLocale(currentTree.entries_meta_data[activeEntryId]['media_object:title_en'])"
-          :title="$t('meta_info.label_media_title')"
-          :md="currentTree.entries_meta_data[activeEntryId]['media_object:title_en']"/>
-        <MetaDatumView
-          v-else
-          :title="$t('meta_info.label_media_title')"
-          :md="currentTree.entries_meta_data[activeEntryId]['madek_core:title']"/>
-  
-        <!-- HH wird nicht mehr benötigt, Lizenz wird individuell ausgegeben -->
-        <!--
-        <div class="meta_info" >
-          <div class="meta_title">
-            {{$t('meta_info.label_copyright')}}
-          </div>
-          <div class="filter_content">
-            <span v-for="(term,idx) in getMDLicenceList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
-          </div>
-        </div> -->
-        
-        <MetaDatumView
-          :title="$t('meta_info.label_copyright')"
-          :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"/>
-
-        <MetaDatumView
-          :title="$t('meta_info.label_project_program_of_study')"
-          :md="currentTree.cols_meta_data[parentSetId]['institution:program_of_study']"
-          :is-selectable="true"
-          @add-filter="addFilter"/>
-
-        <MetaDatumView
-          :title="$t('meta_info.label_project_semester')"
-          :md="currentTree.cols_meta_data[parentSetId]['institution:semester']"
-          :is-selectable="true"
-          @add-filter="addFilter"/>
-
-        <MetaDatumView
-          :title="$t('meta_info.label_project_category')"
-          :md="currentTree.cols_meta_data[parentSetId]['institution:project_category']"
-          :is-selectable="true"
-          @add-filter="addFilter"/>
-
-        <MetaDatumView
-          :title="$t('meta_info.label_project_keywords')"
-          :md="currentTree.cols_meta_data[parentSetId]['madek_core:keywords']"
-          :is-selectable="true"
-          @add-filter="addFilter"/>
-
-        <MetaDatumView
-          :title="$t('meta_info.label_project_participants')"
-          :md="currentTree.cols_meta_data[parentSetId]['creative_work:other_creative_participants']"
-          :is-selectable="true"
-          @add-filter="addFilter"/>
-
-        <!-- HH Personen von Medieneinträgen dürfen keine Buttons sein: sie können nicht gefiltert werden. 
-          Ref.: https://cloud.hfg-karlsruhe.de/s/37o3rtHMSZ425q3
-          Ausgabe als string, comma seperated.
-        -->
-        <!-- <MetaDatumView
-        :title="$t('meta_info.label_authors')"
-        :md="currentTree.entries_meta_data[activeEntryId]['media_object:creator_of_media_object']"
+      <MetaDatumView
+        :title="$t('meta_info.label_project_authors')"
         :is-selectable="true"
-        @add-filter="addFilter"/> -->
-        <div class="meta_info" v-if="getMDMediaCreatorsList().length">
-          <div class="meta_title">
-            {{$t('meta_info.label_media_authors')}}
-          </div>
-          <div class="meta_content">
-            <div class="filter_content">
-              <span v-for="(term,idx) in getMDMediaCreatorsList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
-            </div>
+        :md="currentTree.cols_meta_data[parentSetId]['madek_core:authors']"
+        meta-key="madek_core:authors"
+        @add-filter="addFilter"/>
+
+      <MetaDatumView
+        v-if="isShowLocale(currentTree.cols_meta_data[parentSetId]['creative_work:description_en'])"
+        :title="$t('meta_info.label_project_description')"
+        :md="currentTree.cols_meta_data[parentSetId]['creative_work:description_en']"/>
+      <MetaDatumView
+        v-else:
+        :title="$t('meta_info.label_project_description')"
+        :md="currentTree.cols_meta_data[parentSetId]['madek_core:description']"/>
+
+      <!-- HH Beschreibung des current Sets unter Bedingungen zusätzlich anzeigen -->
+      <MetaDatumView
+        v-if="isShowCurrentSetDescription() && isShowLocale(currentTree.cols_meta_data[activeSetId]['creative_work:description_en'])"
+        :title="getCurrentSetDescriptionTitle('en')"
+        :md="currentTree.cols_meta_data[activeSetId]['creative_work:description_en']"/>
+      <MetaDatumView
+        v-else-if="isShowCurrentSetDescription()"
+        :title="getCurrentSetDescriptionTitle()"
+        :md="currentTree.cols_meta_data[activeSetId]['madek_core:description']"/>
+
+      <MetaDatumView
+        v-if="isShowLocale(currentTree.entries_meta_data[activeEntryId]['media_object:title_en'])"
+        :title="$t('meta_info.label_media_title')"
+        :md="currentTree.entries_meta_data[activeEntryId]['media_object:title_en']"/>
+      <MetaDatumView
+        v-else
+        :title="$t('meta_info.label_media_title')"
+        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:title']"/>
+
+      <!-- HH wird nicht mehr benötigt, Lizenz wird individuell ausgegeben -->
+      <!--
+      <div class="meta_info" >
+        <div class="meta_title">
+          {{$t('meta_info.label_copyright')}}
+        </div>
+        <div class="filter_content">
+          <span v-for="(term,idx) in getMDLicenceList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
+        </div>
+      </div> -->
+      
+      <MetaDatumView
+        :title="$t('meta_info.label_copyright')"
+        :md="currentTree.entries_meta_data[activeEntryId]['madek_core:copyright_notice']"/>
+
+      <MetaDatumView
+        :title="$t('meta_info.label_project_program_of_study')"
+        :md="currentTree.cols_meta_data[parentSetId]['institution:program_of_study']"
+        :is-selectable="true"
+        @add-filter="addFilter"/>
+
+      <MetaDatumView
+        :title="$t('meta_info.label_project_semester')"
+        :md="currentTree.cols_meta_data[parentSetId]['institution:semester']"
+        :is-selectable="true"
+        @add-filter="addFilter"/>
+
+      <MetaDatumView
+        :title="$t('meta_info.label_project_category')"
+        :md="currentTree.cols_meta_data[parentSetId]['institution:project_category']"
+        :is-selectable="true"
+        @add-filter="addFilter"/>
+
+      <MetaDatumView
+        :title="$t('meta_info.label_project_keywords')"
+        :md="currentTree.cols_meta_data[parentSetId]['madek_core:keywords']"
+        :is-selectable="true"
+        @add-filter="addFilter"/>
+
+      <MetaDatumView
+        :title="$t('meta_info.label_project_participants')"
+        :md="currentTree.cols_meta_data[parentSetId]['creative_work:other_creative_participants']"
+        :is-selectable="true"
+        @add-filter="addFilter"/>
+
+      <!-- HH Personen von Medieneinträgen dürfen keine Buttons sein: sie können nicht gefiltert werden. 
+        Ref.: https://cloud.hfg-karlsruhe.de/s/37o3rtHMSZ425q3
+        Ausgabe als string, comma seperated.
+      -->
+      <!-- <MetaDatumView
+      :title="$t('meta_info.label_authors')"
+      :md="currentTree.entries_meta_data[activeEntryId]['media_object:creator_of_media_object']"
+      :is-selectable="true"
+      @add-filter="addFilter"/> -->
+      <div class="meta_info" v-if="getMDMediaCreatorsList().length">
+        <div class="meta_title">
+          {{$t('meta_info.label_media_authors')}}
+        </div>
+        <div class="meta_content">
+          <div class="filter_content">
+            <span v-for="(term,idx) in getMDMediaCreatorsList()">{{ (idx !== 0 ? ', ' : '') + term }}</span>
           </div>
         </div>
+      </div>
 
-        <!-- HH Lizenz mit Fallback -->
-        <div class="meta_info">
-          <div class="meta_title">
-            {{$t('meta_info.label_license')}}
-          </div>
-          <div class="meta_content">
-            <div class="filter_content">
-              <span v-if="getMDLicence()">
-                {{ getMDLicence() }}
-              </span>
-              <span v-else>
-                {{ $t('meta_info.license_fallback') }}
-              </span>
-            </div>
+      <!-- HH Lizenz mit Fallback -->
+      <div class="meta_info">
+        <div class="meta_title">
+          {{$t('meta_info.label_license')}}
+        </div>
+        <div class="meta_content">
+          <div class="filter_content">
+            <span v-if="getMDLicence()">
+              {{ getMDLicence() }}
+            </span>
+            <span v-else>
+              {{ $t('meta_info.license_fallback') }}
+            </span>
           </div>
         </div>
+      </div>
 
-        <MetaDatumView
-          :title="$t('meta_info.label_project_leader')"
-          :md="currentTree.cols_meta_data[activeSetId]['institution:project_leader']"
-          :is-selectable="true"
-          @add-filter="addFilter"/>
-          
-        <MetaDatumViewMaterial
-          :title="$t('meta_info.label_project_material')"
-          :mdSource="currentTree.cols_meta_data[activeSetId]" />
+      <MetaDatumView
+        :title="$t('meta_info.label_project_leader')"
+        :md="currentTree.cols_meta_data[activeSetId]['institution:project_leader']"
+        :is-selectable="true"
+        @add-filter="addFilter"/>
+        
+      <MetaDatumViewMaterial
+        :title="$t('meta_info.label_project_material')"
+        :mdSource="currentTree.cols_meta_data[activeSetId]" />
 
-        <!-- link to entry in madek -->
-        <div class="meta_info">
-          <div class="meta_title">
-            {{$t('meta_info.label_madek_source')}}
-          </div>
-          <div class="meta_content"> 
-            <div class="filter_content">
-              <a class="btn_round"
-                target="_blank" rel="noopener noreferrer"
+      <!-- link to entry in madek -->
+      <div class="meta_info">
+        <div class="meta_title">
+          {{$t('meta_info.label_madek_source')}}
+        </div>
+        <div class="meta_content"> 
+          <div class="filter_content">
+            <a class="btn_round"
+              target="_blank" rel="noopener noreferrer"
               :href="useRuntimeConfig().public.apiBaseUrl + '/entries/' + activeEntryId + '?lang=' + locale">
               {{$t('meta_info.label_madek_source_link')}}
               <IconsLink/>
             </a>
           </div>
-          </div>
         </div>
-
       </div>
+
     </div>
   </div>  
 </template>
@@ -340,20 +333,14 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
   
   background-color: var(--Colors-background-default);
   justify-content: center;
+
+  transition: all 300ms linear;
 }
 
 .entry_info::-webkit-scrollbar {
   visibility: hidden;
 }
 
-/* 
- * toggle meta data 
- */
-
-.entry_info {
-  transition: all 300ms linear;
-  /* transition-delay: 300ms; */
-}
 .entry_info.hidden {
   transform: translateX(50vw);
   transition: all 300ms linear;
@@ -363,26 +350,14 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
 }
 
 .entry_info_panel {
-  /* border: 1px solid red; */
-  width: calc(100% - 80px);
-  margin:auto;
-  padding: var(--spacing-between-items-M, 12px) var(--spacing-between-items-M,12px);
-
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--spacing-meta-info-between-sections, 80px);
+  gap: var(--spacing-meta-info-between-sub-sections);
   flex-shrink: 0;
-  margin-bottom: var(--padding-container-bottom-L);
+  padding: var(--padding-meta-info-container-vertical) var(--padding-meta-info-container-horizontal);
 }
 
-[data-layout="mobile"] {
-  .entry_info_panel {
-    width: 100%;
-    margin:0;
-    box-sizing: border-box;
-  }
-}
 
 .section_entry {
     display: flex;
@@ -397,7 +372,6 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
     align-items: flex-start;
     gap: var(--spacing-meta-info-between-sub-sections, 24px);
     align-self: stretch;
-
 }
 .meta_info {
     display: flex;
@@ -406,15 +380,8 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
     gap: var(--spacing-meta-info-between-rows, 6px);
     align-self: stretch;
 }
-.meta_info.top_gap {
-  height: 15vh;
-}
-[data-layout="mobile"] {
-  .meta_info.top_gap {
-    /* height: 48px; */
-    display: none
-  }
-}
+
+
 .meta_title {
     user-select: none;
 
