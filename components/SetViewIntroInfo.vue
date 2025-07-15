@@ -105,8 +105,7 @@ onMounted(() => {
  * "word-break" ist zwar nicht so schön, aber dennoch die besser Lösung, 
  * weil das Problem nur selten auftritt: mobil und langes Wort. */
 .blend_content {
-  /* border: 1px solid blue; */
-  /* display: inline-flex;   */
+  margin-top: -.5em;
   word-break: break-word;
   color: var(--Colors-text-primary);
 }
