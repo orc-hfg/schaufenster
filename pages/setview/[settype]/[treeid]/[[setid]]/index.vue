@@ -1735,12 +1735,12 @@ flex-shrink: 0;
 
 
 .av_control {
-  display: block;
+  display: flex;
   /* border: 1px solid green; */
   position: fixed;
   left: 0px;
   width: calc(100vw - 96px);
-  bottom:60px;
+  bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
   left: 88px;
   z-index: 100;
   /* background-color: var(--Colors-btm-bar-playerView-background); */
@@ -1749,9 +1749,6 @@ flex-shrink: 0;
 }
 .av_control.hidden {
   transform: translateY(128px);
-}
-.av_control * {
-  float: left;
 }
 
 .av_control_playpause {
