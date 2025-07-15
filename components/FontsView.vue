@@ -46,7 +46,12 @@
                 <div class="font_info fades">
                     <div class="font_by">by</div>
                     <!-- TODO: Add the link to Author's website-->
-                    <a tabindex="0" class="font_link">{{ JSON.stringify(font_list[font_selected].author) }},</a>
+                    <a 
+                    tabindex="0"
+                    class="font_link"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    :href="$t(font_list[font_selected].website)"> {{ JSON.stringify(font_list[font_selected].author) }},</a>
                     <div class="font_year">{{font_list[font_selected].year}}</div>
                 </div>
                 

@@ -7,6 +7,7 @@ export interface iFontData {
   year: string,
   size_factor: number,
   line_height_factor: number,
+  website: string,
 }
 
 export interface iDynFontsState {
@@ -25,7 +26,8 @@ const font_0:iFontData = {
     author: 'Sun Young Oh',
     year: '2021',
     size_factor: 0.9,
-    line_height_factor: 1.0 // 0.9,
+    line_height_factor: 1.0, // 0.9,
+    website: 'https://sunyoungoh.com/',
 }
 const font_1:iFontData = {
     name: 'gqom404',
@@ -33,7 +35,8 @@ const font_1:iFontData = {
     author: 'Calvin Kudufia',
     year: '2020',
     size_factor: 0.9,
-    line_height_factor: 1.0 // 0.9,
+    line_height_factor: 1.0, // 0.9,
+    website: 'https://www.calvinkudufia.eu',
 }
 
 /* high contrast theme */
