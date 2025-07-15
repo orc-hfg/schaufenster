@@ -20,6 +20,7 @@ const props = defineProps(['isMute'])
     height: auto;
     cursor: pointer;
     padding: 0 var(--padding-item-horizontal-M);
+    line-height: 0;
 }
 .btn_mute div {
     width: 100%;

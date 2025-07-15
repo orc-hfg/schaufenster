@@ -1595,7 +1595,7 @@ const handleMouseLeave = () => {
   left: var(--bottom-nav-padding);
   width: var(--bottom-nav-toggle-height);
   height: var(--bottom-nav-toggle-height);
-  /* HH vertikale Position mittig zur bottom_nav */
+  /* vertikale Position mittig zur bottom_nav, derselbe Wert wie in .av_control */
   bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
   z-index: 120;
 
@@ -1736,30 +1736,37 @@ flex-shrink: 0;
 
 .av_control {
   display: flex;
-  /* border: 1px solid green; */
+  align-items: center;
+  justify-content: center;
+  
   position: fixed;
   left: 0px;
   width: calc(100vw - 96px);
-  bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
+  bottom: 96px;
   left: 88px;
   z-index: 100;
-  /* background-color: var(--Colors-btm-bar-playerView-background); */
   color: var(--Colors-btm-bar-playerView-button, #2C2C2C);
-  transition: transform 300ms ease-out;
+  
+  /* damit heben sich die av_controls vor weißem hintergrund ab.
+   * außerdem zusätzlich ausblenden, weil die Buttons sich beim Slide-Wechselschnell umfärben (dark -> light)
+   * wichtig, dass die transition hier und bei .hidden auch background und opacity anspricht. */
+  height: var(--bottom-nav-toggle-height);
+  /* der selbe Wert wie in .btn_bottom_nav_toggle */
+  bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
+  background: var(--Colors-background-default);
+  border-radius: var(--radius-full, 9999px);
+  box-sizing: border-box;
+  padding-left: var(--padding-item-horizontal-S);
+  opacity: 1;
+  transition: all 300ms ease-out;
 }
 .av_control.hidden {
-  transform: translateY(128px);
+  transform: translateY(calc(var(--bottom-nav-toggle-height) * 2));
+  opacity: 0;
+  transition: all 300ms ease-out;
 }
 
-.av_control_playpause {
-
-}
-.av_control_mute {
-
-}
 .av_control .av_progress_cont {
-  
-
   display: flex;
   /* width: calc(100% - 192px);
   width: calc(100% - 212px); */

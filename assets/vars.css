@@ -67,9 +67,12 @@
 --Colors-btm-bar-galleryView-set-hover: var(--Primitives-color-greys-LightGrey);
 --Colors-btm-bar-main-button-fill: rgba(243,242,239,0.7);
 --Colors-btm-bar-main-button-icon: var(--Primitives-color-greys-Black);
---Colors-btm-bar-playerView-background: var(--Primitives-color-transparencies-black-10);
---Colors-btm-bar-playerView-button: var(--Primitives-color-greys-ORCBlack);
---Colors-btm-bar-playerView-progress: var(--Primitives-color-greys-MediumGrey);
+
+/* gibt es den player view im light mode überhaupt ? */
+/* --Colors-btm-bar-playerView-background: var(--Primitives-color-transparencies-black-10); */
+/* --Colors-btm-bar-playerView-button: var(--Primitives-color-greys-ORCBlack); */
+/* --Colors-btm-bar-playerView-progress: var(--Primitives-color-greys-MediumGrey); */
+
 --Colors-btm-bar-set-button: var(--Primitives-color-greys-LightGrey);
 --Colors-btm-bar-thumbnail-active: var(--Primitives-color-greys-White);
 --Colors-divider-universal: var(--Primitives-color-greys-MediumGrey);
@@ -138,9 +141,12 @@
 --Colors-btm-bar-galleryView-set-hover: var(--Primitives-color-greys-ORCBlack);
 --Colors-btm-bar-main-button-fill: var(--Primitives-color-transparencies-black-30);
 --Colors-btm-bar-main-button-icon: var(--Primitives-color-greys-White);
---Colors-btm-bar-playerView-background: var(--Primitives-color-transparencies-white-20);
+
+/* --Colors-btm-bar-playerView-background: var(--Primitives-color-transparencies-white-20); */
+--Colors-btm-bar-playerView-background: var(--Primitives-color-greys-DarkGrey);
 --Colors-btm-bar-playerView-button: var(--Primitives-color-greys-White);
 --Colors-btm-bar-playerView-progress: var(--Primitives-color-greys-White);
+
 --Colors-btm-bar-set-button: var(--Primitives-color-greys-LightGrey);
 --Colors-btm-bar-thumbnail-active: var(--Primitives-color-greys-White);
 --Colors-divider-universal: var(--Primitives-color-greys-DarkGrey);

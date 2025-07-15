@@ -22,7 +22,7 @@ const props = defineProps(['isPlay'])
     /* TODO Größe der Icons responsive machen und ggf. DOM an Mute.vue angleichen. */
     /* width: var(--dimension-button-height-M); */
 div {
-    
+    line-height: 0;
     cursor: pointer;
 }
 svg * {
