@@ -780,6 +780,9 @@ nav {
   }
   .input_wrapper {
     order: 3;
+    width: calc(100% + var(--dimension-button-height-M));
+    margin-left: calc(-1 * var(--dimension-button-height-M));
+    margin-top: var(--margin-header-margin);
     /* width: calc(100% + var(--dimension-button-height-M)); */
     /* margin-left: calc(-1 * var(--dimension-button-height-M)); */
     /* margin-top: var(--spacing-between-items-M); */
@@ -840,9 +843,7 @@ nav {
   border: none;
   width: 50px;
 }
-.btn_logo .logo {
 
-}
 .btn_logo .logo:hover {
   transform: scale(0.83);
 }
@@ -1059,6 +1060,27 @@ cursor: pointer;
 .content_toggle button.active {
   color: var(--Colors-filter-chip-text-active);
   background-color: transparent;
+}
+
+[data-layout="mobile"] {
+  /* HH Umschalter einblenden */
+  .content_toggle {
+    display: flex;
+  }
+  /* HH Content positionieren und beim Umschalten animieren */
+  .wrapper_filter,
+  .wrapper_projects {
+    left: calc(0vw + 24px);
+    width: calc(100vw - 48px);
+    gap: 0;
+    transition: transform 200ms ease-out;
+  }
+  .wrapper_filter.mobile_hidden {
+    transform: translateX(-100vw);
+  }
+  .wrapper_projects.mobile_hidden {
+    transform: translateX(100vw);
+  }
 }
 
 .meta_key_filter,
