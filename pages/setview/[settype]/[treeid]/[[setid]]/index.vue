@@ -2223,7 +2223,8 @@ progress::-webkit-progress-value {
 .btn_pdf {
   display:inline-flex;
   position:relative;
-  top:50%;
+  top: calc(50% - var(--dimension-button-height-S));
+  height: var(--dimension-button-height-S);
   text-decoration:none;
   background: var(--Colors-background-default);
   box-shadow: 0px 0px var(--dimension-icon-size-M) var(--Colors-text-secondary);
