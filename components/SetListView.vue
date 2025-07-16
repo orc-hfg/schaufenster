@@ -406,15 +406,24 @@ const setMainSwiper = (swiper: Swiper) => {
   left: 0px;
   width: 100vw;
   background-color: var(--Colors-background-default);
-  top: 112px;
-  height: calc(100vh - 112px - 240px);
+
   /* HH Auf älteren Safari-Versionen (tested 15.6.1) wird "overflow-y" nicht richtig interpretiert.
-   * Dagegen scheint "overflow: visible" problemlos zu funktionieren. 
-   * –> Sind Seiteneffekte wegen "overflow: visible" zu befürchten?
-   * (Danach "overflow-x: hidden" zu ergänzen, führt leider wieder zu fehlerhafter Daratellung.)
-   * Info: Über die Klasse ".swiper" bekommt das Element "overflow: hidden" zugewiesen. Vermutlich entsteht daraus ein Konflikt.
+  * Dagegen scheint "overflow: visible" problemlos zu funktionieren. 
+  * –> Sind Seiteneffekte wegen "overflow: visible" zu befürchten?
+  * (Danach "overflow-x: hidden" zu ergänzen, führt leider wieder zu fehlerhafter Daratellung.)
+  * Info: Über die Klasse ".swiper" bekommt das Element "overflow: hidden" zugewiesen. Vermutlich entsteht daraus ein Konflikt.
   */
   overflow: visible;
+  
+  /* Problem: Das Scrolling ist im oberen Bereich blockiert, unten fehlt Abstand zum Browser-Rand.
+   * Das Layout verhält sich auf unterschiedlichen geräten nicht 100% konsistent (siehe Issues #188 und #132).
+   * Vorschlag: Den Abstand von oben und unten über Padding beim ersten und letzten .main_slide zu lösen.
+   * Der Swiper-Container wird stattdessen auf 100% Viewport-Höhe gesetzt und auf vertikal 0 verankert. 
+   * Dann ist die aktive Fläche für scrolling die gesamte Höhe des Viewports. */
+  /* top: 112px;
+  height: calc(100vh - 112px - 240px); */
+  top: 0;
+  height: 100vh;
 }
 
 .filter_blured {
@@ -432,6 +441,14 @@ const setMainSwiper = (swiper: Swiper) => {
   /* width: calc(100vw - 4rem); */
   width: 100vw;
   cursor: pointer;
+}
+
+/* Hier dann Abstand von oben und unten über Padding beim ersten und letzten .main_slide */
+.main_slide:first-of-type {
+  padding-top: var(--padding-setlistview-swiper-vertical);
+}
+.main_slide:last-of-type {
+  padding-bottom: var(--padding-setlistview-swiper-vertical);
 }
 .swiper_main.button_pad_left .main_slide{
   /* width: calc(100vw - 12rem); */

@@ -263,6 +263,8 @@
   --padding-item-vertical-XS:0px;
 
   --padding-navbar-left-right-top-btm:12px;
+
+  --padding-setlistview-swiper-vertical: 120px;
   
   --padding-meta-info-container-horizontal:40px;
   --padding-meta-info-container-vertical:155px;
@@ -354,6 +356,8 @@
   --padding-item-vertical-XS:0px;
 
   --padding-navbar-left-right-top-btm:12px;
+
+  --padding-setlistview-swiper-vertical: 120px;
 
   --padding-meta-info-container-horizontal:12px;
   --padding-meta-info-container-vertical:12px;
