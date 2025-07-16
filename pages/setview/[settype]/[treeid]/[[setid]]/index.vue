@@ -1464,7 +1464,7 @@ const handleMouseLeave = () => {
  */
 .nozoom .image_slide {
   height: calc(100vh - 260px);
-  margin-top: var(--margin-swiper-top);
+  margin-top: var(--margin-setview-swiper-top);
 }
 .info_active .image_slide,
 .info_active .video_slide,
@@ -1476,7 +1476,7 @@ const handleMouseLeave = () => {
 }
 .nozoom .video_slide {
   height: calc(100vh - 260px);
-  margin-top: var(--margin-swiper-top);
+  margin-top: var(--margin-setview-swiper-top);
 }
 
 /* HH Ansatz mit transform: scale() und Animationen hat nicht geklappt:
@@ -1883,7 +1883,7 @@ progress::-webkit-progress-value {
 /* vertical */
 .nozoom .swiper-main-button-prev,
 .nozoom .swiper-main-button-next { 
-  top: calc(50% - var(--margin-swiper-top));
+  top: calc(50% - var(--margin-setview-swiper-top));
   margin-top: calc(var(--btn-prev-next-half-size) * -1);
 }
 .zoom .swiper-main-button-prev,
@@ -2262,7 +2262,7 @@ progress::-webkit-progress-value {
 
   
   .swiper_main {
-    top: var(--margin-swiper-top);
+    top: var(--margin-setview-swiper-top);
     transition: height 300ms linear, top 150ms linear 150ms;
   }
   /* Im Zoom-Modus wird der Swiper-Container nach oben geschoben und nimmt die volle Höhe ein. */
@@ -2280,7 +2280,7 @@ progress::-webkit-progress-value {
    * Weil .zoom "top" verändert, muss auch "top" hier explizit gesetzt werden. */
   .swiper_main.info_active,
   .swiper_main.info_active.zoom {
-    top: var(--margin-swiper-top);
+    top: var(--margin-setview-swiper-top);
     height: 40vh;
   }
 
@@ -2328,7 +2328,7 @@ progress::-webkit-progress-value {
 
   .entry_info {
     position: relative;
-    top: var(--margin-swiper-top);
+    top: var(--margin-setview-swiper-top);
     left: 0;
     margin: 0;
     width: 100%;
