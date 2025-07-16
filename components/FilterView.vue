@@ -1030,7 +1030,7 @@ cursor: pointer;
   cursor: pointer;
   background-color: var(--Colors-background-default);
   z-index: 20;
-  box-shadow: 0px 0px var(--dimension-icon-size-M) var(--Colors-text-secondary);
+  box-shadow: var(--shadow-button-default);
   overflow: hidden;
   &::before {
     content: '';

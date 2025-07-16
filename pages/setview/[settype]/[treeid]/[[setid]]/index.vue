@@ -74,9 +74,7 @@
         :key="el.id" :virtualIndex="index">
 
         <div v-if="el.isSubSet == true"
-          class="main_preview_subset"
-          tabindex="0"
-          @click="switch2Set(el.sub_set_id)">
+          class="main_preview_subset">
           <div class="subset_tiles"></div>
           <div class="subset_tiles"></div>
           <div class="subset_tiles"></div>
@@ -87,15 +85,11 @@
             <div class="subset_title">
               {{getAbbrevColTitle(el.sub_set_id)}}
             </div>
-            <button class="subset_btn">
-              <span>Open Set</span>
-              <!-- TODO icon -->
-              <span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 5L19 12L12 19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              </span>
+            <button class="subset_btn"
+              tabindex="0"
+              @click="switch2Set(el.sub_set_id)">
+              <span>{{$t('buttons.btn_sub_sub_set')}}</span>
+              <IconsArrowRight/>
             </button>
             
           </div>
@@ -1433,25 +1427,7 @@ const handleMouseLeave = () => {
   position: relative;
   transition: all 300ms linear;
 }
-.main_preview_subset {
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 60%;
-  height: 80%;
-}
-/*
-.main_preview_subset div {
-  
-  display: block;
-  float: left;
-  
-  width: 46%;
-  height: 46%;
-  margin: 2%;
-  background-color: var(--Primitives-color-greys-ORCBlack)
-}
-*/
+
 /*
  * animate preview
  * HH Das größte Problem ist das gleichzietige Skalieren und Positionieren.
@@ -1669,12 +1645,34 @@ const handleMouseLeave = () => {
   height: 100%;
 }
 
+/* Sub-Sub-Set Button 
+ * TODO Animation, wie in Figma vorgesehen: 
+ * neue Seite fährt von unten in den Viewport hinein und schiebt die aktuelle Seite nach oben hinaus (plus fade-out).
+ * Bottom Bar blendet aus/über. 
+ * Ist aber unklar, ob das so realisiert werden kann. */
 .main_preview_subset {
-  position: absolute;
-  top: 10%;
-  left: 20%;
-  width: 60%;
-  height: 80%;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  
+  margin: 0 auto;
+  margin-top: 80px;
+  box-sizing: border-box;
+  height: calc(100% - 260px);
+}
+[data-layout="mobile"] {
+  .main_preview_subset {
+    margin-top: 0;
+    max-width: 400px;
+  }
+  .zoom .main_preview_subset {
+    margin-top: 80px;
+  }
+  .info_active .main_preview_subset {
+    height: 100%;
+    max-width: 250px;
+    margin-top: 0;
+  }
 }
 
 .subset_tiles {
@@ -1688,29 +1686,20 @@ const handleMouseLeave = () => {
 }
 .subset_content {
   position: absolute;
-  top: calc(50% - 50px);
-  left: 0; width: 100%;
-
-  display: inline-flex;
-height: 104px;
-padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
-flex-direction: column;
-align-items: center;
-gap: var(--spacing-item-inner, 8px);
-flex-shrink: 0;
-
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-item-inner, 8px);
 }
 .subset_title {
-  color: var(--text-primary, #2C2C2C);
-
-  /* Buttons */
-  font-family: "Instrument Sans";
   font-size: var(--font-button-font-size, 20px);
-  font-style: normal;
-  font-weight: 500;
-  line-height: var(--font-button-line-height, 24px); /* 120% */
 }
-/* TODO hover state ? */
+
 .subset_btn {
   user-select: none;
   cursor: pointer;
@@ -1721,7 +1710,7 @@ flex-shrink: 0;
   gap: var(--spacing-item-inner, 8px);
 
   border-radius: var(--radius-full, 9999px);
-  border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
+  border: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 
   color: var(--Colors-text-primary, #2C2C2C);
 
@@ -1729,9 +1718,16 @@ flex-shrink: 0;
   font-family: "Instrument Sans";
   font-size: var(--font-button-font-size, 20px);
   font-style: normal;
-  font-weight: 500;
-  line-height: var(--font-button-line-height, 24px); /* 120% */
+  font-weight: 400;
+  line-height: var(--font-body-line-height, 24px);
+
+  box-shadow: var(--shadow-button-default);
 }
+.subset_btn svg {
+  line-height: 0;
+}
+/* Ende Sub-Sub-Set Button */
+
 
 
 .av_control {
@@ -2231,7 +2227,7 @@ progress::-webkit-progress-value {
   height: var(--dimension-button-height-S);
   text-decoration:none;
   background: var(--Colors-background-default);
-  box-shadow: 0px 0px var(--dimension-icon-size-M) var(--Colors-text-secondary);
+  box-shadow: var(--shadow-button-default);
 }
 .btn_pdf:hover {
     background: var(--Colors-filter-chip-fill-hover);

@@ -116,7 +116,9 @@
 --Colors-text-secondary: var(--Primitives-color-greys-MediumGrey);
 
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
---Colors-fonts-view: var(--Colors-nav-bar-toogle-diplom)
+--Colors-fonts-view: var(--Colors-nav-bar-toogle-diplom);
+
+--shadow-button-default: 0px 0px var(--dimension-icon-size-M) var(--Colors-text-secondary);
 }
 
 
@@ -183,6 +185,8 @@
 --Colors-text-secondary: var(--Primitives-color-greys-Grey);
 
 --Colors-slider-unknown-filetype-icon: var(--Primitives-color-greys-MediumGrey);
+
+--shadow-button-default: 0px 0px var(--dimension-icon-size-M) var(--Colors-text-secondary);
 }
 
 /* .Spaces_Dimensions {*/

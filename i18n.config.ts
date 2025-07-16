@@ -44,6 +44,9 @@ export default defineI18nConfig(() => ({
                 label_show_less:"Zeige weniger",
                 no_results: "Keine Ergebnisse gefunden.",
             },
+            buttons: {
+                btn_sub_sub_set: "Betreten",
+            },
             setlist: {
                 intro_title_project: "Alle",
                 intro_title_project2: "Projekte",
@@ -277,6 +280,9 @@ export default defineI18nConfig(() => ({
                 label_show_all:"Show all",
                 label_show_less:"Show less",
                 no_results: "No results found.",
+            },
+            buttons: {
+                btn_sub_sub_set: "Enter",
             },
             setview: {
                 btn_title_nav_back: "Back",
