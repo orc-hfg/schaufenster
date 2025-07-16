@@ -147,7 +147,7 @@ const props = defineProps([
 [data-layout="mobile"] {
   .project_counter {
     padding-left: 0;
-    border: 1px solid;
+    /* border: 1px solid; */
     width: 100%;
     .content {
       padding: 0;
@@ -193,6 +193,17 @@ const props = defineProps([
 
   font-size: 20px;
   font-weight: 400;
+
+  max-width: 50vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+[data-layout="mobile"] {
+  .cell {
+    max-width: 95vw;
+  }
 }
 
 /* HH wird nicht mehr verwendet, stattdessen mix-blend-mode wenn props.settype = projekt */
