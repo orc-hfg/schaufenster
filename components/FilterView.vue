@@ -39,8 +39,8 @@ const getSortedfilteredTreeMapKeys = () => {
     return [];
   }
   result.sort((a:string,b:string) => {
-    const ta = filteredTreeMap.value[a].colTitlesMap[a]
-    const tb = filteredTreeMap.value[b].colTitlesMap[b]
+    const ta = filteredTreeMap.value[a].colTitlesMap[a] || ''
+    const tb = filteredTreeMap.value[b].colTitlesMap[b] || ''
     return ta.localeCompare(tb)
   })
   return result
