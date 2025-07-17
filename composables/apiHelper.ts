@@ -6,8 +6,13 @@ export const apiHelper = (baseUrl?: string) => {
     
     
     const getNewConfig = (baseUrl?:string) => {
+      
       const config = {
-        baseUrl: baseUrl || 'https://madek.hfg-karlsruhe.de'
+        
+        baseUrl: baseUrl
+          || process.env.API_BASE_URL 
+          || process.env.NUXT_APP_API_BASE_URL 
+          || 'https://madek.hfg-karlsruhe.de'
         //baseUrl: baseUrl || 'https://staging.madek.hfg-karlsruhe.de'
         //baseUrl: baseUrl || 'https://dev.madek.hfg-karlsruhe.de'
         //baseUrl: baseUrl || 'http://localhost:8080'
@@ -16,6 +21,7 @@ export const apiHelper = (baseUrl?: string) => {
         //customFetch: useFetch
         //customFetch: (...fetchParams: Parameters<typeof fetch>) => $fetch(...fetchParams)
       }
+      console.error("use api base url: " + config.baseUrl)
       return config
     }
     const getNewApi = (apiConfig) => {    

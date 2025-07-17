@@ -171,7 +171,7 @@ watch(() => route.fullPath, () => {
   }
   // dont confuse running animation
   setTimeout(() => {
-    console.error(" switch anim mode " + isShowPageIn.value)
+    //console.error(" switch anim mode " + isShowPageIn.value)
     isShowPageIn.value = !isShowPageIn.value
   },3000)
 
