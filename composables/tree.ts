@@ -620,10 +620,14 @@ export const treeHelper = () => {
     };
 
     //entry_query.me_get_metadata_and_previews = true
-    if (requestParams.value.headers) {
+    if (process.env.NUXT_APP_USER_TOKEN 
+      && process.env.NUXT_APP_USER_TOKEN.length) {
+      // requestParams.value.headers) {
       entry_query.me_get_metadata_and_previews = true
+      console.error("get private entries")
     } else {
-      //entry_query.public_get_metadata_and_previews = true
+      entry_query.public_get_metadata_and_previews = true
+      console.error("get public entries")
     }
 
     const entries_resp = (await apiH.api.mediaEntriesList(entry_query, requestParams.value)).data;
@@ -981,12 +985,16 @@ export const treeHelper = () => {
       page: 0,
       size: 10000,
     };
-    if (requestParams.value &&
-        requestParams.value.headers && 
-        requestParams.value.headers?.keys) {
-      //cols_query.me_get_metadata_and_previews = true
+    if (process.env.NUXT_APP_USER_TOKEN 
+      && process.env.NUXT_APP_USER_TOKEN.length) {
+        //requestParams.value &&
+        //requestParams.value.headers && 
+        //requestParams.value.headers?.keys) {
+      cols_query.me_get_metadata_and_previews = true
+      console.error("using private cols all request")
     } else {
-      //cols_query.public_get_metadata_and_previews = true
+      cols_query.public_get_metadata_and_previews = true
+      console.error("using public cols all request")
     }
     const cols_data = (await apiH.api.collectionsList(cols_query, requestParams.value))
       .data as CollectionsListData;
@@ -1044,7 +1052,7 @@ export const treeHelper = () => {
       const cid = cca.child_id
       const col = collectionsAll.get(cid)
       if (!col || !col.id) {
-        console.error("initTree: ignore invalid collection: " + cid)
+        console.error("initTree: ignore invalid or hidden collection: " + cid)
       } else {
         CHILD_IDS_SCHAUFENSTER[cid] = cid
         console.log("initTree: schaufenster col " + cid + ":" + col?.id)
@@ -1076,7 +1084,7 @@ export const treeHelper = () => {
 
     //clones trees if matching keyword
     for (const treeId in state.treeMapper[MATCH_PROJECTS]) {
-      console.log("scan tree for kw " + treeId)
+      //console.log("scan tree for kw " + treeId)
       const tree = state.treeMapper[MATCH_PROJECTS][treeId]
       //console.dir(tree)
       let found = false
@@ -1099,8 +1107,8 @@ export const treeHelper = () => {
         }
       }
       if (found) {
-        console.log("found magister or diplom in projekt md: " 
-          + " treeId:" + treeId)
+        //console.log("found magister or diplom in projekt md: " 
+          //+ " treeId:" + treeId)
         getOrCreateTree(MATCH_DIPLOM, treeId)
         state.treeMapper[MATCH_DIPLOM][treeId] = tree
         useTree.value = state.treeMapper;
