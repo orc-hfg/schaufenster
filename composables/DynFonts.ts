@@ -39,6 +39,16 @@ const font_1:iFontData = {
     website: 'https://www.calvinkudufia.eu',
 }
 
+const font_2:iFontData = {
+    name: 'emil',
+    url: 'assets/emil/Emil-Medium.woff2',
+    author: 'Julian Jaffé',
+    year: '2025',
+    size_factor: 0.9,
+    line_height_factor: 1.0, // 0.9,
+    website: '#',
+}
+
 /* high contrast theme */
 // get colors from css
 const COLOR_DIPLOM =  '--Primitives-color-highlight-bright-tone' // '#FF4D00'
@@ -55,6 +65,7 @@ export const DynFonts = () => {
     const initFontList = () => {
         dynFontsState.font_list.push(font_0)
         dynFontsState.font_list.push(font_1)
+        dynFontsState.font_list.push(font_2)
     }
     if (!dynFontsState.font_list.length) initFontList()
     
@@ -136,4 +147,4 @@ export const DynFonts = () => {
 
 
 const font_selected = ref()
-const font_list = ref([font_0, font_1])
+const font_list = ref([font_0, font_1, font_2])

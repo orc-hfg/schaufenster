@@ -13,3 +13,11 @@
     font-style: normal;
     font-display: swap;
   }
+
+    @font-face {
+    font-family: 'font_2';
+    src: url('~/assets/fonts/emil/Emil-Medium.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
