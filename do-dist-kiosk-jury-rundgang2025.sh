@@ -15,8 +15,17 @@ export NUXT_APP_KIOSK_INFO_P_3="Diese Webseite ist die Kiosk-Version von Schaufe
 export NUXT_APP_USE_CACHED_DATA=1
 export NUXT_APP_USE_CACHE_FILE='/home/madek/sf_kiosk_nom2025_tree_data.json'
 #export NUXT_APP_USE_CACHE_FILE='~/sf_kiosk_nom2025_tree_data.json'
+
+nuxi cleanup
 #npm run dev
 
 npm run build
-rsync -avz .output alex@madek.hfg-karlsruhe.de:/home/madek/sf_kiosk_nom2025/
-ssh alex@madek.hfg-karlsruhe.de "sudo systemctl restart madek.sf_kiosk_nom2025"
+
+
+export SUSER=alex
+export SPATH=/home/madek/sf_kiosk_nom2025/
+export SSERVICE=madek.sf_kiosk_nom2025
+ssh $SUSER@madek.hfg-karlsruhe.de "sudo chown -R $SUSER:users $SPATH"
+rsync -avz .output $SUSER@madek.hfg-karlsruhe.de:$SPATH
+ssh $SUSER@madek.hfg-karlsruhe.de "sudo chown -R madek:users $SPATH"
+ssh $SUSER@madek.hfg-karlsruhe.de "sudo systemctl restart $SSERVICE"
