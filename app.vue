@@ -1,12 +1,17 @@
 <template>
 
-    <NuxtPage
+  <NoMobileOverlay 
+    v-if="isMobile && !isDev"/>
+
+  <NuxtPage
+    v-else
+
+    class="page"
+    :class="{
+    'page-in': !isNoClip && isShowPageIn,
+    'page-out': !isNoClip && !isShowPageIn,
+    'fade': isNoClip}" />
     
-      class="page"
-       :class="{
-      'page-in': !isNoClip && isShowPageIn,
-      'page-out': !isNoClip && !isShowPageIn,
-      'fade': isNoClip}" />
 </template>
 <script setup lang="ts">
 import '~/assets/vars.css'
@@ -45,6 +50,11 @@ const showMenu = ref(false)
 //const isMobile = ref(true);
 const isMobile = useState('mobile', () => { return false})
 
+// no-mobile-overlay im dev-Modus nicht anzeigen
+// interne Vite/Nuxt Variable, die automatisch zur Build-Zeit gesetzt wird:
+// npm run dev → import.meta.dev = true
+// npm run build → import.meta.dev = false
+const isDev = import.meta.dev
 
 const {
     locale,
@@ -207,7 +217,11 @@ const onkeyupEv = (ev:KeyboardEvent) => {
 }
 const MOBILE_SWITCH_RESOLUTION = 768
 const updateMobileStateByWinWidth = () => {
-  if (window.innerWidth < MOBILE_SWITCH_RESOLUTION) {
+
+  // CSS Media Query für Landscape + Höhe prüfen
+  const isLandscapeLowHeight = window.matchMedia('(orientation: landscape) and (max-height: 599px)').matches;
+  // if (window.innerWidth < MOBILE_SWITCH_RESOLUTION) {
+  if (window.innerWidth < MOBILE_SWITCH_RESOLUTION || isLandscapeLowHeight) {
     isMobile.value = true
   } else {
     isMobile.value = false

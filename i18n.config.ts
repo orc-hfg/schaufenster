@@ -217,7 +217,13 @@ export default defineI18nConfig(() => ({
                     title_9: "Programmierung",
                     p9_1: "Alexander Liebrich, Open Resource Center",
                 }
-            }
+            },
+            // temporärer Overlay, so lange die mobile Versionnoch nicht fertig ist
+            no_mobile: {
+                title: "Mobile Version in Arbeit",
+                p1: "Ihr Browserfenster muss mindestens 768px breit und 600px hoch sein, um auf diese Website zuzugreifen.",
+                p2: "Vielen Dank für Ihr Verständnis.",
+            },
 
 
         },
@@ -440,9 +446,13 @@ export default defineI18nConfig(() => ({
                     title_8: "Design",
                     title_9: "Programming",
                 }
-            }
-
-            
+            },
+            // temporärer Overlay, so lange die mobile Versionnoch nicht fertig ist
+            no_mobile: {
+                title: "Mobile version in progress",
+                p1: "Your viewport must be at least 768px wide and 600px high to access this website.",
+                p2: "Thank you for your understanding.",
+            },
         }
     }
 }))
