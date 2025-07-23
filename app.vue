@@ -1,5 +1,5 @@
 <template>
-  
+
     <NoMobileOverlay v-if="isMobile"/>
 
     <NuxtPage
@@ -209,7 +209,11 @@ const onkeyupEv = (ev:KeyboardEvent) => {
 }
 const MOBILE_SWITCH_RESOLUTION = 768
 const updateMobileStateByWinWidth = () => {
-  if (window.innerWidth < MOBILE_SWITCH_RESOLUTION) {
+
+  // CSS Media Query für Landscape + Höhe prüfen
+  const isLandscapeLowHeight = window.matchMedia('(orientation: landscape) and (max-height: 599px)').matches;
+  // if (window.innerWidth < MOBILE_SWITCH_RESOLUTION) {
+  if (window.innerWidth < MOBILE_SWITCH_RESOLUTION || isLandscapeLowHeight) {
     isMobile.value = true
   } else {
     isMobile.value = false
