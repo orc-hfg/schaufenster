@@ -132,3 +132,4 @@ dist
 .DS_Store
 pnpm-lock.yaml
 /.vscode
+sf_staging_tree_data.json
