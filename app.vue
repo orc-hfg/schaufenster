@@ -1,7 +1,7 @@
 <template>
 
   <NoMobileOverlay 
-    v-if="isMobile"/>
+    v-if="isMobile && !isDev"/>
 
   <NuxtPage
     v-else
@@ -50,6 +50,11 @@ const showMenu = ref(false)
 //const isMobile = ref(true);
 const isMobile = useState('mobile', () => { return false})
 
+// no-mobile-overlay im dev-Modus nicht anzeigen
+// interne Vite/Nuxt Variable, die automatisch zur Build-Zeit gesetzt wird:
+// npm run dev → import.meta.dev = true
+// npm run build → import.meta.dev = false
+const isDev = import.meta.dev
 
 const {
     locale,
