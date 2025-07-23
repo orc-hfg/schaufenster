@@ -1,4 +1,6 @@
 <template>
+  
+    <NoMobileOverlay v-if="isMobile"/>
 
     <NuxtPage
     
