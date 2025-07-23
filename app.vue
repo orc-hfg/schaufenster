@@ -1,14 +1,17 @@
 <template>
 
-    <NoMobileOverlay v-if="isMobile"/>
+  <NoMobileOverlay 
+    v-if="isMobile"/>
 
-    <NuxtPage
+  <NuxtPage
+    v-else
+
+    class="page"
+    :class="{
+    'page-in': !isNoClip && isShowPageIn,
+    'page-out': !isNoClip && !isShowPageIn,
+    'fade': isNoClip}" />
     
-      class="page"
-       :class="{
-      'page-in': !isNoClip && isShowPageIn,
-      'page-out': !isNoClip && !isShowPageIn,
-      'fade': isNoClip}" />
 </template>
 <script setup lang="ts">
 import '~/assets/vars.css'

@@ -14,18 +14,19 @@ const { t } = useI18n()
 
 <style scoped>
 .no-mobile-overlay {
-  position: fixed;
+  /* position: fixed;
   z-index: 2000;
   top: 0;
   left: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px); */
+
   /* Fallback für ältere Browser*/
   width: 100vw;
   height: 100vh;
   /* Neuere Browser: dynamisch auf 100% des Viewports setzen */
   width: 100dvw;
   height: 100dvh;
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(15px);
   display: flex;
   justify-content: center;
   align-items: center;
