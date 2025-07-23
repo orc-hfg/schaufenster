@@ -602,10 +602,10 @@ export const treeHelper = () => {
     //"manual ASC" "manual_asc"
     //"manual DESC" "manual_desc"
     const sorting_order = sorting.replace('created_at ','').replace(' ','_').toLowerCase()
-    console.log("buildSubTreeEntries: "
+    /*console.log("buildSubTreeEntries: "
       + " col.id "+ treeNode.collection.id 
       + " sorting: " + sorting 
-      + " query-order: " + sorting_order)
+      + " query-order: " + sorting_order)*/
       
     const entry_query = {
       // TODO kiosk with auth token
@@ -624,10 +624,10 @@ export const treeHelper = () => {
       && process.env.NUXT_APP_USER_TOKEN.length) {
       // requestParams.value.headers) {
       entry_query.me_get_metadata_and_previews = true
-      console.error("get private entries")
+      //console.error("get private entries")
     } else {
       entry_query.public_get_metadata_and_previews = true
-      console.error("get public entries")
+      //console.error("get public entries")
     }
 
     const entries_resp = (await apiH.api.mediaEntriesList(entry_query, requestParams.value)).data;
@@ -797,7 +797,6 @@ export const treeHelper = () => {
     console.log("builtTree finished sub trees:"
       + " Ttype: " + treeType
       + " Tid: " + treeId
-      + " col:" + collectionsAll.get(treeId)
     ) 
     //console.dir(state.treeMapper[treeType][treeId])
   };
@@ -845,7 +844,7 @@ export const treeHelper = () => {
         tree.cols_meta_data || {};
       tree.cols_meta_data[clientId] = mdMap;
 
-      console.log("buildCollectionMetaData: stored meta data for set: " + clientId)
+      //console.log("buildCollectionMetaData: stored meta data for set: " + clientId)
       
       
       for (const metaKey in mdMap) {

@@ -407,8 +407,8 @@ const {
 } = treeHelper()
 
 //TODO runtime conf
-const { apiConfig } = apiHelper()
-const apiBaseUrl = apiConfig.baseUrl + '/api-v2/'
+const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl + useRuntimeConfig().public.apiPath;
+console.error("SetView: use api base url " + apiBaseUrl)
 
 
 const isMobile = useState('mobile')

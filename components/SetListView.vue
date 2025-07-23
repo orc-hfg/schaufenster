@@ -160,9 +160,8 @@ const props = defineProps([
 'introInfo2',
 ])
 const emits = defineEmits(['switch2setview'])
-//TODO runtime conf
-const { apiConfig } = apiHelper();
-const apiBaseUrl = apiConfig.baseUrl + "/api-v2/";
+const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl + useRuntimeConfig().public.apiPath;
+console.error("SetListView: use api base url " + apiBaseUrl)
 const {
   RID,
   MATCH_DIPLOM,
