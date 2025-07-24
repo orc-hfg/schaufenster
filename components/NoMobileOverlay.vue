@@ -1,4 +1,7 @@
 <template>
+  <div class="hfg-logo">
+    <IconsNavIconHfG />
+  </div>
   <div class="no-mobile-overlay">
     <div class="no-mobile-overlay-content">
       <h1>{{ t('no_mobile.title') }}</h1>
@@ -13,6 +16,13 @@ const { t } = useI18n()
 </script>
 
 <style scoped>
+.hfg-logo {
+  text-align: center;
+  svg {
+    width: 100px;
+    height: auto;
+  }
+}
 .no-mobile-overlay {
   /* position: fixed;
   z-index: 2000;
@@ -31,6 +41,7 @@ const { t } = useI18n()
   justify-content: center;
   align-items: center;
   padding: 2em;
+  padding-top: 0;
   box-sizing: border-box;
   text-align: center;
 }
