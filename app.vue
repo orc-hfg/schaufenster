@@ -219,7 +219,7 @@ const MOBILE_SWITCH_RESOLUTION = 768
 const updateMobileStateByWinWidth = () => {
 
   // CSS Media Query für Landscape + Höhe prüfen
-  const isLandscapeLowHeight = window.matchMedia('(orientation: landscape) and (max-height: 599px)').matches;
+  const isLandscapeLowHeight = window.matchMedia('(orientation: landscape) and (max-height: 439px)').matches;
   // if (window.innerWidth < MOBILE_SWITCH_RESOLUTION) {
   if (window.innerWidth < MOBILE_SWITCH_RESOLUTION || isLandscapeLowHeight) {
     isMobile.value = true
