@@ -44,9 +44,9 @@ const font_2:iFontData = {
     url: 'assets/emil/Emil-Medium.woff2',
     author: 'Julian Jaffé',
     year: '2025',
-    size_factor: 0.9,
-    line_height_factor: 1.0, // 0.9,
-    website: '#',
+    size_factor: 0.8,
+    line_height_factor: 1.1, // 0.9,
+    website: 'https://julianjaffe.de/',
 }
 
 /* high contrast theme */
