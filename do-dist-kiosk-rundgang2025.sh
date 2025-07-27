@@ -1,7 +1,7 @@
 #!/bin/sh
 export NUXT_APP_API_BASE_URL=https://madek.hfg-karlsruhe.de
 export API_BASE_URL=https://madek.hfg-karlsruhe.de
-# export PASSWORD_PROTECT=Kiosk2025
+export PASSWORD_PROTECT=Kiosk2025
 # export NUXT_APP_KIOSK_SET_LIST_ID=13621247-d80e-407f-9c44-43dfe7407a2e
 export NUXT_APP_KIOSK_SET_LIST_ID=d3f228ef-be3e-4dbc-9b32-59cecb622d7a # Neues Set: "Rundgang Online Kiosk"
 export NUXT_APP_BASE_URL=/rundgang
