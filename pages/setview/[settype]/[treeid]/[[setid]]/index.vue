@@ -1299,10 +1299,17 @@ onMounted(() => {
   
   /* SEO and Metadata */
   useSeoMeta({
-    title: currentTree.value.colTitlesMap[setid.value],
+    
+    title: currentTree.value.colTitlesMap[setid.value], 
     ogTitle: currentTree.value.colTitlesMap[setid.value],
     description: currentTree.value.cols_meta_data[setid.value] && currentTree.value.cols_meta_data[setid.value]['madek_core:description']?.string,
     ogDescription: currentTree.value.cols_meta_data[setid.value] && currentTree.value.cols_meta_data[setid.value]['madek_core:description']?.string,
+    
+    // Alex, ab hier kommen die Daten
+    citation_authors: "", // Semicolon separated, fall mehr als 1. madek_core:authors
+    citation_date: "WS 2025", // Semester 'institution:semester'
+    citation_keywords: "Keyword1;  Keyword2;", // Nochmal mit Semicolon madek_core:keywords'
+
   })
 
   // intro show title animation
