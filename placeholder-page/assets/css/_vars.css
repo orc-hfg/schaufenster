@@ -1,0 +1,31 @@
+:root {
+    --Primitives-color-greys-White: #FFFFFF;
+    --Primitives-color-greys-Black: #000000;
+    --Primitives-color-greys-ORCBlack: #2C2C2C;
+    --Primitives-color-greys-MediumGrey: #CAC9C2;
+    --Primitives-color-greys-UltraLightGrey: #F3F2EF;
+    --Primitives-color-identity-Orange: #FF7C1C;
+    --Primitives-color-identity-Signal-Red: #FF4D00;
+
+    --Colors-background-default: var(--Primitives-color-greys-UltraLightGrey);
+
+    --Colors-text-primary: var(--Primitives-color-greys-ORCBlack);
+    --Colors-text-primary-inverted: var(--Primitives-color-greys-White);
+
+    --Colors-filter-chip-fill-outline: var(--Primitives-color-greys-MediumGrey);
+
+    --font-body-font-size:20px;
+    --font-body-line-height:1.3em;
+    --font-h1-font-size:240px;
+    --font-h1-line-height:210px;
+    --font-h2-font-size:120px;
+    --font-h2-line-height:146px;
+    --font-h3-font-size:48px;
+    --font-h3-line-height:48px;
+    --font-h4-font-size:32px;
+    --font-h4-line-height:42px;
+    --font-button-font-size:20px;
+    --font-button-line-height:24px;
+    --font-subline-font-size:20px;
+    --font-subline-line-height:24px;
+}

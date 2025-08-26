@@ -1,0 +1,13 @@
+{
+  "name": "templates",
+  "version": "0.0.1",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "live-server ./ --no-browser",
+    "dev": "npm run serve"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

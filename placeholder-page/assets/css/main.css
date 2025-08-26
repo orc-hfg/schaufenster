@@ -1,0 +1,73 @@
+@import './_reset.css';
+@import './_vars.css';
+@import './_fonts.css';
+
+/* Basic settings */
+/* ------------------------------ */
+
+html {
+  height: 100%;
+}
+body {
+  background-color: var(--Colors-background-default);
+  height: 100%;
+  font-family: 'InstrumentSans', sans-serif;
+  font-weight: 400;
+  font-size: var(--font-body-font-size);
+  line-height: var(--font-body-line-height);
+  color: var(--Colors-text-primary);
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Main styles */
+/* ------------------------------ */
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+
+  font-size: var(--font-button-font-size);
+  line-height: var(--font-button-line-height);
+  padding: 1em;
+}
+
+header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+  width: 100%;
+}
+header .logo {
+  width: 14em;
+}
+header .logo svg {
+  width: 100%;
+}
+header .logo svg path {
+  fill: var(--Primitives-color-greys-ORCBlack);
+}
+header .logo a {
+  text-decoration: none;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  max-width: 30em;
+  justify-content: center;
+  margin-bottom: 16vh;
+}
+
+/* Typography */
+/* ------------------------------ */
+
+hr {
+  width: 100%;
+  border-bottom: 1px solid var(--Colors-filter-chip-fill-outline);
+  border-top: none;
+}
