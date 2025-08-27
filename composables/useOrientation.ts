@@ -35,6 +35,7 @@ export function useOrientation() {
  * NICHT MÖGLICH: Screen Orientation API: screen.orientation.lock()
  * - wird von Safari und iOS Safarinicht unterstützt
  * - funktioniert nur im Vollbildmodus (z. B. via Fullscreen API) 
+ * - funktioniert nur mit Web Apps (PWAs)
  * https://developer.mozilla.org/en-US/docs/Web/API/ScreenOrientation/lock
  * 
  * 
@@ -53,4 +54,10 @@ export function useOrientation() {
  *   }
  * });
  * 
+ * NICHT WIRKSAM:
+ * <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
+ * - http-equiv="ScreenOrientation" ist kein offizieller HTML-Meta-Tag.
+ * - Browser ignorieren ihn praktisch vollständig.
+ * - Es gibt keine Spezifikation in HTML oder WHATWG, die diesen Meta-Tag definiert.
+ * - funktioniert weder auf iOS noch auf Android im Browser.
  */
