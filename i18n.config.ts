@@ -224,7 +224,11 @@ export default defineI18nConfig(() => ({
                 p1: "Ihr Browserfenster muss mindestens 768px breit und 440px hoch sein, um auf diese Website zuzugreifen.",
                 p2: "Vielen Dank für Ihr Verständnis.",
             },
-
+            no_landscape: {
+                title: "Landscape-Modus nicht unterstützt",
+                p1: "Bitte drehen Sie Ihr Gerät ins Hochformat.",
+                p2: "Vielen Dank für Ihr Verständnis.",
+            },
 
         },
         en: {
@@ -451,6 +455,11 @@ export default defineI18nConfig(() => ({
             no_mobile: {
                 title: "Mobile version in progress",
                 p1: "Your viewport must be at least 768px wide and 440px high to access this website.",
+                p2: "Thank you for your understanding.",
+            },
+            no_landscape: {
+                title: "Landscape mode not supported",
+                p1: "Please rotate your device into portrait mode.",
                 p2: "Thank you for your understanding.",
             },
         }
