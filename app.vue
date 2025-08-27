@@ -44,6 +44,8 @@ const showMenu = ref(false)
 //const isMobile = ref(true);
 const isMobile = useState('mobile', () => { return false})
 
+const { orientation } = useOrientation()
+
 // no-mobile-overlay im dev-Modus nicht anzeigen
 // interne Vite/Nuxt Variable, die automatisch zur Build-Zeit gesetzt wird:
 // npm run dev → import.meta.dev = true
