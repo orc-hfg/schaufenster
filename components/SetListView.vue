@@ -440,6 +440,7 @@ const setMainSwiper = (swiper: Swiper) => {
   /* width: calc(100vw - 4rem); */
   width: 100vw;
   cursor: pointer;
+  display: flex;
 }
 
 /* Hier dann Abstand von oben und unten über Padding beim ersten und letzten .main_slide */
@@ -483,9 +484,7 @@ const setMainSwiper = (swiper: Swiper) => {
   /* border: 1px solid green; */
   width: 30vw;
   height: 100%;
-  float: left;
   padding: 0px 20px;
-  
 }
 .set_preview {
   position: relative;

@@ -235,11 +235,6 @@
       align-items: center;
     }
 
-    header nav a {
-      /* height: 24px; */
-      /* padding: 12px; */
-      /* float: left */
-    }
     header nav {
       display: flex;
       gap: var(--spacing-navbar-between-items);
@@ -375,13 +370,6 @@
 .move-l45-leave-to {
   transform: translate(-100px, 0px);
   
-}
-
-.grow-width-enter-active,
-.grow-width-leave-active {
-  transition: all 1.5s linear;
-  float: left;
-  /* position: relative; top:0px; left: 0px; */
 }
 
 .grow-width-enter-from,

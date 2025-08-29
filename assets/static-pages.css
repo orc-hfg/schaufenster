@@ -27,17 +27,6 @@
   user-select: none
 }
 
-.close_content {
-  position: relative;
-  float: left;
-  height: 24px;
-  padding: 12px;
-}
-.close_logo * {
-  stroke: none;
-  fill: var(--Colors-text-primary, #FFF) !important;
-}
-
 .page_content {
   max-width: 1023px;
   margin: 0 auto; 

@@ -1651,6 +1651,8 @@ const handleMouseLeave = () => {
  * Bottom Bar blendet aus/über. 
  * Ist aber unklar, ob das so realisiert werden kann. */
 .main_preview_subset {
+  display: flex;
+  flex-wrap: wrap;
   position: relative;
   width: 100%;
   max-width: 600px;
@@ -1677,7 +1679,6 @@ const handleMouseLeave = () => {
 
 .subset_tiles {
   display: block;
-  float: left;
   
   width: 46%;
   height: 46%;
@@ -2105,20 +2106,16 @@ progress::-webkit-progress-value {
 
 }
 
-.nav_preview .nav_set {
-
+.nav_preview.nav_set {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 4px;
 }
 .nav_preview_subset {
   cursor: pointer;
-  float: left;
-  position: relative;
-  top: 12px; 
-  width: 32px; height: 32px;
-  margin: 2px 2px;
-  background-size: 120% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: transparent;
+  width: 32px; 
+  height: 32px;
   background-color: #DAD6CE;  
 }
 

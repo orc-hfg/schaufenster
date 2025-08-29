@@ -324,7 +324,6 @@ nav {
 }
 
 .navbar_set_link.info {
-  /* float: right; */
   position: absolute;
   right: var(--margin-navbar-institution-logo-right, 10px);
 

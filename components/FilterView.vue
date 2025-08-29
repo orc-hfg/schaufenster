@@ -1090,11 +1090,9 @@ cursor: pointer;
   }
 }
 
-.meta_key_filter,
-.tree_filter_people {
+.meta_key_filter {
   position:relative;
   width: 100%;
-  float: left;
   padding-bottom: var(--padding-item-vertical-S);
   margin-bottom: calc(var(--padding-container-bottom-L) + var(--padding-container-bottom-M));
   /* border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2); */
@@ -1182,9 +1180,6 @@ cursor: pointer;
 }
 
 .keyword_item {
-  float: left;
-  
-
   /* display: flex; */
   display: inline-flex;
   height: var(--dimension-button-height-M, 48px);

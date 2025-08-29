@@ -159,11 +159,6 @@ header {
     align-items: flex-start;
 }
 
-/* HH unused? */
-/* nav {
-    float: left;
-} */
-
 nav a {
     width: 48px;
     height: 48px;

@@ -323,12 +323,11 @@ header nav a {
 }
 
 .settype_toggle {
-  float:left;
+  display: flex;
+  align-items: flex-start;
   background-repeat: no-repeat;
   background-position: 0 0;
   transition: all 200ms ease-out;
-  display: flex;
-  align-items: flex-start;
   
   height: calc(var(--dimension-button-height-M, 48px) + 2px);
   /* height: 50px; */
@@ -352,7 +351,10 @@ header nav a {
 
 .navbar_link.navbar_link_projects,
 .navbar_link.navbar_link_diplom {
-  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
   
   color: var(--Colors-text-primary, #2C2C2C);
 
@@ -366,14 +368,8 @@ header nav a {
   
   height: calc((var(--dimension-button-height-M, 48px) / 2));
   /* height: 24px; */
-  
-  display: flex;
   padding: var(--padding-item-vertical-M, 12px) var(--padding-item-horizontal-M, 12px);
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-
-  
+    
   border-radius: var(--radius-none, 0px);
   border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
 }
