@@ -6,9 +6,15 @@ export NUXT_APP_BASE_URL='/schaufenster'
 #export NUXT_APP_USE_CACHED_DATA=1
 #export NUXT_APP_USE_CACHE_FILE='/home/madek/sf_dev_tree_data.json'
 
-# export SUSER=alex
-export SUSER=hherold
-
+nuxi cleanup
 npm run build
-rsync -avz .output $SUSER@dev.madek.hfg-karlsruhe.de:/srv/staging/schaufenster/
-ssh $SUSER@dev.madek.hfg-karlsruhe.de "sudo systemctl restart madek.staging.schaufenster"
+
+
+export SUSER=alex
+export SPATH=/srv/staging/schaufenster/
+export SSERVER=dev.madek.hfg-karlsruhe.de
+export SSERVICE=madek.staging.schaufenster
+ssh $SUSER@$SSERVER "sudo chown -R $SUSER:users $SPATH"
+rsync -avz .output $SUSER@$SSERVER:$SPATH
+ssh $SUSER@$SSERVER "sudo chown -R madek:users $SPATH"
+ssh $SUSER@$SSERVER "sudo systemctl restart $SSERVICE"
