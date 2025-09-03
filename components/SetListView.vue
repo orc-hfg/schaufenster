@@ -223,6 +223,29 @@ const setSwiperMoving = () => {
   },SWPIPER_MOVING_DELAY)
 }
 
+// Custom smoothScroll() function because Safari's `scrollTo` with 
+// `behavior: "smooth"` is too fast and has poor easing.
+const smoothScrollTo = (element, targetPosition, duration = 300) => {
+  const startPosition = element.scrollTop
+  const distance = targetPosition - startPosition
+  const startTime = performance.now()
+
+  const easeOutQuart = (t) => 1 - --t * t * t * t
+
+  const animation = (currentTime) => {
+    const timeElapsed = currentTime - startTime
+    const progress = Math.min(timeElapsed / duration, 1)
+    const easedProgress = easeOutQuart(progress)
+    
+    element.scrollTop = startPosition + distance * easedProgress
+    
+    if (progress < 1) {
+      requestAnimationFrame(animation)
+    }
+  }
+  
+  requestAnimationFrame(animation)
+}
 
 const setTreeInfo = (el: iTree) => {
   //const elem = document.getElementById('treeInfo_' + el.col_id)
@@ -230,7 +253,12 @@ const setTreeInfo = (el: iTree) => {
   //elem?.scrollIntoView({block: "start", behavior: "smooth"})
   const ntop = (treeInfoIdx.value + 2 ) * 48
   //console.log("scroll to " + treeInfoIdx.value + ": " + ntop)
-  document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
+  
+  // document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
+
+  // call custom smoothScroll() function insted of scrollTo()
+  const container = document.getElementsByClassName('project_counter')[0]
+   smoothScrollTo(container, ntop, 400) // 400ms with easing 
 }
 
 const getColTitle = (id: string): string => {
