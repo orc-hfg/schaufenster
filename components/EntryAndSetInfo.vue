@@ -334,16 +334,18 @@ const getCurrentSetDescriptionTitle = (lang: string = ''):string => {
   background-color: var(--Colors-background-default);
   justify-content: center;
 
-  transition: all 300ms linear;
+  transition: var(--transition-move-items-default);
 }
 
 .entry_info::-webkit-scrollbar {
   visibility: hidden;
 }
 
+/* Für die Abstimmung der Transition mit dem Main Preview
+siehe in setview [...] index.vue die Klassen .image_slide, .audio_slide und .video_slide */
 .entry_info.hidden {
-  transform: translateX(50vw);
-  transition: all 300ms linear;
+  left: 100vw;
+  transition: var(--transition-move-items-default);
   /* "Kaugummi"-Effekt verhindern */
   /* Siehe https://cloud.hfg-karlsruhe.de/index.php/f/1918387 */
   visibility: hidden;

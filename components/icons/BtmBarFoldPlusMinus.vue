@@ -16,12 +16,12 @@ svg {
     /* fill: var(--btm-bar-main-button-fill, rgba(243, 242, 239, 0.70)); */
     
     opacity: 1;
-    transition: all 300ms ease-in-out;
+    transition: var(--transition-move-items-default);
 }
 svg path {
     fill: var(--Colors-btm-bar-main-button-icon, #000000);
     stroke: var(--Colors-btm-bar-main-button-icon, #000000);
-    transition: all 300ms ease-in-out;
+    transition: var(--transition-move-items-default);
 }
 .hidden {
     opacity: 0;

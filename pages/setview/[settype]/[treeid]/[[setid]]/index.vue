@@ -1399,13 +1399,11 @@ const handleMouseLeave = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat; */
   opacity: 1;
-  /* transition: all 300ms ease-in; */
 }
 
+/* Für die Abstimmung der Transition mit der Entry-Info (Metadaten) 
+siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
 .image_slide {
   display: block;
   width: 100%;
@@ -1413,19 +1411,16 @@ const handleMouseLeave = () => {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  transition: all 300ms linear;
+  transition: var(--transition-move-items-default);
   text-align: center;
 }
 
-
-/* HH TODO video_slide Höhe begrenzen wenn controls open */
-/* Umschalter der bottom nav hat momentan noch Probleme */
 .video_slide,
 .audio_slide {
   width: 100%;
   height: 100%;
   position: relative;
-  transition: all 300ms linear;
+  transition: var(--transition-move-items-default);
 }
 
 /*
@@ -1551,7 +1546,7 @@ const handleMouseLeave = () => {
   bottom: var(--bottom-nav-padding);
   height: var(--bottom-nav-height);
   z-index: 100;
-  transition: all 300ms ease-in;
+  transition: var(--transition-move-items-default);
   transition-delay: 150ms;
 }
 .bottom_nav.hidden {
@@ -1559,7 +1554,7 @@ const handleMouseLeave = () => {
   width: 0px;
   visibility: hidden; */
   bottom: calc(var(--bottom-nav-height) * -1);
-  transition: all 300ms ease-out;
+  transition: var(--transition-move-items-default);
 }
 .btn_bottom_nav_toggle {
   /* HH "position: fixed" statt "position: absolute" positioniert das Element richtig, 
@@ -1594,23 +1589,7 @@ const handleMouseLeave = () => {
   transition: opacity 300ms ease-out;
   opacity: 0;
 }
-.video_slide {
-  /* TODO gleiche hoehe wie img slide */
-  /* top: 88px; bottom: 128px; */
-  /* position:absolute;
-  height: 100%;
-  width: 100%;
-  margin: auto;   */
-}
-.audio_slide {
-  /* TODO gleiche hoehe wie img slide */
-  /* width: 100%;
-  height: 100%;
-  margin: auto; */
-}
-.audio_player {
 
-}
 .audio_slide_icon {
   /* border: 1px solid red; */
   position: absolute;
@@ -1755,12 +1734,12 @@ const handleMouseLeave = () => {
   box-sizing: border-box;
   padding-left: var(--padding-item-horizontal-S);
   opacity: 1;
-  transition: all 300ms ease-out;
+  transition: var(--transition-move-items-default);
 }
 .av_control.hidden {
   transform: translateY(calc(var(--bottom-nav-toggle-height) * 2));
   opacity: 0;
-  transition: all 300ms ease-out;
+  transition: var(--transition-move-items-default);
 }
 
 .av_control .av_progress_cont {
@@ -2177,15 +2156,14 @@ progress::-webkit-progress-value {
   height: fit-content;
   text-align: center;
   align-content: center;
-  /* HH use defined variables */
+
   font-size: var(--font-h3-font-size, 48px);
   line-height: var(--font-h3-line-height, 48px);
 
   color: var(--Colors-text-primary, #fff);
   opacity: 1;
   
-  transition: opacity 300ms ease-in, transform 300ms ease-in;
-  /* transition: all 500ms ease-in; */
+  transition: var(--transition-move-items-default);
 }
 
 .entry_info_title.fade_hidden {
@@ -2193,7 +2171,7 @@ progress::-webkit-progress-value {
   opacity: 0;
 }
 .entry_info_title.move_up_hidden {
-  transition: transform 300ms ease-out, opacity 300ms ease-out;
+  transition: var(--transition-move-items-default);
   transform: translateY(-200px);
   opacity: 0;
 }
@@ -2269,7 +2247,7 @@ progress::-webkit-progress-value {
   }
   /* Wenn die Info-Box aktiv ist, wird die Höhe des Swiper-Containers angepasst. 
    * Von oben braucht er dann mehr Abstand wegen entry_info_title. 
-   * Wenn von Zoom her kommend, bekommt .swiper beide Klassen, info_active und zoom.
+   * Wenn von Zoom her kommend, bekommt .swiper beide Klassen, .entry_infotive und zoom.
    * Weil .zoom "top" verändert, muss auch "top" hier explizit gesetzt werden. */
   .swiper_main.info_active,
   .swiper_main.info_active.zoom {

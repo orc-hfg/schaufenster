@@ -266,13 +266,14 @@ onMounted(() => {
   transition: all 800ms ease-out;
 }
 
+/* Pfad-Pillen jenseits von Eben 0 (parent_link) */
 .navbar_set_link.animate_up {
   top: 0px;
-  transition: all 300ms ease-out;
+  transition: var(--transition-move-items-faster);
 }
 .navbar_set_link.hidden_move_up {
   top: -144px;
-  transition: all 300ms ease-out;
+  transition: var(--transition-move-items-faster);
 }
 
 .navbar_set_link:hover {
@@ -282,20 +283,10 @@ onMounted(() => {
   text-decoration: none;
   user-select: none;
   cursor: pointer;
-
 }
 
 .navbar_set_link.parent_link {
-  /* transition: width 500ms; */
-  transition: all 500ms ease-out;
-  
-  /* HH wird vermutlich nicht mehr begraucht */
-  /* space for nav home and nav info */
-  /* max-width: calc(100vw - 96px - 48px - 12px); 
-  width: 24px;
-  overflow: hidden;
-  justify-content: center;
-  align-items: center; */
+  transition: var(--transition-move-items-default);
 }
 
 

@@ -288,6 +288,10 @@
   --spacing-metainfo-between-sliderlist:20px;
   --spacing-meta-info-between-sub-sections:24px;
   --spacing-meta-info-betweenrows:6px;
+  
+  --transition-move-items-default: all 400ms ease-in-out;
+  --transition-move-items-slower: all 550ms ease-in-out;
+  --transition-move-items-faster: all 250ms ease-in-out;
 }
 
 [data-layout="mobile"] {
@@ -382,6 +386,10 @@
   --spacing-metainfo-betweensliderlist:20px;
   --spacing-meta-info-between-sub-sections:24px;
   --spacing-meta-info-betweenrows:6px;
+  
+  --transition-move-items-default: all 400ms ease-in-out;
+  --transition-move-items-slower: all 550ms ease-in-out;
+  --transition-move-items-faster: all 250ms ease-in-out;
   }
 
   .Blurs {
