@@ -4,6 +4,7 @@
     :class="{
     'page-in': !isNoClip && isShowPageIn,
     'page-out': !isNoClip && !isShowPageIn,
+    'mobile_landscape': orientation == 'landscape' && isMobile,
     'fade': isNoClip}" />
     
 </template>

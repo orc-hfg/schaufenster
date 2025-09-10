@@ -1437,6 +1437,9 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   height: calc(100vh - 260px);
   margin-top: var(--margin-setview-swiper-top);
 }
+.mobile_landscape .nozoom .image_slide {
+  height: calc(100vh - 190px);
+}
 .info_active .image_slide,
 .info_active .video_slide,
 .info_active .audio_slide {
@@ -1449,7 +1452,9 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   height: calc(100vh - 260px);
   margin-top: var(--margin-setview-swiper-top);
 }
-
+.mobile_landscape .nozoom .video_slide {
+  height: calc(100vh - 190px);
+}
 /* HH Ansatz mit transform: scale() und Animationen hat nicht geklappt:
  * a) Nur skalieren würde funktionieren, aber in Kombination mit Positionierung unschöne Bewegungsabläufe
  * b) zu kompliziert mit den unterschiedlichen Bedingunegen: von zoom her, von nozoom her, infos open, infos closed
@@ -1549,6 +1554,11 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   transition: var(--transition-move-items-default);
   transition-delay: 150ms;
 }
+
+.mobile_landscape .bottom_nav {
+  transform: scale(0.5);
+  transform-origin: 40px 160px;
+}
 .bottom_nav.hidden {
   /* opacity: 0;
   width: 0px;
@@ -1583,6 +1593,10 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   align-items: center;
 }
 
+.mobile_landscape .btn_bottom_nav_toggle {
+  transform: scale(0.5);
+  transform-origin: 0px 105px;
+}
 
 
 .swiper_main.hidden .main_preview {
@@ -1736,6 +1750,16 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   opacity: 1;
   transition: var(--transition-move-items-default);
 }
+.mobile_landscape .av_control {
+  transform: scaleY(0.5);
+  transform-origin: 0px 105px;
+  left: 60px;
+}
+.mobile_landscape .av_control_playpause,
+.mobile_landscape .av_control_mute {
+  transform: scalex(0.5);
+  /* transform-origin: -50px 105px; */
+}
 .av_control.hidden {
   transform: translateY(calc(var(--bottom-nav-toggle-height) * 2));
   opacity: 0;
@@ -1792,7 +1816,12 @@ progress::-webkit-progress-value {
 /* progress {
   color: yellow;
 } */
-
+.mobile_landscape progress {
+  /* position: relative;
+  left: -64px;
+  top: 40px;
+  height: 12px; */
+}
 
 /* 
  * HH wird nicht mehr individuell angesteuert.
