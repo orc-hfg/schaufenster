@@ -1,11 +1,5 @@
 <template>
-
-  <NoMobileOverlay 
-    v-if="isMobile && !isDev"/>
-
   <NuxtPage
-    v-else
-
     class="page"
     :class="{
     'page-in': !isNoClip && isShowPageIn,
@@ -127,17 +121,26 @@ if (import.meta.client) {
 router.beforeEach((to, from, next) => {
   const ts = to.name?.toString() || ''
   const fs = from.name?.toString() || ''
-  console.log("router beforeEach: from " + fs + " -> to:" + ts)
+  console.log("router beforeEach: from: " + fs + " -> to: " + ts)
+
+  if (fs === 'index' && ts.indexOf('setlist') > -1) {
+    isShowPageIn.value = true
+  }
+  if (ts === 'index') {
+    isShowPageIn.value = false
+    //updateTheme('dark')
+  }
+  if (ts.indexOf('setview') > -1 || fs.indexOf('setview') > -1) {
+    isNoClip.value = true;
+  } else {
+    isNoClip.value = false;
+  }
+  //if (ts.indexOf('setlist') > -1) {
+    //updateTheme('light');
+  //}
+
   const config = useRuntimeConfig()
   if (!config.public.kioskSetId) {
-    if (ts.indexOf('setview') > -1 || fs.indexOf('setview') > -1) {
-      isNoClip.value = true;
-    } else {
-      isNoClip.value = false;
-    }
-    if (ts.indexOf('setlist') > -1) {
-      updateTheme('light');
-    }
     next()
   }
   else {
@@ -158,7 +161,6 @@ router.beforeEach((to, from, next) => {
       
     }
   }
-  
 })
 
 const isShowPageIn = ref(false)
@@ -179,17 +181,10 @@ watch(() => route.fullPath, () => {
       }, 2000)
     }
   }
-  // dont confuse running animation
-  setTimeout(() => {
-    //console.error(" switch anim mode " + isShowPageIn.value)
-    isShowPageIn.value = !isShowPageIn.value
-  },3000)
-
-  //console.log("APP: changed route: " + JSON.stringify(route.fullPath));
-
+  console.log("APP: changed route: " + JSON.stringify(route.fullPath));
 });
 
-const updateTheme = (defaultTheme:string) => {
+const updateTheme = (defaultTheme:string|undefined) => {
   const curr = defaultTheme || document.documentElement.getAttribute('data-theme') || 'light'
   const isLight = curr.indexOf('light') > -1
     
@@ -214,6 +209,9 @@ const onkeyupEv = (ev:KeyboardEvent) => {
     updateTheme()
     console.log('switched to high contrast: ' + highContrastState.value)
   }
+  if (ev.altKey && ev.ctrlKey && ev.code == 'KeyI') {
+    router.push('/')
+  }
 }
 const MOBILE_SWITCH_RESOLUTION = 768
 const updateMobileStateByWinWidth = () => {
@@ -233,7 +231,6 @@ const updateMobileStateByWinWidth = () => {
 const highContrastState = useState('isHighContrast')
 
 onMounted(() => {
-  //document.documentElement.setAttribute("data-theme", "light");
   highContrastState.value = 
     window.getComputedStyle(document.body).getPropertyValue('--high-contrast-enabled') == '1000'
   updateTheme('light')
@@ -260,6 +257,13 @@ onBeforeUnmount(() => {
 </script>
 <style>
 
+:root {
+--clip-anim-ms: 800ms;
+--clip-radius: calc(sqrt( pow(100vw) + pow(100vh)));
+--clip-radius: max(100vw,100vh)
+}
+
+
 .page {
   opacity: 1;
 }
@@ -267,12 +271,12 @@ onBeforeUnmount(() => {
 /* clip circle page out ani */
 .page-out.page-enter-active {
   z-index: 5;
-  transition: all 0ms;
+  opacity: 0.99;
+  transition: all var(--clip-anim-ms);
 }
 .page-out.page-leave-active {
-  /*max(100vw, 100vh) */
-  clip-path: circle(calc(sqrt( pow(100vw) + pow(100vh))) at 50vw 50vh) !important;
-  transition: clip-path 800ms ease-out;
+  clip-path: circle(var(--clip-radius) at 50vw 50vh) !important;
+  transition: clip-path var(--clip-anim-ms) ease-out;
   z-index: 10;
 }
 .page-out.page-leave-to {
@@ -285,17 +289,18 @@ onBeforeUnmount(() => {
 /* clip circle page in ani */
 .page-in.page-enter-active {
   clip-path: circle(0vw at 50vw 50vh) !important;
-  transition: clip-path 800ms ease-out;
+  transition: clip-path var(--clip-anim-ms) ease-out;
   z-index: 10;
 }
 .page-in.page-leave-active {
   z-index: 5;
-  transition: all 0ms;
+  transition: all var(--clip-anim-ms);
 }
 .page-in.page-leave-to {
+  opacity: 0.99;
 }
 .page-in.page-enter-to {
-  clip-path: circle(150vw at 50vw 50vh) !important;
+  clip-path: circle(var(--clip-radius) at 50vw 50vh) !important;
 }
 
 /* fade page io ani */

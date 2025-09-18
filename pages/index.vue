@@ -1,6 +1,8 @@
 <template>
+  <div class="intro_page"
+    data-theme="dark"
+    @click.prevent.once="switchPage()">
   <!-- TODO high contrast : at first we can ommit special handling for this page -->
-  <div class="intro_page" data-theme="dark" @click.prevent.once="switchPage()">
   <!-- TODO mobile theme: dynamic fonts font sizes -->
   <!-- TODO animations: individual timings for each intro line -->
     <header>
@@ -62,8 +64,6 @@ const {
 } = treeHelper()
 
 const {
-  font_selected,
-  font_list, 
   selectRandomFont,
   getViewSizedStyle
 } = DynFonts()
@@ -73,23 +73,18 @@ const isKiosk = ref(false)
 const kioskIntroTextLine = ref([] as string[])
 
 const switchPage = () => {
-  const config = useRuntimeConfig()
-  if (config.public.kioskSetId) {
-    isKiosk.value = true
-    const kioskId = config.public.kioskSetId
+  if (isKiosk.value) {
+    const kioskId = useRuntimeConfig().public.kioskSetId
     const path = '/setview/projekt/' 
       + kioskId
       + '/' 
       + kioskId
     router.push(path)
-    kioskIntroTextLine.value = config.public.kioskIntroTextLines as string[]
-  } else if (config.public.kioskForestSetId) {
+  } else if (useRuntimeConfig().public.kioskForestSetId) {
     router.push('/setlist/' + MATCH_PROJECTS)
-    
   } else {
     router.push('/setlist/' + MATCH_DIPLOM)
   }
-  
 }
 
 
@@ -134,7 +129,7 @@ onMounted(() => {
   for (let i = 0; i < 6; i++) {
     lineStyles.value[i] = getFontStyle(i)
   }
-  document.documentElement.setAttribute("data-theme", "dark");  
+  
   // animate in text lines
   setTimeout(() => {
     showContent.value=true

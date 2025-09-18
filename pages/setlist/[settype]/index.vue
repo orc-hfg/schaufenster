@@ -1,5 +1,5 @@
 <template>
-  <div class="setlist_page">
+  <div class="setlist_page" data-theme="light">
     <SetListHeader
       :settype="settype"
       :hide-nav-btns="showMenuView || animateSwitch2Set || showFilterView"
@@ -469,7 +469,7 @@ onMounted(() => {
   
   updateSetType();
   isKiosk.value = useRuntimeConfig().public.kioskSetId?.length > 0 || useRuntimeConfig().public.kioskForestSetId?.length > 0
-
+  
   document.documentElement.setAttribute("lang", locale.value );
 
   /* Metadata & SEO */
