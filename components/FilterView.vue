@@ -452,13 +452,20 @@ onMounted(() => {
 
 
 const switch2SetView = (tree_col_id: string) => {
-  const url = '/setview/' 
+  debugger
+  if (route.params.setid == tree_col_id) {
+    closeFilter()
+  }
+  else {
+    const url = '/setview/' 
     + props.tree_type
     + '/'
     + tree_col_id
     + '/'
     + tree_col_id
-  router.push(url)
+    router.push(url)
+  }
+  
 }
 
 const getShowAllStyle = (meta_key) => {
