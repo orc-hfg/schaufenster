@@ -156,7 +156,6 @@ export const useMetadataStore = defineStore('metadata', {
                             const md = mdMap['meta-data']
                             this.metaDataRMap[resKey][resId][md.meta_key_id] = md
     
-                            debugger
                             if (md.type == MD_TYPE_PEOPLE) {
                                 this.metaDataRMap[resKey][resId][md.meta_key_id].selectedPeople = mdMap[MD_PEOPLE]
                             }

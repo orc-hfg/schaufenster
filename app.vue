@@ -199,7 +199,7 @@ const updateTheme = (defaultTheme:string|undefined) => {
 }
 
 const onkeyupEv = (ev:KeyboardEvent) => {
-  console.log(" onkeyup " + ev.code)
+  //console.log(" onkeyup " + ev.code)
   if ((ev.altKey || ev.ctrlKey) && ev.shiftKey && ev.code == 'KeyM') {
     
     isMobile.value = !isMobile.value

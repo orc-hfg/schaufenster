@@ -107,7 +107,6 @@ export const DynFonts = () => {
     
     const getSetTypeColor = (settype: string, theme: string = '') => {
         if (!window) {
-            debugger
             return '#2C2C2C'
         }
         const style = window.getComputedStyle(document.body)

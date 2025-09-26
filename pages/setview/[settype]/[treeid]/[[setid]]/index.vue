@@ -497,7 +497,6 @@ const addedFilter = (type, data, meta_key) => {
       meta_key: meta_key || 'creative_work:other_creative_participants'
     }
   } else {
-    debugger
     newFiltersMap.value[type][data.id] = {
       id: data.id,
       name: data.term,

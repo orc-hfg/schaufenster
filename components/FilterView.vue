@@ -452,7 +452,6 @@ onMounted(() => {
 
 
 const switch2SetView = (tree_col_id: string) => {
-  debugger
   if (route.params.setid == tree_col_id) {
     closeFilter()
   }
