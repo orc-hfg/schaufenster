@@ -1,0 +1,213 @@
+{
+            "intro" : {
+                "title1" : "Schaufenster",
+                "title2" : "of",
+                "title3" : "Karlsruhe",
+                "title4" : "University",
+                "title5" : "of Arts and Design"
+            },
+            "menu" : {
+                "back" : "Back",
+                "about" : "Info",
+                "label_de" : "DE",
+                "label_en" : "EN",
+                "fonts" : "Fonts",
+                "impressum" : "Imprint",
+                "dsa" : "Privacy Policy",
+                "accessibility" : "Acessibility"
+            },
+            "setlist" : {
+                "intro_title_project" : "All",
+                "intro_title_project2" : "Projects",
+                "intro_title_diplom" : "Graduation",
+                "intro_title_diplom2" : "Projects",
+                
+                "btn_title_menu" : "Menu",
+                "btn_title_toggle_project" : "All Projects",
+                "btn_title_toggle_diplom" : "Graduation Projects",
+                "btn_title_toggle_project_mobile" : "Projects",
+                "btn_title_toggle_diplom_mobile" : "Diplomas",
+                "btn_title_filter" : "Filter",
+                "btn_title_filter_reset" : "Reset",
+
+                "btn_title_institution" : "HfG Karlsruhe",
+                
+                "btn_title_year_selector_up" : "To previous Semester",
+                "btn_title_year_selector_down" : "To next Semester"
+
+            },
+            "font_select" : {
+                "select_font_label" : "Select Font",
+                "label_font_by" : "by"
+            },
+            "filter" : {
+                "input_label" : "Search",
+                "input_clear" : "Delete search",
+                "btn_apply_label" : "Apply",
+                "btn_close_label" : "Reset Filter",
+                "btn_reset_label" : "Reset Filter",
+                "label_projects" : "Projects",
+
+                "label_show_all" :"Show all",
+                "label_show_less" :"Show less",
+                "no_results" : "No results found."
+            },
+            "buttons" : {
+                "btn_sub_sub_set" : "Enter"
+            },
+            "setview" : {
+                "btn_title_nav_back" : "Back",
+                "btn_title_nav_parent_set" : "Parent Project",
+                "btn_title_nav_current_set" : "Current Project",
+                "btn_title_nav_info_show" : "Show Media Information",
+                "btn_title_nav_info_hide" : "Hide Media Information",
+
+                "btn_title_btm_bar_toggle" : "Toggle Navigation",
+
+                "btn_title_btm_bar_set_show" : "Toogle elements",
+                "btn_title_btm_pointer" : "Pointer",
+                "btn_title_audio_video_play" : "Play",
+                "btn_title_audio_video_pause" : "Pause",
+                "btn_title_audio_video_mute" : "Mute",
+                "btn_title_audio_video_unmute" : "Unmute",
+                "btn_title_audio_video_progress" : "Progress",
+                "btn_title_arrow_right" : "Next Media",
+                "btn_title_arrow_left" : "Previous Media",
+                "btn_title_preview_label_placeholder" : "Image of the project",
+                "btn_title_pdf" : "Open the document in a new tab"
+            },
+            "meta_info" : {
+                "label_project_parent_title" : "Complete Project Title",
+                "label_project_subtitle" : "Subtitle",
+                "label_project_authors" : "Author",
+                "label_project_description" : "Project Description",
+                "label_media_title" : "Media Title",
+                "label_copyright" : "Copyright",
+                "label_project_program_of_study" : "Program of Study",
+                "label_project_semester" : "Semester",
+                "label_project_category" : "Project Category",
+                "label_project_keywords" : "Keywords",
+                "label_project_participants" : "Contributors",
+                "label_media_authors" : "File created by",
+                "label_project_leader" : "Supervision",
+                "label_project_material" : "Project Characteristics",
+                "label_license" : "License information",
+                "license_fallback" : "All rights reserved",
+                
+                "label_madek_source" : "Source",
+                "label_madek_source_link" : "HfG Project Archive",
+
+                "error_no_data" : "Waiting for Meta-Data...",
+
+                "btn_show_more_label" : "Show all",
+                "btn_show_less_label" : "Show less"
+            },
+
+            "page_metadata" : {
+                "page_title" : "Schaufenster der HfG",
+                "page_description" : "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
+                "page_lang" : "en"
+            },
+
+            "static_pages" : {
+                "about" : {
+                    "title1" : "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
+                    "p1_1" : "Additionally, all projects can  be found and researched in more detail in the HfG project archive database at ",
+                    "p1_2" : "Any member of the university is invited to propose any project for publication on Schaufenster, provided that the project has been submitted to the project archive database beforehand. Submissions are formally checked to ensure that the necessary metadata have been provided. In the case of graduation projects, graduates can decide whether they wish to publish their pojects on Schaufenster before they get archived for the long-term.",
+                    "contact": "Contact for submissions: ",
+                    "more_info": "More information about studying at the HfG: ",
+                    "title2" : "The Typo-Feature",
+                    "p2_1" : "Typeface design has a long tradition at the HfG. With the Typo Feature, i.e. the large title fonts whose typeface changes randomly, we give students the opportunity to feature their creations on Schaufenster. New submissions are welcome!",
+                    "title3" : "About this website",
+                    "p3_1" : "This website was developed in 2024 by HfG’s Open Resource Center (ORC), funded by “Stiftung Innovation in der Hochschullehre”, together with the designers Marcel Strauß and Felix Plachtzik.",
+                    "title4" : "The Open Resource Center of the HfG",
+                    "role1" : "Head of Project",
+                    "role2" : "Project Coordinator",
+                    "role3" : "Digital Archivists",
+                    "role4" : "Archival Curators",
+                    "role5" : "Software Developer",
+                    "contact2": "Contact: "
+                },
+                "kiosk_about" : {
+                    "title1" : "Schaufenster presents projects from the digital archive of the Karlsruhe University of Arts and Design. It provides an insight into various productions and works of students from all study programs.",
+                    "p1" : "TODO en content",
+                    "contact": "Contact for submissions: ",
+                    "more_info": "More information about studying at the HfG: ",
+                    "title2" : "The Typo-Feature",
+                    "p2_1" : "Typeface design has a long tradition at the HfG. With the Typo Feature, i.e. the large title fonts whose typeface changes randomly, we give students the opportunity to feature their creations on Schaufenster. New submissions are welcome!",
+                    "title3" : "About this website",
+                    "p3_1" : "This website was developed in 2024 by HfG’s Open Resource Center (ORC), funded by “Stiftung Innovation in der Hochschullehre”, together with the designers Marcel Strauß and Felix Plachtzik.",
+                    "title4" : "The Open Resource Center of the HfG",
+                    "role1" : "Head of Project",
+                    "role2" : "Project Coordinator",
+                    "role3" : "Digital Archivists",
+                    "role4" : "Archival Curators",
+                    "role5" : "Software Developer",
+                    "contact2": "Contact: "
+                },
+                "accessibility" : {
+                    "label" : "Toggle high contrast mode",
+                    "h1" : "Accessibility"
+                },
+                "impressum" : {
+                    
+                },
+                "a11y" : {
+                    "label" : "Toggle high contrast mode",
+                    "title_1" : "Accessibility Statement",
+                    "p1_1" : "The Karlsruhe University of Arts and Design is committed to making its website https://hfg-karlsruhe.de and other online offerings accessible in accordance with § 10 paragraph 1 of the German Disability Equality Act (L-BGG).",
+                    "p1_2" : "This website is currently not fully compliant with § 10 paragraph 1 L-BGG. The non-compliance is listed below.",
+                    "p1_3": "Last updated: June 2025",
+                    "title_2" : "Non-accessible content",
+                    "p2_1": "The following content is not accessible for the following reasons:",
+                    "p2_2" : "The alternative texts do not always describe the displayed media content.",
+                    "p2_3" : "Some visually perceivable headings are not marked with the HTML structure element 'heading'.",
+                    "p2_4" : "The readability of some graphics is insufficient due to low contrast ratios. For visually impaired people, perception in these cases is difficult.",
+                    "p2_5" : "Some controls are not usable without a mouse.",
+                    "p2_6" : "Not all equally sounding areas of a page are clearly distinguishable. Not all controls are understandable for people without visual perception.",
+                    "p2_7" : "No explanation in sign language is offered.",
+                    "p2_8" : "No explanation in easy language is offered.",
+                    "title_3" : "Feedback and contact information",
+                    "p3_1":  "We want to continuously improve the accessibility of our website for people with disabilities. If you want to report barriers on our websites or request information about the content excluded by § 10 paragraph 1 L-BGG, please contact the central online editorial team by email or phone:",
+                    "p3_2" : "Karlsruhe University of Arts and Design",
+                    "p3_3" : "Press and Public Relations",
+                    "p3_4" : "Lorenzstraße 15, 76135 Karlsruhe",
+                    "title_4" : "Resolution procedure",
+                    "p4_1" : "If we do not or do not satisfactorily respond to your request within four weeks of receipt, you can contact the Landeszentrum Barrierefreiheit (LZ-BARR) for resolution. You can contact the resolution office as follows:",
+                    "p4_2" : "Landeszentrum Barrierefreiheit",
+                    "p4_3" : "Schlichtungsstelle",
+                    "p4_4" : "Else-Josenhans-Straße 6",
+                    "p4_5" : "70173 Stuttgart",
+                    "p4_6" : "The resolution procedure is free of charge.",
+                    "p4_7" : "The possibility of class action proceedings pursuant to § 12 paragraph 1 sentence 1 point 4 L-BGG is mentioned."
+                },
+                "imprint" : {
+                    "title_1" : "Imprint",
+                    "p1_1" : "Karlsruhe University of Arts and Design",
+                    "p1_2" : "Lorenzstraße 15",
+                    "p1_3" : "76135 Karlsruhe",
+                    "p1_4" : "Karlsruhe University of Arts and Design is a public body. In legal and administrative matters, the Rector is represented by the Chancellor.",
+                    "title_2": "Supervisory authority:",
+                    "p2_1" : "Ministerium für Wissenschaft, Forschung und Kunst Baden-Württemberg",
+                    "p2_2" : "Postfach 10 34 53",
+                    "p2_3" : "70029 Stuttgart",
+                    "title_3" : "Responsible for content according to §55 RStV",
+                    "p3_1" : "Thomas Fröhlich, Chancellor",
+                    "title_4" : "Copyright",
+                    "p4_1" : "The content on this website (texts, images, sound and film documents etc.) is protected by copyright. The copying and/or distribution of the content of this website is only allowed in the case of prior, written permission by Karlsruhe University of Arts and Design. Exceptions are content for which a license is specified, there the corresponding license applies.",
+                    "title_5" : "Disclaimer",
+                    "p5_1" : "Karlsruhe University of Arts and Design does not accept responsibility for the topicality, correctness and completeness of the information provided on the website. This also applies to the content of external websites linked to this site via direct and indirect hyperlinks and which can not be influenced by Karlsruhe University of Arts and Design. Study courses and other facilities are themselves responsible for offers submitted on their pages.",
+                    "title_6" : "About this website",
+                    "title_7" : "Concept",
+                    "p7_1" : "Open Resource Center of the Karlsruhe University of Arts and Design with Felix Plachtzik, Marcel Strauß and Alexander Liebrich, 2024/2025.",
+                    "title_8" : "Design",
+                    "title_9" : "Programming"
+                }
+            },
+
+            "no_mobile" : {
+                "title" : "Mobile version in progress",
+                "p1" : "Your viewport must be at least 768px wide and 440px high to access this website.",
+                "p2" : "Thank you for your understanding."
+            }
+        }

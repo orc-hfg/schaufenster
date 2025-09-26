@@ -1,0 +1,209 @@
+{
+            "intro" : {
+                "title1" : "Schaufenster",
+                "title2" : "der",
+                "title3" : "Hochschule",
+                "title4" : "für Gestaltung ",
+                "title5" : "Karlsruhe",
+                "title" : "Projektarchiv der Hochschule für Gestaltung Karlsruhe"
+            },
+            "menu" : {
+                "back" : "Zurück",
+                "about" : "Info",
+                "label_de" : "DE",
+                "label_en" : "EN",
+                "fonts" : "Schriften",
+                "impressum" : "Impressum",
+                "dsa" : "Datenschutz",
+                "accessibility" : "Barrierefreiheit"
+            },
+            "font_select" : {
+                "select_font_label" : "Schrift wählen",
+                "label_font_by" : "von"
+            },
+            "filter" : {
+                "input_label" : "Suchen",
+                "input_clear" : "Suche löschen",
+                "btn_apply_label" : "Anwenden",
+                "btn_close_label" : "Filter zurücksetzen",
+                "btn_reset_label" : "Filter zurücksetzen",
+                "label_projects" : "Projekte",
+              
+                "label_show_all" : "Zeige mehr",
+                "label_show_less" : "Zeige weniger",
+                "no_results" : "Keine Ergebnisse gefunden."
+            },
+            "buttons" : {
+                "btn_sub_sub_set" : "Betreten"
+            },
+            "setlist" : {
+                "intro_title_project" : "Alle",
+                "intro_title_project2" : "Projekte",
+                "intro_title_diplom" : "Abschluss-",
+                "intro_title_diplom2" : "arbeiten",
+
+                "btn_title_menu" : "Menu",
+                "btn_title_toggle_project" : "Alle Projekte",
+                "btn_title_toggle_diplom" : "Abschlussarbeiten",
+                "btn_title_toggle_project_mobile" : "Projekte",
+                "btn_title_toggle_diplom_mobile" : "Diplome",
+                "btn_title_filter" : "Filter",
+                "btn_title_filter_reset" : "Reset",
+
+                "btn_title_institution" : "HfG Karlsruhe",
+                
+                "btn_title_year_selector_up" : "Zum vorherigen Semester",
+                "btn_title_year_selector_down" : "Zum nächsten Semester"
+
+            },
+            "setview" : {
+                "btn_title_nav_back" : "Zurück",
+                "btn_title_nav_parent_set" : "Über-Set",
+                "btn_title_nav_current_set" : "Aktuelles Set",
+                "btn_title_nav_info_show" : "Medien-Informationen einblenden",
+                "btn_title_nav_info_hide" : "Medien-Informationen ausblenden",
+
+
+                "btn_title_btm_bar_toggle" : "Navigation ein- und ausblenden",
+
+                "btn_title_btm_bar_set_show" : "Mehr Set-Elemente umschalten",
+                "btn_title_btm_pointer" : "Zeiger",
+                "btn_title_audio_video_play" : "Abspielen",
+                "btn_title_audio_video_pause" : "Pausieren",
+                "btn_title_audio_video_mute" : "Leise",
+                "btn_title_audio_video_unmute" : "Laut",
+                "btn_title_audio_video_progress" : "Fortschritt",
+                "btn_title_arrow_right" : "Nächstes Medium",
+                "btn_title_arrow_left" : "Vorheriges Medium",
+                "btn_title_preview_label_placeholder" : "Bild von dem Projekt",
+                "btn_title_pdf" : "Dokument in neuem Tab öffnen"
+            },
+            "meta_info" : {
+                "label_project_parent_title" : "Vollständiger Projekttitel",
+                "label_project_subtitle" : "Untertitel",
+                "label_project_authors" : "Autor/in",
+                "label_project_description" : "Projektbeschreibung",
+                "label_media_title" : "Medientitel",
+                "label_copyright" : "Copyright",
+                "label_project_program_of_study" : "Studiengang",
+                "label_project_semester" : "Semester",
+                "label_project_category" : "Projektkategorie",
+                "label_project_keywords" : "Schlagworte",
+                "label_project_participants" : "Mitwirkende",
+                "label_media_authors" : "Datei erstellt von",
+                "label_project_leader" : "Betreuung",
+                "label_project_material" : "Projekteigenschaften",
+                "label_license" : "Lizenzinformation",
+                "license_fallback" : "Alle Rechte vorbehalten",
+
+                "label_madek_source" : "Quelle",
+                "label_madek_source_link" : "HfG Projektarchiv",
+
+                "error_no_data" : "Warte auf Meta-Daten...",
+
+                "btn_show_more_label" : "Zeige mehr",
+                "btn_show_less_label" : "Zeige weniger"
+            },
+            "page_metadata" : {
+                "page_title" : "Schaufenster der HfG",
+                "page_description" : "Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.",
+                "page_lang" : "de"
+            },
+            "static_pages" : {
+                "about" : {
+                    "title1" : "Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.",
+                    "p1_1" : "Alle Projekte können auch im Projektarchiv der HfG unter ",
+                    "p1_2" : "eingesehen und detaillierter recherchiert werden. Alle Hochschulangehörigen können Projekte, für die Veröffentlichung auf Schaufenster vorschlagen – vorausgesetzt, sie haben die jeweiligen Projekte zuvor in der Projektarchiv-Datenbank angelegt. Einreichungen werden formell überprüft, um sicherzustellen, dass die notwendigen Metadaten eingetragen sind. Bei Abschlussarbeiten wird vor der langfristigen Archivierung abgefragt, ob eine Veröffentlichung auf Schaufenster gewünscht ist.",
+                    "contact": "Kontakt für Einreichungen: ",
+                    "more_info": "Mehr Informationen zum Studium an der HfG: ",
+                    "title2" : "Das Typo-Feature",
+                    "p2_1" : "Schriftgestaltung hat an der HfG eine lange Tradition. Mit dem Typo Feature – den großen Titelschriften, deren Font zufällig wechselt, – geben wir Studierenden die Möglichkeit, ihre Kreationen auf Schaufenster zu präsentieren. Neue Einreichungen sind willkommen!",
+                    "title3" : "Über diese Website",
+                    "p3_1" : "Schaufenster wurde 2024/2025 vom Team des HfG Open Resource Center mit Unterstützung durch die Stiftung Innovation in der Hochschullehre und in Zusammenarbeit mit den Designern Marcel Strauß und Felix Plachtzik entwickelt.",
+                    "title4" : "Das Open Resource Center der HfG",
+                    "role1" : "Projektleiterin",
+                    "role2" : "Koordinatorin",
+                    "role3" : "Digital Archivists",
+                    "role4" : "Archival Curators",
+                    "role5" : "Softwareentwicker",
+                    "contact2" : "Kontakt"
+                },
+                "kiosk_about" : {
+                    "title1" : "Schaufenster präsentiert Projekte aus dem digitalen Archiv der Hochschule für Gestaltung Karlsruhe und gibt Einblick in die vielseitigen Produktionen und Arbeiten der Studierenden aller Studiengänge.",
+                    "p1" : "Diese virtuelle Präsentation zeigt alle von den Lehrenden der Hochschule für Gestaltung Karlsruhe (HfG) für die Preise der Fördergesellschaft ZKM/HfG 2025 nominierten Studierendenprojekte. Die Preisverleihung findet im Rahmen des Rundgangs am 24. Juli an der HfG statt. Einige der nominierten Projekte sind beim Rundgang ausgestellt. Die Projektdaten der virtuellen Präsentation stammen aus dem digitalen Archiv der HfG.",
+                    "contact": "Kontakt für Einreichungen: ",
+                    "more_info": "Mehr Informationen zum Studium an der HfG: ",
+                    "title2" : "Das Typo-Feature",
+                    "p2_1" : "Schriftgestaltung hat an der HfG eine lange Tradition. Mit dem Typo Feature – den großen Titelschriften, deren Font zufällig wechselt – geben wir Studierenden die Möglichkeit, von ihnen gestaltete Schriften auf Schaufenster zu präsentieren.",
+                    "title3" : "Über diese Website",
+                    "p3_1" : "Diese Webseite ist die Kiosk-Version von Schaufenster. Schaufenster wurde 2024/2025 vom Team des HfG Open Resource Center mit Unterstützung durch die Stiftung Innovation in der Hochschullehre und in Zusammenarbeit mit den Designern Marcel Strauß und Felix Plachtzik entwickelt.",
+                    "title4" : "Das Open Resource Center der HfG",
+                    "role1" : "Projektleiterin",
+                    "role2" : "Koordinatorin",
+                    "role3" : "Digital Archivists",
+                    "role4" : "Archival Curators",
+                    "role5" : "Softwareentwicker",
+                    "contact2" : "Kontakt"
+                },
+                "a11y" : {
+                    "label" : "Hochkontrastmodus ein- und ausblenden",
+                    "title_1" : "Erklärung zur Barrierefreiheit",
+                    "p1_1": "Die Staatliche Hochschule für Gestaltung Karlsruhe ist bemüht, ihre Website https://hfg-karlsruhe.de und weitere Onlineangebote, die über diese Domain erreichbar sind, in Einklang mit § 10 Absatz 1 des Landesbehindertengleichstellungsgesetzes (L-BGG) barrierefrei zugänglich zu gestalten.",
+                    "p1_2" : "Diese Website ist derzeit noch nicht vollständig mit § 10 Absatz 1 L-BGG vereinbar. Die Unvereinbarkeiten sind nachstehend aufgeführt.",
+                    "p1_3": "Stand: Juni 2025",
+                    "title_2" : "Nicht barrierefreie Inhalte",
+                    "p2_1" : "Die nachstehend aufgeführten Inhalte sind aus den folgenden Gründen nicht barrierefrei:",
+                    "p2_2" : "Die Alternativtexte beschreiben nicht immer den dargestellten Medieninhalt.",
+                    "p2_3" : "Einige visuell wahrnehmbare Überschriften sind nicht mit dem HTML-Strukturelement „Überschrift“ ausgezeichnet.",
+                    "p2_4" : "Die Lesbarkeit mancher Grafiken ist aufgrund geringer Kontrastverhältnisse nicht ausreichend. Für Sehbehinderte ist die Wahrnehmung in diesen Fällen erschwert.",
+                    "p2_5" : "Manche Bedienelemente sind nicht ohne Maus nutzbar.",
+                    "p2_6" : "Nicht alle gleichlautenden Bereiche einer Seite sind eindeutig unterscheidbar. Nicht alle Bedienelemente sind mit ihrem Sinn und Zweck für Personen ohne visuelle Wahrnehmung verständlich.",
+                    "p2_7" : "Es wird keine Erläuterung in deutscher Gebärdensprache angeboten.",
+                    "p2_8" : "Es wird keine Erläuterung in leichter Sprache angeboten.",
+                    "title_3" : "Rückmeldung und Kontaktangaben",
+                    "p3_1" : "Wir möchten die Zugänglichkeit unserer Website für Menschen mit Behinderung kontinuierlich verbessern. Wenn Sie Barrieren auf unseren Webseiten melden wollen oder Informationen über die von § 10 Absatz 1 L-BGG ausgenommenen Inhalte einholen möchten, wenden Sie sich bitte per E-Mail oder Telefon an die zentrale Onlineredaktion:",
+                    "p3_2" : "Staatliche Hochschule für Gestaltung Karlsruhe",
+                    "p3_3" : "Presse- und Öffentlichkeitsarbeit",
+                    "p3_4" : "Lorenzstraße 15, 76135 Karlsruhe",
+                    "title_4" : "Schlichtungsverfahren",
+                    "p4_1" : "Falls wir Ihnen nicht oder nicht zufriedenstellend innerhalb von vier Wochen ab Zugang Ihrer Anfrage antworten, können Sie sich an die Schlichtungsstelle des Landeszentrums Barrierefreiheit (LZ-BARR) wenden. Die Schlichtungsstelle erreichen Sie wie folgt:",
+                    "p4_2" : "Landeszentrum Barrierefreiheit",
+                    "p4_3" : "Schlichtungsstelle",
+                    "p4_4" : "Else-Josenhans-Straße 6",
+                    "p4_5" : "70173 Stuttgart",
+                    "p4_6" : "Das Schlichtungsverfahren ist unentgeltlich.",
+                    "p4_7" : "Auf die Möglichkeit des Verbandsklagerechts nach § 12 Absatz 1 Satz 1 Nummer 4 L-BGG wird hingewiesen."
+                },
+                "imprint" : {
+                    "title_1" : "Impressum",
+                    "p1_1" : "Staatliche Hochschule für Gestaltung Karlsruhe",
+                    "p1_2" : "Lorenzstraße 15",
+                    "p1_3" : "76135 Karlsruhe",
+                    "p1_4" : "Die Staatliche Hochschule für Gestaltung Karlsruhe ist eine Körperschaft des Öffentlichen Rechts. In Rechts- und Verwaltungsangelegenheiten wird der Rektor durch den Kanzler Thomas Fröhlich vertreten.",
+                    "title_2" : "Zuständige Aufsichtsbehörde",
+                    "p2_1" : "Ministerium für Wissenschaft, Forschung und Kunst Baden-Württemberg",
+                    "p2_2" : "Postfach 10 34 53",
+                    "p2_3" : "70029 Stuttgart",
+                    "title_3" : "Inhaltlich Verantwortlicher gemäß §55 RStV",
+                    "p3_1" : "Thomas Fröhlich, Kanzler",
+                    "title_4" : "Urheberrechtshinweise",
+                    "p4_1" : "Die Inhalte dieser Website (Texte, Bilder, Ton- und Film-Dokumente etc.) sind urheberrechtlich geschützt. Die Vervielfältigung oder Verbreitung der auf dieser Seite bereit gestellten Informationen bedarf der vorherigen schriftlichen Genehmigung durch die Staatliche Hochschule für Gestaltung Karlsruhe. Ausnahmen sind Inhalte, für die eine Lizenz angegeben ist, dort gilt die entsprechende Lizenz.",
+                    "title_5" : "Haftungsausschluss",
+                    "p5_1" : "Die Inhalte, die auf dieser Website gezeigt werden, wurden von Angehörigen der Hochschule für Gestaltung Karlsruhe erstellt und unterliegen der individuellen Verantwortung der jeweiligen Autoren. Eine redaktionelle Überarbeitung der Inhalte ist nicht vorgesehen. Eine Garantie für die Richtigkeit, Vollständigkeit und Aktualität der Angaben kann nicht übernommen werden. Eine Haftung durch die Staatlichen Hochschule für Gestaltung Karlsruhe wird folglich ausgeschlossen. Ebenfalls ausgeschlossen ist die Haftung für Links zu externen Websites. Für den Inhalt der verlinkten Webseiten sind ausschließlich die jeweiligen Anbieter*innen verantwortlich.",
+                    "title_6" : "Über diese Website",
+                    "title_7" : "Konzeption",
+                    "p7_1" : "Open Resource Center der HfG Karlsruhe mit Felix Plachtzik, Marcel Strauß und Alexander Liebrich, 2024/2025.",
+                    "title_8" : "Design",
+                    "p8_1" : "Felix Plachtzik",
+                    "p8_2" : "Marcel Strauß",
+                    "title_9" : "Programmierung",
+                    "p9_1" : "Alexander Liebrich, Open Resource Center"
+                }
+            },
+         
+            "no_mobile" : {
+                "title" : "Mobile Version in Arbeit",
+                "p1" : "Ihr Browserfenster muss mindestens 768px breit und 440px hoch sein, um auf diese Website zuzugreifen.",
+                "p2" : "Vielen Dank für Ihr Verständnis."
+            }
+        }
