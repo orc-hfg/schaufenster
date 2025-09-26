@@ -4,12 +4,18 @@ export NUXT_APP_API_BASE_URL='https://madek.hfg-karlsruhe.de'
 export API_BASE_URL='https://madek.hfg-karlsruhe.de'
 export NUXT_APP_BASE_URL='/schaufenster'
 export NUXT_APP_USE_CACHED_DATA=1
-#export NUXT_APP_USE_CACHED_DATA=1
 export NUXT_APP_USE_CACHE_FILE='/home/madek/sf_dev_tree_data.json'
 #export NUXT_APP_USE_CACHE_FILE='sf_dev_tree_data.json'
 
 #npm run dev
 
 nuxi build
-rsync -avz .output alex@dev.madek.hfg-karlsruhe.de:/srv/dev/schaufenster/nuxt-schaufenster/
-ssh alex@dev.madek.hfg-karlsruhe.de "sudo systemctl restart madek.dev.schaufenster"
+
+export SUSER=alex
+export SPATH=/srv/dev/schaufenster/nuxt-schaufenster/
+export SSERVER=dev.madek.hfg-karlsruhe.de
+export SSERVICE=madek.dev.schaufenster
+ssh $SUSER@$SSERVER "sudo chown -R $SUSER:users $SPATH"
+rsync -avz .output $SUSER@$SSERVER:$SPATH
+ssh $SUSER@$SSERVER "sudo chown -R madek:users $SPATH"
+ssh $SUSER@$SSERVER "sudo systemctl restart $SSERVICE"
