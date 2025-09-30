@@ -484,7 +484,9 @@ const setMainSwiper = (swiper: Swiper) => {
 }
 .year_stepper {
   position: absolute;
-  top: calc(50vh - 48px);
+  /* top: calc(50dvh - 48px); */
+  top: 50dvh;
+  transform: translateY(-50%);
   left: 12px;
   z-index: 90;
 
@@ -574,8 +576,13 @@ const setMainSwiper = (swiper: Swiper) => {
 .intro_info {
   position: fixed;
   left: 50%;
-  top: 50%;
+
+  /* HH: vertikale Mitte mit dvh, um Browser-Bars zu berücksichtigen
+   * Fallback mit calc() */
+  top: calc(50vh - 48px);
+  top: 50dvh;
   transform: translate(-50%, -50%);
+
   margin-top: -.25em;
   font-size: 10vh;
   width: 100vw;
@@ -588,9 +595,14 @@ const setMainSwiper = (swiper: Swiper) => {
 .year_info {
   position: fixed;
   left: 50%;
-  top: 50%;
+
+  /* HH: vertikale Mitte mit dvh, um Browser-Bars zu berücksichtigen
+   * Fallback mit calc() */
+  top: calc(50vh - 48px);
+  top: 50dvh;
   transform: translate(-50%, -50%);
-  margin-top: -.25em;
+  
+  /* margin-top: -.25em; */
   z-index: 1010;
   font-size: 10vh;
   text-align: center;
