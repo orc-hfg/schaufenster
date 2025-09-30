@@ -212,7 +212,13 @@ svg {
     top: 0px;
     left: 0px;
     width: 100vw;
+
+    /* HH: dynamic viewport height (dvh) für korrekte 
+     * vertikale Positionierung auf mobile Devices (beachtet Browser-Bars).
+     * vh zuvor als Fallback */
     height: 100vh;
+    height: 100dvh;
+
     overflow: hidden;
     
     z-index: 1020;
@@ -290,29 +296,27 @@ svg {
 }
 
 [data-layout="mobile"] {
-    .dialog_menu {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .menu_panel {
+    /* HH: Diese Regel sorgt dafür, dass das Menü auf iOS zu tief sitzt.
+     * Unklar, wofür sie überhaupt gebraucht wird.
+     */
+    /* .menu_panel {
         position: relative;
         justify-content: space-between;
         height: auto;
         gap: 0;
-    }
+    } */
     @media (orientation: portrait) {
         .menu_panel .btn {
             /* TODO AL as it is computed... */
             /* font-size: 14vw; */
-            line-height: 1.3em;
+            /* line-height: 1.3em; */
         }
     }
     @media (orientation: landscape) {
         .menu_panel .btn {
             /* TODO AL as it is computed... */
             /* font-size: 13vh; */
-            line-height: 1.3em;
+            /* line-height: 1.3em; */
         }
     }
 }
