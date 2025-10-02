@@ -234,9 +234,25 @@ header nav a {
 
 .header_nav_logo {
   padding: 0px;
-  border: 1px solid var(--Primitives-color-greys-ORCBlack, #2C2C2C);
-  width: var(--dimension-button-height-M, 48px);
-  height: var(--dimension-button-height-M, 48px);
+
+  /* HH um beim Browser-Zoom Blitzer zwischen SVG und Container-Border zu vermeiden,
+   * wird in diesem Fall auf die Border verzichtet. Daher muss die Breite und Höhe
+   * des Containers um 2px erhöht werden. Damit der Durchmesser des runden Ausschnitts 
+   * im SVG gleich bleibt (und nicht 2px größer wird), wurde die Fläche des SVGs
+   * um 2x2 Pixel vergrößert (-> NavIconORC.vue). 
+   * Falls es eine bessere Möglichkeit gibt, gerne ändern.
+   * Was nicht funktioniert: 
+   * - Container mit Hintergrundfarbe füllen -> transparenter Ausschnitt im SVG wird gefüllt. 
+   * - SVG mit Hintergrundfarbe Weiß füllen, um den Ausschnitt offen zu lassen -> Ausschnitt ist nicht transparent.
+   * - SVG minimal vergrößern -> Blitzer bleibt bestehen.
+   * - SVG im Container absolut positionieren und minimal vergrößern -> Blitzer bleibt bestehen.
+   * - SVG als Hintergrund des Containers -> wird als vue-Komponente eingebunden, nicht als SVG-Datei.
+   */
+   width: calc(var(--dimension-button-height-M, 48px) + 2px);
+   height: calc(var(--dimension-button-height-M, 48px) + 2px);
+   /* border: 1px solid var(--Primitives-color-greys-ORCBlack, #2C2C2C);
+   width: var(--dimension-button-height-M, 48px);
+   height: var(--dimension-button-height-M, 48px); */
 }
 
 .navbar_link {
