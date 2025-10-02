@@ -1975,7 +1975,7 @@ progress::-webkit-progress-value {
   background-color: #DAD6CE;
   display: flex;
   width: 72px;
-  height: var(--margin-body-margin, 96px);
+  height: 100%;
     
   flex-direction: column;
   justify-content: center;
@@ -1993,7 +1993,7 @@ progress::-webkit-progress-value {
   transition: all 500ms ease-out;
 }
 .nav_preview_audio_highlight {
-  height: calc(var(--margin-body-margin, 96px) - 54px);
+  height: calc(100% - 54px);
   padding-top: 54px;
 }
 
