@@ -2289,13 +2289,15 @@ progress::-webkit-progress-value {
   .nozoom .video_slide,
   .nozoom .audio_slide {
     margin-top: 0;
-    max-height: 65vh;
+    max-height: 65%; /* fallback */
+    max-height: 65dvh;
   }
   .info_active .image_slide,
   .info_active .video_slide,
   .info_active .audio_slide {
     width: 100%;
-    height: 40vh;
+    height: 40%; /* fallback */
+    height: 40dvh;
     margin: 0;
   }
 
