@@ -1609,6 +1609,7 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   color: var(--Colors-text-primary, #2C2C2C)  
 }
 
