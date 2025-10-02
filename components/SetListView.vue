@@ -599,4 +599,11 @@ const setMainSwiper = (swiper: Swiper) => {
   pointer-events: none;
 }
 
+
+/* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape .year_stepper {
+  transform: scale(0.75);
+  transform-origin: center top;
+}
+
 </style>

@@ -5,6 +5,7 @@
         <header>
             <nav class="nav back_button fades">
                 <NuxtLink 
+                    class="nav_close"
                     tabindex="0"
                     @keyup.enter="doClose()"
                     @click="doClose()">
@@ -422,5 +423,23 @@ nav a svg {
 {
     opacity: 1;
     pointer-events: auto;
+}
+
+
+/* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape header {
+  padding: 4px 8px;
+}
+.mobile_landscape .nav_close {
+  transform: scale(0.65);
+  transform-origin: center;
+}
+.mobile_landscape .font_selector {
+  transform: scale(0.8);
+  transform-origin: center;
+}
+.mobile_landscape .font_options {
+  transform: scale(0.8);
+  transform-origin: center top;
 }
 </style>

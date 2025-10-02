@@ -1437,9 +1437,7 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   height: calc(100vh - 260px);
   margin-top: var(--margin-setview-swiper-top);
 }
-.mobile_landscape .nozoom .image_slide {
-  height: calc(100vh - 190px);
-}
+
 .info_active .image_slide,
 .info_active .video_slide,
 .info_active .audio_slide {
@@ -1452,9 +1450,7 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   height: calc(100vh - 260px);
   margin-top: var(--margin-setview-swiper-top);
 }
-.mobile_landscape .nozoom .video_slide {
-  height: calc(100vh - 190px);
-}
+
 /* HH Ansatz mit transform: scale() und Animationen hat nicht geklappt:
  * a) Nur skalieren würde funktionieren, aber in Kombination mit Positionierung unschöne Bewegungsabläufe
  * b) zu kompliziert mit den unterschiedlichen Bedingunegen: von zoom her, von nozoom her, infos open, infos closed
@@ -1555,10 +1551,6 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   transition-delay: 150ms;
 }
 
-.mobile_landscape .bottom_nav {
-  transform: scale(0.5);
-  transform-origin: 40px 160px;
-}
 .bottom_nav.hidden {
   /* opacity: 0;
   width: 0px;
@@ -1591,11 +1583,6 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.mobile_landscape .btn_bottom_nav_toggle {
-  transform: scale(0.5);
-  transform-origin: 0px 105px;
 }
 
 
@@ -1743,23 +1730,16 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   height: var(--bottom-nav-toggle-height);
   /* der selbe Wert wie in .btn_bottom_nav_toggle */
   bottom: calc(calc(var(--bottom-nav-height) / 2) - calc(var(--bottom-nav-toggle-height) / 2) + calc(var(--bottom-nav-padding) / 2));
-  background: var(--Colors-background-default);
+  /* background: var(--Colors-background-default); */
+  /* Hintergrundfarbe mit 20% Deckkraft, jetzt als RGB-Wert */
+  background: rgba(44, 44, 44, 0.3);
   border-radius: var(--radius-full, 9999px);
   box-sizing: border-box;
   padding-left: var(--padding-item-horizontal-S);
   opacity: 1;
   transition: var(--transition-move-items-default);
 }
-.mobile_landscape .av_control {
-  transform: scaleY(0.5);
-  transform-origin: 0px 105px;
-  left: 60px;
-}
-.mobile_landscape .av_control_playpause,
-.mobile_landscape .av_control_mute {
-  transform: scalex(0.5);
-  /* transform-origin: -50px 105px; */
-}
+
 .av_control.hidden {
   transform: translateY(calc(var(--bottom-nav-toggle-height) * 2));
   opacity: 0;
@@ -1780,7 +1760,6 @@ siehe in EntryAndSetInfo.vue die Klassen .entry_info und .entry_info.hidden */
   /* Blur */
   /* backdrop-filter: blur(calc(var(--value-pills, 30px) / 2)); */
 }
-
 
 /* HH remove border */
 /* TODO preliminary variables -> ich komme mit den globalen Variablen nicht so ganz klar */
@@ -1816,12 +1795,7 @@ progress::-webkit-progress-value {
 /* progress {
   color: yellow;
 } */
-.mobile_landscape progress {
-  /* position: relative;
-  left: -64px;
-  top: 40px;
-  height: 12px; */
-}
+
 
 /* 
  * HH wird nicht mehr individuell angesteuert.
@@ -1876,7 +1850,7 @@ progress::-webkit-progress-value {
  * HH trying relative values 
  */
  /* horizontal */
- .swiper-main-button-prev {
+.swiper-main-button-prev {
   left: 0;
 }
 .swiper-main-button-next {
@@ -2354,4 +2328,53 @@ progress::-webkit-progress-value {
 
 }
 
+
+
+/* MOBILE LANDSCAPE Anpassungen */
+
+/* Bottom Nav skalieren und ausrichten */
+.mobile_landscape .bottom_nav {
+  transform: scale(0.5);
+  transform-origin: 48px 190px;
+}
+.mobile_landscape .btn_bottom_nav_toggle {
+  transform: scale(0.65);
+  transform-origin: left 178px;
+}
+
+/* Audio/Video-Control skalieren und ausrichten */
+.mobile_landscape .av_control {
+  left: 68px;
+  bottom: 13px;
+  height: 36px;
+  gap: 6px;
+  padding: 0 var(--padding-item-horizontal-S);
+  justify-content: space-between;
+}
+/* 
+ * >> Einzelne Buttons siehe PlayPause.vue und Mute.vue << 
+ */
+
+.mobile_landscape .av_progress_cont {
+  padding: 0;
+  flex-grow: 1;
+}
+.mobile_landscape progress {
+  height: 16px;
+}
+
+/* Content etwas höher beginnen, weil header weniger hoch ist */
+.mobile_landscape .swiper_main {
+  top: 65px;
+}
+
+/* Bilder/Videos skalieren und ausrichten */
+.mobile_landscape .nozoom .image_slide,
+.mobile_landscape .nozoom .video_slide {
+  height: 60dvh;
+}
+.mobile_landscape .info_active .image_slide,
+.mobile_landscape .info_active .video_slide {
+  height: 40dvh;
+}
 </style>

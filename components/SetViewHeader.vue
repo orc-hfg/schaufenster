@@ -344,7 +344,6 @@ nav {
   top: -72px;
 }
 
-
 .header_nav_logo {
   text-decoration: none;
   transition: all 300ms ease-out;
@@ -353,4 +352,17 @@ nav {
   transform: scale(0.833);  
 }
 
+
+/* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape header {
+  padding: 6px 12px;
+}
+.mobile_landscape .navbar_set_link {
+  transform: scale(0.8);
+  transform-origin: left center;
+}
+.mobile_landscape .header_nav_logo {
+  transform: scale(0.8);
+  transform-origin: center;
+}
 </style>

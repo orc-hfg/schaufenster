@@ -50,4 +50,10 @@ const props = defineProps(['isMute'])
     text-align: center;
 } */
 
+
+/* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape .btn_mute {
+  transform: scale(0.6);
+  padding: 0;
+}
 </style>

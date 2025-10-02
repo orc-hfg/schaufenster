@@ -28,4 +28,9 @@ div {
 svg * {
     fill: var(--Colors-btm-bar-playerView-button, #2C2C2C)
 }
+
+/* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape div {
+  transform: scale(0.6);
+} 
 </style>

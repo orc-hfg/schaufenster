@@ -317,5 +317,13 @@ svg {
     }
 }
 
+/* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape .dialog_menu header {
+  padding: 4px 8px;
+}
+.mobile_landscape .dialog_menu .nav {
+  transform: scale(0.65);
+  transform-origin: center;
+}
 
 </style>

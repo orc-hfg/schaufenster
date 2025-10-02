@@ -374,11 +374,9 @@ header nav a {
   border: 1px solid var(--Colors-nav-bar-button-outline, #CAC9C2);
 }
 
-[data-layout="mobile"] {
-  .navbar_link.navbar_link_projects,
-  .navbar_link.navbar_link_diplom {
-    height: calc((var(--dimension-button-height-M, 48px) / 2) - 3px);
-  }
+[data-layout="mobile"] .navbar_link.navbar_link_projects,
+[data-layout="mobile"] .navbar_link.navbar_link_diplom {
+  height: calc((var(--dimension-button-height-M, 48px) / 2) - 3px);
 }
 
 .navbar_link.navbar_link_projects {
@@ -407,5 +405,32 @@ header nav a {
 .navbar_set_link.active {
   background-color: var(--Colors-nav-bar-toggle-off);
   font-weight: 400;
+}
+
+
+/* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape header .wrapper_left {
+  align-items: flex-start;
+}
+.mobile_landscape .header_nav_logo {
+  transform: scale(0.8);
+  transform-origin: center top;
+}
+.mobile_landscape .settype_toggle {
+  height: 36px
+}
+.mobile_landscape .navbar_link.navbar_link_projects,
+.mobile_landscape .navbar_link.navbar_link_diplom {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: 14px;
+}
+.mobile_landscape .afilter {
+  transform: scale(0.8);
+  transform-origin: center top;
+}
+.mobile_landscape .aarchive {
+  transform: scale(0.8);
+  transform-origin: right top;
 }
 </style>

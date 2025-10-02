@@ -1341,4 +1341,44 @@ letter-spacing: 0.72px;
   align-self: stretch;
   border-bottom: 1px solid var(--Colors-filter-chip-fill-outline, #CAC9C2);
 } */
+
+
+
+ /* MOBILE LANDSCAPE Anpassungen */
+.mobile_landscape header {
+  padding-bottom: 4px;
+}
+
+/* Logo skalieren und ausrichten */
+.mobile_landscape .wrapper_left {
+  transform: scale(0.8);
+  transform-origin: center top;
+}
+/* Optischer Ausgleich für skaliertes Logo */
+.mobile_landscape .btn_logo {
+  margin-left: 1px;
+  margin-top: 1px;
+}
+
+/* Suchleioste und Buttons skalieren und ausrichten */
+.mobile_landscape .wrapper_mid {
+  transform: scale(0.8);
+  transform-origin: center top;
+}
+/* Suchleiste und Buttons nicht umbrechen */
+.mobile_landscape .wrapper_mid {
+  flex-wrap: nowrap;
+}
+/* Filter-Inhalt nach oben schieben, da header weniger hoch ist */
+.mobile_landscape .wrapper_filter {
+  padding-top: 100px;
+}
+
+/* Umschalter skalieren und wieder richtig ausrichten */
+.mobile_landscape .content_toggle {
+  transform: scale(0.8) translateX(-70%);
+  transform-origin: bottom;
+  
+}
+
 </style>
