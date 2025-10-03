@@ -7,11 +7,6 @@
         </div>        
         <div v-if="notEmpty()"
             class="meta_content">
-            <!-- TYPE [{{ md.type }}] -->
-            <!-- ev. BUG: Höhe des containers wird dynamisch berechnet 
-                :style="getTextStyle(md.string, showAll)" 
-            1. Wert stimmt nicht, längere Texte werden abgeschnitten
-            2. nicht nötig? weil .filter_list.show_all hat height: fit-content -->
             <div class="filter_list"
                 :class="{show_all: showAll}"
                 :style="getContentHeight()"
@@ -201,7 +196,7 @@ const {
     FILTERS_PEOPLE,
     FILTERS_ROLES
 } = treeHelper()
-const MIN_TAG_SHOW_COUNT = 4;
+const MIN_TAG_SHOW_COUNT = 2;
 const MIN_TEXT_SHOW_COUNT = 200;
 
 const MIN_FILTER_TAG_LIST_HEIGHT = 52;
