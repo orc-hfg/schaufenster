@@ -361,6 +361,12 @@ transition: all 300ms ease-out;
     align-self: stretch;
     flex-wrap: wrap;
 }
+/* Für die Messung muss der korrekte Wert für die Breite 
+ * des Containers zugrunde gelegt werden. Im mobilen Layout
+ * sind die Werte andere. */
+ [data-layout="mobile"] .filter_listo {
+    width: calc(100vw - 48px);
+}
 
 .filter_list.show_all {
     height: fit-content;
