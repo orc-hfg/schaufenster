@@ -618,4 +618,22 @@ const setMainSwiper = (swiper: Swiper) => {
   transform-origin: center top;
 }
 
+/* NEU: Mobile Layout Anpassungen um vertikale Abstände zu reduzieren */
+[data-layout="mobile"] {
+  .main_slide {
+    height: 40vh;
+  }
+  
+  .set_preview {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .set_preview .img {
+    
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+  }
+}
 </style>
