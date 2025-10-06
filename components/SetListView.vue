@@ -559,6 +559,13 @@ const setMainSwiper = (swiper: Swiper) => {
 .set_preview .img.swiper_moving {
   transform: scale(0.98);
 }
+[data-layout="mobile"] {
+  .set_preview .img.swiper_moving {
+    transform: none;
+    transition: none;
+  }
+}
+
 .set_preview.left_top .img {
   background-position: left top;
 }
