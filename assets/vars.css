@@ -317,7 +317,7 @@
   --font-h4-line-height:1.25em; /* entspricht dem Verhältnis von 32px zu 40px, wie es vorher definiert war */
 
   --font-body-font-size:16px;
-  --font-body-line-height:18px;
+  --font-body-line-height:20px; /* entspricht 1.25em */
 
   --font-button-font-size:16px;
   --font-button-line-height:18px;
