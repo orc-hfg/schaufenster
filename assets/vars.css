@@ -312,9 +312,9 @@
   --font-h2-font-size:60px;
   --font-h2-line-height:60px;
   --font-h3-font-size:32px;
-  --font-h3-line-height:36px;
-  --font-h4-font-size:32px;
-  --font-h4-line-height:40px;
+  --font-h3-line-height:40px;
+  --font-h4-font-size:28.5px;
+  --font-h4-line-height:1.25em; /* entspricht dem Verhältnis von 32px zu 40px, wie es vorher definiert war */
 
   --font-body-font-size:16px;
   --font-body-line-height:18px;

@@ -1301,10 +1301,10 @@ letter-spacing: 0.72px;
  align-self: stretch;
  color: var(--Colors-filter-text-primary, #2C2C2C);
  font-family: Instrument Sans, sans-serif;
- font-size: var(--font-h4-font-size, 32px);
+ font-size: var(--font-h3-font-size, 32px);
  font-style: normal;
  font-weight: 400; letter-spacing: 0.02rem;
- line-height: var(--font-h4-line-height, 40px) /* 125% */;
+ line-height: var(--font-h3-line-height, 40px) /* 125% */;
 
 }
 .tree_authors {
