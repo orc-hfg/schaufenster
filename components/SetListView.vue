@@ -622,8 +622,11 @@ const setMainSwiper = (swiper: Swiper) => {
 
 /* MOBILE LANDSCAPE Anpassungen */
 .mobile_landscape .year_stepper {
-  transform: scale(0.75);
-  transform-origin: center top;
+  left: 16px;
+}
+.mobile_landscape .year_stepper svg {
+  width: 35px;
+  height: 35px;
 }
 
 /* NEU: Mobile Layout Anpassungen um vertikale Abstände zu reduzieren */
