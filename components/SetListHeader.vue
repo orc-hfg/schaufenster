@@ -166,7 +166,7 @@ const updateStyle = () => {
     + " pw: " + toggle_project_width.value
     + " dw: " + toggle_diplom_width.value)
     */
-  },100)
+  }, 10)
   
   const project_width = getTextWidth( projects_label.value ) + 27
   const diplom_width = getTextWidth(diploms_label.value ) + 28
@@ -181,8 +181,18 @@ const updateStyle = () => {
     + " dw: " + toggle_diplom_width.value)
     */
 }
+
+updateStyle()
+
 onMounted(() => {
   updateStyle()
+  window.addEventListener('resize', updateStyle)
+  window.addEventListener('orientationchange', updateStyle)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateStyle)
+  window.removeEventListener('orientationchange', updateStyle)
 })
 
 watch(isMobile, updateStyle)
@@ -196,6 +206,7 @@ const switch2SetType = (type:string) => {
     return
    }
    else {
+    updateStyle()
     emit('switch2settype', [type])
    } 
 }
