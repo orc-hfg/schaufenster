@@ -34,7 +34,6 @@
         button_pad_left: settype == MATCH_DIPLOM}"
       @scroll="setSwiperMoving()"
       @swiper="setMainSwiper"
-      @onAny="onSwiperEvent"
       :keyboard="true"      
       :slidesPerView="'auto'"
       :spaceBetween="20"
@@ -161,12 +160,14 @@ const props = defineProps([
 ])
 const emits = defineEmits(['switch2setview'])
 const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl + useRuntimeConfig().public.apiPath;
-console.error("SetListView: use api base url " + apiBaseUrl)
+//console.error("SetListView: use api base url " + apiBaseUrl)
 const {
   RID,
   MATCH_DIPLOM,
   
 } = treeHelper();
+
+const isMobile = useState('mobile')
 
 //const RID = 'root'
 /* 
@@ -178,15 +179,25 @@ mobile:
 --font-h1-line-height:60px;
 */
 const updateStyles = () => {
-  const is_mobile = document.documentElement.getAttribute('data-layout') == "mobile"
-  const h1_pixel_sized = (is_mobile ? getPixelSizedStyle(60,60) : getPixelSizedStyle(240,210))
+  const h1_pixel_sized = (isMobile.value ? getPixelSizedStyle(60,60) : getPixelSizedStyle(240,210))
   intro_info_style.value = mergeSetTypeColor(props.settype, h1_pixel_sized)
   year_info_style.value = mergeSetTypeColor(props.settype, h1_pixel_sized)
+  console.log("updateStyles: "
+    + "\n state mobile: " + isMobile.value
+    + "\n doc mob: " + document.documentElement.getAttribute('data-layout') == "mobile"
+    + " \n yis: " + JSON.stringify(year_info_style.value))
 }
-const intro_info_style = ref(mergeSetTypeColor(props.settype, getPixelSizedStyle(240,210)))
-const year_info_style = ref(mergeSetTypeColor(props.settype, getPixelSizedStyle(240,210)))
+const intro_info_style = ref()//mergeSetTypeColor(props.settype, getPixelSizedStyle(240,210)))
+const year_info_style = ref()//mergeSetTypeColor(props.settype, getPixelSizedStyle(240,210)))
+
+onBeforeMount(() => {
+  //console.log("onBeforeMount: mob: "+ isMobile.value)
+  updateStyles();
+})
+
 
 onMounted(() => {
+  // scroll to last selected element  
   if (typeof setlistLastSlideState.value == "number"
     && setlistLastSlideState.value > -1) {
     setTimeout(() => {
@@ -194,10 +205,7 @@ onMounted(() => {
       swiperMain.value.slideTo(setlistLastSlideState.value)
     },1000)
   }
-  updateStyles()
-  window.addEventListener("resize", (ev) => {
-    updateStyles()
-  })
+  window.addEventListener("resize", (ev) => updateStyles)
 })
 const swiperMain = ref({} as typeof Swiper);
 const swiperMoving = ref(false)
@@ -393,20 +401,17 @@ const onMainSwiperSlideChanged = () => {
     }
     upateEnabledYearBack()
     upateEnabledYearForward()
-    //const set = treeMap.value[activeSlide]
 }
 
-const onSwiperEvent = (eventName, ...args) => {
+/*const onSwiperEvent = (eventName, ...args) => {
      console.log('Event: ', eventName);
      console.log('Event data: ', args);
-}
+}*/
 
 const onBeforeSlideChange = () => {
-  //console.log("onBeforeSlideChange")
   swiperMoving.value = true
 }
 const onAfterSlideChange = () => {
-  //console.log("onAfterSlideChange")
   swiperMoving.value = false
 }
 
@@ -414,12 +419,8 @@ const onAfterSlideChange = () => {
 const setMainSwiper = (swiper: Swiper) => {
   swiperMain.value = swiper;
   swiperMain.value.on('slideChange', onMainSwiperSlideChanged)
-  //swiperMain.value.on('touchStart', onBeforeSlideChange)
-  //swiperMain.value.on('touchEnd', onAfterSlideChange)
   swiperMain.value.on('transitionStart', onBeforeSlideChange)
   swiperMain.value.on('transitionEnd', onAfterSlideChange)
-  //swiperMain.value.on('slideChangeTransitionStart', onBeforeSlideChange)
-  //swiperMain.value.on('slideChangeTransitionEnd', onAfterSlideChange)
   
   upateEnabledYearBack()
   upateEnabledYearForward()
