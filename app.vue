@@ -228,12 +228,15 @@ const updateMobileStateByWinWidth = () => {
     isMobile.value = false
   }
   document.documentElement.setAttribute('data-layout', (isMobile.value ? 'mobile' : ''))
-  console.log("updateMobileStateByWinWidth: " + window.innerWidth + ":" + isMobile.value)
+  //console.log("updateMobileStateByWinWidth: " + window.innerWidth + ":" + isMobile.value)
 }
 
 const highContrastState = useState('isHighContrast')
-
+onBeforeMount(() => {
+  updateMobileStateByWinWidth()
+})
 onMounted(() => {
+  
   highContrastState.value = 
     window.getComputedStyle(document.body).getPropertyValue('--high-contrast-enabled') == '1000'
   updateTheme('light')
