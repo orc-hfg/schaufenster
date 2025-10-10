@@ -251,7 +251,7 @@ const getContentHeight = () => {
   if (listo && listo.getBoundingClientRect) {
     const height = listo.getBoundingClientRect().height
 
-    console.log("got height for " + id + " : " + height)
+    //console.log("got height for " + id + " : " + height)
     return toPxHeight(height)
   }
   //console.error("no height yet")

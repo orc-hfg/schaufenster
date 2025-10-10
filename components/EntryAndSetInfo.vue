@@ -266,7 +266,7 @@ const getMDMediaCreatorsList = ():string[] => {
       list.push(kw.searchable)
     })
   }
-  console.log("getMDMediaCreatorsList: " + list)
+  //console.log("getMDMediaCreatorsList: " + list)
   return list
 }
 

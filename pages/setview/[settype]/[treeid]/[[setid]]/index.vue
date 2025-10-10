@@ -408,7 +408,7 @@ const {
 
 //TODO runtime conf
 const apiBaseUrl = useRuntimeConfig().public.apiBaseUrl + useRuntimeConfig().public.apiPath;
-console.error("SetView: use api base url " + apiBaseUrl)
+//console.error("SetView: use api base url " + apiBaseUrl)
 
 
 const isMobile = useState('mobile')
