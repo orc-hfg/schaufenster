@@ -185,7 +185,8 @@
     
     /** base style */
     body {
-      position: fixed;
+      position: absolute;
+      margin: 0px;
       top: 0px; left: 0px;
       
       min-height: 100vh;
