@@ -606,16 +606,21 @@ const getNavSlideClass = (el:iSlideElement):object => {
   const parent_id = currentTree.value.up[col_id]
   const max_count = maxCount.value[col_id]
   const show_count = showCount.value[col_id]
+  const sl = (
+    activeSetId.value == col_id 
+    || hoverSetId.value == col_id
+    // TODO retest with subsub set
+    //|| activeSetId.value == parent_id 
+    //|| hoverSetId.value == parent_id
+    )
+    //&& treeid.value !== col_id 
   const result = {
-    set_highlight:
-      (activeSetId.value == col_id || hoverSetId.value == col_id
-        || activeSetId.value == parent_id || hoverSetId.value == parent_id
-      )
-      && treeid.value !== col_id,
+    set_highlight: sl,
     nav_slide_btns: el.type == NavSlideType.Button && max_count >= MIN_SHOW_COUNT,
     nav_slide_btn_add: el.type == NavSlideType.Button && show_count < max_count && max_count >= MIN_SHOW_COUNT,
     nav_slide_btn_reset: el.type == NavSlideType.Button && show_count == max_count && max_count >= MIN_SHOW_COUNT,
   }
+  //console.log("getNavSlideClass:" + treeid.value + ":" + col_id + ":" + parent_id + ":" + hoverSetId.value + sl)
   return result
 }
 
