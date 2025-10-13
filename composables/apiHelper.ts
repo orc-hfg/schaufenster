@@ -21,8 +21,9 @@ export const apiHelper = (baseUrl?: string) => {
         //customFetch: useFetch
         //customFetch: (...fetchParams: Parameters<typeof fetch>) => $fetch(...fetchParams)
       }
-      console.error("use api base url: " + config.baseUrl + ":" + process.env.API_BASE_URL 
-          + ":" +  process.env.NUXT_APP_API_BASE_URL  )
+      console.log("use api base url: " + config.baseUrl )
+      /*+ ":" + process.env.API_BASE_URL 
+          + ":" +  process.env.NUXT_APP_API_BASE_URL  )*/
       return config
     }
     const getNewApi = (apiConfig) => {    
