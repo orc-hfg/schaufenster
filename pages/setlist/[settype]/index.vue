@@ -463,7 +463,9 @@ const resetFilter = () => {
   updateFilteredTrees2Slides(filteredTreeList.value)
 };
 
-updateSetType();
+onBeforeMount(() => {
+  updateSetType();
+})
 
 onMounted(() => {
   
