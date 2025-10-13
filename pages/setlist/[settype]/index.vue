@@ -163,9 +163,10 @@ const switch2settype = (type:string) => {
   setlistLastSlideState.value = -1
   const rpath = '/setlist/' + type
   router.replace(rpath)
-  const hpath = useRuntimeConfig().app.baseURL + rpath
+  const baseUrl = (useRuntimeConfig().app.baseURL == '/' ? '' : useRuntimeConfig().app.baseURL)
+  const hpath = baseUrl + rpath
+  console.log("switch2set: router path: " + rpath + " history path: " + hpath)
   history.pushState({}, "", hpath)
-  
 }
 const animateSwitch2Set = ref(true)
 const switch2setview = (setid: string) => {
