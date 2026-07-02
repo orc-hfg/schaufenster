@@ -995,6 +995,7 @@ export const treeHelper = () => {
       cols_query.public_get_metadata_and_previews = true
       console.error("using public cols all request")
     }
+    try {
     const cols_data = (await apiH.api.collectionsList(cols_query, requestParams.value))
       .data as CollectionsListData;
 
@@ -1008,6 +1009,9 @@ export const treeHelper = () => {
         ":" +
         collectionsAll.size
     );
+  }catch(e) {
+    console.error("got exception loading all cols: " , e)
+  }
   };
 
   const initTree = async (treeType:string, colId:string) => {
@@ -1038,13 +1042,15 @@ export const treeHelper = () => {
   const requestParams = ref({} as RequestParams)
 
   const buildRootChildList = async (root_set_id:string) => {
+    const maxProjectCount = useRuntimeConfig().public.MAX_PROJECT_COUNT || 512
     const ccas_resp_data = await (
-      await apiH.api.collectionCollectionArcsList({ parent_id: root_set_id }, requestParams.value)
+      await apiH.api.collectionCollectionArcsList({ parent_id: root_set_id, 
+        size: maxProjectCount }, requestParams.value)
     ).data;
     
     const ccas = ccas_resp_data[DATA_COL_COL_ARC];
     
-    const ccass =  ccas.slice(0, useRuntimeConfig().public.MAX_PROJECT_COUNT);
+    const ccass =  ccas.slice(0, maxProjectCount);
 
     console.log("initTree: schaufenster col count:" + ccass.length)
     for await (const cca of ccass) {

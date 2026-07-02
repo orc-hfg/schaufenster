@@ -110,17 +110,17 @@ const showPath2Root = ref(false)
 const showPath2Parent = ref(false)
 
 const getLinkStyle = (path_set_id:string) => {
-  const isShowTitle = 
+  /*const isShowTitle = 
     (path_set_id == props.treeid)
     ||
     (path_set_id == props.activeSetId)
     ||
-    showPath2Root.value
+    showPath2Root.value*/
   // TODO mobile value if title is hidden
-  return {width: (isShowTitle ? getTitleWidth(path_set_id) : '24px')}
+  return {width: (isShowTitle(path_set_id) ? getTitleWidth(path_set_id) : '24px')}
 }
 
-const isShowTitle = (path_set_id:string) => {
+const isShowTitle = (path_set_id:string):boolean => {
   const ist = 
     (path_set_id == props.treeid)
     ||
@@ -174,7 +174,6 @@ const getTextWidth = (text:string, font:string):number => {
   // re-use canvas object for better performance
   try {
     canvas.value = canvas.value || document.createElement("canvas") 
-    //const canvas = document.createElement("canvas");
     const context = canvas.value.getContext("2d");
     context.font = font;
     const metrics = context.measureText(text);

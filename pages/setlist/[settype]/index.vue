@@ -260,7 +260,8 @@ const updateFilteredTrees2Slides = (trees_map: {[key:string]:iTree}) => {
     return byear - ayear
     */
   }
-  if (useRuntimeConfig().public.kioskSetId?.length > 0 || useRuntimeConfig().public.kioskForestSetId?.length > 0) {
+  if (useRuntimeConfig().public.setOrder?.length > 0 && useRuntimeConfig().public.setOrder == 'title') {
+  //if (useRuntimeConfig().public.kioskSetId?.length > 0 || useRuntimeConfig().public.kioskForestSetId?.length > 0) {
     sortedTrees.sort((a,b) => {
       const kwa = (a.colTitlesMap[a.col_id] || '')
       const kwb = (b.colTitlesMap[b.col_id] || '')

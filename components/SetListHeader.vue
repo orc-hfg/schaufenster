@@ -122,8 +122,6 @@ const getTextWidth = (text:string):number => {
   // re-use canvas object for better performance
   try {
     canvas.value = canvas.value || document.createElement("canvas") 
-    //const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
-
     const context = canvas.value.getContext("2d");
     const fontSize = (isMobile.value ? FONT_SIZE_MOBILE : FONT_SIZE_DTOP)
     context.font = fontSize + FONT_SIZE_SUFFIX
@@ -154,8 +152,8 @@ const updateStyle = () => {
   diploms_label.value = isMobile.value ?  t('setlist.btn_title_toggle_diplom_mobile') : t('setlist.btn_title_toggle_diplom')
   // after drawing, get real size
   setTimeout(() => {
-    const tg_left = document.getElementById('navbar_link_projects')?.getBoundingClientRect();
-    const tg_right = document.getElementById('navbar_link_diplom')?.getBoundingClientRect();
+    const tg_left = document && document.getElementById('navbar_link_projects')?.getBoundingClientRect() || { width: 202};
+    const tg_right = document && document.getElementById('navbar_link_diplom')?.getBoundingClientRect() || { width: 146};
     toggle_diplom_width.value = tg_right?.width + 'px'
     toggle_project_width.value = tg_left?.width + 'px'
 

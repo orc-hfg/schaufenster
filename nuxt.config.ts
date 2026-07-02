@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   debug: false,
   modules: [
     "@nuxtjs/i18n",
@@ -33,6 +33,19 @@ export default defineNuxtConfig({
 { rel: 'icon', type: 'image/png', sizes:'16x16', href: '/favicon-16x16.png'},
 { rel: 'manifest', href: '/site.webmanifest'},
       ],
+      "script":
+      [
+        { children: "var _paq = window._paq = window._paq || [];\
+          _paq.push(['trackPageView']);\
+          _paq.push(['enableLinkTracking']); \
+          (function() { var u='https://analytics.hfg-karlsruhe.de/'; \
+            _paq.push(['setTrackerUrl', u+'matomo.php']); \
+            _paq.push(['setSiteId', '4']); \
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s); })();\
+            console.error('called f') \
+            "
+      }]
+      
     },
     pageTransition: { name: 'page', mode: 'in-out'}
   },
@@ -40,9 +53,21 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/about': { prerender: true },
     '/impressum': { prerender: true },
-    '/setlist/*': { swr: Number.parseInt(process.env.NUXT_APP_SWR_TTL || '7200') }, //7200 },
-    '/setview/*/*': { swr: Number.parseInt(process.env.NUXT_APP_SWR_TTL || '7200') }, //7200 },
-    '/setview/*/*/*': { swr: Number.parseInt(process.env.NUXT_APP_SWR_TTL || '7200') }, //7200 },
+    '/setlist/*': {
+      swr: Number.parseInt(process.env.NUXT_APP_SWR_TTL || '7200'),
+      cache: { maxAge: 60 * 60 * 2 },
+      headers: { 'Cache-Control': 'max-age=7200 Public' }
+     },
+    '/setview/*/*': {
+      swr: Number.parseInt(process.env.NUXT_APP_SWR_TTL || '7200'),
+      cache: { maxAge: 60 * 60 * 2 },
+      headers: { 'Cache-Control': 'max-age=7200 Public' }
+     },
+    '/setview/*/*/*': {
+      swr: Number.parseInt(process.env.NUXT_APP_SWR_TTL || '7200'),
+      cache: { maxAge: 60 * 60 * 2 },
+      headers: { 'Cache-Control': 'max-age=7200 Public' }
+     },
   },
   i18n: {
     vueI18n: 'i18n.config.ts',
@@ -115,6 +140,8 @@ export default defineNuxtConfig({
       rootSetId: process.env.NUXT_APP_ROOT_SET_ID || '75a2d948-fefa-405f-b8c4-40d7de7c0ddf',
       kioskForestSetId: process.env.NUXT_APP_KIOSK_SET_LIST_ID || 
         undefined, 
+      setOrder: process.env.NUXT_APP_SET_ORDER || 
+        'date', // 'title', // else it is ordered by date 
       kioskSetId: process.env.NUXT_APP_KIOSK_SET_ID || 
         undefined, 
       kioskIntroTextLines: process.env.NUXT_APP_KIOSK_INTRO_TEXT_LINES?.split('::') || [

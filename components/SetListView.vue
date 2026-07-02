@@ -256,17 +256,11 @@ const smoothScrollTo = (element, targetPosition, duration = 300) => {
 }
 
 const setTreeInfo = (el: iTree) => {
-  //const elem = document.getElementById('treeInfo_' + el.col_id)
   treeInfoIdx.value = props.filteredSortedTrees.findIndex((val) => { return val.col_id == el.col_id})
-  //elem?.scrollIntoView({block: "start", behavior: "smooth"})
   const ntop = (treeInfoIdx.value + 2 ) * 48
-  //console.log("scroll to " + treeInfoIdx.value + ": " + ntop)
-  
-  // document.getElementsByClassName('project_counter')[0].scrollTo({top: ntop, behavior: "smooth"})
-
   // call custom smoothScroll() function insted of scrollTo()
   const container = document.getElementsByClassName('project_counter')[0]
-   smoothScrollTo(container, ntop, 400) // 400ms with easing 
+  smoothScrollTo(container, ntop, 400) // 400ms with easing 
 }
 
 const getColTitle = (id: string): string => {

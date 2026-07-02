@@ -380,7 +380,7 @@ const META_KEY_FILTER_TITLES = [
 const getFilterHeight = (metaKey:string) => {
   //const fc_elem = document.getElementById('filter_cloud_' + metaKey)
   const elId = 'filter_cloud_content_' + metaKey
-  const fc_elem = document.getElementById(elId)
+  const fc_elem = document && document.getElementById(elId)
   const height = fc_elem?.getBoundingClientRect().height || 54 //164
   console.log("getFilterHeight: " + elId + " : " + height)
   return height
@@ -434,7 +434,7 @@ onMounted(() => {
 
         if (props.showMetaKey) {
           showAll.value[props.showMetaKey] = true
-          document.getElementById('filter_cloud_' + props.showMetaKey)?.scrollIntoView()
+          document && document.getElementById('filter_cloud_' + props.showMetaKey)?.scrollIntoView()
         }
       }, 100)
 
@@ -452,7 +452,6 @@ onMounted(() => {
 
 
 const switch2SetView = (tree_col_id: string) => {
-  debugger
   if (route.params.setid == tree_col_id) {
     closeFilter()
   }

@@ -247,7 +247,7 @@ const getContentHeight = () => {
     const type = showAll.value == true ? 'max' : 'min'
     const id = getFilterListId(props.md, type)
     
-  const listo = document.getElementById(id)
+  const listo = document && document.getElementById(id)
   if (listo && listo.getBoundingClientRect) {
     const height = listo.getBoundingClientRect().height
 

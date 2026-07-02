@@ -74,14 +74,16 @@ const kioskIntroTextLine = ref([] as string[])
 
 const switchPage = () => {
   if (isKiosk.value) {
-    const kioskId = useRuntimeConfig().public.kioskSetId
-    const path = '/setview/projekt/' 
-      + kioskId
-      + '/' 
-      + kioskId
-    router.push(path)
-  } else if (useRuntimeConfig().public.kioskForestSetId) {
-    router.push('/setlist/' + MATCH_PROJECTS)
+    if (useRuntimeConfig().public.kioskSetId) {
+      const kioskId = useRuntimeConfig().public.kioskSetId
+      const path = '/setview/projekt/' 
+        + kioskId
+        + '/' 
+        + kioskId
+      router.push(path)
+    } else if (useRuntimeConfig().public.kioskForestSetId) {
+      router.push('/setlist/' + MATCH_PROJECTS)
+    }
   } else {
     router.push('/setlist/' + MATCH_DIPLOM)
   }

@@ -86,7 +86,7 @@ if (import.meta.server) {
     console.log("build new tree data")
   
     if (config.public.kioskForestSetId) {
-      console.log("init root set")
+      console.log("init kiosk root set")
       const treesData = await initKioskForest(config.public.kioskForestSetId)
       useTree.value = treesData
     }
