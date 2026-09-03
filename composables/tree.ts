@@ -203,9 +203,15 @@ const state = reactive<iTreeState>({
   newFilteredTreeList: {}
 });
 
-export const treeHelper = () => {
-  const collectionsAll = new Map<string, iCollection>();
+// module-scope caches so the tree is built once and shared across SSR requests /
+// prerender passes instead of hitting the API on every call of treeHelper()
+const collectionsAll = new Map<string, iCollection>();
+let treeBuiltAt = 0;
 
+const getSwrTtlSec = () =>
+  Number.parseInt(process.env.NUXT_APP_SWR_TTL || '7200');
+
+export const treeHelper = () => {
   const RID: string = "root";
   const MATCH_DIPLOM = "diplom";
   const MATCH_PROJECTS = "projekt";
@@ -977,6 +983,10 @@ export const treeHelper = () => {
   };
 
   const fetch_cols_all = async () => {
+    if (collectionsAll.size) {
+      console.log("fetch_cols_all: collections already loaded (" + collectionsAll.size + "), skipping API call");
+      return;
+    }
     const cols_query = {
       full_data: true,
       //TODO kiosk with auth token
@@ -1082,6 +1092,22 @@ export const treeHelper = () => {
   const initForest = async (root_set_id:string) => {
     console.log("initForest: ");
 
+    const now = Date.now();
+    const swrTtl = getSwrTtlSec();
+    const treeAge = treeBuiltAt ? Math.round((now - treeBuiltAt) / 1000) : 0;
+    if (state.treeMapper[MATCH_PROJECTS] 
+        && Object.keys(state.treeMapper[MATCH_PROJECTS]).length
+        && treeAge < swrTtl) {
+      console.log("initForest: tree already built (age " + treeAge + "s / " + swrTtl + "s TTL), skipping rebuild");
+      return state.treeMapper;
+    }
+    if (treeBuiltAt) {
+      console.log("initForest: tree TTL expired (age " + treeAge + "s), clearing caches for rebuild");
+      collectionsAll.clear();
+      Object.keys(state.treeMapper).forEach(k => delete state.treeMapper[k]);
+      treeBuiltAt = 0;
+    }
+
     await fetch_cols_all();
     await buildRootChildList(root_set_id)
     await initTrees(MATCH_VAL_PROJECT, MATCH_PROJECTS);
@@ -1132,12 +1158,33 @@ export const treeHelper = () => {
         Object.keys(state.treeMapper[MATCH_DIPLOM]).length 
     );
 
+    if (treeBuiltAt === 0) {
+      treeBuiltAt = Date.now();
+      console.log("initForest: tree built, caching timestamp set");
+    }
+
     return state.treeMapper;
   };
 
   
   const initKioskForest = async (root_set_id:string) => {
     console.log("initKioskForest: ");
+
+    const now = Date.now();
+    const swrTtl = getSwrTtlSec();
+    const treeAge = treeBuiltAt ? Math.round((now - treeBuiltAt) / 1000) : 0;
+    if (state.treeMapper[MATCH_PROJECTS] 
+        && Object.keys(state.treeMapper[MATCH_PROJECTS]).length
+        && treeAge < swrTtl) {
+      console.log("initKioskForest: tree already built (age " + treeAge + "s / " + swrTtl + "s TTL), skipping rebuild");
+      return state.treeMapper;
+    }
+    if (treeBuiltAt) {
+      console.log("initKioskForest: tree TTL expired (age " + treeAge + "s), clearing caches for rebuild");
+      collectionsAll.clear();
+      Object.keys(state.treeMapper).forEach(k => delete state.treeMapper[k]);
+      treeBuiltAt = 0;
+    }
 
     await fetch_cols_all();
     await buildRootChildList(root_set_id)
@@ -1151,6 +1198,11 @@ export const treeHelper = () => {
         Object.keys(state.treeMapper[MATCH_PROJECTS]).length
         
     );
+
+    if (treeBuiltAt === 0) {
+      treeBuiltAt = Date.now();
+      console.log("initKioskForest: tree built, caching timestamp set");
+    }
 
     return state.treeMapper;
   };
